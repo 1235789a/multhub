@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #ededed;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 
+   ⚠️ CRITICAL: 绝对不在 html/body 层设置 overflow-hidden
+   所有溢出控制严格限定在 Section 级别，确保原生滚动轴永不瘫痪
+*/
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
