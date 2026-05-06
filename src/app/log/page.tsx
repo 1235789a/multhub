@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BLOG_POSTS } from "../data/blog";
+import { useLanguage } from "../i18n/index";
 
 // Dark-mode accent palette matching the project's border/tag system
 const ACCENTS = [
@@ -114,7 +115,12 @@ function FloatingOrbs() {
   );
 }
 
+function helperReplaceCount(template: string, count: number): string {
+  return template.replace("{{count}}", String(count));
+}
+
 export default function LogListPage() {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-black">
       {/* Subtle grid texture */}
@@ -139,18 +145,18 @@ export default function LogListPage() {
           className="mb-16 text-center"
         >
           <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-            Knowledge Base
+            {t.sectionBlogLabel}
           </p>
           <h1 className="text-4xl font-bold text-white md:text-5xl">
-            技术博客
+            {t.sectionBlogTitle}
           </h1>
           <p className="mt-3 text-sm text-zinc-400">
-            静默收割策略 · 零成本发卡矩阵 · 非线性视差实践
+            {t.sectionBlogSubtitle}
           </p>
           <div className="mt-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-xs text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              共 {BLOG_POSTS.length} 篇
+              {helperReplaceCount(t.postCountLabel, BLOG_POSTS.length)}
             </span>
           </div>
         </motion.div>
@@ -204,7 +210,7 @@ export default function LogListPage() {
                     {post.excerpt}
                   </p>
                   <span className="mt-3 inline-block text-xs text-zinc-500 transition-colors group-hover:text-zinc-300">
-                    阅读更多 →
+                  {t.readMore}
                   </span>
                 </Link>
               </motion.article>

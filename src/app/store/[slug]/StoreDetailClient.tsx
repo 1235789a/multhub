@@ -4,14 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { PRODUCTS } from "../../data/products";
-import {
-  PAY_BUTTON_TEXT,
-  PRODUCT_NOT_FOUND,
-  BACK_TO_STORE,
-  AUTO_DELIVERY_NOTICE,
-} from "../../constants";
+import { useLanguage } from "../../i18n/index";
 
 export default function StoreDetailClient({ slug }: { slug: string }) {
+  const { t } = useLanguage();
   const router = useRouter();
   const product = PRODUCTS.find((p) => p.slug === slug);
 
@@ -19,13 +15,13 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white">商品未找到</h1>
-          <p className="mt-4 text-sm text-zinc-400">{PRODUCT_NOT_FOUND}</p>
+          <h1 className="text-2xl font-bold text-white">{t.productNotFoundTitle}</h1>
+          <p className="mt-4 text-sm text-zinc-400">{t.productNotFound}</p>
           <Link
             href="/store"
             className="mt-6 inline-block text-sm font-medium text-zinc-400 underline underline-offset-4 hover:text-zinc-200"
           >
-            {BACK_TO_STORE}
+            {t.backToStore}
           </Link>
         </div>
       </div>
@@ -58,7 +54,7 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
             href="/store"
             className="mb-8 inline-block text-sm text-zinc-500 transition-colors hover:text-zinc-300"
           >
-            {BACK_TO_STORE}
+            {t.backToStore}
           </Link>
         </motion.div>
 
@@ -81,7 +77,7 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
                     {product.version}
                   </span>
                   <span className="text-xs text-zinc-500">
-                    14 天免费试用
+                    {t.freeTrial14Days}
                   </span>
                 </div>
               </div>
@@ -99,7 +95,7 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-12"
         >
-          <h2 className="mb-4 text-lg font-semibold text-white">核心功能</h2>
+          <h2 className="mb-4 text-lg font-semibold text-white">{t.coreFeatures}</h2>
           <ul className="grid gap-3 sm:grid-cols-2">
             {product.features.map((feat) => (
               <li
@@ -124,12 +120,12 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
             onClick={handlePayClick}
             className="inline-flex items-center gap-3 rounded-xl bg-white px-10 py-4 text-base font-semibold text-black shadow-lg shadow-zinc-900/50 transition-all hover:bg-zinc-200 hover:shadow-xl hover:shadow-zinc-900/70 active:scale-[0.98]"
           >
-            {PAY_BUTTON_TEXT}
+            {t.payButtonText}
             <span className="text-zinc-500">→</span>
           </button>
 
           <p className="mt-4 text-xs leading-relaxed text-zinc-500">
-            {AUTO_DELIVERY_NOTICE}
+            {t.autoDeliveryNotice}
           </p>
         </motion.div>
       </main>

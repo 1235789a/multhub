@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PRODUCTS } from "../data/products";
+import { useLanguage } from "../i18n/index";
 
 const container = {
   hidden: {},
@@ -60,7 +61,12 @@ function FloatingOrbs() {
   );
 }
 
+function helperReplaceCount(template: string, count: number): string {
+  return template.replace("{{count}}", String(count));
+}
+
 export default function StoreListPage() {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-black">
       {/* Fixed grid texture */}
@@ -85,18 +91,18 @@ export default function StoreListPage() {
           className="mb-16 text-center"
         >
           <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-            Arsenal
+            {t.sectionToolsLabel}
           </p>
           <h1 className="text-4xl font-bold text-white md:text-5xl">
-            工具超市
+            {t.sectionToolsTitle}
           </h1>
           <p className="mt-3 text-sm text-zinc-400">
-            每款工具自带14天试用期 · 测试可用再付费
+            {t.sectionToolsSubtitle}
           </p>
           <div className="mt-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-xs text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              共 {PRODUCTS.length} 款工具
+              {helperReplaceCount(t.toolCountLabel, PRODUCTS.length)}
             </span>
           </div>
         </motion.div>
@@ -154,7 +160,7 @@ export default function StoreListPage() {
                     href={`/store/${product.slug}`}
                     className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white hover:shadow-md"
                   >
-                    获取授权
+                    {t.getLicense}
                     <span className="text-zinc-500 transition-colors group-hover:text-zinc-300">
                       →
                     </span>

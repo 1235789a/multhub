@@ -5,14 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { PRODUCTS } from "../../data/products";
-import {
-  PRODUCT_NOT_FOUND,
-  BACK_TO_STORE,
-  CHECKOUT_DISCLAIMER,
-  TXID_RECOVERY_PLACEHOLDER,
-  TXID_SUBMIT_TEXT,
-  AWAIT_PAYMENT_TEXT,
-} from "../../constants";
+import { useLanguage } from "../../i18n/index";
 
 // ============================================================
 // 收款地址 — 硬编码，后期对接后端后可改为动态获取
@@ -32,6 +25,7 @@ function buildTronPayUri(
 }
 
 export default function CryptoCheckoutClient({ slug }: { slug: string }) {
+  const { t } = useLanguage();
   const product = PRODUCTS.find((p) => p.slug === slug);
 
   // ---- TxID 自助补救 ----
@@ -62,29 +56,31 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
       const data = await res.json();
       if (res.ok && data.success) {
         setTxIdStatus("done");
-        setTxIdMessage(`✅ 链上确认成功。你的授权码：${data.license ?? "已发送至你的邮箱"}`);
+        setTxIdMessage(
+          t.licenseSuccess.replace("{{license}}", data.license ?? "已发送至你的邮箱"),
+        );
       } else {
         setTxIdStatus("error");
-        setTxIdMessage(data.error ?? "链上未找到该交易或金额不符");
+        setTxIdMessage(data.error ?? t.txNotFoundOnChain);
       }
     } catch {
       setTxIdStatus("error");
-      setTxIdMessage("网络错误，请稍后重试");
+      setTxIdMessage(t.errorNetwork);
     }
-  }, [txIdInput, product]);
+  }, [txIdInput, product, t]);
 
   // ---- 404 ----
   if (!product) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white">商品未找到</h1>
-          <p className="mt-4 text-sm text-zinc-400">{PRODUCT_NOT_FOUND}</p>
+          <h1 className="text-2xl font-bold text-white">{t.productNotFoundTitle}</h1>
+          <p className="mt-4 text-sm text-zinc-400">{t.productNotFound}</p>
           <Link
             href="/store"
             className="mt-6 inline-block text-sm font-medium text-zinc-400 underline underline-offset-4 hover:text-zinc-200"
           >
-            {BACK_TO_STORE}
+            {t.backToStore}
           </Link>
         </div>
       </div>
@@ -115,7 +111,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
             href="/store"
             className="mb-8 inline-block text-sm text-zinc-500 transition-colors hover:text-zinc-300"
           >
-            {BACK_TO_STORE}
+            {t.backToStore}
           </Link>
         </motion.div>
 
@@ -134,7 +130,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
             </div>
           </div>
           <div className="mt-3 flex items-baseline justify-between border-t border-zinc-800 pt-3">
-            <span className="text-sm text-zinc-400">应付金额</span>
+            <span className="text-sm text-zinc-400">{t.payableAmount}</span>
             <span className="text-2xl font-bold text-white">
               {product.priceDisplay}
             </span>
@@ -160,14 +156,14 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           </div>
 
           <p className="mt-4 text-center text-xs text-zinc-500 max-w-xs">
-            请使用 TronLink 钱包或支持 TRC20-USDT 的钱包扫描二维码完成支付
+            {t.scanQRPrompt}
           </p>
 
           <a
             href={tronPayUri}
             className="mt-3 inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 px-5 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white"
           >
-            打开 TronLink 支付
+            {t.openTronLink}
             <span className="text-zinc-500">↗</span>
           </a>
         </motion.div>
@@ -183,7 +179,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
             <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
           </span>
-          <span className="text-xs text-zinc-500">{AWAIT_PAYMENT_TEXT}</span>
+          <span className="text-xs text-zinc-500">{t.awaitPayment}</span>
         </motion.div>
 
         {/* Disclaimer */}
@@ -194,7 +190,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           className="mb-10 rounded-lg border border-red-900/40 bg-red-950/30 p-4"
         >
           <p className="text-xs leading-relaxed text-red-300/80">
-            ⚠️ {CHECKOUT_DISCLAIMER}
+            ⚠️ {t.checkoutDisclaimer}
           </p>
         </motion.div>
 
@@ -206,10 +202,10 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6"
         >
           <h2 className="mb-3 text-sm font-semibold text-zinc-300">
-            TxID 自助找回
+            {t.txidSelfRecovery}
           </h2>
           <p className="mb-4 text-xs text-zinc-500">
-            {TXID_RECOVERY_PLACEHOLDER}
+            {t.txidRecovery}
           </p>
 
           <div className="flex gap-2">
@@ -217,7 +213,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
               type="text"
               value={txIdInput}
               onChange={(e) => setTxIdInput(e.target.value)}
-              placeholder="输入交易哈希 (TxID)"
+              placeholder={t.txidPlaceholder}
               className="flex-1 rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-emerald-500/50 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
             />
             <button
@@ -225,7 +221,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
               disabled={txIdStatus === "loading"}
               className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {txIdStatus === "loading" ? "验证中..." : TXID_SUBMIT_TEXT}
+              {txIdStatus === "loading" ? t.verifying : t.txidSubmit}
             </button>
           </div>
 

@@ -4,9 +4,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { BLOG_POSTS, THEME_CLASSES } from "../../data/blog";
-import { POST_NOT_FOUND, BACK_TO_BLOG } from "../../constants";
+import { useLanguage } from "../../i18n/index";
 
 export default function BlogDetailClient({ slug }: { slug: string }) {
+  const { t } = useLanguage();
   const postIndex = BLOG_POSTS.findIndex((p) => p.slug === slug);
   const post = postIndex >= 0 ? BLOG_POSTS[postIndex] : undefined;
 
@@ -14,13 +15,13 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white">文章未找到</h1>
-          <p className="mt-4 text-sm text-zinc-400">{POST_NOT_FOUND}</p>
+          <h1 className="text-2xl font-bold text-white">{t.postNotFoundTitle}</h1>
+          <p className="mt-4 text-sm text-zinc-400">{t.postNotFound}</p>
           <Link
             href="/log"
             className="mt-6 inline-block text-sm font-medium text-zinc-400 underline underline-offset-4 hover:text-zinc-200"
           >
-            {BACK_TO_BLOG}
+            {t.backToBlog}
           </Link>
         </div>
       </div>
@@ -62,7 +63,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
             href="/log"
             className="mb-8 inline-block text-sm text-zinc-500 transition-colors hover:text-zinc-300"
           >
-            {BACK_TO_BLOG}
+            {t.backToBlog}
           </Link>
         </motion.div>
 

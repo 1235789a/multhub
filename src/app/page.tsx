@@ -14,6 +14,7 @@ import { BLOG_POSTS } from "./data/blog";
 import type { BlogPost } from "./data/blog";
 import { PRODUCTS } from "./data/products";
 import type { Product } from "./data/products";
+import { useLanguage } from "./i18n/index";
 
 // ============================================================
 // 🎛️ 全局调控台 — 所有可调参数集中在此，零触碰组件逻辑
@@ -120,38 +121,7 @@ const COLORS = {
   defaultTag: "bg-zinc-100 text-zinc-600",
 } as const;
 
-/** 文案 — 所有面向用户的字符串集中管理，一键替换 */
-const COPY = {
-  hero: {
-    line1: "独立架构",
-    line2: "静默收割",
-    subtitle: "全自动变现漏斗 · 冷热隔离 · 测试可用再付费",
-  },
-  floatingIndicator: "↓ 向下滚动引爆",
-  tools: [], // ⚠️ 已迁移至 data/products.ts — 此处保留占位以维持类型兼容
-  blog: [],  // ⚠️ 已迁移至 data/blog.ts    — 此处保留占位以维持类型兼容
-  sections: {
-    tools: {
-      label: "Arsenal",
-      title: "工具超市",
-      subtitle: "每款工具自带14天试用期 · 测试可用再付费",
-    },
-    blog: {
-      label: "Knowledge Base",
-      title: "技术博客",
-      subtitle: "静默收割策略 · 零成本发卡矩阵 · 非线性视差实践",
-    },
-  },
-  cta: "立即获取",
-  readMore: "阅读更多 →",
-  footer: {
-    agreementLabel: "⚠️ 使用协议",
-    disclaimer:
-      "测试可用再付费，虚拟资产售出不退，零客服 / 无一对一支持。所有工具仅供授权安全研究用途，禁止用于任何违反适用法律之行为。",
-    copyright: `© ${new Date().getFullYear()} 独立架构 · 全自动静默收割`,
-    privacy: "本页面不收集任何个人信息 · 无Cookie · 无追踪",
-  },
-};
+import { TranslationDict } from "./i18n/translations";
 
 // ============================================================
 // 🧩 类型定义
@@ -575,19 +545,19 @@ function FragmentCard({
 }
 
 /** 工具卡片 — 数据来源于 data/products.ts */
-function ToolCard({ product }: { product: Product }) {
+function ToolCard({ product, t }: { product: Product; t: TranslationDict }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-6 transition-all hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/50">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-400/30 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
       <div className="mb-3 text-3xl">{product.icon}</div>
       <h3 className="mb-2 text-lg font-semibold text-zinc-800">{product.name}</h3>
       <p className="mb-1 text-sm leading-relaxed text-zinc-500">{product.features[0]}</p>
-      <p className="mb-5 text-xs font-medium text-zinc-400">自带14天试用期</p>
+      <p className="mb-5 text-xs font-medium text-zinc-400">{t.trialNote}</p>
       <Link
         href={`/store/${product.slug}`}
         className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700 transition-all hover:border-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 hover:shadow-md"
       >
-        {COPY.cta}
+        {t.cta}
         <span className="text-zinc-400 transition-colors group-hover:text-zinc-600">
           →
         </span>
@@ -597,7 +567,7 @@ function ToolCard({ product }: { product: Product }) {
 }
 
 /** 博客卡片 — 数据来源于 data/blog.ts */
-function BlogCard({ post }: { post: BlogPost }) {
+function BlogCard({ post, t }: { post: BlogPost; t: TranslationDict }) {
   return (
     <Link href={`/log/${post.slug}`}>
       <article className="rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:border-zinc-300 hover:shadow-md hover:shadow-zinc-200/50">
@@ -606,7 +576,7 @@ function BlogCard({ post }: { post: BlogPost }) {
         </h3>
         <p className="text-sm leading-relaxed text-zinc-500">{post.excerpt}</p>
         <span className="mt-3 inline-block text-xs text-zinc-400">
-          {COPY.readMore}
+          {t.readMore}
         </span>
       </article>
     </Link>
@@ -648,7 +618,13 @@ function LoadingBar() {
 }
 
 /** 底部浮动引导 */
-function FloatingIndicator({ opacity }: { opacity: MotionValue<number> }) {
+function FloatingIndicator({
+  opacity,
+  t,
+}: {
+  opacity: MotionValue<number>;
+  t: TranslationDict;
+}) {
   const { duration, yBounce, yLineBounce } = LAYOUT.floatingIndicator;
 
   return (
@@ -661,7 +637,7 @@ function FloatingIndicator({ opacity }: { opacity: MotionValue<number> }) {
         transition={{ duration, repeat: Infinity, ease: "easeInOut" }}
         className="text-xs font-medium uppercase tracking-[0.25em] text-zinc-400"
       >
-        {COPY.floatingIndicator}
+        {t.floatingIndicator}
       </motion.div>
       <motion.div
         animate={{ y: [0, -yLineBounce, 0] }}
@@ -681,6 +657,7 @@ function FloatingIndicator({ opacity }: { opacity: MotionValue<number> }) {
 // 🏠 主页面组件
 // ============================================================
 export default function HomePage() {
+  const { t } = useLanguage();
   const parallaxRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -739,7 +716,7 @@ export default function HomePage() {
           </div>
 
           {/* 浮动引导 */}
-          <FloatingIndicator opacity={indicatorOpacity} />
+          <FloatingIndicator opacity={indicatorOpacity} t={t} />
 
           {/* 中央标题 — 绝对静止 */}
           <motion.div
@@ -750,12 +727,12 @@ export default function HomePage() {
               className="text-center font-bold leading-[1.1] tracking-tight text-zinc-800"
               style={{ fontSize: "clamp(2.5rem, 8vw, 7rem)" }}
             >
-              {COPY.hero.line1}
+              {t.heroLine1}
               <br />
-              <span className="text-zinc-500">{COPY.hero.line2}</span>
+              <span className="text-zinc-500">{t.heroLine2}</span>
             </h1>
             <p className="mt-6 max-w-md text-center text-sm leading-relaxed text-zinc-400">
-              {COPY.hero.subtitle}
+              {t.heroSubtitle}
             </p>
           </motion.div>
 
@@ -773,18 +750,18 @@ export default function HomePage() {
         <div className={LAYOUT.container}>
           <div className="mb-16 text-center">
             <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">
-              {COPY.sections.tools.label}
+              {t.sectionToolsLabel}
             </p>
             <h2 className="text-3xl font-bold text-zinc-800 md:text-4xl">
-              {COPY.sections.tools.title}
+              {t.sectionToolsTitle}
             </h2>
             <p className="mt-3 text-sm text-zinc-500">
-              {COPY.sections.tools.subtitle}
+              {t.sectionToolsSubtitle}
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PRODUCTS.slice(0, 4).map((product) => (
-              <ToolCard key={product.slug} product={product} />
+              <ToolCard key={product.slug} product={product} t={t} />
             ))}
           </div>
         </div>
@@ -794,18 +771,18 @@ export default function HomePage() {
           <div className={LAYOUT.container}>
             <div className="mb-16 text-center">
               <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">
-                {COPY.sections.blog.label}
+                {t.sectionBlogLabel}
               </p>
               <h2 className="text-3xl font-bold text-zinc-800 md:text-4xl">
-                {COPY.sections.blog.title}
+                {t.sectionBlogTitle}
               </h2>
               <p className="mt-3 text-sm text-zinc-500">
-                {COPY.sections.blog.subtitle}
+                {t.sectionBlogSubtitle}
               </p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {BLOG_POSTS.slice(0, 3).map((post) => (
-                <BlogCard key={post.slug} post={post} />
+                <BlogCard key={post.slug} post={post} t={t} />
               ))}
             </div>
           </div>
@@ -816,20 +793,15 @@ export default function HomePage() {
           <div className={LAYOUT.footer}>
             <div className="mb-8 rounded-lg border border-zinc-200 bg-white px-6 py-5">
               <p className="text-center text-xs font-medium uppercase tracking-[0.15em] text-zinc-400">
-                {COPY.footer.agreementLabel}
+                {t.footerAgreementLabel}
               </p>
               <p className="mt-3 text-center text-sm leading-relaxed text-zinc-500">
-                {COPY.footer.disclaimer.split("\n").map((line, i) => (
-                  <span key={i}>
-                    {i > 0 && <br />}
-                    {line}
-                  </span>
-                ))}
+                {t.footerDisclaimer}
               </p>
             </div>
             <div className="flex flex-col items-center gap-2 text-xs text-zinc-400">
-              <p>{COPY.footer.copyright}</p>
-              <p className="text-zinc-300">{COPY.footer.privacy}</p>
+              <p>{t.footerCopyright}</p>
+              <p className="text-zinc-300">{t.footerPrivacy}</p>
             </div>
           </div>
         </footer>
