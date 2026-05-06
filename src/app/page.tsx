@@ -154,203 +154,87 @@ interface FragmentModuleAsset {
 }
 
 // ============================================================
-// 📦 资产库：FRAGMENT_MODULES
+// 📦 资产库：FRAGMENT_MODULES（从 PRODUCTS 自动生成，零手动维护）
 // ============================================================
 
-const FRAGMENT_MODULES: FragmentModuleAsset[] = [
-  {
-    title: "黑猫 · 媒体提取引擎 v3.2",
-    subtitle: "深度递归解析 · 零残留",
-    prefix: "🐈",
-    tags: ["v3.2", "热更新"],
-    accentColor: "amber",
-    cardWidth: "220px",
-    cardMinH: "110px",
-    initialX: "8vw",
-    initialY: "14vh",
-    floatAmp: 10,
-    floatPeriod: 6,
-    floatPhase: 0,
-    explosionDirX: 1.3,
-    explosionDirY: -0.9,
-    explosionDistX: 160,
-    explosionDistY: 130,
-    scaleIdle: 1.0,
-    scaleExplode: 2.0,
-    rotateZ: 8,
-    rotateX: 12,
-    rotateY: -15,
-    zIndex: 10,
-  },
-  {
-    title: "无视风控 · 全自动打包",
-    subtitle: "反指纹 · 时序混淆",
-    prefix: "📦",
-    tags: ["自动化", "批处理"],
-    accentColor: "blue",
-    cardWidth: "200px",
-    cardMinH: "105px",
-    initialX: "68vw",
-    initialY: "10vh",
-    floatAmp: 7,
-    floatPeriod: 8,
-    floatPhase: 1.5,
-    explosionDirX: 1.1,
-    explosionDirY: -1.2,
-    explosionDistX: 140,
-    explosionDistY: 150,
-    scaleIdle: 1.0,
-    scaleExplode: 1.7,
-    rotateZ: -5,
-    rotateX: -10,
-    rotateY: 8,
-    zIndex: 11,
-  },
-  {
-    title: "指纹模拟栈 · 运行时注入",
-    subtitle: "Canvas/WebGL 全维度伪装",
-    prefix: "🦊",
-    tags: ["注入", "反侦测"],
-    accentColor: "emerald",
-    cardWidth: "240px",
-    cardMinH: "120px",
-    initialX: "12vw",
-    initialY: "72vh",
-    floatAmp: 12,
-    floatPeriod: 7,
-    floatPhase: 2.8,
-    explosionDirX: -1.4,
-    explosionDirY: 0.6,
-    explosionDistX: 170,
-    explosionDistY: 100,
-    scaleIdle: 1.0,
-    scaleExplode: 2.2,
-    rotateZ: 15,
-    rotateX: -18,
-    rotateY: 20,
-    zIndex: 12,
-  },
-  {
-    title: "静默收割 · 零日志模式",
-    subtitle: "信噪比最大化",
-    prefix: "🤫",
-    tags: ["静默", "无痕"],
-    accentColor: "slate",
-    cardWidth: "190px",
-    cardMinH: "95px",
-    initialX: "72vw",
-    initialY: "68vh",
-    floatAmp: 9,
-    floatPeriod: 10,
-    floatPhase: 0.5,
-    explosionDirX: -0.9,
-    explosionDirY: -0.7,
-    explosionDistX: 120,
-    explosionDistY: 120,
-    scaleIdle: 1.0,
-    scaleExplode: 1.6,
-    rotateZ: -10,
-    rotateX: 14,
-    rotateY: -12,
-    zIndex: 9,
-  },
-  {
-    title: "请求代理链 · 多层嵌套",
-    subtitle: "IP 自动轮换",
-    prefix: "🦉",
-    tags: ["代理", "轮换"],
-    accentColor: "violet",
-    cardWidth: "210px",
-    cardMinH: "110px",
-    initialX: "35vw",
-    initialY: "5vh",
-    floatAmp: 6,
-    floatPeriod: 5,
-    floatPhase: 3.2,
-    explosionDirX: 1.6,
-    explosionDirY: -0.4,
-    explosionDistX: 180,
-    explosionDistY: 80,
-    scaleIdle: 1.0,
-    scaleExplode: 2.4,
-    rotateZ: 3,
-    rotateX: 8,
-    rotateY: -20,
-    zIndex: 13,
-  },
-  {
-    title: "自动化脚本 · 一键部署",
-    subtitle: "VPS · Crontab 守护",
-    prefix: "🐍",
-    tags: ["守护", "Cron"],
-    accentColor: "rose",
-    cardWidth: "200px",
-    cardMinH: "100px",
-    initialX: "52vw",
-    initialY: "78vh",
-    floatAmp: 11,
-    floatPeriod: 9,
-    floatPhase: 0.9,
-    explosionDirX: 0.5,
-    explosionDirY: 1.3,
-    explosionDistX: 100,
-    explosionDistY: 160,
-    scaleIdle: 1.0,
-    scaleExplode: 1.9,
-    rotateZ: -14,
-    rotateX: -15,
-    rotateY: -8,
-    zIndex: 8,
-  },
-  {
-    title: "多层跳板 · IP 自动轮换",
-    subtitle: "时序混淆引擎",
-    prefix: "🔗",
-    tags: ["跳板", "混淆"],
-    accentColor: "cyan",
-    cardWidth: "215px",
-    cardMinH: "115px",
-    initialX: "82vw",
-    initialY: "38vh",
-    floatAmp: 8,
-    floatPeriod: 11,
-    floatPhase: 1.8,
-    explosionDirX: -1.7,
-    explosionDirY: 0.3,
-    explosionDistX: 190,
-    explosionDistY: 70,
-    scaleIdle: 1.0,
-    scaleExplode: 2.1,
-    rotateZ: 12,
-    rotateX: -20,
-    rotateY: 16,
-    zIndex: 7,
-  },
-  {
-    title: "零残留 · 痕迹清理套件",
-    subtitle: "日志擦除 · 反取证",
-    prefix: "🧹",
-    tags: ["清理", "取证"],
-    accentColor: "orange",
-    cardWidth: "205px",
-    cardMinH: "105px",
-    initialX: "4vw",
-    initialY: "44vh",
-    floatAmp: 13,
-    floatPeriod: 12,
-    floatPhase: 4.0,
-    explosionDirX: 0.8,
-    explosionDirY: -1.5,
-    explosionDistX: 110,
-    explosionDistY: 170,
-    scaleIdle: 1.0,
-    scaleExplode: 1.8,
-    rotateZ: -8,
-    rotateX: 10,
-    rotateY: 22,
-    zIndex: 6,
-  },
-];
+/**
+ * 简易确定性随机：给定种子返回 [0, 1) 浮点数
+ * 确保同一 index 每次渲染生成同样值，避免 hydration mismatch
+ */
+function seededRand(seed: number): number {
+  let s = seed;
+  s = (s * 16807) % 2147483647;
+  return (s - 1) / 2147483646;
+}
+
+/** 从 PRODUCTS 自动生成碎片配置 */
+function buildFragments(): FragmentModuleAsset[] {
+  const colorKeys = Object.keys(COLORS.border);
+  const count = PRODUCTS.length;
+
+  // 预计算位置网格，均匀分布避免重叠
+  const cols = 4;
+  const rows = Math.ceil(count / cols);
+  const xBase = [8, 35, 58, 78]; // vw 列基线
+  const yBase = [8, 30, 58, 78]; // vh 行基线（取前 rows 个）
+
+  return PRODUCTS.map((product, i) => {
+    const r = (offset: number) => seededRand(i * 17 + offset);
+
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const xJitter = (r(1) - 0.5) * 12;
+    const yJitter = (r(2) - 0.5) * 10;
+
+    const floatAmp = 7 + Math.round(r(3) * 6);
+    const floatPeriod = 6 + Math.round(r(4) * 6);
+    const floatPhase = r(5) * 4;
+
+    const dirX = i % 2 === 0 ? 1 : -1;
+    const dirY = col % 2 === 0 ? -1 : 1;
+    const explosionDistX = 100 + Math.round(r(6) * 90);
+    const explosionDistY = 70 + Math.round(r(7) * 100);
+    const explosionDirX = dirX * (0.6 + r(8) * 1.1);
+    const explosionDirY = dirY * (0.4 + r(9) * 1.1);
+
+    const scaleExplode = 1.6 + r(10) * 0.8;
+    const rotateZ = Math.round(-15 + r(11) * 30);
+    const rotateX = Math.round(-20 + r(12) * 40);
+    const rotateY = Math.round(-22 + r(13) * 44);
+
+    const zIndex = count - i + 1;
+
+    const cardWidth = `${185 + Math.round(r(14) * 55)}px`;
+    const cardMinH = `${90 + Math.round(r(15) * 30)}px`;
+
+    return {
+      title: product.name,
+      subtitle: product.features[1] ?? product.features[0],
+      prefix: product.icon,
+      tags: [product.version],
+      accentColor: colorKeys[i % colorKeys.length],
+      cardWidth,
+      cardMinH,
+      initialX: `${xBase[col] + xJitter}vw`,
+      initialY: `${yBase[row % rows] + yJitter}vh`,
+      floatAmp,
+      floatPeriod,
+      floatPhase,
+      explosionDirX,
+      explosionDirY,
+      explosionDistX,
+      explosionDistY,
+      scaleIdle: 1.0,
+      scaleExplode,
+      rotateZ,
+      rotateX,
+      rotateY,
+      zIndex,
+    };
+  });
+}
+
+const FRAGMENT_MODULES: FragmentModuleAsset[] = buildFragments();
 
 // ============================================================
 // 🧱 子组件
