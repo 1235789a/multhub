@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npx opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && npx opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && npx opennextjs-cloudflare deploy",
-    "preview": "next build && npx opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && npx opennextjs-cloudflare preview"
+    "cf-build": "npx opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion",
+    "deploy": "npx opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && npx opennextjs-cloudflare deploy",
+    "preview": "npx opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && npx opennextjs-cloudflare preview"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
