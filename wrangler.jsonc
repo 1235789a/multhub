@@ -10,5 +10,17 @@
   },
   "observability": {
     "enabled": true
+  },
+  // ============================================================
+  // 非敏感环境变量 (明文, 可进 Git)
+  //
+  // 敏感凭据 (FIREBASE_PRIVATE_KEY) 必须通过以下命令注入:
+  //   npx wrangler secret put FIREBASE_PRIVATE_KEY
+  // 或在 Cloudflare Dashboard → Workers → Settings → Variables and Secrets
+  // 中以 "Secret" 类型加密存储
+  // ============================================================
+  "vars": {
+    "FIREBASE_PROJECT_ID": "multhub-10397",
+    "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-fbsvc@multhub-10397.iam.gserviceaccount.com"
   }
 }

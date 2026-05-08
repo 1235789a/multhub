@@ -1,43 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
+import { findLicenseByTxId, writeLicense } from "@/lib/firestore-client";
 
 // ============================================================
-// TRC20-USDT 链上验证 API
+// TRC20-USDT 链上验证 API (Edge Runtime)
 //
-// 流程:
-// 1. 客户端提交 TxID + 预期金额 + 预期收款地址
-// 2. 本端点调用 TronGrid API 查询交易详情
-// 3. 校验: to === 收款地址 && 金额 === 预期 && token === TRC20-USDT
-// 4. 校验通过后调用 Firebase REST 写入授权记录
-// 5. 返回授权码（或展示码）
+// 完整流程:
+// 1. 客户端提交 TxID + 预期金额 + 预期收款地址 + 商品 slug
+// 2. 幂等检查: 查询 Firestore 是否已为此 TxID 发过授权码
+//    → 已发过: 直接返回原 license (防止二次兑换)
+// 3. 调 TronGrid 查询链上事件
+// 4. 校验 Transfer 事件: to === 收款地址 && 金额 === 预期 && Token 合约 === USDT
+// 5. 生成授权码
+// 6. 写入 Firestore (doc id = txId 天然去重)
+// 7. 返回授权码
 //
-// 安全: Firebase Admin Key 仅存在于服务端, 客户端无法伪造
+// 鉴权: firebase-auth.ts 通过 Service Account JWT 自动签发 OAuth Token,
+//       55 分钟内命中内存缓存, 真正永久免维护
 // ============================================================
+
+// Edge Runtime — Cloudflare Workers 兼容
+export const runtime = "edge";
 
 const TRONGRID_API = "https://api.trongrid.io";
 
-/** Firebase Config — 从环境变量读取, 不存在时优雅降级 */
-function getFirebaseConfig() {
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-  const apiKey = process.env.FIREBASE_API_KEY;
+/** TRC20-USDT 官方合约地址 (默认值) */
+const DEFAULT_USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
 
-  if (!projectId) {
-    console.warn("⚠️ FIREBASE_PROJECT_ID 未设置 — TxID 验证将通过，但授权记录不会被持久化");
-  }
+// ------------------------------------------------------------
+// 链上查询
+// ------------------------------------------------------------
 
-  return {
-    projectId: projectId ?? "",
-    apiKey: apiKey ?? "",
-    baseUrl: projectId
-      ? `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents`
-      : "",
-    identityUrl: projectId && apiKey
-      ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`
-      : "",
-  };
-}
-
-/** 从 TronGrid 获取 TRC20 交易详情 */
-async function fetchTrc20Tx(txId: string) {
+/** 从 TronGrid 获取 TRC20 交易事件日志 */
+async function fetchTrc20Tx(txId: string): Promise<{ data?: TronEvent[] }> {
   const url = `${TRONGRID_API}/v1/transactions/${txId}/events`;
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
@@ -47,11 +41,9 @@ async function fetchTrc20Tx(txId: string) {
     throw new Error(`TronGrid 请求失败: ${res.status}`);
   }
 
-  const json = await res.json();
-  return json;
+  return res.json();
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TronEvent = {
   event_name?: string;
   contract_address?: string;
@@ -74,82 +66,43 @@ function extractTransferEvent(
       evt.event_name === "Transfer" &&
       evt.contract_address?.toLowerCase() === expectedContract.toLowerCase()
     ) {
-      const from = evt.result?.from ?? "";
-      const to = evt.result?.to ?? "";
-      const amountRaw = evt.result?.value ?? "0";
-      return { from, to, amountRaw };
+      return {
+        from: evt.result?.from ?? "",
+        to: evt.result?.to ?? "",
+        amountRaw: evt.result?.value ?? "0",
+      };
     }
   }
 
   return null;
 }
 
-/** 生成伪随机授权码 */
+// ------------------------------------------------------------
+// 授权码生成
+// ------------------------------------------------------------
+
+/** 生成强随机授权码 (使用 Web Crypto API) */
 function generateLicense(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   const segments = [8, 4, 4, 4, 12];
+
+  const randomBytes = new Uint8Array(segments.reduce((s, n) => s + n, 0));
+  crypto.getRandomValues(randomBytes);
+
+  let cursor = 0;
   return segments
-    .map((len) =>
-      Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join(""),
-    )
+    .map((len) => {
+      const slice = randomBytes.slice(cursor, cursor + len);
+      cursor += len;
+      return Array.from(slice, (b) => chars[b % chars.length]).join("");
+    })
     .join("-");
 }
 
-/** 写入 Firestore Document (REST API) */
-async function writeFirestoreLicense(
-  txId: string,
-  toAddress: string,
-  amountUsdt: number,
-  license: string,
-  productSlug: string,
-  fbConfig: ReturnType<typeof getFirebaseConfig>,
-) {
-  if (!fbConfig.baseUrl) {
-    console.log("📝 模拟写入授权记录:", { txId, license, productSlug });
-    return;
-  }
-
-  // 使用 Service Account 密钥或 API Key 鉴权
-  const accessToken = process.env.FIREBASE_ACCESS_TOKEN;
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-  if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-
-  const docId = `licenses/${txId}`;
-  const url = `${fbConfig.baseUrl}/${docId}`;
-
-  const body = {
-    fields: {
-      txId: { stringValue: txId },
-      wallet: { stringValue: toAddress },
-      amountUsdt: { doubleValue: amountUsdt },
-      license: { stringValue: license },
-      productSlug: { stringValue: productSlug },
-      createdAt: { timestampValue: new Date().toISOString() },
-      status: { stringValue: "verified" },
-    },
-  };
-
-  const res = await fetch(url, {
-    method: "PATCH",
-    headers,
-    body: JSON.stringify(body),
-  });
-
-  if (!res.ok) {
-    console.error("Firestore 写入失败:", await res.text());
-    throw new Error("授权记录写入失败");
-  }
-
-  console.log("✅ Firestore 授权记录已写入:", txId);
-}
-
-// ============================================================
+// ------------------------------------------------------------
 // POST Handler
-// ============================================================
+// ------------------------------------------------------------
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -190,12 +143,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const USDT_CONTRACT = contract || "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
+    const cleanTxId = txId.trim();
+    const usdtContract = contract || DEFAULT_USDT_CONTRACT;
+
+    // ---- 幂等检查: 同一个 TxID 已发放过授权码就直接返回 ----
+    try {
+      const existing = await findLicenseByTxId(cleanTxId);
+      if (existing) {
+        console.log(`♻️  TxID 已有授权记录, 直接返回: ${cleanTxId}`);
+        return NextResponse.json({
+          success: true,
+          license: existing.license,
+          amountUsdt: existing.amountUsdt,
+          cached: true,
+        });
+      }
+    } catch (err: unknown) {
+      // Firestore 查询失败不阻塞流程, 继续正常链路
+      const message = err instanceof Error ? err.message : "Unknown error";
+      console.warn("⚠️  Firestore 幂等查询失败 (继续执行):", message);
+    }
 
     // ---- 查询链上交易 ----
     let eventsData: { data?: TronEvent[] };
     try {
-      eventsData = await fetchTrc20Tx(txId.trim());
+      eventsData = await fetchTrc20Tx(cleanTxId);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Unknown error";
       console.error("TronGrid 查询失败:", message);
@@ -206,7 +178,7 @@ export async function POST(request: NextRequest) {
     }
 
     // ---- 提取 Transfer 事件 ----
-    const transfer = extractTransferEvent(eventsData?.data ?? [], USDT_CONTRACT);
+    const transfer = extractTransferEvent(eventsData?.data ?? [], usdtContract);
 
     if (!transfer) {
       return NextResponse.json(
@@ -231,7 +203,7 @@ export async function POST(request: NextRequest) {
 
     // ---- 校验金额 ----
     const amountUsdt = Number(transfer.amountRaw) / 1e6;
-    const tolerance = 0.01; // 允许 0.01 USDT 误差（防链上精度差异）
+    const tolerance = 0.01; // 允许 0.01 USDT 误差
 
     if (Math.abs(amountUsdt - expectedAmount) > tolerance) {
       return NextResponse.json(
@@ -245,24 +217,24 @@ export async function POST(request: NextRequest) {
 
     // ---- 生成授权码 & 写入 Firestore ----
     const license = generateLicense();
-    const fbConfig = getFirebaseConfig();
 
     try {
-      await writeFirestoreLicense(
-        txId.trim(),
-        transfer.to,
+      await writeLicense({
+        txId: cleanTxId,
+        wallet: transfer.to,
         amountUsdt,
         license,
-        productSlug ?? "unknown",
-        fbConfig,
-      );
+        productSlug: productSlug ?? "unknown",
+        status: "verified",
+      });
+      console.log(`✅ 授权码已签发并持久化: ${cleanTxId}`);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Unknown error";
       console.error("Firestore 写入失败 (非致命):", message);
-      // 不阻塞返回 — 授权码仍然有效（已通过链上校验）
+      // 不阻塞返回 — 链上校验已通过, 授权码仍然有效
+      // 后台监控应当基于日志关键字 "Firestore 写入失败" 报警
     }
 
-    // ---- 成功返回 ----
     return NextResponse.json({
       success: true,
       license,
