@@ -2549,7 +2549,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/api/verify-trc20/route.js": {
-      "bytes": 43377,
+      "bytes": 61048,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js",
@@ -2560,6 +2560,21 @@
           "path": ".open-next/server-functions/default/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js",
           "kind": "require-call",
           "original": "next/dist/compiled/next-server/app-route.runtime.prod.js"
+        },
+        {
+          "path": "node:crypto",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node:buffer",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node:util",
+          "kind": "require-call",
+          "external": true
         },
         {
           "path": ".open-next/server-functions/default/.next/server/webpack-runtime.js",
@@ -4139,7 +4154,7 @@
       "format": "esm"
     },
     ".open-next/server-functions/default/index.mjs": {
-      "bytes": 88251,
+      "bytes": 88276,
       "imports": [
         {
           "path": "node:module",
@@ -4330,6 +4345,21 @@
         },
         {
           "path": "@emotion/is-prop-valid",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node:crypto",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node:buffer",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node:util",
           "kind": "require-call",
           "external": true
         },
@@ -5092,7 +5122,7 @@
           "bytesInOutput": 1907
         },
         ".open-next/server-functions/default/.next/server/app/api/verify-trc20/route.js": {
-          "bytesInOutput": 45403
+          "bytesInOutput": 63777
         },
         ".open-next/server-functions/default/.next/server/app/checkout/[slug]/page.js": {
           "bytesInOutput": 23124
@@ -5293,10 +5323,10 @@
           "bytesInOutput": 5074
         },
         ".open-next/server-functions/default/index.mjs": {
-          "bytesInOutput": 61436
+          "bytesInOutput": 61459
         }
       },
-      "bytes": 2352376
+      "bytes": 2370773
     }
   }
 }

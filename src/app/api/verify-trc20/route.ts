@@ -18,8 +18,10 @@ import { findLicenseByTxId, writeLicense } from "@/lib/firestore-client";
 //       55 分钟内命中内存缓存, 真正永久免维护
 // ============================================================
 
-// Edge Runtime — Cloudflare Workers 兼容
-export const runtime = "edge";
+// 注意: 不声明 export const runtime = "edge"
+// OpenNext 会把整个 Next.js App 包成单个 Cloudflare Worker (本身就是 Edge 运行时),
+// 若在此处显式声明 edge runtime, OpenNext bundler 会报错要求单独打包函数.
+// 本文件所用的 API (fetch / crypto.subtle / jose) 全部 Edge 兼容, 在 Worker 下正常工作.
 
 const TRONGRID_API = "https://api.trongrid.io";
 
