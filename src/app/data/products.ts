@@ -1,3 +1,10 @@
+/** 工具发布状态 — 用于首屏委婉表达"在做 / 没做" */
+export type ProductStatus =
+  | "available" // 已上线，可购买
+  | "beta"      // 邀请测试中
+  | "forging"   // 正在打磨
+  | "roadmap";  // 计划中，可订阅候补
+
 export interface Product {
   name: string;
   slug: string;
@@ -6,6 +13,12 @@ export interface Product {
   priceBase: number;
   priceDisplay: string;
   features: string[];
+  /** 当前发布状态，缺省视为 roadmap */
+  status?: ProductStatus;
+  /** 路线图预计季度，例如 "Q3 2026"，仅 roadmap/forging 状态展示 */
+  eta?: string;
+  /** 完成度百分比 0-100，可选；用于 building-in-public 进度条 */
+  progress?: number;
 }
 
 export const PRODUCTS: Product[] = [
@@ -22,6 +35,9 @@ export const PRODUCTS: Product[] = [
       "热更新规则库，无需重启",
       "内置反风控绕过模块",
     ],
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 62,
   },
   {
     name: "无视风控 · 全自动打包",
@@ -36,6 +52,9 @@ export const PRODUCTS: Product[] = [
       "VPS 一键部署脚本",
       "失败自动重试 + 通知",
     ],
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 48,
   },
   {
     name: "指纹模拟栈 · 运行时注入",
@@ -50,6 +69,9 @@ export const PRODUCTS: Product[] = [
       "支持 Chrome/Edge/Firefox",
       "自定义指纹模板系统",
     ],
+    status: "beta",
+    eta: "Q3 2026",
+    progress: 78,
   },
   {
     name: "静默收割 · 零日志模式",
@@ -64,6 +86,9 @@ export const PRODUCTS: Product[] = [
       "内存级数据处理",
       "自动清理运行时痕迹",
     ],
+    status: "roadmap",
+    eta: "Q4 2026",
+    progress: 22,
   },
   {
     name: "请求代理链 · 多层嵌套",
@@ -78,6 +103,9 @@ export const PRODUCTS: Product[] = [
       "地理位置智能路由",
       "故障节点自动切换",
     ],
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 55,
   },
   {
     name: "自动化脚本 · 一键部署",
@@ -92,6 +120,9 @@ export const PRODUCTS: Product[] = [
       "健康检查 + 自动恢复",
       "日志轮转与磁盘保护",
     ],
+    status: "beta",
+    eta: "Q3 2026",
+    progress: 84,
   },
   {
     name: "多层跳板 · IP 自动轮换",
@@ -106,6 +137,9 @@ export const PRODUCTS: Product[] = [
       "延迟优化智能选路",
       "支持自定义跳板节点",
     ],
+    status: "roadmap",
+    eta: "Q4 2026",
+    progress: 18,
   },
   {
     name: "零残留 · 痕迹清理套件",
@@ -120,5 +154,8 @@ export const PRODUCTS: Product[] = [
       "磁盘覆写安全删除",
       "计划任务自动执行",
     ],
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 40,
   },
 ];

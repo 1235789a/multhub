@@ -108,6 +108,52 @@ export interface TranslationDict {
   txNotFoundOnChain: string;
   /** 授权成功模板 (变量 {{license}} 占位) */
   licenseSuccess: string;
+  // ---- Status / Roadmap / Building-in-public ----
+  /** 状态徽章 — 已上线 */
+  statusAvailable: string;
+  /** 状态徽章 — 邀请测试 */
+  statusBeta: string;
+  /** 状态徽章 — 打磨中 */
+  statusForging: string;
+  /** 状态徽章 — 路线图 */
+  statusRoadmap: string;
+  /** Hero 状态条 (变量 {{forging}} {{shipped}} {{total}}) */
+  heroStatusLine: string;
+  /** Hero 主 CTA — 加入候补名单 */
+  heroCtaWaitlist: string;
+  /** Hero 次 CTA — 查看更新日志 */
+  heroCtaChangelog: string;
+  /** Hero 候补名单提示 */
+  heroWaitlistHint: string;
+  /** Building-in-public banner */
+  buildingInPublicBanner: string;
+  /** 角落 — 系统状态 */
+  cornerSystemStatus: string;
+  /** 角落 — 边缘节点 */
+  cornerEdge: string;
+  /** 角落 — 引擎在线 */
+  cornerEngineOnline: string;
+  /** 角落 — 模块启动中 (变量 {{count}}) */
+  cornerModulesBooting: string;
+  /** 角落 — 搜索快捷键提示 */
+  cornerSearchHint: string;
+  // ---- Changelog page ----
+  /** /changelog 页面标题 */
+  changelogTitle: string;
+  /** /changelog 副标题 */
+  changelogSubtitle: string;
+  /** /changelog Hero 进度提示 */
+  changelogProgressLabel: string;
+  /** /changelog 已发布板块 */
+  changelogShippedSection: string;
+  /** /changelog 在打磨板块 */
+  changelogForgingSection: string;
+  /** /changelog 路线图板块 */
+  changelogRoadmapSection: string;
+  /** /changelog 空状态提示 */
+  changelogEmpty: string;
+  /** /changelog 返回首页 */
+  changelogBackHome: string;
 }
 
 const translations: Record<Language, TranslationDict> = {
@@ -175,6 +221,35 @@ const translations: Record<Language, TranslationDict> = {
       "Transaction not found on-chain or amount does not match",
     licenseSuccess:
       "✅ On-chain confirmation successful. Your license code: {{license}}",
+    // Status / Roadmap / Building-in-public
+    statusAvailable: "Available",
+    statusBeta: "Beta",
+    statusForging: "Forging",
+    statusRoadmap: "Roadmap",
+    heroStatusLine:
+      "Forging {{forging}} · Shipped {{shipped}}/{{total}} · Building in public",
+    heroCtaWaitlist: "Join the waitlist →",
+    heroCtaChangelog: "View changelog",
+    heroWaitlistHint:
+      "First wave gets 30% off · No spam, only release pings",
+    buildingInPublicBanner:
+      "⚙️ Building in public · v0.7 · Every card you see is a planned tool. Code progress and changelog are open.",
+    cornerSystemStatus: "system: nominal",
+    cornerEdge: "SG-Edge",
+    cornerEngineOnline: "Engine online",
+    cornerModulesBooting: "{{count}} modules booting",
+    cornerSearchHint: "press / to search",
+    // Changelog page
+    changelogTitle: "Changelog",
+    changelogSubtitle:
+      "Building in public. Every commit, every milestone — recorded here.",
+    changelogProgressLabel:
+      "{{shipped}} shipped · {{forging}} in flight · {{roadmap}} on the roadmap",
+    changelogShippedSection: "🟢 Shipped",
+    changelogForgingSection: "⚙️ In the forge",
+    changelogRoadmapSection: "🛰 On the roadmap",
+    changelogEmpty: "Nothing here yet — that's why we are building in public.",
+    changelogBackHome: "← Back to homepage",
   },
   zh: {
     brand: "蜕羽",
@@ -233,6 +308,33 @@ const translations: Record<Language, TranslationDict> = {
     txNotFoundOnChain: "链上未找到该交易或金额不符",
     licenseSuccess:
       "✅ 链上确认成功。你的授权码：{{license}}",
+    // Status / Roadmap / Building-in-public
+    statusAvailable: "已上线",
+    statusBeta: "邀请测试",
+    statusForging: "打磨中",
+    statusRoadmap: "路线图",
+    heroStatusLine:
+      "正在打磨 {{forging}} 项 · 已发布 {{shipped}}/{{total}} · 透明开发中",
+    heroCtaWaitlist: "加入候补名单 →",
+    heroCtaChangelog: "查看更新日志",
+    heroWaitlistHint: "首批可用享 7 折 · 仅在发布时通知，无骚扰",
+    buildingInPublicBanner:
+      "⚙️ 透明开发中 · v0.7 · 你看到的每一张卡都是计划中的工具，进度与提交日志全部公开。",
+    cornerSystemStatus: "system: nominal",
+    cornerEdge: "SG-Edge",
+    cornerEngineOnline: "引擎在线",
+    cornerModulesBooting: "{{count}} 个模块正在启动",
+    cornerSearchHint: "按 / 搜索",
+    // Changelog page
+    changelogTitle: "更新日志",
+    changelogSubtitle: "透明开发。每一次提交、每一个里程碑都记录在此。",
+    changelogProgressLabel:
+      "已发布 {{shipped}} 项 · 在打磨 {{forging}} 项 · 路线图 {{roadmap}} 项",
+    changelogShippedSection: "🟢 已发布",
+    changelogForgingSection: "⚙️ 打磨中",
+    changelogRoadmapSection: "🛰 路线图",
+    changelogEmpty: "目前还没有 — 所以我们才透明开发。",
+    changelogBackHome: "← 返回首页",
   },
 };
 

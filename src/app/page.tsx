@@ -13,8 +13,17 @@ import {
 import { BLOG_POSTS } from "./data/blog";
 import type { BlogPost } from "./data/blog";
 import { PRODUCTS } from "./data/products";
-import type { Product } from "./data/products";
+import type { Product, ProductStatus } from "./data/products";
 import { useLanguage } from "./i18n/index";
+import { interp } from "./i18n/interp";
+import StatusBadge, { statusLabelKey } from "./components/StatusBadge";
+import {
+  GiantWatermark,
+  RadialGlow,
+  GrainTexture,
+  FloatingDots,
+  CornerBadges,
+} from "./components/HeroDecorations";
 
 // ============================================================
 // 🎛️ 全局调控台 — 所有可调参数集中在此，零触碰组件逻辑
@@ -430,18 +439,47 @@ function FragmentCard({
 
 /** 工具卡片 — 数据来源于 data/products.ts */
 function ToolCard({ product, t }: { product: Product; t: TranslationDict }) {
+  const status: ProductStatus = product.status ?? "roadmap";
+  const statusLabel = t[
+    statusLabelKey(status) as keyof TranslationDict
+  ] as string;
+  const isShippable = status === "available" || status === "beta";
+
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-6 transition-all hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/50">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-400/30 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+
+      {/* 右上角状态徽章 */}
+      <div className="absolute right-4 top-4 z-10">
+        <StatusBadge status={status} label={statusLabel} />
+      </div>
+
       <div className="mb-3 text-3xl">{product.icon}</div>
       <h3 className="mb-2 text-lg font-semibold text-zinc-800">{product.name}</h3>
       <p className="mb-1 text-sm leading-relaxed text-zinc-500">{product.features[0]}</p>
-      <p className="mb-5 text-xs font-medium text-zinc-400">{t.trialNote}</p>
+      <p className="mb-3 text-xs font-medium text-zinc-400">{t.trialNote}</p>
+
+      {/* 进度条 — 仅 forging / roadmap 显示 */}
+      {!isShippable && typeof product.progress === "number" && (
+        <div className="mb-4">
+          <div className="mb-1 flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-zinc-400">
+            <span>{product.eta ?? ""}</span>
+            <span>{product.progress}%</span>
+          </div>
+          <div className="h-1 w-full overflow-hidden rounded-full bg-zinc-100">
+            <div
+              className={`h-full rounded-full ${status === "forging" ? "bg-amber-400" : "bg-zinc-400"}`}
+              style={{ width: `${product.progress}%` }}
+            />
+          </div>
+        </div>
+      )}
+
       <Link
         href={`/store/${product.slug}`}
         className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700 transition-all hover:border-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 hover:shadow-md"
       >
-        {t.cta}
+        {isShippable ? t.cta : t.heroCtaWaitlist}
         <span className="text-zinc-400 transition-colors group-hover:text-zinc-600">
           →
         </span>
@@ -562,6 +600,23 @@ export default function HomePage() {
     maskFade.output,
   );
 
+  // ---- Roadmap 状态聚合 (用于 Hero 状态条 + Banner) ----
+  const totalProducts = PRODUCTS.length;
+  const shippedCount = PRODUCTS.filter(
+    (p) => p.status === "available",
+  ).length;
+  const forgingCount = PRODUCTS.filter(
+    (p) => p.status === "forging" || p.status === "beta",
+  ).length;
+  const heroStatusText = interp(t.heroStatusLine, {
+    forging: forgingCount,
+    shipped: shippedCount,
+    total: totalProducts,
+  });
+  const modulesBootingText = interp(t.cornerModulesBooting, {
+    count: forgingCount,
+  });
+
   return (
     <>
       <LoadingBar />
@@ -575,6 +630,13 @@ export default function HomePage() {
         <div
           className={`sticky top-0 h-screen overflow-hidden ${LAYOUT.hero.bg}`}
         >
+          {/* ===== 装饰层（z-0 ~ z-9） ===== */}
+          {/* 巨型水印（最底层） */}
+          <GiantWatermark text="MULTHUB" />
+
+          {/* 中央径向光晕 — 让标题自带光环 */}
+          <RadialGlow />
+
           {/* 网格纹理 */}
           <div
             className="pointer-events-none absolute inset-0 z-0"
@@ -583,6 +645,21 @@ export default function HomePage() {
               backgroundSize: `${LAYOUT.grid.size} ${LAYOUT.grid.size}`,
               opacity: LAYOUT.grid.opacity,
             }}
+          />
+
+          {/* Grain 噪点 */}
+          <GrainTexture opacity={0.05} />
+
+          {/* 微浮标点群 */}
+          <FloatingDots />
+
+          {/* 角落信息四件套 */}
+          <CornerBadges
+            edgeLabel={t.cornerEdge}
+            engineLabel={t.cornerEngineOnline}
+            systemLabel={t.cornerSystemStatus}
+            modulesBootingLabel={modulesBootingText}
+            searchHint={t.cornerSearchHint}
           />
 
           {/* 3D 碎片层 */}
@@ -602,10 +679,10 @@ export default function HomePage() {
           {/* 浮动引导 */}
           <FloatingIndicator opacity={indicatorOpacity} t={t} />
 
-          {/* 中央标题 — 绝对静止 */}
+          {/* 中央锚点 — 绝对静止 (标题 + 状态条 + 双 CTA) */}
           <motion.div
             style={{ opacity: titleOpacity }}
-            className="absolute inset-0 z-20 flex flex-col items-center justify-center"
+            className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-6"
           >
             <h1
               className="text-center font-bold leading-[1.1] tracking-tight text-zinc-800"
@@ -617,6 +694,31 @@ export default function HomePage() {
             </h1>
             <p className="mt-6 max-w-md text-center text-sm leading-relaxed text-zinc-400">
               {t.heroSubtitle}
+            </p>
+
+            {/* 状态条 */}
+            <p className="mt-5 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-400">
+              {heroStatusText}
+            </p>
+
+            {/* 双 CTA */}
+            <div className="pointer-events-auto mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/store"
+                className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-zinc-800 hover:shadow-lg hover:shadow-zinc-300/60"
+              >
+                {t.heroCtaWaitlist}
+              </Link>
+              <Link
+                href="/changelog"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white/70 px-5 py-2.5 text-sm font-medium text-zinc-700 backdrop-blur transition-all hover:border-zinc-400 hover:bg-white hover:text-zinc-900"
+              >
+                {t.heroCtaChangelog}
+              </Link>
+            </div>
+
+            <p className="mt-3 text-center text-[11px] text-zinc-400/80">
+              {t.heroWaitlistHint}
             </p>
           </motion.div>
 
@@ -672,7 +774,24 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ❸ Footer */}
+        {/* ❸ Building-in-public banner — 第二层"诚实"保险 */}
+        <div className="border-t border-zinc-100 bg-zinc-50/50">
+          <div className="mx-auto max-w-6xl px-6 py-6 md:px-8">
+            <Link
+              href="/changelog"
+              className="group flex flex-col items-start gap-2 rounded-xl border border-dashed border-zinc-300 bg-white/70 px-5 py-4 text-sm leading-relaxed text-zinc-600 transition-all hover:border-zinc-400 hover:bg-white sm:flex-row sm:items-center sm:justify-between"
+            >
+              <span className="font-mono text-[12px] tracking-wide">
+                {t.buildingInPublicBanner}
+              </span>
+              <span className="shrink-0 text-xs font-semibold text-zinc-700 transition-colors group-hover:text-zinc-900">
+                {t.heroCtaChangelog} →
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        {/* ❹ Footer */}
         <footer className="border-t border-zinc-100 bg-zinc-50">
           <div className={LAYOUT.footer}>
             <div className="mb-8 rounded-lg border border-zinc-200 bg-white px-6 py-5">
