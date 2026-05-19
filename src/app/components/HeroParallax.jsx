@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
  * 物理逻辑：
  *   ❌ 不再绑定滚动 (无 useScroll / useTransform / scrollYProgress)
  *   ✅ 每张卡片在 mount 后立即开始独立的 Y 轴漂浮
- *   ✅ 每张卡片 duration / delay 全部不同 — 像水族箱里的水母
+ *   ✅ 每张卡片 duration / delay / amp 全部不同 — 像水族箱里的水母
  *
  * 布局：
  *   外层固定 h-screen + overflow-hidden，不再撑高页面
@@ -18,32 +18,33 @@ import { motion } from "framer-motion";
 // ----------------------------------------------------------------
 // 漂浮碎片配置
 //
-// 关键：每一项的 duration / delay / amp（位移幅度）都不一样，
-// 让它们彻底失去"齐步走"的节奏感。
-// left / top 用 vw / vh 单位，覆盖整个屏幕四角。
+// amp   = Y 轴上下位移幅度 (px)，越大漂得越远
+// duration = 单次循环秒数，越小越快
+// delay = 起跑时差，打乱齐步走节奏
+// left / top 用 vw / vh，覆盖整个屏幕四角 + 中间区域
 // ----------------------------------------------------------------
 const FLOATING_CARDS = [
   {
     label: "黑猫 · 媒体提取",
-    sub: "深度递归解析",
+    sub: "深度递归解析 · 全格式覆盖",
     accent: "amber",
-    left: "6vw",
-    top: "12vh",
-    width: 260,
-    height: 150,
-    amp: 28,        // Y 轴上下位移幅度 (px)
-    duration: 7.5,  // 单次循环秒数
-    delay: 0,       // 起跑时差
+    left: "4vw",
+    top: "10vh",
+    width: 300,
+    height: 180,
+    amp: 55,
+    duration: 7.5,
+    delay: 0,
   },
   {
     label: "全自动打包",
     sub: "反指纹 · 时序混淆",
     accent: "blue",
-    left: "70vw",
-    top: "8vh",
-    width: 240,
-    height: 140,
-    amp: 36,
+    left: "68vw",
+    top: "6vh",
+    width: 280,
+    height: 170,
+    amp: 62,
     duration: 11,
     delay: 1.5,
   },
@@ -51,59 +52,59 @@ const FLOATING_CARDS = [
     label: "指纹模拟栈",
     sub: "Canvas / WebGL 全维度伪装",
     accent: "emerald",
-    left: "10vw",
-    top: "62vh",
-    width: 280,
-    height: 160,
-    amp: 42,
+    left: "8vw",
+    top: "60vh",
+    width: 320,
+    height: 190,
+    amp: 48,
     duration: 9,
     delay: 3,
   },
   {
     label: "零日志模式",
-    sub: "信噪比最大化",
+    sub: "信噪比最大化 · 静默运行",
     accent: "slate",
-    left: "75vw",
-    top: "60vh",
-    width: 230,
-    height: 130,
-    amp: 24,
+    left: "72vw",
+    top: "58vh",
+    width: 270,
+    height: 165,
+    amp: 58,
     duration: 13,
     delay: 0.8,
   },
   {
     label: "请求代理链",
-    sub: "IP 自动轮换",
+    sub: "IP 自动轮换 · 多跳路由",
     accent: "violet",
-    left: "38vw",
-    top: "4vh",
-    width: 250,
-    height: 145,
-    amp: 30,
+    left: "36vw",
+    top: "2vh",
+    width: 290,
+    height: 175,
+    amp: 44,
     duration: 6,
     delay: 2.2,
   },
   {
     label: "Crontab 守护",
-    sub: "VPS 一键部署",
+    sub: "VPS 一键部署 · 断线重连",
     accent: "rose",
-    left: "48vw",
-    top: "72vh",
-    width: 240,
-    height: 140,
-    amp: 38,
+    left: "46vw",
+    top: "70vh",
+    width: 280,
+    height: 170,
+    amp: 60,
     duration: 10,
     delay: 4.1,
   },
   {
     label: "多层跳板",
-    sub: "时序混淆引擎",
+    sub: "时序混淆引擎 · 流量伪装",
     accent: "cyan",
-    left: "82vw",
-    top: "36vh",
-    width: 250,
-    height: 150,
-    amp: 26,
+    left: "80vw",
+    top: "34vh",
+    width: 290,
+    height: 175,
+    amp: 50,
     duration: 12,
     delay: 1.9,
   },
@@ -111,17 +112,41 @@ const FLOATING_CARDS = [
     label: "痕迹清理套件",
     sub: "日志擦除 · 反取证",
     accent: "orange",
-    left: "2vw",
-    top: "40vh",
-    width: 240,
-    height: 140,
-    amp: 34,
+    left: "1vw",
+    top: "38vh",
+    width: 280,
+    height: 168,
+    amp: 52,
     duration: 8.5,
     delay: 3.6,
   },
+  {
+    label: "冷热账号隔离",
+    sub: "会话沙箱 · 独立环境",
+    accent: "blue",
+    left: "28vw",
+    top: "78vh",
+    width: 270,
+    height: 162,
+    amp: 40,
+    duration: 14,
+    delay: 5.0,
+  },
+  {
+    label: "变现漏斗",
+    sub: "全自动收割 · 零人工干预",
+    accent: "emerald",
+    left: "58vw",
+    top: "30vh",
+    width: 260,
+    height: 158,
+    amp: 46,
+    duration: 8,
+    delay: 2.7,
+  },
 ];
 
-// 颜色 → tailwind class 映射，集中在这里管，方便调色
+// 颜色 → tailwind class 映射
 const ACCENTS = {
   amber:   { bar: "bg-amber-400",   chip: "bg-amber-50 text-amber-700" },
   blue:    { bar: "bg-blue-400",    chip: "bg-blue-50 text-blue-700" },
@@ -136,22 +161,22 @@ const ACCENTS = {
 // ----------------------------------------------------------------
 // 单个漂浮卡片
 //
-// 全部用 framer-motion 的 animate prop —— 一旦 mount，立即开始
-// 自己的循环，跟滚动事件、跟其他卡片，全部解耦。
+// animate={{ y: [0, -amp, 0] }} + repeat: Infinity
+// 一旦 mount 立即自己动，跟滚动、跟其他卡片完全解耦
 // ----------------------------------------------------------------
 function FloatingCard({ card }) {
   const accent = ACCENTS[card.accent] ?? ACCENTS.slate;
 
   return (
     <motion.div
-      className="absolute select-none rounded-2xl border border-zinc-200/80 bg-white/85 shadow-lg shadow-zinc-200/40 backdrop-blur-sm"
+      className="absolute select-none rounded-2xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-200/50 backdrop-blur-sm"
       style={{
         left: card.left,
         top: card.top,
         width: card.width,
         height: card.height,
       }}
-      // ⭐ 核心运动：Y 轴在 [0, -amp, 0] 之间无限循环
+      // ⭐ 核心：Y 轴无限漂浮，每张卡片节奏完全独立
       animate={{ y: [0, -card.amp, 0] }}
       transition={{
         duration: card.duration,
@@ -160,20 +185,24 @@ function FloatingCard({ card }) {
         ease: "easeInOut",
       }}
     >
-      {/* 顶部色条：保持亮色极简风格的"轻装饰" */}
-      <div className={`h-1 w-12 rounded-full ${accent.bar} mt-5 ml-5`} />
+      {/* 顶部色条 */}
+      <div className={`mt-5 ml-5 h-1 w-14 rounded-full ${accent.bar}`} />
 
-      {/* 内容主体 */}
+      {/* 内容 */}
       <div className="px-5 pt-3">
         <div className="text-sm font-semibold tracking-tight text-zinc-800">
           {card.label}
         </div>
-        <div className="mt-1 text-xs text-zinc-400">{card.sub}</div>
+        <div className="mt-1.5 text-xs leading-relaxed text-zinc-400">
+          {card.sub}
+        </div>
       </div>
 
       {/* 底部 chip */}
       <div className="absolute bottom-4 left-5">
-        <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${accent.chip}`}>
+        <span
+          className={`rounded-full px-2.5 py-0.5 text-[10px] font-medium ${accent.chip}`}
+        >
           idle · float
         </span>
       </div>
@@ -190,7 +219,7 @@ export default function HeroParallax() {
       className="relative h-screen w-full overflow-hidden bg-zinc-50"
       aria-label="Idle Float Hero"
     >
-      {/* 背景网格：极淡的栅格，强化"空间感"但不抢戏 */}
+      {/* 背景网格：极淡栅格，强化空间感 */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
@@ -202,14 +231,14 @@ export default function HeroParallax() {
         }}
       />
 
-      {/* 漂浮碎片层 */}
+      {/* 漂浮碎片层 — 全自动，无需用户操作 */}
       <div className="absolute inset-0">
         {FLOATING_CARDS.map((card, i) => (
           <FloatingCard key={i} card={card} />
         ))}
       </div>
 
-      {/* 中央锚点：标题完全静止 */}
+      {/* 中央锚点：标题绝对静止，冷眼看周围碎片漂浮 */}
       <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center">
         <h1
           className="font-bold leading-[1.05] tracking-tight text-zinc-700"
