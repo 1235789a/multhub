@@ -176,26 +176,30 @@ function seededRand(seed: number): number {
   return (s - 1) / 2147483646;
 }
 
-/** 从 PRODUCTS 自动生成碎片配置 */
-function buildFragments(): FragmentModuleAsset[] {
+/**
+ * 从短词数组构建装饰碎片配置
+ *
+ * 与 PRODUCTS 完全解耦 — 这些只是首屏漂浮的视觉装饰，
+ * 不参与产品引流。后续 PRODUCTS 增删都不会影响它。
+ */
+function buildDecorFragments(words: string[]): FragmentModuleAsset[] {
   const colorKeys = Object.keys(COLORS.border);
-  const count = PRODUCTS.length;
+  const count = words.length;
 
-  // 预计算位置网格，均匀分布避免重叠
   const cols = 4;
   const rows = Math.ceil(count / cols);
-  const xBase = [8, 35, 58, 78]; // vw 列基线
-  const yBase = [8, 30, 58, 78]; // vh 行基线（取前 rows 个）
+  const xBase = [6, 32, 58, 80]; // vw 列基线
+  const yBase = [10, 32, 58, 78]; // vh 行基线
 
-  return PRODUCTS.map((product, i) => {
+  return words.map((word, i) => {
     const r = (offset: number) => seededRand(i * 17 + offset);
 
     const col = i % cols;
     const row = Math.floor(i / cols);
-    const xJitter = (r(1) - 0.5) * 12;
-    const yJitter = (r(2) - 0.5) * 10;
+    const xJitter = (r(1) - 0.5) * 14;
+    const yJitter = (r(2) - 0.5) * 12;
 
-    const floatAmp = 7 + Math.round(r(3) * 6);
+    const floatAmp = 8 + Math.round(r(3) * 8);
     const floatPeriod = 6 + Math.round(r(4) * 6);
     const floatPhase = r(5) * 4;
 
@@ -206,21 +210,22 @@ function buildFragments(): FragmentModuleAsset[] {
     const explosionDirX = dirX * (0.6 + r(8) * 1.1);
     const explosionDirY = dirY * (0.4 + r(9) * 1.1);
 
-    const scaleExplode = 1.6 + r(10) * 0.8;
-    const rotateZ = Math.round(-15 + r(11) * 30);
-    const rotateX = Math.round(-20 + r(12) * 40);
-    const rotateY = Math.round(-22 + r(13) * 44);
+    const scaleExplode = 1.5 + r(10) * 0.6;
+    const rotateZ = Math.round(-12 + r(11) * 24);
+    const rotateX = Math.round(-15 + r(12) * 30);
+    const rotateY = Math.round(-18 + r(13) * 36);
 
     const zIndex = count - i + 1;
 
-    const cardWidth = `${185 + Math.round(r(14) * 55)}px`;
-    const cardMinH = `${90 + Math.round(r(15) * 30)}px`;
+    // 短词卡片：尺寸更"克制"，无内容只剩短词
+    const cardWidth = `${130 + Math.round(r(14) * 60)}px`;
+    const cardMinH = `${44 + Math.round(r(15) * 12)}px`;
 
     return {
-      title: product.name,
-      subtitle: product.features[1] ?? product.features[0],
-      prefix: product.icon,
-      tags: [product.version],
+      title: word,
+      subtitle: "",
+      prefix: undefined,
+      tags: undefined,
       accentColor: colorKeys[i % colorKeys.length],
       cardWidth,
       cardMinH,
@@ -242,8 +247,6 @@ function buildFragments(): FragmentModuleAsset[] {
     };
   });
 }
-
-const FRAGMENT_MODULES: FragmentModuleAsset[] = buildFragments();
 
 // ============================================================
 // 🧱 子组件
@@ -416,23 +419,11 @@ function FragmentCard({
         rotateX: explodeRotateX,
         rotateY: explodeRotateY,
       }}
-      className={`pointer-events-none select-none rounded-2xl border border-zinc-300/60 bg-white/75 px-5 py-4 text-sm font-medium text-zinc-600 shadow-lg shadow-zinc-200/50 backdrop-blur-md ${accentBorder}`}
+      className={`pointer-events-none select-none rounded-xl border border-zinc-200/70 bg-white/80 px-4 py-2.5 text-center text-[13px] font-medium tracking-wide text-zinc-500 shadow-md shadow-zinc-200/40 backdrop-blur-sm ${accentBorder}`}
     >
-      <span className="mr-1 text-zinc-400">{asset.prefix ?? "$"}</span>
+      {/* 纯装饰：仅一个短词 + 顶部 accent 色条作为视觉锚点 */}
+      <span className={`mr-2 inline-block h-1 w-6 rounded-full align-middle ${tagClass.split(" ")[0]}`} />
       {asset.title}
-      {asset.tags && asset.tags.length > 0 && (
-        <span className="ml-2 inline-flex gap-1">
-          {asset.tags.map((tag) => (
-            <span
-              key={tag}
-              className={`inline-block rounded-full px-1.5 py-0 text-[10px] font-semibold ${tagClass}`}
-            >
-              {tag}
-            </span>
-          ))}
-        </span>
-      )}
-      <div className="mt-1 text-[11px] text-zinc-400/70">{asset.subtitle}</div>
     </motion.div>
   );
 }
@@ -602,20 +593,27 @@ export default function HomePage() {
 
   // ---- Roadmap 状态聚合 (用于 Hero 状态条 + Banner) ----
   const totalProducts = PRODUCTS.length;
+  const hasProducts = totalProducts > 0;
   const shippedCount = PRODUCTS.filter(
     (p) => p.status === "available",
   ).length;
   const forgingCount = PRODUCTS.filter(
     (p) => p.status === "forging" || p.status === "beta",
   ).length;
-  const heroStatusText = interp(t.heroStatusLine, {
-    forging: forgingCount,
-    shipped: shippedCount,
-    total: totalProducts,
-  });
+  // 没有产品时改成"全线研发中"提示语，避免出现 "0/0" 这种尴尬文案
+  const heroStatusText = hasProducts
+    ? interp(t.heroStatusLine, {
+        forging: forgingCount,
+        shipped: shippedCount,
+        total: totalProducts,
+      })
+    : t.heroStatusForgingAll;
   const modulesBootingText = interp(t.cornerModulesBooting, {
-    count: forgingCount,
+    count: hasProducts ? forgingCount : 1,
   });
+
+  // ---- 装饰碎片：跟 PRODUCTS 解耦，仅用 i18n 短词 ----
+  const fragmentModules = buildDecorFragments(t.heroDecorWords);
 
   return (
     <>
@@ -667,7 +665,7 @@ export default function HomePage() {
             className="absolute inset-0 z-10"
             style={{ perspective: LAYOUT.perspective }}
           >
-            {FRAGMENT_MODULES.map((asset, i) => (
+            {fragmentModules.map((asset, i) => (
               <FragmentCard
                 key={i}
                 asset={asset}
@@ -732,28 +730,30 @@ export default function HomePage() {
 
       {/* 🟢 模块二：绝对静默区 */}
       <section className="relative bg-white" aria-label="绝对静默区">
-        {/* ❶ 工具超市 */}
-        <div className={LAYOUT.container}>
-          <div className="mb-16 text-center">
-            <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">
-              {t.sectionToolsLabel}
-            </p>
-            <h2 className="text-3xl font-bold text-zinc-800 md:text-4xl">
-              {t.sectionToolsTitle}
-            </h2>
-            <p className="mt-3 text-sm text-zinc-500">
-              {t.sectionToolsSubtitle}
-            </p>
+        {/* ❶ 工具超市 — 无产品时整段隐藏，保持页面节奏 */}
+        {hasProducts && (
+          <div className={LAYOUT.container}>
+            <div className="mb-16 text-center">
+              <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">
+                {t.sectionToolsLabel}
+              </p>
+              <h2 className="text-3xl font-bold text-zinc-800 md:text-4xl">
+                {t.sectionToolsTitle}
+              </h2>
+              <p className="mt-3 text-sm text-zinc-500">
+                {t.sectionToolsSubtitle}
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {PRODUCTS.slice(0, 4).map((product) => (
+                <ToolCard key={product.slug} product={product} t={t} />
+              ))}
+            </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {PRODUCTS.slice(0, 4).map((product) => (
-              <ToolCard key={product.slug} product={product} t={t} />
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* ❷ 博客 */}
-        <div className="border-t border-zinc-100">
+        <div className={hasProducts ? "border-t border-zinc-100" : ""}>
           <div className={LAYOUT.container}>
             <div className="mb-16 text-center">
               <p className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">

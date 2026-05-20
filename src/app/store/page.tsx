@@ -116,60 +116,91 @@ export default function StoreListPage() {
           className="mb-12 h-px bg-gradient-to-r from-transparent via-zinc-700/60 to-transparent"
         />
 
-        {/* Product grid */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {PRODUCTS.map((product) => (
-            <motion.div key={product.slug} variants={card}>
-              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-md transition-all hover:border-zinc-700 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-zinc-900/50">
-                {/* Top-edge glow on hover */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+        {/* Product grid OR empty state */}
+        {PRODUCTS.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/40 px-8 py-16 text-center backdrop-blur-md"
+          >
+            <div className="mb-5 text-5xl">⚙️</div>
+            <h2 className="mb-3 text-xl font-semibold text-zinc-100 md:text-2xl">
+              {t.storeAllForgingTitle}
+            </h2>
+            <p className="mx-auto max-w-md text-sm leading-relaxed text-zinc-400">
+              {t.storeAllForgingSubtitle}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/changelog"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/60 px-5 py-2.5 text-sm font-medium text-zinc-200 transition-all hover:border-zinc-600 hover:bg-zinc-800 hover:text-white"
+              >
+                {t.heroCtaChangelog} →
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-full border border-transparent px-5 py-2.5 text-sm font-medium text-zinc-500 transition-all hover:text-zinc-200"
+              >
+                {t.changelogBackHome}
+              </Link>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {PRODUCTS.map((product) => (
+              <motion.div key={product.slug} variants={card}>
+                <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-md transition-all hover:border-zinc-700 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-zinc-900/50">
+                  {/* Top-edge glow on hover */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
-                <div className="mb-4 flex items-start justify-between">
-                  <span className="text-3xl">{product.icon}</span>
-                  <span className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs font-medium text-zinc-400">
-                    {product.version}
-                  </span>
-                </div>
-
-                <h3 className="mb-3 text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                  {product.name}
-                </h3>
-
-                <ul className="mb-6 flex-1 space-y-1.5">
-                  {product.features.slice(0, 4).map((feat) => (
-                    <li
-                      key={feat}
-                      className="flex items-start gap-2 text-sm text-zinc-400"
-                    >
-                      <span className="mt-0.5 shrink-0 text-emerald-400">✓</span>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center justify-between border-t border-zinc-800 pt-4">
-                  <span className="text-xl font-bold text-white">
-                    {product.priceDisplay}
-                  </span>
-                  <Link
-                    href={`/store/${product.slug}`}
-                    className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white hover:shadow-md"
-                  >
-                    {t.getLicense}
-                    <span className="text-zinc-500 transition-colors group-hover:text-zinc-300">
-                      →
+                  <div className="mb-4 flex items-start justify-between">
+                    <span className="text-3xl">{product.icon}</span>
+                    <span className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs font-medium text-zinc-400">
+                      {product.version}
                     </span>
-                  </Link>
+                  </div>
+
+                  <h3 className="mb-3 text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
+                    {product.name}
+                  </h3>
+
+                  <ul className="mb-6 flex-1 space-y-1.5">
+                    {product.features.slice(0, 4).map((feat) => (
+                      <li
+                        key={feat}
+                        className="flex items-start gap-2 text-sm text-zinc-400"
+                      >
+                        <span className="mt-0.5 shrink-0 text-emerald-400">✓</span>
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="flex items-center justify-between border-t border-zinc-800 pt-4">
+                    <span className="text-xl font-bold text-white">
+                      {product.priceDisplay}
+                    </span>
+                    <Link
+                      href={`/store/${product.slug}`}
+                      className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white hover:shadow-md"
+                    >
+                      {t.getLicense}
+                      <span className="text-zinc-500 transition-colors group-hover:text-zinc-300">
+                        →
+                      </span>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </main>
     </div>
   );

@@ -154,6 +154,16 @@ export interface TranslationDict {
   changelogEmpty: string;
   /** /changelog 返回首页 */
   changelogBackHome: string;
+  // ---- Hero 装饰短词（无产品时也始终展示） ----
+  /** Hero 漂浮装饰短词列表（散落在主标题周围） */
+  heroDecorWords: string[];
+  /** Hero 状态条 — 全线研发中（PRODUCTS 为空时使用） */
+  heroStatusForgingAll: string;
+  // ---- /store 空态 ----
+  /** /store 全线研发中 — 标题 */
+  storeAllForgingTitle: string;
+  /** /store 全线研发中 — 副标题 */
+  storeAllForgingSubtitle: string;
 }
 
 const translations: Record<Language, TranslationDict> = {
@@ -250,6 +260,22 @@ const translations: Record<Language, TranslationDict> = {
     changelogRoadmapSection: "🛰 On the roadmap",
     changelogEmpty: "Nothing here yet — that's why we are building in public.",
     changelogBackHome: "← Back to homepage",
+    // Hero decor (always-on, decoupled from PRODUCTS)
+    heroDecorWords: [
+      "Independent",
+      "Silent",
+      "Automated",
+      "Anti-fingerprint",
+      "Zero-log",
+      "Cold/Hot",
+      "Resilient",
+      "Headless",
+    ],
+    heroStatusForgingAll: "All systems forging · First wave landing soon",
+    // /store empty state
+    storeAllForgingTitle: "The arsenal is being assembled",
+    storeAllForgingSubtitle:
+      "No products are shipping yet. Every module is in the forge — drop your email and we'll ping you the moment the first wave lands.",
   },
   zh: {
     brand: "蜕羽",
@@ -335,6 +361,22 @@ const translations: Record<Language, TranslationDict> = {
     changelogRoadmapSection: "🛰 路线图",
     changelogEmpty: "目前还没有 — 所以我们才透明开发。",
     changelogBackHome: "← 返回首页",
+    // Hero 装饰短词（与 PRODUCTS 解耦）
+    heroDecorWords: [
+      "独立",
+      "静默",
+      "自动",
+      "反指纹",
+      "零日志",
+      "冷热隔离",
+      "全栈",
+      "无人值守",
+    ],
+    heroStatusForgingAll: "全线研发中 · 首发即将抵达",
+    // /store 空态
+    storeAllForgingTitle: "工具矩阵正在装配",
+    storeAllForgingSubtitle:
+      "目前没有任何产品发售，每一个模块都在锻造中。留下邮箱，首发抵达的那一刻第一时间通知你。",
   },
 };
 

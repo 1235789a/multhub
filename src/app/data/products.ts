@@ -1,4 +1,59 @@
-/** 工具发布状态 — 用于首屏委婉表达"在做 / 没做" */
+// ============================================================
+// 📦 PRODUCTS — 产品数据契约（Single Source of Truth）
+// ============================================================
+//
+// 🤖 给"另一个智能体"的填表说明
+// ------------------------------------------------------------
+// 你只需要往下面的 PRODUCTS 数组里塞 Product 对象，
+// 全站（首页 / /store 列表 / /store/[slug] 详情 / /changelog 路线图）
+// 会自动按 status 把产品分发到正确的位置。
+//
+// 唯一需要你保证的：每个对象满足 Product 接口的字段约束。
+//
+// 字段约束 & 联动效果
+// ------------------------------------------------------------
+// name           string         必填   产品中文名（首页/详情页/changelog 都用这个名字）
+// slug           string         必填   URL 段，小写英文 + 连字符，全站唯一
+//                                       会被 generateStaticParams 用于生成 /store/[slug]
+// icon           string         必填   单字符 emoji。"研发中"产品建议用 🛠️ ⚙️ 🔧 🧪 🧬 🔩 🚧
+// version        string         必填   版本号，例如 "v0.1" / "v1.0"
+// priceBase      number         必填   价格数值（元），未定价填 0
+// priceDisplay   string         必填   价格显示文本，例如 "¥299" 或 "待定"
+// features       string[]       必填   卖点列表，建议 4 条，每条 ≤16 字
+//
+// status         ProductStatus  可选   缺省视为 "roadmap"
+//                                       "available" → 首页工具超市 / store 列表 / changelog 已发布段
+//                                       "beta"      → 同 available，但徽章显示 "邀请测试"
+//                                       "forging"   → store 列表展示 + changelog 打磨段，CTA 变 "加入候补"
+//                                       "roadmap"   → 仅 changelog 路线图段展示
+// eta            string         可选   预计季度，例如 "Q4 2026"，仅 forging/roadmap 显示
+// progress       number         可选   完成度 0-100，仅 forging/roadmap 显示进度条
+//
+// 自动联动效果（无需改其他文件）
+// ------------------------------------------------------------
+// • 首页 hero  ：纯文字装饰，跟 PRODUCTS 解耦，不会被影响
+// • 首页"工具超市"块：当 PRODUCTS.length === 0 时整段隐藏；非空时取前 4 个展示
+// • /store     ：列出全部；当 PRODUCTS.length === 0 时显示"研发中"占位
+// • /store/[slug]：自动生成静态路由
+// • /changelog ：按 status 分到三段（已发布 / 打磨中 / 路线图），自动统计数量
+//
+// 填表示例
+// ------------------------------------------------------------
+// {
+//   name: "示例工具",
+//   slug: "example-tool",
+//   icon: "🛠️",
+//   version: "v0.1",
+//   priceBase: 0,
+//   priceDisplay: "待定",
+//   features: ["卖点一", "卖点二", "卖点三", "卖点四"],
+//   status: "forging",
+//   eta: "Q4 2026",
+//   progress: 30,
+// }
+// ============================================================
+
+/** 工具发布状态 */
 export type ProductStatus =
   | "available" // 已上线，可购买
   | "beta"      // 邀请测试中
@@ -6,156 +61,29 @@ export type ProductStatus =
   | "roadmap";  // 计划中，可订阅候补
 
 export interface Product {
+  /** 产品名称（显示用，可中文） */
   name: string;
+  /** URL slug（小写英文 + 连字符，唯一） */
   slug: string;
+  /** Emoji 图标，单字符 */
   icon: string;
+  /** 版本号，例如 "v0.1" */
   version: string;
+  /** 价格数值（元），未定价填 0 */
   priceBase: number;
+  /** 价格显示文本，例如 "¥299" 或 "待定" */
   priceDisplay: string;
+  /** 卖点列表，建议 4 条，每条 ≤16 字 */
   features: string[];
   /** 当前发布状态，缺省视为 roadmap */
   status?: ProductStatus;
-  /** 路线图预计季度，例如 "Q3 2026"，仅 roadmap/forging 状态展示 */
+  /** 路线图预计季度，例如 "Q4 2026"，仅 forging/roadmap 展示 */
   eta?: string;
-  /** 完成度百分比 0-100，可选；用于 building-in-public 进度条 */
+  /** 完成度 0-100，仅 forging/roadmap 展示进度条 */
   progress?: number;
 }
 
-export const PRODUCTS: Product[] = [
-  {
-    name: "黑猫 · 媒体提取引擎",
-    slug: "blackcat-media-extractor",
-    icon: "🐈",
-    version: "v3.2",
-    priceBase: 299,
-    priceDisplay: "¥299",
-    features: [
-      "深度递归解析，零残留",
-      "支持 40+ 平台自动识别",
-      "热更新规则库，无需重启",
-      "内置反风控绕过模块",
-    ],
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 62,
-  },
-  {
-    name: "无视风控 · 全自动打包",
-    slug: "auto-pack-fingerprint",
-    icon: "📦",
-    version: "v2.1",
-    priceBase: 399,
-    priceDisplay: "¥399",
-    features: [
-      "反指纹 · 时序混淆引擎",
-      "批量处理，支持队列调度",
-      "VPS 一键部署脚本",
-      "失败自动重试 + 通知",
-    ],
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 48,
-  },
-  {
-    name: "指纹模拟栈 · 运行时注入",
-    slug: "fingerprint-sim-stack",
-    icon: "🦊",
-    version: "v4.0",
-    priceBase: 499,
-    priceDisplay: "¥499",
-    features: [
-      "Canvas/WebGL 全维度伪装",
-      "运行时动态注入，无文件残留",
-      "支持 Chrome/Edge/Firefox",
-      "自定义指纹模板系统",
-    ],
-    status: "beta",
-    eta: "Q3 2026",
-    progress: 78,
-  },
-  {
-    name: "静默收割 · 零日志模式",
-    slug: "silent-harvest-zero-log",
-    icon: "🤫",
-    version: "v1.8",
-    priceBase: 599,
-    priceDisplay: "¥599",
-    features: [
-      "信噪比最大化算法",
-      "零日志输出，无痕运行",
-      "内存级数据处理",
-      "自动清理运行时痕迹",
-    ],
-    status: "roadmap",
-    eta: "Q4 2026",
-    progress: 22,
-  },
-  {
-    name: "请求代理链 · 多层嵌套",
-    slug: "proxy-chain-nested",
-    icon: "🦉",
-    version: "v2.5",
-    priceBase: 349,
-    priceDisplay: "¥349",
-    features: [
-      "IP 自动轮换，多层嵌套",
-      "支持 HTTP/SOCKS5 混合链",
-      "地理位置智能路由",
-      "故障节点自动切换",
-    ],
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 55,
-  },
-  {
-    name: "自动化脚本 · 一键部署",
-    slug: "auto-script-deploy",
-    icon: "🐍",
-    version: "v3.0",
-    priceBase: 199,
-    priceDisplay: "¥199",
-    features: [
-      "VPS · Crontab 守护进程",
-      "一键部署，零配置启动",
-      "健康检查 + 自动恢复",
-      "日志轮转与磁盘保护",
-    ],
-    status: "beta",
-    eta: "Q3 2026",
-    progress: 84,
-  },
-  {
-    name: "多层跳板 · IP 自动轮换",
-    slug: "multi-hop-rotation",
-    icon: "🔗",
-    version: "v1.5",
-    priceBase: 449,
-    priceDisplay: "¥449",
-    features: [
-      "时序混淆引擎",
-      "多级跳板自动编排",
-      "延迟优化智能选路",
-      "支持自定义跳板节点",
-    ],
-    status: "roadmap",
-    eta: "Q4 2026",
-    progress: 18,
-  },
-  {
-    name: "零残留 · 痕迹清理套件",
-    slug: "zero-trace-cleaner",
-    icon: "🧹",
-    version: "v2.0",
-    priceBase: 259,
-    priceDisplay: "¥259",
-    features: [
-      "日志擦除 · 反取证",
-      "浏览器痕迹深度清理",
-      "磁盘覆写安全删除",
-      "计划任务自动执行",
-    ],
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 40,
-  },
-];
+// ============================================================
+// 产品列表 — 后续由其他智能体填充
+// ============================================================
+export const PRODUCTS: Product[] = [];
