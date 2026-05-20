@@ -86,4 +86,59 @@ export interface Product {
 // ============================================================
 // 产品列表 — 后续由其他智能体填充
 // ============================================================
-export const PRODUCTS: Product[] = [];
+export const PRODUCTS: Product[] = [
+  // 🟡 主推 · 即将首发
+  {
+    name: "MarkItDown · 单页清洁工",
+    slug: "markitdown-lite",
+    icon: "📄",
+    version: "v0.7",
+    priceBase: 19,
+    priceDisplay: "¥19.9",
+    features: [
+      "PDF/PPT 一键转语义 Markdown",
+      "脱敏逻辑战线 C 内置",
+      "RAG 友好 · 表格保结构",
+      "一次买断 · 永久使用",
+    ],
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 70,
+  },
+  // 🛡️ 第二期 · B 端源码
+  {
+    name: "Nano-Secure-Bridge",
+    slug: "nano-secure-bridge",
+    icon: "🛡️",
+    version: "v0.2",
+    priceBase: 0,
+    priceDisplay: "待定",
+    features: [
+      "端侧 Agent 指令过滤",
+      "Nemotron-3 低功耗适配",
+      "智能家居 / 移动办公场景",
+      "源码买断 · 拒定制",
+    ],
+    status: "roadmap",
+    eta: "Q4 2026",
+    progress: 25,
+  },
+  // 🔌 第三期 · MCP 风口
+  {
+    name: "MCP · 通用适配器包",
+    slug: "mcp-bridge",
+    icon: "🔌",
+    version: "v0.1",
+    priceBase: 0,
+    priceDisplay: "待定",
+    features: [
+      "Excel / PDF 一键转 MCP",
+      "本地软件零侵入伪装",
+      "支持主流财务系统",
+      "源码买断 · 拒定制",
+    ],
+    status: "roadmap",
+    eta: "Q1 2027",
+    progress: 18,
+  },
+];
