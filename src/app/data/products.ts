@@ -73,6 +73,8 @@ export interface Product {
   priceBase: number;
   /** 价格显示文本，例如 "¥299" 或 "待定" */
   priceDisplay: string;
+  /** USDT 价格（链上对账用），未定价或非加密支付商品省略 */
+  priceUSDT?: number;
   /** 卖点列表，建议 4 条，每条 ≤16 字 */
   features: string[];
   /** 当前发布状态，缺省视为 roadmap */
@@ -81,13 +83,35 @@ export interface Product {
   eta?: string;
   /** 完成度 0-100，仅 forging/roadmap 展示进度条 */
   progress?: number;
+  /** 购买后可直接跳转的工具页路径（例如 SaaS 工具）；为空表示纯源码 / 文件交付 */
+  launchPath?: string;
 }
 
 // ============================================================
 // 产品列表 — 后续由其他智能体填充
 // ============================================================
 export const PRODUCTS: Product[] = [
-  // 🟡 主推 · 即将首发
+  // 🛃 首发 · 跨境关税预估（蜕羽第一款 SaaS 工具）
+  {
+    name: "Tariff Lens · 关税透镜",
+    slug: "tariff-lens",
+    icon: "🛃",
+    version: "v0.3",
+    priceBase: 29,
+    priceDisplay: "¥29 / 4 USDT",
+    priceUSDT: 4,
+    features: [
+      "自然语言 → HS Code 推理",
+      "起征点 · FOB/CIF 自动判断",
+      "反倾销 · 301 条款标记",
+      "100 次配额 · 一次买断",
+    ],
+    status: "forging",
+    eta: "Q4 2026",
+    progress: 35,
+    launchPath: "/apps/tariff-lens",
+  },
+  // 🟡 第二期 · 文档工具
   {
     name: "MarkItDown · 单页清洁工",
     slug: "markitdown-lite",
@@ -95,6 +119,7 @@ export const PRODUCTS: Product[] = [
     version: "v0.7",
     priceBase: 19,
     priceDisplay: "¥19.9",
+    priceUSDT: 3,
     features: [
       "PDF/PPT 一键转语义 Markdown",
       "脱敏逻辑战线 C 内置",

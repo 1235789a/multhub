@@ -33,6 +33,14 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
   const [txIdStatus, setTxIdStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [txIdMessage, setTxIdMessage] = useState("");
 
+  // USDT 支付金额：优先 priceUSDT；fallback 把 RMB 价 / 7.2 估算
+  const expectedUsdt =
+    product?.priceUSDT != null
+      ? product.priceUSDT
+      : product
+        ? Math.max(1, Math.round(product.priceBase / 7.2))
+        : 0;
+
   const handleTxIdVerify = useCallback(async () => {
     const trimmed = txIdInput.trim();
     if (!trimmed) return;
@@ -46,7 +54,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           txId: trimmed,
-          expectedAmount: product?.priceBase ?? 0,
+          expectedAmount: expectedUsdt,
           expectedTo: RECEIVE_ADDRESS,
           contract: USDT_CONTRACT,
           productSlug: product?.slug ?? "unknown",
@@ -67,7 +75,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
       setTxIdStatus("error");
       setTxIdMessage(t.errorNetwork);
     }
-  }, [txIdInput, product, t]);
+  }, [txIdInput, expectedUsdt, product, t]);
 
   // ---- 404 ----
   if (!product) {
@@ -87,7 +95,8 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
     );
   }
 
-  const tronPayUri = buildTronPayUri(RECEIVE_ADDRESS, product.priceBase, USDT_CONTRACT);
+  // 二维码深链使用 USDT 金额（链上支付币种是 USDT，跟 priceBase 的人民币数值无关）
+  const tronPayUri = buildTronPayUri(RECEIVE_ADDRESS, expectedUsdt, USDT_CONTRACT);
 
   return (
     <div className="min-h-screen bg-black">

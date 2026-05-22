@@ -172,4 +172,60 @@ export async function writeLicense(record: LicenseRecord): Promise<void> {
   };
 
   await upsertDocument("licenses", record.txId, payload);
+
+  // 同步写入授权码 → 用量映射表（doc id = license code）
+  // 用于工具端按 X-License 直接查到对应 productSlug + 用量
+  await upsertDocument("license_usage", record.license, {
+    license: record.license,
+    productSlug: record.productSlug,
+    txId: record.txId,
+    usedCount: 0,
+    quota: getDefaultQuota(record.productSlug),
+    createdAt: record.createdAt ?? new Date().toISOString(),
+    lastUsedAt: null,
+  });
+}
+
+/** 各产品默认配额（购买后单授权码可用次数） */
+function getDefaultQuota(productSlug: string): number {
+  const quotas: Record<string, number> = {
+    "tariff-lens": 100, // ¥29 = 4 USDT，按 100 次估算单次成本 < ¥0.01
+    "markitdown-lite": 1000,
+  };
+  return quotas[productSlug] ?? 100;
+}
+
+/** 按 license code 查询用量记录 */
+export interface LicenseUsageRecord {
+  license: string;
+  productSlug: string;
+  txId: string;
+  usedCount: number;
+  quota: number;
+  createdAt: string;
+  lastUsedAt: string | null;
+}
+
+export async function findLicenseUsage(
+  license: string,
+): Promise<LicenseUsageRecord | null> {
+  const doc = await getDocument("license_usage", license);
+  if (!doc) return null;
+  return doc as unknown as LicenseUsageRecord;
+}
+
+/** 用量自增 + 时间戳更新（不做严格的事务，足够防止单 license 大规模刷量） */
+export async function incrementLicenseUsage(
+  license: string,
+  current: LicenseUsageRecord,
+): Promise<void> {
+  await upsertDocument("license_usage", license, {
+    license: current.license,
+    productSlug: current.productSlug,
+    txId: current.txId,
+    usedCount: current.usedCount + 1,
+    quota: current.quota,
+    createdAt: current.createdAt,
+    lastUsedAt: new Date().toISOString(),
+  });
 }
