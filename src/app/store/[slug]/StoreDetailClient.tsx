@@ -7,7 +7,7 @@ import { PRODUCTS } from "../../data/products";
 import { useLanguage } from "../../i18n/index";
 
 export default function StoreDetailClient({ slug }: { slug: string }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const router = useRouter();
   const product = PRODUCTS.find((p) => p.slug === slug);
 
@@ -70,7 +70,7 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
               <span className="text-5xl">{product.icon}</span>
               <div>
                 <h1 className="text-2xl font-bold text-white md:text-3xl">
-                  {product.name}
+                  {product.name[lang]}
                 </h1>
                 <div className="mt-1 flex items-center gap-2">
                   <span className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs font-medium text-zinc-400">
@@ -97,7 +97,7 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
         >
           <h2 className="mb-4 text-lg font-semibold text-white">{t.coreFeatures}</h2>
           <ul className="grid gap-3 sm:grid-cols-2">
-            {product.features.map((feat) => (
+            {product.features[lang].map((feat) => (
               <li
                 key={feat}
                 className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4 text-sm text-zinc-300"

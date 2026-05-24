@@ -25,7 +25,7 @@ function buildTronPayUri(
 }
 
 export default function CryptoCheckoutClient({ slug }: { slug: string }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const product = PRODUCTS.find((p) => p.slug === slug);
 
   // ---- TxID 自助补救 ----
@@ -134,7 +134,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           <div className="flex items-center gap-3 mb-2">
             <span className="text-3xl">{product.icon}</span>
             <div>
-              <h1 className="text-lg font-semibold text-white">{product.name}</h1>
+              <h1 className="text-lg font-semibold text-white">{product.name[lang]}</h1>
               <p className="text-xs text-zinc-500">{product.version}</p>
             </div>
           </div>

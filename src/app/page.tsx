@@ -429,7 +429,7 @@ function FragmentCard({
 }
 
 /** 工具卡片 — 数据来源于 data/products.ts */
-function ToolCard({ product, t }: { product: Product; t: TranslationDict }) {
+function ToolCard({ product, t, lang }: { product: Product; t: TranslationDict; lang: 'en' | 'zh' }) {
   const status: ProductStatus = product.status ?? "roadmap";
   const statusLabel = t[
     statusLabelKey(status) as keyof TranslationDict
@@ -446,8 +446,8 @@ function ToolCard({ product, t }: { product: Product; t: TranslationDict }) {
       </div>
 
       <div className="mb-3 text-3xl">{product.icon}</div>
-      <h3 className="mb-2 text-lg font-semibold text-zinc-800">{product.name}</h3>
-      <p className="mb-1 text-sm leading-relaxed text-zinc-500">{product.features[0]}</p>
+      <h3 className="mb-2 text-lg font-semibold text-zinc-800">{product.name[lang]}</h3>
+      <p className="mb-1 text-sm leading-relaxed text-zinc-500">{product.features[lang][0]}</p>
       <p className="mb-3 text-xs font-medium text-zinc-400">{t.trialNote}</p>
 
       {/* 进度条 — 仅 forging / roadmap 显示 */}
@@ -746,7 +746,7 @@ export default function HomePage() {
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {PRODUCTS.slice(0, 4).map((product) => (
-                <ToolCard key={product.slug} product={product} t={t} />
+                <ToolCard key={product.slug} product={product} t={t} lang={lang} />
               ))}
             </div>
           </div>

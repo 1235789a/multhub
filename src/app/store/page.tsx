@@ -66,7 +66,7 @@ function helperReplaceCount(template: string, count: number): string {
 }
 
 export default function StoreListPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
     <div className="min-h-screen bg-black">
       {/* Fixed grid texture */}
@@ -167,11 +167,11 @@ export default function StoreListPage() {
                   </div>
 
                   <h3 className="mb-3 text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                    {product.name}
+                    {product.name[lang]}
                   </h3>
 
                   <ul className="mb-6 flex-1 space-y-1.5">
-                    {product.features.slice(0, 4).map((feat) => (
+                    {product.features[lang].slice(0, 4).map((feat) => (
                       <li
                         key={feat}
                         className="flex items-start gap-2 text-sm text-zinc-400"

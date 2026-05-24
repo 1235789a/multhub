@@ -23,9 +23,11 @@ import StatusBadge, { statusLabelKey } from "../components/StatusBadge";
 function ChangelogRow({
   product,
   t,
+  lang,
 }: {
   product: Product;
   t: TranslationDict;
+  lang: 'en' | 'zh';
 }) {
   const status: ProductStatus = product.status ?? "roadmap";
   const statusLabel = t[
@@ -47,7 +49,7 @@ function ChangelogRow({
           <span className="text-2xl">{product.icon}</span>
           <div>
             <h3 className="text-base font-semibold text-zinc-800">
-              {product.name}
+              {product.name[lang]}
             </h3>
             <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-400">
               {product.version}
@@ -59,7 +61,7 @@ function ChangelogRow({
       </div>
 
       <ul className="mb-4 space-y-1 text-sm text-zinc-500">
-        {product.features.slice(0, 2).map((f) => (
+        {product.features[lang].slice(0, 2).map((f) => (
           <li key={f} className="flex items-start gap-2">
             <span className="mt-1 inline-block h-1 w-1 rounded-full bg-zinc-400" />
             <span>{f}</span>
@@ -90,11 +92,13 @@ function Section({
   items,
   t,
   emptyText,
+  lang,
 }: {
   title: string;
   items: Product[];
   t: TranslationDict;
   emptyText: string;
+  lang: 'en' | 'zh';
 }) {
   return (
     <section className="mb-14">
@@ -111,7 +115,7 @@ function Section({
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {items.map((p) => (
-            <ChangelogRow key={p.slug} product={p} t={t} />
+            <ChangelogRow key={p.slug} product={p} t={t} lang={lang} />
           ))}
         </div>
       )}
@@ -124,7 +128,7 @@ function Section({
 // ============================================================
 
 export default function ChangelogPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   // 按状态分组（单次遍历）
   const groups: Record<ProductStatus, Product[]> = {
@@ -175,18 +179,21 @@ export default function ChangelogPage() {
           items={shipped}
           t={t}
           emptyText={t.changelogEmpty}
+          lang={lang}
         />
         <Section
           title={t.changelogForgingSection}
           items={forging}
           t={t}
           emptyText={t.changelogEmpty}
+          lang={lang}
         />
         <Section
           title={t.changelogRoadmapSection}
           items={roadmap}
           t={t}
           emptyText={t.changelogEmpty}
+          lang={lang}
         />
       </div>
     </main>
