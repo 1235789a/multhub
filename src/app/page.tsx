@@ -480,14 +480,14 @@ function ToolCard({ product, t }: { product: Product; t: TranslationDict }) {
 }
 
 /** 博客卡片 — 数据来源于 data/blog.ts */
-function BlogCard({ post, t }: { post: BlogPost; t: TranslationDict }) {
+function BlogCard({ post, t, lang }: { post: BlogPost; t: TranslationDict; lang: 'en' | 'zh' }) {
   return (
     <Link href={`/log/${post.slug}`}>
       <article className="rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:border-zinc-300 hover:shadow-md hover:shadow-zinc-200/50">
         <h3 className="mb-2 text-base font-semibold text-zinc-800">
-          {post.title}
+          {post.title[lang]}
         </h3>
-        <p className="text-sm leading-relaxed text-zinc-500">{post.excerpt}</p>
+        <p className="text-sm leading-relaxed text-zinc-500">{post.excerpt[lang]}</p>
         <span className="mt-3 inline-block text-xs text-zinc-400">
           {t.readMore}
         </span>
@@ -570,7 +570,7 @@ function FloatingIndicator({
 // 🏠 主页面组件
 // ============================================================
 export default function HomePage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const parallaxRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -768,7 +768,7 @@ export default function HomePage() {
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {BLOG_POSTS.slice(0, 3).map((post) => (
-                <BlogCard key={post.slug} post={post} t={t} />
+                <BlogCard key={post.slug} post={post} t={t} lang={lang} />
               ))}
             </div>
           </div>
