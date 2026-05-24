@@ -98,7 +98,7 @@ export const PRODUCTS: Product[] = [
     icon: "🛃",
     version: "v0.3",
     priceBase: 29,
-    priceDisplay: "¥29 / 4 USDT",
+    priceDisplay: "4 USDT",
     priceUSDT: 4,
     features: [
       "自然语言 → HS Code 推理",
@@ -118,7 +118,7 @@ export const PRODUCTS: Product[] = [
     icon: "📄",
     version: "v0.7",
     priceBase: 19,
-    priceDisplay: "¥19.9",
+    priceDisplay: "3 USDT",
     priceUSDT: 3,
     features: [
       "PDF/PPT 一键转语义 Markdown",

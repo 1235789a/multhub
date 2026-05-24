@@ -120,7 +120,7 @@ function helperReplaceCount(template: string, count: number): string {
 }
 
 export default function LogListPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
     <div className="min-h-screen bg-black">
       {/* Subtle grid texture */}
@@ -190,7 +190,7 @@ export default function LogListPage() {
 
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     <h2 className="text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                      {post.title}
+                      {post.title[lang]}
                     </h2>
                   </div>
                   <div className="mb-2 flex items-center gap-3">
@@ -207,7 +207,7 @@ export default function LogListPage() {
                     </span>
                   </div>
                   <p className="text-sm leading-relaxed text-zinc-400">
-                    {post.excerpt}
+                    {post.excerpt[lang]}
                   </p>
                   <span className="mt-3 inline-block text-xs text-zinc-500 transition-colors group-hover:text-zinc-300">
                   {t.readMore}

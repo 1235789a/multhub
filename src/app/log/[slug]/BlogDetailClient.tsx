@@ -7,7 +7,7 @@ import { BLOG_POSTS, THEME_CLASSES } from "../../data/blog";
 import { useLanguage } from "../../i18n/index";
 
 export default function BlogDetailClient({ slug }: { slug: string }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const postIndex = BLOG_POSTS.findIndex((p) => p.slug === slug);
   const post = postIndex >= 0 ? BLOG_POSTS[postIndex] : undefined;
 
@@ -76,7 +76,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
             className={`mb-10 border-l-4 ${theme.border} pl-5`}
           >
             <h1 className="mb-4 text-3xl font-bold leading-tight text-white md:text-4xl">
-              {post.title}
+              {post.title[lang]}
             </h1>
             <div className="flex flex-wrap items-center gap-3">
               <time className="text-sm text-zinc-500">{post.date}</time>
@@ -112,7 +112,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
               prose-a:text-emerald-400 prose-a:no-underline hover:prose-a:underline
             "
           >
-            <ReactMarkdown>{post.body ?? ""}</ReactMarkdown>
+            <ReactMarkdown>{post.body[lang] ?? ""}</ReactMarkdown>
         </motion.div>
 
         {/* Theme-color decorative line — sits between body and footer */}
@@ -136,7 +136,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
               ←
             </span>
             <span className="max-w-[200px] truncate">
-              {BLOG_POSTS[postIndex - 1].title}
+              {BLOG_POSTS[postIndex - 1].title[lang]}
             </span>
           </Link>
         ) : (
@@ -148,7 +148,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
             className="group flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/30 px-4 py-3 text-sm text-zinc-400 transition-all hover:border-zinc-700 hover:text-zinc-200 sm:text-right"
           >
             <span className="max-w-[200px] truncate">
-              {BLOG_POSTS[postIndex + 1].title}
+              {BLOG_POSTS[postIndex + 1].title[lang]}
             </span>
             <span className="text-xs text-zinc-600 transition-colors group-hover:text-zinc-400">
               →
