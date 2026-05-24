@@ -34,15 +34,6 @@
       "static/chunks/974-ee0392fc06154126.js",
       "static/chunks/app/log/page-25cf843dc539996f.js"
     ],
-    "/store/page": [
-      "static/chunks/webpack-041036350e5300f1.js",
-      "static/chunks/fd9d1056-6922f449a204c2cc.js",
-      "static/chunks/117-c86a41b869f6b521.js",
-      "static/chunks/main-app-1c9daae6dc3fef31.js",
-      "static/chunks/648-206d44c65372d6d5.js",
-      "static/chunks/267-36ae97411dd59d34.js",
-      "static/chunks/app/store/page-4d0c9a601f917845.js"
-    ],
     "/page": [
       "static/chunks/webpack-041036350e5300f1.js",
       "static/chunks/fd9d1056-6922f449a204c2cc.js",
@@ -54,15 +45,14 @@
       "static/chunks/974-ee0392fc06154126.js",
       "static/chunks/app/page-85f2204a7c150c50.js"
     ],
-    "/checkout/[slug]/page": [
+    "/store/page": [
       "static/chunks/webpack-041036350e5300f1.js",
       "static/chunks/fd9d1056-6922f449a204c2cc.js",
       "static/chunks/117-c86a41b869f6b521.js",
       "static/chunks/main-app-1c9daae6dc3fef31.js",
       "static/chunks/648-206d44c65372d6d5.js",
       "static/chunks/267-36ae97411dd59d34.js",
-      "static/chunks/398-173830d504cb2f7d.js",
-      "static/chunks/app/checkout/[slug]/page-6a185a0aa5f7b0c8.js"
+      "static/chunks/app/store/page-4d0c9a601f917845.js"
     ],
     "/apps/tariff-lens/page": [
       "static/chunks/webpack-041036350e5300f1.js",
@@ -83,6 +73,16 @@
       "static/chunks/202-4c6b803113389127.js",
       "static/chunks/974-ee0392fc06154126.js",
       "static/chunks/app/log/[slug]/page-e3f435cb84dfae3e.js"
+    ],
+    "/checkout/[slug]/page": [
+      "static/chunks/webpack-041036350e5300f1.js",
+      "static/chunks/fd9d1056-6922f449a204c2cc.js",
+      "static/chunks/117-c86a41b869f6b521.js",
+      "static/chunks/main-app-1c9daae6dc3fef31.js",
+      "static/chunks/648-206d44c65372d6d5.js",
+      "static/chunks/267-36ae97411dd59d34.js",
+      "static/chunks/398-173830d504cb2f7d.js",
+      "static/chunks/app/checkout/[slug]/page-6a185a0aa5f7b0c8.js"
     ],
     "/store/[slug]/page": [
       "static/chunks/webpack-041036350e5300f1.js",
