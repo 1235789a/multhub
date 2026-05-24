@@ -1,11 +1,14 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/changelog/page": "app/changelog/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/tariff-lens/estimate/route": "app/api/tariff-lens/estimate/route.js",
   "/log/page": "app/log/page.js",
   "/store/page": "app/store/page.js",
   "/page": "app/page.js",
-  "/store/[slug]/page": "app/store/[slug]/page.js",
   "/checkout/[slug]/page": "app/checkout/[slug]/page.js",
+  "/apps/tariff-lens/page": "app/apps/tariff-lens/page.js",
+  "/log/[slug]/page": "app/log/[slug]/page.js",
   "/api/verify-trc20/route": "app/api/verify-trc20/route.js",
-  "/log/[slug]/page": "app/log/[slug]/page.js"
+  "/store/[slug]/page": "app/store/[slug]/page.js"
 }
