@@ -215,4 +215,33 @@ export const PRODUCTS: Product[] = [
     eta: "Q1 2027",
     progress: 18,
   },
+  // 🏠 第四期 · FloorPlan AI
+  {
+    name: {
+      en: "FloorPlan AI",
+      zh: "FloorPlan AI · 户型转视频",
+    },
+    slug: "floorplan-ai",
+    icon: "🏠",
+    version: "v0.1",
+    priceBase: 0,
+    priceDisplay: "待定",
+    features: {
+      en: [
+        "Upload 2D floor plan → cinematic video",
+        "AI spatial analysis & 3D reconstruction",
+        "Professional interior design & rendering",
+        "One-click download & share",
+      ],
+      zh: [
+        "上传 2D 户型图 → 电影级视频",
+        "AI 空间分析与 3D 重建",
+        "专业室内设计与渲染",
+        "一键下载与分享",
+      ],
+    },
+    status: "roadmap",
+    eta: "Q2 2027",
+    progress: 5,
+  },
 ];
