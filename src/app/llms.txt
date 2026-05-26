@@ -1,0 +1,84 @@
+# 蜕羽 / Silent Harvest - AI 内容清单
+
+## 关于我们
+
+蜕羽是一个全自动变现漏斗平台，采用独立架构设计，实现零客服低维护的被动收入管道。
+
+**核心价值主张：**
+- 全自动变现漏斗
+- 冷热隔离架构
+- 独立架构设计
+- 零客服运营模式
+- 先试用后付费
+
+**品牌定位：**
+- 英文：Silent Harvest - Independent Architecture, Silent Harvest
+- 中文：静默收割 - 独立架构，静默收割
+
+## 产品与服务
+
+### 自动化工具商店
+
+提供多种自动化工具，包括但不限于：
+
+1. **Tariff Lens (关税透镜)**
+   - HS Code 智能推理
+   - 关税起征点计算
+   - FOB/CIF 自动判断
+   - 反倾销/301 条款标记
+   - 适用场景：跨境电商、国际贸易
+
+2. **MarkItDown (文档清洁工)**
+   - PDF/PPT 转语义 Markdown
+   - 内置脱敏逻辑
+   - RAG 友好格式
+   - 表格结构保留
+   - 适用场景：文档处理、RAG 系统
+
+3. **Nano Secure Bridge**
+   - 端侧 Agent 指令过滤
+   - Nemotron-3 低功耗适配
+   - 智能家居/移动办公
+   - 源码交付
+
+4. **MCP Universal Adapter Pack**
+   - Excel/PDF 一键转 MCP
+   - 本地软件零侵入伪装
+   - 支持主流财务系统
+   - 源码交付
+
+### 核心特点
+
+- **14天免费试用**
+- **一次买断，永久使用**
+- **零客服，全自动交付**
+- **USDT/TRC20 加密支付**
+
+## 技术架构
+
+- **框架**：Next.js 14 + TypeScript
+- **部署**：Cloudflare Pages
+- **数据存储**：Firebase Firestore
+- **AI 集成**：DeepSeek LLM
+- **支付**：USDT TRC20
+
+## 博客内容
+
+我们定期发布技术博客，涵盖：
+
+- **策略类**：静默收割策略、自动化工具
+- **前端类**：Framer Motion、视差滚动
+- **安全类**：反指纹、运行时注入
+- **DevOps 类**：VPS 部署、Crontab 守护
+- **网络类**：多层代理、IP 轮换
+
+## 联系方式
+
+- **网站**：https://multhub.top
+- **GitHub**：https://github.com/1235789a/multhub
+- **社交媒体**：@silentharvest
+
+## 内容许可
+
+本网站上所有内容均受版权保护。
+引用请注明出处。

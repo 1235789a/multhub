@@ -5,6 +5,7 @@ import { LanguageProvider } from "./i18n/index";
 import NavBar from "./i18n/NavBar";
 import OrganizationJsonLd from "./components/seo/OrganizationJsonLd";
 import WebsiteJsonLd from "./components/seo/WebsiteJsonLd";
+import AIMetaTags from "./components/seo/AIMetaTags";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,11 +38,18 @@ export const metadata: Metadata = {
     "媒体提取引擎",
     "全自动打包",
     "发卡矩阵",
+    "AI tools",
+    "SaaS automation",
+    "automation software",
   ],
-  authors: [{ name: "蜕羽" }],
+  authors: [{ name: "蜕羽", url: "https://multhub.top" }],
   creator: "蜕羽",
   publisher: "蜕羽",
+  category: "Software",
+  classification: "Business Tools",
+  referrer: "no-referrer-when-downgrade",
   alternates: {
+    canonical: "https://multhub.top",
     languages: {
       en: "https://multhub.top",
       zh: "https://multhub.top?lang=zh",
@@ -56,7 +64,15 @@ export const metadata: Metadata = {
     description:
       "Fully automated monetization funnel — Independent architecture, silent harvest. Tool store, zero customer service, pay after trial.",
     url: "https://multhub.top",
-    images: [{ url: "https://multhub.top/favicon.ico" }],
+    images: [
+      {
+        url: "https://multhub.top/favicon.ico",
+        width: 512,
+        height: 512,
+        alt: "蜕羽 / Silent Harvest",
+      },
+    ],
+    emails: ["contact@multhub.top"],
   },
   twitter: {
     card: "summary_large_image",
@@ -65,6 +81,16 @@ export const metadata: Metadata = {
       "Fully automated monetization funnel — Independent architecture, silent harvest.",
     creator: "@silentharvest",
     images: ["https://multhub.top/favicon.ico"],
+    site: "@silentharvest",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "蜕羽 / Silent Harvest",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    email: false,
+    telephone: false,
   },
   verification: {
     google: "google-site-verification",
@@ -93,6 +119,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <AIMetaTags />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-zinc-200`}
       >
