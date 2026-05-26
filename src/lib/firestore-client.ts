@@ -115,6 +115,41 @@ async function upsertDocument(
 }
 
 /**
+ * 原子创建 document（仅当不存在时创建）
+ * 用于实现防重放攻击的锁机制
+ * @returns true 表示创建成功，false 表示已存在
+ */
+export async function createDocumentIfNotExists(
+  collectionPath: string,
+  documentId: string,
+  data: Record<string, unknown>,
+): Promise<boolean> {
+  const token = await getFirebaseAccessToken();
+  const baseUrl = getFirestoreBaseUrl();
+  const url = `${baseUrl}/${collectionPath}/${encodeURIComponent(documentId)}?currentDocument.exists=false`;
+
+  const body = { fields: toFirestoreFields(data) };
+
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (res.ok) {
+    return true; // 创建成功
+  } else if (res.status === 409 || res.status === 412) {
+    return false; // 文档已存在
+  } else {
+    const errText = await res.text();
+    throw new Error(`Firestore 条件创建失败 (${res.status}): ${errText}`);
+  }
+}
+
+/**
  * 读取指定 document; 不存在返回 null
  */
 async function getDocument(
@@ -183,6 +218,49 @@ export async function writeLicense(record: LicenseRecord): Promise<void> {
     quota: getDefaultQuota(record.productSlug),
     createdAt: record.createdAt ?? new Date().toISOString(),
     lastUsedAt: null,
+  });
+}
+
+/** 已处理交易记录 */
+export interface ProcessedTransactionRecord {
+  txId: string;
+  userId?: string;
+  productId: string;
+  amount: number;
+  timestamp: string;
+  status: "processed" | "pending" | "failed";
+}
+
+/**
+ * 尝试获取处理锁（原子操作）
+ * @returns true 表示成功获取锁（可以继续处理），false 表示已被其他请求处理
+ */
+export async function tryAcquireTransactionLock(
+  txId: string,
+  productId: string,
+  amount: number,
+  userId?: string,
+): Promise<boolean> {
+  return await createDocumentIfNotExists("processed_transactions", txId, {
+    txId,
+    userId: userId ?? "unknown",
+    productId,
+    amount,
+    timestamp: new Date().toISOString(),
+    status: "pending",
+  });
+}
+
+/**
+ * 更新交易记录状态
+ */
+export async function updateTransactionStatus(
+  txId: string,
+  status: "processed" | "failed",
+): Promise<void> {
+  await upsertDocument("processed_transactions", txId, {
+    status,
+    updatedAt: new Date().toISOString(),
   });
 }
 
