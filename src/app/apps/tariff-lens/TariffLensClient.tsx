@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { EstimateResponse } from "@/lib/tariff/types";
+import {
+  getVisitorId,
+  canUseTrial,
+  incrementTrialCount,
+  getCurrentTrialCount,
+  hasValidLicense,
+} from "@/lib/trialManager";
+import TrialLimitModal from "./TrialLimitModal";
 
 const COUNTRIES = [
   { code: "US", name: "美国" },
@@ -20,6 +28,9 @@ const COUNTRIES = [
 
 const CURRENCIES = ["USD", "CNY", "EUR", "GBP", "JPY", "AUD", "CAD"];
 
+const MAX_TRIAL_USES = 3;
+const PRODUCT_SLUG = "tariff-lens";
+
 export default function TariffLensClient() {
   const [license, setLicense] = useState("");
   const [description, setDescription] = useState("");
@@ -33,17 +44,46 @@ export default function TariffLensClient() {
   const [result, setResult] = useState<EstimateResponse | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
 
+  // 试用状态
+  const [visitorId, setVisitorId] = useState<string | null>(null);
+  const [trialCount, setTrialCount] = useState(0);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [initializing, setInitializing] = useState(true);
+
+  // 初始化设备指纹
+  useEffect(() => {
+    (async () => {
+      const id = await getVisitorId();
+      setVisitorId(id);
+      setTrialCount(getCurrentTrialCount(id, PRODUCT_SLUG));
+      setInitializing(false);
+    })();
+  }, []);
+
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!license.trim()) {
-      setErrorMsg("请输入授权码");
-      setStatus("error");
-      return;
-    }
+    
+    // 验证商品描述
     if (!description.trim() || description.trim().length < 4) {
       setErrorMsg("商品描述至少 4 个字符");
       setStatus("error");
       return;
+    }
+
+    // 如果没有授权码，检查试用限制
+    if (!hasValidLicense(license)) {
+      if (!visitorId) {
+        setErrorMsg("初始化失败，请刷新页面重试");
+        setStatus("error");
+        return;
+      }
+      
+      if (!canUseTrial(visitorId, PRODUCT_SLUG, MAX_TRIAL_USES)) {
+        setShowLimitModal(true);
+        return;
+      }
     }
 
     setStatus("loading");
@@ -51,12 +91,18 @@ export default function TariffLensClient() {
     setResult(null);
 
     try {
+      // 构造请求头，有授权码就用授权码，没有就留空（API 端可以处理试用模式）
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      
+      if (license.trim()) {
+        headers["X-License"] = license.trim();
+      }
+
       const res = await fetch("/api/tariff-lens/estimate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-License": license.trim(),
-        },
+        headers,
         body: JSON.stringify({
           description: description.trim(),
           destination,
@@ -71,6 +117,17 @@ export default function TariffLensClient() {
       if (res.ok) {
         setResult(data);
         setStatus("done");
+
+        // 如果是试用模式，增加试用计数
+        if (!hasValidLicense(license) && visitorId) {
+          const newCount = incrementTrialCount(visitorId, PRODUCT_SLUG);
+          setTrialCount(newCount);
+          
+          // 检查是否达到试用上限
+          if (newCount >= MAX_TRIAL_USES) {
+            setShowLimitModal(true);
+          }
+        }
       } else {
         setErrorMsg(data.message || data.error || "请求失败");
         setStatus("error");
@@ -80,6 +137,10 @@ export default function TariffLensClient() {
       setStatus("error");
     }
   };
+
+  // 显示试用状态提示
+  const showTrialBanner = !hasValidLicense(license) && visitorId !== null;
+  const remainingTrials = Math.max(0, MAX_TRIAL_USES - trialCount);
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,6 +171,23 @@ export default function TariffLensClient() {
             <p className="mt-2 text-sm text-zinc-600">
               自然语言 → HS Code 推理 + 起征点判断 + 综合税费估算
             </p>
+            
+            {/* 试用状态提示 */}
+            {showTrialBanner && !initializing && (
+              <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-blue-800">
+                    🎁 Free Trial: {remainingTrials} of {MAX_TRIAL_USES} remaining
+                  </span>
+                  <Link
+                    href="/checkout/tariff-lens"
+                    className="text-sm font-medium text-blue-700 hover:underline"
+                  >
+                    Get Full Access →
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -124,7 +202,7 @@ export default function TariffLensClient() {
           >
             <div>
               <label className="mb-1 block text-sm font-medium text-zinc-700">
-                授权码 <span className="text-red-500">*</span>
+                授权码 <span className="text-zinc-400 text-xs">(可选，使用授权码可无限次)</span>
               </label>
               <input
                 type="text"
@@ -229,7 +307,7 @@ export default function TariffLensClient() {
 
             <button
               type="submit"
-              disabled={status === "loading"}
+              disabled={status === "loading" || initializing}
               className="w-full rounded-lg bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {status === "loading" ? "推理中..." : "开始估算"}
@@ -369,15 +447,26 @@ export default function TariffLensClient() {
                   <p className="mt-3 text-xs text-zinc-500">{result.disclaimer}</p>
                 </div>
 
-                {/* 配额提示 */}
+                {/* 配额/试用提示 */}
                 <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-center text-xs text-zinc-600">
-                  已用 {result.meta.licenseUsage} / {result.meta.licenseQuota} 次
+                  {hasValidLicense(license) ? (
+                    <>已用 {result.meta.licenseUsage} / {result.meta.licenseQuota} 次</>
+                  ) : (
+                    <>Trial used: {trialCount} / {MAX_TRIAL_USES}</>
+                  )}
                 </div>
               </div>
             )}
           </motion.div>
         </div>
       </main>
+
+      {/* 试用限制弹窗 */}
+      <TrialLimitModal
+        isOpen={showLimitModal}
+        current={trialCount}
+        max={MAX_TRIAL_USES}
+      />
     </div>
   );
 }

@@ -29,6 +29,8 @@
 // eta            string         可选   预计季度，例如 "Q4 2026"，仅 forging/roadmap 显示
 // progress       number         可选   完成度 0-100，仅 forging/roadmap 显示进度条
 //
+// trialConfig    Object         可选   免费试用配置
+//
 // 自动联动效果（无需改其他文件）
 // ------------------------------------------------------------
 // • 首页 hero  ：纯文字装饰，跟 PRODUCTS 解耦，不会被影响
@@ -85,6 +87,8 @@ export interface Product {
   progress?: number;
   /** 购买后可直接跳转的工具页路径（例如 SaaS 工具）；为空表示纯源码 / 文件交付 */
   launchPath?: string;
+  /** 免费试用配置 */
+  trialConfig?: { allowed: boolean; maxUses: number };
 }
 
 // ============================================================
@@ -121,6 +125,7 @@ export const PRODUCTS: Product[] = [
     eta: "Q4 2026",
     progress: 35,
     launchPath: "/apps/tariff-lens",
+    trialConfig: { allowed: true, maxUses: 3 },
   },
   // 🟡 第二期 · 文档工具
   {
