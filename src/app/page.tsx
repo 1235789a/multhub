@@ -744,8 +744,8 @@ export default function HomePage() {
                 {t.sectionToolsSubtitle}
               </p>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {PRODUCTS.slice(0, 4).map((product) => (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {PRODUCTS.map((product) => (
                 <ToolCard key={product.slug} product={product} t={t} lang={lang} />
               ))}
             </div>
