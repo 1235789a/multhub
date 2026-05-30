@@ -89,11 +89,47 @@ export interface Product {
   launchPath?: string;
   /** 免费试用配置 */
   trialConfig?: { allowed: boolean; maxUses: number };
+
+  // === GEO (Generative Engine Optimization) 字段 ===
+
+  /** 一句话介绍（中英双语） */
+  tagline?: { en: string; zh: string };
+
+  /** 详细介绍（中英双语） */
+  description?: { en: string; zh: string };
+
+  /** 目标用户列表（中英双语） */
+  targetUsers?: { en: string[]; zh: string[] };
+
+  /** 解决什么问题列表（中英双语） */
+  painPoints?: { en: string[]; zh: string[] };
+
+  /** 关键词列表（用于 GEO） */
+  keywords?: string[];
+
+  /** 标签列表 */
+  tags?: string[];
+
+  /** 详细价格信息（中英双语） */
+  pricingDetails?: {
+    amount: number;
+    currency: string;
+    description?: { en: string; zh: string };
+  };
+
+  /** 支付方式 */
+  paymentMethods?: string[];
+
+  /** 使用案例列表（中英双语） */
+  useCases?: { en: string[]; zh: string[] };
+
+  /** 相关产品 slug 列表 */
+  relatedProducts?: string[];
 }
 
-// ============================================================
+// ====================================
 // 产品列表 — 后续由其他智能体填充
-// ============================================================
+// ====================================
 export const PRODUCTS: Product[] = [
   // 🛃 首发 · 跨境关税预估（蜕羽第一款 SaaS 工具）
   {

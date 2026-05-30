@@ -1,6 +1,10 @@
 import { MetadataRoute } from "next";
 import { PRODUCTS } from "./data/products";
 import { BLOG_POSTS } from "./data/blog";
+import { QUESTIONS } from "./data/questions";
+import { CASE_STUDIES } from "./data/case-studies";
+import { COMPARISONS } from "./data/comparisons";
+import { USE_CASES } from "./data/usecases";
 
 const BASE_URL = "https://multhub.top";
 
@@ -55,5 +59,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  return [...staticPages, ...productPages, ...blogPages, ...appPages];
+  const faqPages: MetadataRoute.Sitemap = QUESTIONS.map((q) => ({
+    url: `${BASE_URL}/geo/faq/${q.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  const caseStudyPages: MetadataRoute.Sitemap = CASE_STUDIES.map((c) => ({
+    url: `${BASE_URL}/geo/case-study/${c.id}`,
+    lastModified: c.date ? new Date(c.date) : new Date(),
+    changeFrequency: "yearly",
+    priority: 0.7,
+  }));
+
+  const comparisonPages: MetadataRoute.Sitemap = COMPARISONS.map((c) => ({
+    url: `${BASE_URL}/geo/comparison/${c.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  const useCasePages: MetadataRoute.Sitemap = USE_CASES.map((u) => ({
+    url: `${BASE_URL}/geo/${u.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticPages,
+    ...productPages,
+    ...blogPages,
+    ...appPages,
+    ...faqPages,
+    ...caseStudyPages,
+    ...comparisonPages,
+    ...useCasePages,
+  ];
 }
