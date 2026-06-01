@@ -143,7 +143,7 @@ function ProblemSolution({ lang }: { lang: 'en' | 'zh' }) {
 }
 
 export default function HomePage() {
-  const { t, lang } = useLanguage();
+  const { lang } = useLanguage();
   const availableProducts = getAvailableProducts();
 
   return (
@@ -204,7 +204,7 @@ export default function HomePage() {
           {availableProducts.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {availableProducts.map((product) => (
-                <ProductCard key={product.slug} product={product} t={t} lang={lang} />
+                <ProductCard key={product.slug} product={product} lang={lang} />
               ))}
             </div>
           ) : (
@@ -218,7 +218,7 @@ export default function HomePage() {
       {/* 问题-解决方案区块 */}
       <section className="border-y border-zinc-200 bg-white py-16">
         <div className="mx-auto max-w-5xl px-6">
-          <ProblemSolution t={t} lang={lang} />
+          <ProblemSolution lang={lang} />
         </div>
       </section>
 

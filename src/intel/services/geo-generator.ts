@@ -173,6 +173,8 @@ export function generateComparisons(opportunity: Opportunity): Comparison[] {
 export function generateCaseStudies(opportunity: Opportunity): CaseStudy[] {
   const caseStudies: CaseStudy[] = [];
   const productSlug = opportunity.productIdea.slug;
+  const productName = opportunity.productIdea.name.en;
+  const productNameZh = opportunity.productIdea.name.zh;
 
   opportunity.geoExpansion.caseStudyTopics.forEach((topic, index) => {
     const id = `${productSlug}-case-study-${index + 1}`;
@@ -186,11 +188,11 @@ export function generateCaseStudies(opportunity: Opportunity): CaseStudy[] {
       products: [productSlug],
       before: {
         en: `Before using ${productName}, users faced challenges with ${opportunity.pain.toLowerCase()}. This impacted their productivity and efficiency significantly.`,
-        zh: `在使用${productName}之前，用户面临${opportunity.pain}的挑战。这严重影响了他们的生产力和效率。`,
+        zh: `在使用${productNameZh}之前，用户面临${opportunity.pain}的挑战。这严重影响了他们的生产力和效率。`,
       },
       after: {
         en: `After using ${productName}, users experienced dramatic improvements. The tool solved their pain points efficiently and provided significant value.`,
-        zh: `使用${productName}后，用户体验到了显著的改善。该工具有效地解决了他们的痛点，提供了显著的价值。`,
+        zh: `使用${productNameZh}后，用户体验到了显著的改善。该工具有效地解决了他们的痛点，提供了显著的价值。`,
       },
       timeCost: {
         amount: 2,
