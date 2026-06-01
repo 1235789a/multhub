@@ -24,13 +24,13 @@ export interface ScoringCriterion {
 }
 
 export interface ScoringRule {
-  dimension: keyof OpportunityScore;
+  dimension: Exclude<keyof OpportunityScore, "total">;
   maxPoints: number;
   description: string;
   criteria: ScoringCriterion[];
 }
 
-export const SCORING_RULES: Record<keyof OpportunityScore, ScoringRule> = {
+export const SCORING_RULES: Record<Exclude<keyof OpportunityScore, "total">, ScoringRule> = {
   painFrequency: {
     dimension: "painFrequency",
     maxPoints: 25,

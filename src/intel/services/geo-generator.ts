@@ -35,7 +35,6 @@ export function generateGeoContent(opportunity: Opportunity): GeneratedGeoConten
 export function generateFaqs(opportunity: Opportunity): Question[] {
   const faqs: Question[] = [];
   const productSlug = opportunity.productIdea.slug;
-  const productName = opportunity.productIdea.name.en;
 
   opportunity.geoExpansion.faqTopics.forEach((topic, index) => {
     const id = `${productSlug}-faq-${index + 1}`;
@@ -110,7 +109,6 @@ export function generateUseCases(opportunity: Opportunity): UseCase[] {
 export function generateComparisons(opportunity: Opportunity): Comparison[] {
   const comparisons: Comparison[] = [];
   const productSlug = opportunity.productIdea.slug;
-  const productName = opportunity.productIdea.name.en;
 
   opportunity.geoExpansion.comparisonTopics.forEach((topic, index) => {
     const id = `${productSlug}-comparison-${index + 1}`;
@@ -175,7 +173,6 @@ export function generateComparisons(opportunity: Opportunity): Comparison[] {
 export function generateCaseStudies(opportunity: Opportunity): CaseStudy[] {
   const caseStudies: CaseStudy[] = [];
   const productSlug = opportunity.productIdea.slug;
-  const productName = opportunity.productIdea.name.en;
 
   opportunity.geoExpansion.caseStudyTopics.forEach((topic, index) => {
     const id = `${productSlug}-case-study-${index + 1}`;

@@ -5,8 +5,6 @@ import { PRODUCTS } from "./data/products";
 import type { Product, ProductStatus } from "./data/products";
 import { useLanguage } from "./i18n/index";
 import StatusBadge from "./components/StatusBadge";
-import { statusLabelKey } from "./components/StatusBadge";
-import { TranslationDict } from "./i18n/translations";
 
 // 获取可用产品（status = available 或 beta）
 const getAvailableProducts = () => {
@@ -14,10 +12,8 @@ const getAvailableProducts = () => {
 };
 
 // 产品卡片组件
-function ProductCard({ product, t, lang }: { product: Product; t: TranslationDict; lang: 'en' | 'zh' }) {
+function ProductCard({ product, lang }: { product: Product; lang: 'en' | 'zh' }) {
   const status: ProductStatus = product.status ?? "roadmap";
-  const statusLabel = t[statusLabelKey(status) as keyof TranslationDict] as string;
-  const isShippable = status === "available" || status === "beta";
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-6 transition-all hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/50">
@@ -25,7 +21,7 @@ function ProductCard({ product, t, lang }: { product: Product; t: TranslationDic
       
       {/* 状态徽章 */}
       <div className="absolute right-4 top-4 z-10">
-        <StatusBadge status={status} label={statusLabel} />
+        <StatusBadge status={status} />
       </div>
 
       {/* 图标 */}
@@ -86,7 +82,7 @@ function ProductCard({ product, t, lang }: { product: Product; t: TranslationDic
 }
 
 // 问题-解决方案区块
-function ProblemSolution({ t, lang }: { t: TranslationDict; lang: 'en' | 'zh' }) {
+function ProblemSolution({ lang }: { lang: 'en' | 'zh' }) {
   const problems = lang === 'zh' ? [
     '跨境电商不知道关税成本，定价亏损',
     'PDF/PPT 转 Markdown 太麻烦，表格全乱',
