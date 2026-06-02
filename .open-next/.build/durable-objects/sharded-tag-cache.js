@@ -1,4 +1,4 @@
-globalThis.openNextDebug = false;globalThis.openNextVersion = "3.10.4";globalThis.nextVersion = "14.2.35";
+globalThis.openNextDebug = false;globalThis.openNextVersion = "4.0.2";globalThis.nextVersion = "16.1.1";
 
 // node_modules/@opennextjs/cloudflare/dist/api/durable-objects/sharded-tag-cache.js
 import { DurableObject } from "cloudflare:workers";

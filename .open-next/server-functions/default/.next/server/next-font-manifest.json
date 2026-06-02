@@ -1,1 +1,59 @@
-{"pages":{},"app":{"/workspace/src/app/layout":["static/media/463dafcda517f24f-s.p.woff","static/media/4473ecc91f70f139-s.p.woff"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}
+{
+  "app": {
+    "[project]/src/app/_not-found/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/apps/tariff-lens/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/changelog/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/checkout/[slug]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/geo/[usecase]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/geo/case-study/[slug]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/geo/comparison/[slug]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/geo/faq/[slug]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/log/[slug]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/log/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/store/[slug]/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ],
+    "[project]/src/app/store/page": [
+      "static/media/GeistVF-s.p.4c3c0b96.woff",
+      "static/media/GeistMonoVF-s.p.2cee7d16.woff"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

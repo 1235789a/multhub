@@ -1,1 +1,21 @@
-{"/_not-found/page":"/_not-found","/api/verify-trc20/route":"/api/verify-trc20","/api/tariff-lens/estimate/route":"/api/tariff-lens/estimate","/changelog/page":"/changelog","/favicon.ico/route":"/favicon.ico","/log/page":"/log","/robots.txt/route":"/robots.txt","/page":"/","/store/page":"/store","/sitemap.xml/route":"/sitemap.xml","/apps/tariff-lens/page":"/apps/tariff-lens","/checkout/[slug]/page":"/checkout/[slug]","/geo/[usecase]/page":"/geo/[usecase]","/geo/case-study/[slug]/page":"/geo/case-study/[slug]","/geo/comparison/[slug]/page":"/geo/comparison/[slug]","/log/[slug]/page":"/log/[slug]","/store/[slug]/page":"/store/[slug]","/geo/faq/[slug]/page":"/geo/faq/[slug]"}
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/tariff-lens/estimate/route": "/api/tariff-lens/estimate",
+  "/api/verify-trc20/route": "/api/verify-trc20",
+  "/apps/tariff-lens/page": "/apps/tariff-lens",
+  "/changelog/page": "/changelog",
+  "/checkout/[slug]/page": "/checkout/[slug]",
+  "/favicon.ico/route": "/favicon.ico",
+  "/geo/[usecase]/page": "/geo/[usecase]",
+  "/geo/case-study/[slug]/page": "/geo/case-study/[slug]",
+  "/geo/comparison/[slug]/page": "/geo/comparison/[slug]",
+  "/geo/faq/[slug]/page": "/geo/faq/[slug]",
+  "/log/[slug]/page": "/log/[slug]",
+  "/log/page": "/log",
+  "/page": "/",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/store/[slug]/page": "/store/[slug]",
+  "/store/page": "/store"
+}
