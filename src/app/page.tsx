@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { PRODUCTS } from "./data/products";
 import type { Product, ProductStatus } from "./data/products";
-import { useLanguage } from "./i18n/index";
+import { useLanguage } from "./i18n";
 import StatusBadge from "./components/StatusBadge";
 
 // 获取可用产品（status = available 或 beta）

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BLOG_POSTS } from "../data/blog";
-import { useLanguage } from "../i18n/index";
+import { useLanguage } from "../i18n";
 
 // Dark-mode accent palette matching the project's border/tag system
 const ACCENTS = [

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { LanguageProvider } from "./i18n/index";
+import { LanguageProvider } from "./i18n";
 import NavBar from "./i18n/NavBar";
 import OrganizationJsonLd from "./components/seo/OrganizationJsonLd";
 import WebsiteJsonLd from "./components/seo/WebsiteJsonLd";

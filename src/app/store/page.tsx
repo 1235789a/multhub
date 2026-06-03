@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PRODUCTS } from "../data/products";
-import { useLanguage } from "../i18n/index";
+import { useLanguage } from "../i18n";
 
 const container = {
   hidden: {},

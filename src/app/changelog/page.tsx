@@ -11,7 +11,7 @@
 import Link from "next/link";
 import { PRODUCTS } from "../data/products";
 import type { Product, ProductStatus } from "../data/products";
-import { useLanguage } from "../i18n/index";
+import { useLanguage } from "../i18n";
 import type { TranslationDict } from "../i18n/translations";
 import { interp } from "../i18n/interp";
 import StatusBadge, { statusLabelKey } from "../components/StatusBadge";
