@@ -6,10 +6,11 @@ export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }));
 }
 
-export default function CheckoutPage({
+export default async function CheckoutPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  return <CryptoCheckoutClient slug={params.slug} />;
+  const resolvedParams = await params;
+  return <CryptoCheckoutClient slug={resolvedParams.slug} />;
 }
