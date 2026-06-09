@@ -62,6 +62,11 @@ export type ProductStatus =
   | "forging"   // 正在打磨
   | "roadmap";  // 计划中，可订阅候补
 
+export type ProductCategory =
+  | "launch"     // 发布相关
+  | "marketing"  // 营销工具
+  | "operations"; // 运营工具
+
 export interface Product {
   /** 产品名称（中英双语） */
   name: { en: string; zh: string };
@@ -79,6 +84,8 @@ export interface Product {
   priceUSDT?: number;
   /** 卖点列表（中英双语） */
   features: { en: string[]; zh: string[] };
+  /** 产品分类 */
+  category?: ProductCategory;
   /** 当前发布状态，缺省视为 roadmap */
   status?: ProductStatus;
   /** 路线图预计季度，例如 "Q4 2026"，仅 forging/roadmap 展示 */
@@ -128,10 +135,136 @@ export interface Product {
 }
 
 // ====================================
-// 产品列表 — 后续由其他智能体填充
+// 产品列表 — Web3 Marketing Toolkit
 // ====================================
 export const PRODUCTS: Product[] = [
-  // 🛃 首发 · 跨境关税预估（蜕羽第一款 SaaS 工具）
+  // 🚀 Launch 系列 - Token 发布文案生成器（优先级最高）
+  {
+    name: {
+      en: "Token Announcement Writer",
+      zh: "Token Announcement Writer · 代币发布文案",
+    },
+    slug: "token-announcement-writer",
+    icon: "🚀",
+    version: "v0.5",
+    priceBase: 19,
+    priceDisplay: "3 USDT",
+    priceUSDT: 3,
+    category: "launch",
+    features: {
+      en: [
+        "AI-powered token launch announcement generation",
+        "Supports English, Chinese, and multi-language",
+        "Automatically generates Twitter thread & press release",
+        "100 generations, one-time purchase",
+      ],
+      zh: [
+        "AI 驱动的代币发布文案生成",
+        "支持英文、中文多语言输出",
+        "自动生成 Twitter Thread 和新闻稿",
+        "100 次配额 · 一次买断",
+      ],
+    },
+    status: "beta",
+    eta: "Q2 2026",
+    progress: 85,
+    trialConfig: { allowed: true, maxUses: 3 },
+  },
+  // 🎨 Marketing 系列 - Token 海报生成器
+  {
+    name: {
+      en: "Token Poster Generator",
+      zh: "Token Poster Generator · 代币海报生成",
+    },
+    slug: "token-poster-generator",
+    icon: "🎨",
+    version: "v0.3",
+    priceBase: 29,
+    priceDisplay: "4 USDT",
+    priceUSDT: 4,
+    category: "marketing",
+    features: {
+      en: [
+        "AI-generated crypto marketing posters",
+        "Multiple templates: Airdrop, AMA, Partnership, Weekly Report",
+        "Customizable colors, logos, and themes",
+        "50 generations, one-time purchase",
+      ],
+      zh: [
+        "AI 生成加密货币营销海报",
+        "多种模板：空投、AMA、合作、周报",
+        "可自定义颜色、Logo 和主题",
+        "50 次配额 · 一次买断",
+      ],
+    },
+    status: "beta",
+    eta: "Q2 2026",
+    progress: 60,
+    trialConfig: { allowed: true, maxUses: 2 },
+  },
+  // 🎁 Operations 系列 - 空投活动策划器
+  {
+    name: {
+      en: "Airdrop Campaign Planner",
+      zh: "Airdrop Campaign Planner · 空投策划器",
+    },
+    slug: "airdrop-campaign-planner",
+    icon: "🎁",
+    version: "v0.2",
+    priceBase: 29,
+    priceDisplay: "4 USDT",
+    priceUSDT: 4,
+    category: "operations",
+    features: {
+      en: [
+        "Smart airdrop campaign planning tool",
+        "Automatically calculate token distribution",
+        "Generate announcement copy & checklist",
+        "50 plans, one-time purchase",
+      ],
+      zh: [
+        "智能空投活动策划工具",
+        "自动计算代币分配方案",
+        "生成公告文案和检查清单",
+        "50 次配额 · 一次买断",
+      ],
+    },
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 40,
+  },
+  // 📝 Marketing 系列 - 落地页文案生成器
+  {
+    name: {
+      en: "Landing Page Copy Generator",
+      zh: "Landing Page Copy Generator · 落地页文案",
+    },
+    slug: "landing-page-copy-generator",
+    icon: "📝",
+    version: "v0.1",
+    priceBase: 19,
+    priceDisplay: "3 USDT",
+    priceUSDT: 3,
+    category: "marketing",
+    features: {
+      en: [
+        "AI-powered Web3 landing page copy",
+        "Hero section, features, roadmap, FAQ templates",
+        "Optimized for conversion and SEO",
+        "50 pages, one-time purchase",
+      ],
+      zh: [
+        "AI 驱动的 Web3 落地页文案",
+        "Hero 区域、功能、路线图、FAQ 模板",
+        "为转化率和 SEO 优化",
+        "50 次配额 · 一次买断",
+      ],
+    },
+    status: "forging",
+    eta: "Q3 2026",
+    progress: 25,
+  },
+  // 🛃 保留产品 - 关税透镜（Operations）
   {
     name: {
       en: "Tariff Lens",
@@ -143,6 +276,7 @@ export const PRODUCTS: Product[] = [
     priceBase: 29,
     priceDisplay: "4 USDT",
     priceUSDT: 4,
+    category: "operations",
     features: {
       en: [
         "Natural language → HS code inference",
@@ -158,126 +292,8 @@ export const PRODUCTS: Product[] = [
       ],
     },
     status: "available",
-    eta: undefined,
     progress: 100,
     launchPath: "/apps/tariff-lens",
     trialConfig: { allowed: true, maxUses: 3 },
-  },
-  // 🟡 第二期 · 文档工具
-  {
-    name: {
-      en: "MarkItDown",
-      zh: "MarkItDown · 单页清洁工",
-    },
-    slug: "markitdown-lite",
-    icon: "📄",
-    version: "v0.7",
-    priceBase: 19,
-    priceDisplay: "3 USDT",
-    priceUSDT: 3,
-    features: {
-      en: [
-        "PDF/PPT to semantic Markdown in one click",
-        "Built-in de-identification logic suite",
-        "RAG-friendly, table structure preserved",
-        "One-time purchase, permanent use",
-      ],
-      zh: [
-        "PDF/PPT 一键转语义 Markdown",
-        "脱敏逻辑战线 C 内置",
-        "RAG 友好 · 表格保结构",
-        "一次买断 · 永久使用",
-      ],
-    },
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 70,
-  },
-  // 🛡️ 第二期 · B 端源码
-  {
-    name: {
-      en: "Nano Secure Bridge",
-      zh: "Nano Secure Bridge",
-    },
-    slug: "nano-secure-bridge",
-    icon: "🛡️",
-    version: "v0.2",
-    priceBase: 0,
-    priceDisplay: "待定",
-    features: {
-      en: [
-        "Edge-side Agent instruction filtering",
-        "Nemotron-3 low-power adaptation",
-        "Smart home / mobile office scenarios",
-        "Source code purchase, no customization",
-      ],
-      zh: [
-        "端侧 Agent 指令过滤",
-        "Nemotron-3 低功耗适配",
-        "智能家居 / 移动办公场景",
-        "源码买断 · 拒定制",
-      ],
-    },
-    status: "roadmap",
-    eta: "Q4 2026",
-    progress: 25,
-  },
-  // 🔌 第三期 · MCP 风口
-  {
-    name: {
-      en: "MCP Universal Adapter Pack",
-      zh: "MCP · 通用适配器包",
-    },
-    slug: "mcp-bridge",
-    icon: "🔌",
-    version: "v0.1",
-    priceBase: 0,
-    priceDisplay: "待定",
-    features: {
-      en: [
-        "Excel / PDF to MCP in one click",
-        "Zero-invasive local software camouflage",
-        "Supports major accounting systems",
-        "Source code purchase, no customization",
-      ],
-      zh: [
-        "Excel / PDF 一键转 MCP",
-        "本地软件零侵入伪装",
-        "支持主流财务系统",
-        "源码买断 · 拒定制",
-      ],
-    },
-    status: "roadmap",
-    eta: "Q1 2027",
-    progress: 18,
-  },
-  // 🏠 第四期 · FloorPlan AI
-  {
-    name: {
-      en: "FloorPlan AI",
-      zh: "FloorPlan AI · 户型转视频",
-    },
-    slug: "floorplan-ai",
-    icon: "🏠",
-    version: "v0.1",
-    priceBase: 0,
-    priceDisplay: "待定",
-    features: {
-      en: [
-        "Upload 2D floor plan → cinematic video",
-        "AI spatial analysis & 3D reconstruction",
-        "Professional interior design & rendering",
-        "One-click download & share",
-      ],
-      zh: [
-        "上传 2D 户型图 → 电影级视频",
-        "AI 空间分析与 3D 重建",
-        "专业室内设计与渲染",
-        "一键下载与分享",
-      ],
-    },
-    status: "forging",
-    eta: "Q2 2026",
-    progress: 5,
   },
 ];
