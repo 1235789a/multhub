@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { BLOG_POSTS, THEME_CLASSES } from "../../data/blog";
-import { useLanguage } from "../../i18n";
+import { useLanguage } from "../../i18n/index";
 
 export default function BlogDetailClient({ slug }: { slug: string }) {
   const { t, lang } = useLanguage();

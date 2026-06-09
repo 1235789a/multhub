@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { PRODUCTS } from "../../data/products";
-import { useLanguage } from "../../i18n";
+import { useLanguage } from "../../i18n/index";
 
 export default function StoreDetailClient({ slug }: { slug: string }) {
   const { t, lang } = useLanguage();

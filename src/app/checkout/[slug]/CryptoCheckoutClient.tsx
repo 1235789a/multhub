@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { PRODUCTS } from "../../data/products";
-import { useLanguage } from "../../i18n";
+import { useLanguage } from "../../i18n/index";
 
 // ============================================================
 // 收款地址 — 硬编码，后期对接后端后可改为动态获取

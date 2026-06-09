@@ -10,10 +10,9 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }): Promise<Metadata> {
-  const resolvedParams = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === resolvedParams.slug);
+  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
   if (!post) {
     return { title: "Post Not Found" };
   }
@@ -36,18 +35,17 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogDetailPage({
+export default function BlogDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const resolvedParams = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === resolvedParams.slug);
+  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
 
   return (
     <>
       {post && <ArticleJsonLd post={post} />}
-      <BlogDetailClient slug={resolvedParams.slug} />
+      <BlogDetailClient slug={params.slug} />
     </>
   );
 }

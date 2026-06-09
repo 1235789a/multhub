@@ -1,0 +1,173 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/checkout/[slug]",
+      "regex": "^/checkout/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/checkout/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/geo/case-study/[slug]",
+      "regex": "^/geo/case\\-study/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/geo/case\\-study/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/geo/comparison/[slug]",
+      "regex": "^/geo/comparison/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/geo/comparison/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/geo/faq/[slug]",
+      "regex": "^/geo/faq/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/geo/faq/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/geo/[usecase]",
+      "regex": "^/geo/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPusecase": "nxtPusecase"
+      },
+      "namedRegex": "^/geo/(?<nxtPusecase>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/log/[slug]",
+      "regex": "^/log/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/log/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/store/[slug]",
+      "regex": "^/store/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/store/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/tariff-lens/estimate",
+      "regex": "^/api/tariff\\-lens/estimate(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tariff\\-lens/estimate(?:/)?$"
+    },
+    {
+      "page": "/api/verify-trc20",
+      "regex": "^/api/verify\\-trc20(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/verify\\-trc20(?:/)?$"
+    },
+    {
+      "page": "/apps/tariff-lens",
+      "regex": "^/apps/tariff\\-lens(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/apps/tariff\\-lens(?:/)?$"
+    },
+    {
+      "page": "/changelog",
+      "regex": "^/changelog(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/changelog(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/log",
+      "regex": "^/log(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/log(?:/)?$"
+    },
+    {
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
+      "page": "/store",
+      "regex": "^/store(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/store(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

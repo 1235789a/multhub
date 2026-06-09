@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { PRODUCTS } from "./data/products";
 import type { Product, ProductStatus } from "./data/products";
-import { useLanguage } from "./i18n";
+import { useLanguage } from "./i18n/index";
 import StatusBadge from "./components/StatusBadge";
 
 // 获取可用产品（status = available 或 beta）
@@ -84,23 +84,23 @@ function ProductCard({ product, lang }: { product: Product; lang: 'en' | 'zh' })
 // 问题-解决方案区块
 function ProblemSolution({ lang }: { lang: 'en' | 'zh' }) {
   const problems = lang === 'zh' ? [
-    '跨境电商不知道关税成本，定价亏损',
-    'PDF/PPT 转 Markdown 太麻烦，表格全乱',
-    '想做独立开发，找不到合适的机会',
+    'Token 发布文案写得慢，错过最佳窗口期',
+    '海报设计依赖设计师，响应慢成本高',
+    '空投活动策划繁琐，容易出错',
   ] : [
-    'Cross-border sellers don\'t know tariff costs, pricing losses',
-    'PDF/PPT to Markdown is too troublesome, tables get messed up',
-    'Want to be an indie developer, can\'t find good opportunities',
+    'Token announcement copy takes too long, missing launch windows',
+    'Poster design relies on designers, slow response and high cost',
+    'Airdrop campaign planning is tedious and error-prone',
   ];
 
   const solutions = lang === 'zh' ? [
-    '用 Tariff Lens 一键计算真实成本',
-    '用 MarkItDown 保持格式完美转换',
-    '我们帮你发现机会 → 开发工具 → 获得收入',
+    'AI 一键生成专业 Token 发布文案',
+    '输入关键词自动生成营销海报',
+    '智能策划空投活动，自动生成公告',
   ] : [
-    'Use Tariff Lens to calculate true costs in one click',
-    'Use MarkItDown for perfect format preservation',
-    'We help you discover opportunities → build tools → earn income',
+    'AI generates professional token announcement copy in one click',
+    'Auto-generate marketing posters from keywords',
+    'Smart airdrop planning with automated announcements',
   ];
 
   return (
@@ -110,7 +110,7 @@ function ProblemSolution({ lang }: { lang: 'en' | 'zh' }) {
         <div className="rounded-2xl border border-rose-200 bg-rose-50/50 p-6">
           <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-rose-800">
             <span>😫</span>
-            {lang === 'zh' ? '你遇到的问题' : 'Problems You Face'}
+            {lang === 'zh' ? 'Web3 营销团队的痛点' : 'Web3 Marketing Pain Points'}
           </h2>
           <ul className="space-y-3">
             {problems.map((problem, i) => (
@@ -123,14 +123,14 @@ function ProblemSolution({ lang }: { lang: 'en' | 'zh' }) {
         </div>
         
         {/* 解决方案侧 */}
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-6">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-emerald-800">
-            <span>✅</span>
-            {lang === 'zh' ? '我们的解决方案' : 'Our Solution'}
+        <div className="rounded-2xl border border-purple-200 bg-purple-50/50 p-6">
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-purple-800">
+            <span>🚀</span>
+            {lang === 'zh' ? 'AI 驱动的解决方案' : 'AI-Powered Solutions'}
           </h2>
           <ul className="space-y-3">
             {solutions.map((solution, i) => (
-              <li key={i} className="flex items-start gap-3 text-emerald-700">
+              <li key={i} className="flex items-start gap-3 text-purple-700">
                 <span className="mt-1 text-lg">✨</span>
                 <span className="text-sm leading-relaxed">{solution}</span>
               </li>
@@ -154,18 +154,41 @@ export default function HomePage() {
           {/* 主标题 */}
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl md:text-6xl">
-              {lang === 'zh' ? '独立开发者的' : 'For Indie Developers:'}
+              <span className="bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text text-transparent">
+                Silent Harvest
+              </span>
               <br />
-              <span className="bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
-                {lang === 'zh' ? 'AI 工具工具箱' : 'AI Toolkit'}
+              <span className="text-zinc-700">
+                {lang === 'zh' ? 'Web3 营销团队 AI 工具库' : 'AI Toolkit for Web3 Marketing Teams'}
               </span>
             </h1>
             
             <p className="mt-6 text-lg text-zinc-600">
               {lang === 'zh' 
-                ? '发现机会 → 开发工具 → 获得收入' 
-                : 'Discover Opportunities → Build Tools → Earn Income'}
+                ? '快速启动 · 增长社区 · 分钟级生成营销资产' 
+                : 'Launch faster. Grow communities. Create marketing assets in minutes.'}
             </p>
+
+            {/* 目标用户说明 */}
+            <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-6 py-3">
+              <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                {lang === 'zh' ? '服务对象' : 'Built for:'}
+              </span>
+              <div className="flex flex-wrap justify-center gap-2">
+                <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700">
+                  {lang === 'zh' ? 'Crypto 营销机构' : 'Crypto Agencies'}
+                </span>
+                <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-medium text-cyan-700">
+                  {lang === 'zh' ? '社区管理者' : 'Community Managers'}
+                </span>
+                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700">
+                  {lang === 'zh' ? '增长团队' : 'Growth Teams'}
+                </span>
+                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
+                  {lang === 'zh' ? 'Web3 创始人' : 'Web3 Founders'}
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* 核心卖点 */}
