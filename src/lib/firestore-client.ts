@@ -269,6 +269,7 @@ function getDefaultQuota(productSlug: string): number {
   const quotas: Record<string, number> = {
     "tariff-lens": 100, // ¥29 = 4 USDT，按 100 次估算单次成本 < ¥0.01
     "markitdown-lite": 1000,
+    "partnership-announcement-generator": 100,
   };
   return quotas[productSlug] ?? 100;
 }

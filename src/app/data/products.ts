@@ -138,6 +138,37 @@ export interface Product {
 // 产品列表 — Web3 Marketing Toolkit
 // ====================================
 export const PRODUCTS: Product[] = [
+  // 🤝 Launch 系列 - Partnership Announcement Generator（新产品）
+  {
+    name: {
+      en: "Partnership Announcement Generator",
+      zh: "Partnership Announcement Generator · 合作官宣生成器",
+    },
+    slug: "partnership-announcement-generator",
+    icon: "🤝",
+    version: "v1.0",
+    priceBase: 29,
+    priceDisplay: "4 USDT",
+    priceUSDT: 4,
+    category: "launch",
+    features: {
+      en: [
+        "Generate professional Web3 partnership announcements in minutes",
+        "X, Telegram, Discord and Medium-ready versions",
+        "Matches real Web3 project announcement style",
+        "100 generations, one-time purchase",
+      ],
+      zh: [
+        "5分钟内生成专业的 Web3 合作官宣内容",
+        "X、Telegram、Discord、Medium 多版本一次生成",
+        "符合真实 Web3 项目合作公告风格",
+        "100次生成额度，一次买断",
+      ],
+    },
+    status: "available",
+    launchPath: "/apps/partnership-announcement-generator",
+    trialConfig: { allowed: true, maxUses: 3 },
+  },
   // 🚀 Launch 系列 - Token 发布文案生成器（优先级最高）
   {
     name: {
@@ -153,16 +184,16 @@ export const PRODUCTS: Product[] = [
     category: "launch",
     features: {
       en: [
-        "AI-powered token launch announcement generation",
-        "Supports English, Chinese, and multi-language",
-        "Automatically generates Twitter thread & press release",
+        "X(Twitter), Telegram, Discord announcements in one click",
+        "Launch, AMA, partnership announcements done fast",
+        "Matches real Web3 project announcement style",
         "100 generations, one-time purchase",
       ],
       zh: [
-        "AI 驱动的代币发布文案生成",
-        "支持英文、中文多语言输出",
-        "自动生成 Twitter Thread 和新闻稿",
-        "100 次配额 · 一次买断",
+        "X(Twitter)、Telegram、Discord 官宣一键生成",
+        "上线公告、AMA公告、合作公告快速完成",
+        "符合真实 Web3 项目发布风格",
+        "100次生成额度，一次买断",
       ],
     },
     status: "beta",
@@ -185,6 +216,7 @@ export const PRODUCTS: Product[] = [
     category: "marketing",
     features: {
       en: [
+<<<<<<< HEAD
         "AI-generated crypto marketing posters",
         "Multiple templates: Airdrop, AMA, Partnership, Weekly Report",
         "Customizable colors, logos, and themes",
@@ -195,6 +227,18 @@ export const PRODUCTS: Product[] = [
         "多种模板：空投、AMA、合作、周报",
         "可自定义颜色、Logo 和主题",
         "50 次配额 · 一次买断",
+=======
+        "Airdrop, AMA, partnership posters generated fast",
+        "No design experience needed, ready to use",
+        "Fits X, Telegram, Discord promotion",
+        "50 generations, one-time purchase",
+      ],
+      zh: [
+        "空投、AMA、合作海报快速生成",
+        "无需设计经验即可直接使用",
+        "适配 X、Telegram、Discord 宣传场景",
+        "50次生成额度，一次买断",
+>>>>>>> trae/solo-agent-2aiTmj
       ],
     },
     status: "beta",
@@ -217,6 +261,7 @@ export const PRODUCTS: Product[] = [
     category: "operations",
     features: {
       en: [
+<<<<<<< HEAD
         "Smart airdrop campaign planning tool",
         "Automatically calculate token distribution",
         "Generate announcement copy & checklist",
@@ -227,6 +272,18 @@ export const PRODUCTS: Product[] = [
         "自动计算代币分配方案",
         "生成公告文案和检查清单",
         "50 次配额 · 一次买断",
+=======
+        "Generate airdrop campaign plans and reward structures automatically",
+        "Output execution steps and promotion copy",
+        "Help increase community engagement and spread",
+        "50 generations, one-time purchase",
+      ],
+      zh: [
+        "自动生成空投活动方案与奖励机制",
+        "输出执行步骤与宣传文案",
+        "帮助提升社区参与度和传播效果",
+        "50次生成额度，一次买断",
+>>>>>>> trae/solo-agent-2aiTmj
       ],
     },
     status: "forging",
@@ -248,6 +305,7 @@ export const PRODUCTS: Product[] = [
     category: "marketing",
     features: {
       en: [
+<<<<<<< HEAD
         "AI-powered Web3 landing page copy",
         "Hero section, features, roadmap, FAQ templates",
         "Optimized for conversion and SEO",
@@ -258,6 +316,18 @@ export const PRODUCTS: Product[] = [
         "Hero 区域、功能、路线图、FAQ 模板",
         "为转化率和 SEO 优化",
         "50 次配额 · 一次买断",
+=======
+        "Quickly generate core copy for project launch",
+        "Hero, features, FAQ all done in one pass",
+        "Built for tokens, AI agents, and Web3 SaaS",
+        "SEO optimized output included",
+      ],
+      zh: [
+        "快速生成项目上线所需核心文案",
+        "Hero、功能介绍、FAQ 一次完成",
+        "面向 Token、AI Agent 与 Web3 SaaS",
+        "支持 SEO 优化内容输出",
+>>>>>>> trae/solo-agent-2aiTmj
       ],
     },
     status: "forging",
