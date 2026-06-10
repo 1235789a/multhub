@@ -150,6 +150,10 @@ interface LicenseCheckFail {
   error: string;
 }
 
+function isValidLicenseFormat(license: string): boolean {
+  return /^[A-Z0-9]{8,}-[A-Z0-9]{8,}-[A-Z0-9]{8,}$/.test(license);
+}
+
 async function checkLicense(
   request: NextRequest,
 ): Promise<LicenseCheckOk | LicenseCheckFail> {
@@ -161,6 +165,11 @@ async function checkLicense(
 
   if (!license || license.length < 8) {
     return { ok: false, status: 402, error: "缺少或无效的 X-License 授权码" };
+  }
+
+  if (!isValidLicenseFormat(license)) {
+    console.warn(`授权码格式不正确，降级到试用模式: ${license.substring(0, 20)}...`);
+    return { ok: false, status: 402, error: "授权码格式不正确，请留空以使用试用模式" };
   }
 
   let record: LicenseUsageRecord | null;

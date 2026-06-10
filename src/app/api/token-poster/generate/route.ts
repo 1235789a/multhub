@@ -202,6 +202,10 @@ interface LicenseCheckResult {
   error?: { status: number; message: string };
 }
 
+function isValidLicenseFormat(license: string): boolean {
+  return /^[A-Z0-9]{8,}-[A-Z0-9]{8,}-[A-Z0-9]{8,}$/.test(license);
+}
+
 async function checkLicense(request: NextRequest): Promise<LicenseCheckResult> {
   const license = (request.headers.get("x-license") ?? "").trim();
 
@@ -211,6 +215,11 @@ async function checkLicense(request: NextRequest): Promise<LicenseCheckResult> {
 
   if (process.env.TOKEN_POSTER_LICENSE_BYPASS === "1") {
     return { bypass: true };
+  }
+
+  if (!isValidLicenseFormat(license)) {
+    console.warn(`授权码格式不正确: ${license.substring(0, 20)}...`);
+    return {};
   }
 
   let record: LicenseUsageRecord | null;
