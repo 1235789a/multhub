@@ -3,9 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { LanguageProvider } from "./i18n/index";
 import NavBar from "./i18n/NavBar";
-import OrganizationJsonLd from "./components/seo/OrganizationJsonLd";
-import WebsiteJsonLd from "./components/seo/WebsiteJsonLd";
-import AIMetaTags from "./components/seo/AIMetaTags";
+import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
+import WebsiteJsonLd from "@/components/seo/WebsiteJsonLd";
+import AIMetaTags from "@/components/seo/AIMetaTags";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

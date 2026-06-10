@@ -5,7 +5,7 @@
 // 不接 i18n，文本由调用方传入 → 方便在不同语境（hero status line /
 // store grid / changelog）复用。
 
-import type { ProductStatus } from "../data/products";
+import type { ProductStatus } from "@/app/data/products";
 
 export interface StatusBadgeProps {
   status: ProductStatus;

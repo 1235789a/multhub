@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { QUESTIONS } from "../../../data/questions";
-import FaqSchema from "../../../components/seo/FaqSchema";
-import GeoContent from "../../../components/seo/GeoContent";
+import FaqSchema from "@/components/seo/FaqSchema";
+import GeoContent from "@/components/seo/GeoContent";
 import Link from "next/link";
 
 export async function generateStaticParams() {

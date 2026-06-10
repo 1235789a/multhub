@@ -1,4 +1,4 @@
-import { Product } from "../../data/products";
+import { Product } from "@/app/data/products";
 
 interface ProductJsonLdProps {
   product: Product;

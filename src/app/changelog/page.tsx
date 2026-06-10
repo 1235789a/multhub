@@ -14,7 +14,7 @@ import type { Product, ProductStatus } from "../data/products";
 import { useLanguage } from "../i18n/index";
 import type { TranslationDict } from "../i18n/translations";
 import { interp } from "../i18n/interp";
-import StatusBadge, { statusLabelKey } from "../components/StatusBadge";
+import StatusBadge, { statusLabelKey } from "@/components/ui/StatusBadge";
 
 // ============================================================
 // 🧱 子组件

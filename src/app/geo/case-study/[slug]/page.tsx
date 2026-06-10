@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CASE_STUDIES } from "../../../data/case-studies";
-import GeoContent from "../../../components/seo/GeoContent";
+import GeoContent from "@/components/seo/GeoContent";
 import Link from "next/link";
 
 export async function generateStaticParams() {

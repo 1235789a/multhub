@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PRODUCTS } from "../../data/products";
 import StoreDetailClient from "./StoreDetailClient";
-import ProductJsonLd from "../../components/seo/ProductJsonLd";
+import ProductJsonLd from "@/components/seo/ProductJsonLd";
 
 export async function generateStaticParams() {
   return PRODUCTS.map((product) => ({ slug: product.slug }));

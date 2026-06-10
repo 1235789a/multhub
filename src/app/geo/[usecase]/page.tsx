@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { USE_CASES } from "../../data/usecases";
-import GeoContent from "../../components/seo/GeoContent";
+import GeoContent from "@/components/seo/GeoContent";
 import Link from "next/link";
 
 export async function generateStaticParams() {

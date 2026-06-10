@@ -1,4 +1,4 @@
-import { BlogPost } from "../../data/blog";
+import { BlogPost } from "@/app/data/blog";
 
 interface ArticleJsonLdProps {
   post: BlogPost;

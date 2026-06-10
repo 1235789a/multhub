@@ -1,4 +1,4 @@
-import { Question } from "../../data/questions";
+import { Question } from "@/app/data/questions";
 
 interface FaqSchemaProps {
   questions: Question[];

@@ -1,8 +1,8 @@
-import { QUESTIONS } from "../../data/questions";
-import { CASE_STUDIES } from "../../data/case-studies";
-import { COMPARISONS } from "../../data/comparisons";
-import { USE_CASES } from "../../data/usecases";
-import { PRODUCTS } from "../../data/products";
+import { QUESTIONS } from "@/app/data/questions";
+import { CASE_STUDIES } from "@/app/data/case-studies";
+import { COMPARISONS } from "@/app/data/comparisons";
+import { USE_CASES } from "@/app/data/usecases";
+import { PRODUCTS } from "@/app/data/products";
 import Link from "next/link";
 
 interface GeoContentProps {

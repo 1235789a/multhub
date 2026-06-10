@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { BLOG_POSTS } from "../../data/blog";
 import BlogDetailClient from "./BlogDetailClient";
-import ArticleJsonLd from "../../components/seo/ArticleJsonLd";
+import ArticleJsonLd from "@/components/seo/ArticleJsonLd";
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
