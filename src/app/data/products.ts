@@ -138,6 +138,37 @@ export interface Product {
 // 产品列表 — Web3 Marketing Toolkit
 // ====================================
 export const PRODUCTS: Product[] = [
+  // 🤝 Launch 系列 - Partnership Announcement Generator（新产品）
+  {
+    name: {
+      en: "Partnership Announcement Generator",
+      zh: "Partnership Announcement Generator · 合作官宣生成器",
+    },
+    slug: "partnership-announcement-generator",
+    icon: "🤝",
+    version: "v1.0",
+    priceBase: 29,
+    priceDisplay: "4 USDT",
+    priceUSDT: 4,
+    category: "launch",
+    features: {
+      en: [
+        "Generate professional Web3 partnership announcements in minutes",
+        "X, Telegram, Discord and Medium-ready versions",
+        "Matches real Web3 project announcement style",
+        "100 generations, one-time purchase",
+      ],
+      zh: [
+        "5分钟内生成专业的 Web3 合作官宣内容",
+        "X、Telegram、Discord、Medium 多版本一次生成",
+        "符合真实 Web3 项目合作公告风格",
+        "100次生成额度，一次买断",
+      ],
+    },
+    status: "available",
+    launchPath: "/apps/partnership-announcement-generator",
+    trialConfig: { allowed: true, maxUses: 3 },
+  },
   // 🚀 Launch 系列 - Token 发布文案生成器（优先级最高）
   {
     name: {
