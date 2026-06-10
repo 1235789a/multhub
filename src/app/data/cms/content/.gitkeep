@@ -1,2 +1,0 @@
-// This directory holds Markdown blog posts in en/ and zh/ subdirectories.
-// Run npm run build:blog to generate the blog.ts index file.
