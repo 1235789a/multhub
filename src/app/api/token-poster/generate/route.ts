@@ -289,7 +289,7 @@ export async function POST(request: NextRequest) {
 
   if (!AI_API_BASE_URL || !AI_API_KEY) {
     return NextResponse.json(
-      { success: false, error: "INTERNAL", message: "AI API 配置未完成" },
+      { success: false, error: "INTERNAL", message: "AI API 配置未完成，请联系管理员配置 AI_API_BASE_URL 和 AI_API_KEY 环境变量" },
       { status: 500 },
     );
   }
