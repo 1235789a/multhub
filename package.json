@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cf-build": "npx opennextjs-cloudflare build",
-    "deploy": "npx opennextjs-cloudflare build && npx opennextjs-cloudflare deploy",
-    "preview": "npx opennextjs-cloudflare build && npx opennextjs-cloudflare preview"
+    "cf-build": "npm run build && npx opennextjs-cloudflare build",
+    "deploy": "npm run cf-build && npx opennextjs-cloudflare deploy",
+    "preview": "npm run cf-build && npx opennextjs-cloudflare preview"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^5.2.0",
