@@ -11,7 +11,7 @@ import {
   getCurrentTrialCount,
   hasValidLicense,
 } from "@/lib/trialManager";
-import TrialLimitModal from "./TrialLimitModal";
+import TrialLimitModal from "@/components/ui/TrialLimitModal";
 
 const COUNTRIES = [
   { code: "US", name: "美国" },
@@ -466,6 +466,7 @@ export default function TariffLensClient() {
         isOpen={showLimitModal}
         current={trialCount}
         max={MAX_TRIAL_USES}
+        productSlug={PRODUCT_SLUG}
       />
     </div>
   );

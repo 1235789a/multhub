@@ -11,7 +11,7 @@ import {
   getCurrentTrialCount,
   hasValidLicense,
 } from "@/lib/trialManager";
-import TrialLimitModal from "./TrialLimitModal";
+import TrialLimitModal from "@/components/ui/TrialLimitModal";
 
 const POSTER_TYPES: PosterType[] = ["Partnership", "AMA", "Airdrop", "Launch"];
 
@@ -549,6 +549,7 @@ export default function TokenPosterGeneratorClient() {
         isOpen={showLimitModal}
         current={trialCount}
         max={MAX_TRIAL_USES}
+        productSlug={PRODUCT_SLUG}
       />
     </div>
   );

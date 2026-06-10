@@ -11,7 +11,7 @@ import {
   getCurrentTrialCount,
   hasValidLicense,
 } from "@/lib/trialManager";
-import TrialLimitModal from "./TrialLimitModal";
+import TrialLimitModal from "@/components/ui/TrialLimitModal";
 
 const PARTNERSHIP_TYPES: PartnershipType[] = [
   "Strategic Partnership",
@@ -431,6 +431,7 @@ export default function PartnershipAnnouncementClient() {
         isOpen={showLimitModal}
         current={trialCount}
         max={MAX_TRIAL_USES}
+        productSlug={PRODUCT_SLUG}
       />
     </div>
   );

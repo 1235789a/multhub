@@ -7,9 +7,10 @@ interface TrialLimitModalProps {
   isOpen: boolean;
   current: number;
   max: number;
+  productSlug: string;
 }
 
-export default function TrialLimitModal({ isOpen, current, max }: TrialLimitModalProps) {
+export default function TrialLimitModal({ isOpen, current, max, productSlug }: TrialLimitModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -64,7 +65,7 @@ export default function TrialLimitModal({ isOpen, current, max }: TrialLimitModa
 
               <div className="space-y-3">
                 <Link
-                  href="/checkout/token-poster-generator"
+                  href={`/checkout/${productSlug}`}
                   className="block w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 text-center text-sm font-semibold text-white transition-all hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98]"
                 >
                   Go to Checkout → Unlock Lifetime Access
