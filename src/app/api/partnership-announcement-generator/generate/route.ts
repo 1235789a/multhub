@@ -79,13 +79,15 @@ function validateInput(body: unknown): GenerateRequest | { error: string } {
   }
 
   const projectADescription = String(o.projectADescription ?? "").trim();
-  if (projectADescription.length < 4 || projectADescription.length > 2000) {
-    return { error: "projectADescription 长度需在 4~2000 字符" };
+  const trimmedADescription = projectADescription;
+  if (trimmedADescription.length < 4 || trimmedADescription.length > 2000) {
+    return { error: "projectADescription 长度需在 4~2000 字符（不计前后空格）" };
   }
 
   const projectBDescription = String(o.projectBDescription ?? "").trim();
-  if (projectBDescription.length < 4 || projectBDescription.length > 2000) {
-    return { error: "projectBDescription 长度需在 4~2000 字符" };
+  const trimmedBDescription = projectBDescription;
+  if (trimmedBDescription.length < 4 || trimmedBDescription.length > 2000) {
+    return { error: "projectBDescription 长度需在 4~2000 字符（不计前后空格）" };
   }
 
   const partnershipTypeRaw = String(o.partnershipType ?? "").trim();
