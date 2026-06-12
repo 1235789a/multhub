@@ -19,8 +19,8 @@ interface DeepSeekResponse {
   };
 }
 
-const DEFAULT_BASE_URL = "https://api.deepseek.com/v1";
-const DEFAULT_MODEL = "deepseek-chat";
+const DEFAULT_BASE_URL = "https://api.dddai.dev/v1";
+const DEFAULT_MODEL = "gpt-5.4-mini";
 
 const SYSTEM_PROMPT = `You are a Web3 marketing expert specializing in crafting authentic partnership announcements.
 You write for real projects like LayerZero, Arbitrum, Base, Polygon, and EigenLayer.
@@ -101,19 +101,13 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
   promptTokens: number;
   completionTokens: number;
 }> {
-  const apiKey = process.env.DEEPSEEK_API_KEY ?? process.env.OPENAI_API_KEY;
+  const apiKey = process.env.IMAGE_API_KEY;
   if (!apiKey) {
-    throw new LLMUpstreamError(500, "DEEPSEEK_API_KEY 未配置");
+    throw new LLMUpstreamError(500, "IMAGE_API_KEY 未配置");
   }
 
-  const baseUrl =
-    process.env.DEEPSEEK_BASE_URL ??
-    process.env.OPENAI_BASE_URL ??
-    DEFAULT_BASE_URL;
-  const model =
-    process.env.DEEPSEEK_MODEL ??
-    process.env.OPENAI_MODEL ??
-    DEFAULT_MODEL;
+  const baseUrl = DEFAULT_BASE_URL;
+  const model = process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
 
   const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
 
