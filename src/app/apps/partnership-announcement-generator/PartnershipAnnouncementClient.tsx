@@ -33,6 +33,81 @@ const LENGTH_TYPES: LengthType[] = ["Short", "Medium", "Long"];
 const MAX_TRIAL_USES = 3;
 const PRODUCT_SLUG = "partnership-announcement-generator";
 
+// 🎯 示例模板（真实Web3场景，一键填充）
+const DEMO_TEMPLATES: {
+  label: string;
+  projectAName: string;
+  projectBName: string;
+  projectADescription: string;
+  projectBDescription: string;
+  partnershipType: PartnershipType;
+  mainBenefits: string;
+  websiteLinks: string;
+  tone: ToneType;
+  length: LengthType;
+}[] = [
+  {
+    label: "LayerZero × Arbitrum",
+    projectAName: "LayerZero",
+    projectBName: "Arbitrum Foundation",
+    projectADescription:
+      "Cross-chain messaging protocol that enables seamless communication between different blockchain networks. Provides decentralized infrastructure for omnichain applications, bridging assets and messages across Ethereum, BNB Chain, Polygon, Avalanche, and more.",
+    projectBDescription:
+      "Arbitrum is a leading Ethereum Layer 2 scaling solution that uses optimistic rollup technology to significantly reduce transaction costs and increase throughput. The Arbitrum ecosystem hosts thousands of DeFi, NFT, and gaming applications, serving one of the largest on-chain user communities.",
+    partnershipType: "Technology Integration",
+    mainBenefits:
+      "1) LayerZero V2 messaging infrastructure natively integrated into Arbitrum Orbit chain deployment toolkit; 2) Arbitrum developers gain one-click cross-chain messaging capabilities with sub-10-second confirmation latency; 3) Joint grant program allocating 500K ARB tokens to omnichain dApp builders on Arbitrum",
+    websiteLinks: "https://layerzero.network, https://arbitrum.io, https://docs.layerzero.network",
+    tone: "Professional",
+    length: "Long",
+  },
+  {
+    label: "Uniswap × Coinbase Wallet",
+    projectAName: "Uniswap Labs",
+    projectBName: "Coinbase Wallet",
+    projectADescription:
+      "Uniswap is the largest decentralized exchange protocol by volume, enabling permissionless token swapping on Ethereum and multiple Layer 2 networks. Uniswap Labs develops the core protocol, builds the frontend interface, and maintains the Uniswap mobile wallet serving millions of users globally.",
+    projectBDescription:
+      "Coinbase Wallet is a self-custody wallet product from Coinbase, supporting Ethereum Base chain and multiple EVM-compatible networks. It provides integrated fiat onramps, dApp browser, and NFT gallery for millions of retail and institutional users within the broader Coinbase ecosystem.",
+    partnershipType: "Ecosystem Partnership",
+    mainBenefits:
+      "1) Uniswap V4 hooks natively supported in Coinbase Wallet swap interface with optimized gas routing; 2) Coinbase Wallet users accessing Uniswap frontends receive automatic network detection and one-click bridging to Base; 3) Joint liquidity mining incentives program distributing 2M USD equivalent to liquidity providers on Base pool pairs",
+    websiteLinks: "https://uniswap.org, https://www.coinbase.com/wallet, https://base.org",
+    tone: "Exciting",
+    length: "Medium",
+  },
+  {
+    label: "Chainlink × Optimism",
+    projectAName: "Chainlink Labs",
+    projectBName: "Optimism Collective",
+    projectADescription:
+      "Chainlink is the industry-standard Web3 services platform that has enabled trillions of dollars in transaction value across DeFi, insurance, gaming, and other major industries. Chainlink provides access to real-world data, off-chain computation, and cross-chain interoperability for smart contract developers.",
+    projectBDescription:
+      "Optimism is an Ethereum Layer 2 scaling platform powered by the OP Stack, an open-source set of software tools for building rollup chains. The Optimism Collective governs the protocol and supports a vibrant ecosystem of DeFi, NFT, and governance applications.",
+    partnershipType: "Strategic Partnership",
+    mainBenefits:
+      "1) Chainlink CCIP (Cross-Chain Interoperability Protocol) integrated natively into Optimism Superchain bridging infrastructure; 2) Chainlink Automation and Proof of Reserve services available for all OP Stack chains; 3) Joint research initiative on scalable oracle architecture for high-throughput rollups",
+    websiteLinks: "https://chain.link, https://optimism.io, https://ccip.chain.link",
+    tone: "Professional",
+    length: "Long",
+  },
+  {
+    label: "WalletConnect × Lens Protocol",
+    projectAName: "WalletConnect",
+    projectBName: "Lens Protocol",
+    projectADescription:
+      "WalletConnect is an open source protocol for connecting decentralized applications to cryptocurrency wallets with end-to-end encryption. Billions of dollars in crypto assets are connected via WalletConnect on a daily basis, making it the most widely used wallet connection protocol in Web3.",
+    projectBDescription:
+      "Lens Protocol is a decentralized social graph enabling developers to build social features into their applications. Users own their social identity, content, and connections, with data stored on-chain and composable across any app integrating the Lens API.",
+    partnershipType: "Marketing Collaboration",
+    mainBenefits:
+      "1) WalletConnect AppKit 2.0 provides pre-built Lens social sign-in component for all integrated dApps; 2) Co-branded social campaign reaching 50K+ builders during EthCC week; 3) Joint developer bounties for social apps using the WalletConnect + Lens integration",
+    websiteLinks: "https://walletconnect.com, https://lens.xyz",
+    tone: "Community-first",
+    length: "Short",
+  },
+];
+
 export default function PartnershipAnnouncementClient() {
   const [license, setLicense] = useState("");
   const [projectAName, setProjectAName] = useState("");
@@ -44,6 +119,7 @@ export default function PartnershipAnnouncementClient() {
   const [websiteLinks, setWebsiteLinks] = useState("");
   const [tone, setTone] = useState<ToneType>("Professional");
   const [length, setLength] = useState<LengthType>("Medium");
+  const [lastTemplate, setLastTemplate] = useState<number>(-1);
 
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [result, setResult] = useState<GenerateResponse | null>(null);
@@ -240,6 +316,67 @@ export default function PartnershipAnnouncementClient() {
                 placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
                 className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-200"
               />
+            </div>
+
+            {/* 🎯 一键填充示例 */}
+            <div className="rounded-lg border border-dashed border-amber-300 bg-amber-50 p-4">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-xs font-medium text-amber-900">
+                  🎯 Quick start · Fill with demo
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    let next = Math.floor(Math.random() * DEMO_TEMPLATES.length);
+                    if (DEMO_TEMPLATES.length > 1) {
+                      while (next === lastTemplate) {
+                        next = Math.floor(Math.random() * DEMO_TEMPLATES.length);
+                      }
+                    }
+                    const t = DEMO_TEMPLATES[next];
+                    setProjectAName(t.projectAName);
+                    setProjectBName(t.projectBName);
+                    setProjectADescription(t.projectADescription);
+                    setProjectBDescription(t.projectBDescription);
+                    setPartnershipType(t.partnershipType);
+                    setMainBenefits(t.mainBenefits);
+                    setWebsiteLinks(t.websiteLinks);
+                    setTone(t.tone);
+                    setLength(t.length);
+                    setLastTemplate(next);
+                  }}
+                  className="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-amber-700"
+                >
+                  🎲 Random
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {DEMO_TEMPLATES.map((t, i) => (
+                  <button
+                    type="button"
+                    key={t.label}
+                    onClick={() => {
+                      setProjectAName(t.projectAName);
+                      setProjectBName(t.projectBName);
+                      setProjectADescription(t.projectADescription);
+                      setProjectBDescription(t.projectBDescription);
+                      setPartnershipType(t.partnershipType);
+                      setMainBenefits(t.mainBenefits);
+                      setWebsiteLinks(t.websiteLinks);
+                      setTone(t.tone);
+                      setLength(t.length);
+                      setLastTemplate(i);
+                    }}
+                    className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                      lastTemplate === i
+                        ? "bg-amber-600 text-white"
+                        : "bg-white text-amber-800 border border-amber-300 hover:bg-amber-100"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

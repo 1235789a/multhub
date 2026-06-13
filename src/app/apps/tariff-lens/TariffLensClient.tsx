@@ -31,6 +31,63 @@ const CURRENCIES = ["USD", "CNY", "EUR", "GBP", "JPY", "AUD", "CAD"];
 const MAX_TRIAL_USES = 3;
 const PRODUCT_SLUG = "tariff-lens";
 
+// 🎯 示例模板（真实场景，一键填充）
+const DEMO_TEMPLATES: {
+  label: string;
+  description: string;
+  originCountry: string;
+  destination: string;
+  declaredValue: string;
+  currency: string;
+  shippingCost: string;
+}[] = [
+  {
+    label: "不锈钢餐具",
+    description: "304不锈钢西餐餐具套装，包含餐叉、餐刀、勺子各8件，镜面抛光，家庭厨房使用",
+    originCountry: "CN",
+    destination: "US",
+    declaredValue: "120",
+    currency: "USD",
+    shippingCost: "25",
+  },
+  {
+    label: "便携笔记本电脑（欧盟）",
+    description: "15.6英寸轻薄办公笔记本电脑，英特尔酷睿i5-1340P处理器，16GB内存，512GB固态硬盘，金属外壳",
+    originCountry: "CN",
+    destination: "DE",
+    declaredValue: "899",
+    currency: "USD",
+    shippingCost: "0",
+  },
+  {
+    label: "蓝牙运动耳机（英国）",
+    description: "入耳式真无线蓝牙耳机，主动降噪，IPX5防水，续航8小时，充电盒可充3次",
+    originCountry: "CN",
+    destination: "UK",
+    declaredValue: "75",
+    currency: "USD",
+    shippingCost: "12",
+  },
+  {
+    label: "智能家用加湿器（日本）",
+    description: "卧室桌面智能加湿器，4L大容量水箱，超声波静音，自动湿度调节，顶部加水，ABS塑料外壳",
+    originCountry: "CN",
+    destination: "JP",
+    declaredValue: "45",
+    currency: "USD",
+    shippingCost: "8",
+  },
+  {
+    label: "儿童益智积木玩具（澳大利亚）",
+    description: "1000片木制积木拼装玩具套装，椴木材质，安全水性漆，适合3岁以上儿童，环保包装",
+    originCountry: "CN",
+    destination: "AU",
+    declaredValue: "38",
+    currency: "USD",
+    shippingCost: "15",
+  },
+];
+
 export default function TariffLensClient() {
   const [license, setLicense] = useState("");
   const [description, setDescription] = useState("");
@@ -39,6 +96,7 @@ export default function TariffLensClient() {
   const [declaredValue, setDeclaredValue] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [shippingCost, setShippingCost] = useState("");
+  const [lastTemplate, setLastTemplate] = useState<number>(-1);
 
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [result, setResult] = useState<EstimateResponse | null>(null);
@@ -219,6 +277,61 @@ export default function TariffLensClient() {
                 placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
                 className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-200"
               />
+            </div>
+
+            {/* 🎯 一键填充示例 */}
+            <div className="rounded-lg border border-dashed border-amber-300 bg-amber-50 p-4">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-xs font-medium text-amber-900">
+                  🎯 快速体验 · 一键填充示例
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    let next = Math.floor(Math.random() * DEMO_TEMPLATES.length);
+                    if (DEMO_TEMPLATES.length > 1) {
+                      while (next === lastTemplate) {
+                        next = Math.floor(Math.random() * DEMO_TEMPLATES.length);
+                      }
+                    }
+                    const t = DEMO_TEMPLATES[next];
+                    setDescription(t.description);
+                    setOriginCountry(t.originCountry);
+                    setDestination(t.destination);
+                    setDeclaredValue(t.declaredValue);
+                    setCurrency(t.currency);
+                    setShippingCost(t.shippingCost);
+                    setLastTemplate(next);
+                  }}
+                  className="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-amber-700"
+                >
+                  🎲 随机填充
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {DEMO_TEMPLATES.map((t, i) => (
+                  <button
+                    type="button"
+                    key={t.label}
+                    onClick={() => {
+                      setDescription(t.description);
+                      setOriginCountry(t.originCountry);
+                      setDestination(t.destination);
+                      setDeclaredValue(t.declaredValue);
+                      setCurrency(t.currency);
+                      setShippingCost(t.shippingCost);
+                      setLastTemplate(i);
+                    }}
+                    className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                      lastTemplate === i
+                        ? "bg-amber-600 text-white"
+                        : "bg-white text-amber-800 border border-amber-300 hover:bg-amber-100"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div>
