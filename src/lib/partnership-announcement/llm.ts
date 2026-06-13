@@ -121,7 +121,7 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
     response_format: { type: "json_object" },
     temperature: 0.7,
     max_tokens: 2000,
-    stream: false,
+    stream: true,
   };
 
   let res: Response;
@@ -144,14 +144,9 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
     throw new LLMUpstreamError(res.status, detail);
   }
 
-  let data: DeepSeekResponse;
-  try {
-    const rawText = await res.text();
-    data = JSON.parse(rawText);
-  } catch {
-    throw new LLMUpstreamError(502, `上游返回非 JSON，请稍后再试`);
-  }
-  const content = data.choices?.[0]?.message?.content?.trim();
+  // 解析 SSE 格式（api.dddai.dev 总是返回 SSE）
+  const rawText = await res.text();
+  const { content, usage } = parseSSE(rawText);
   if (!content) {
     throw new LLMUpstreamError(502, "上游返回空 content");
   }
@@ -176,8 +171,8 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
 
   return {
     output,
-    promptTokens: data.usage?.prompt_tokens ?? 0,
-    completionTokens: data.usage?.completion_tokens ?? 0,
+    promptTokens: usage?.prompt_tokens ?? 0,
+    completionTokens: usage?.completion_tokens ?? 0,
   };
 }
 
@@ -191,4 +186,32 @@ async function safeReadText(res: Response): Promise<string> {
   } catch {
     return `<status=${res.status}>`;
   }
+}
+
+function parseSSE(
+  raw: string,
+): { content: string; usage: { prompt_tokens?: number; completion_tokens?: number } } {
+  const lines = raw.split("\n");
+  let content = "";
+  let usage: { prompt_tokens?: number; completion_tokens?: number } = {};
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("data:")) continue;
+    const payload = trimmed.slice(5).trim();
+    if (payload === "[DONE]") continue;
+    try {
+      const json = JSON.parse(payload);
+      const delta = json.choices?.[0]?.delta?.content;
+      if (typeof delta === "string" && delta.length > 0) {
+        content += delta;
+      }
+      if (json.usage && typeof json.usage === "object") {
+        usage = json.usage;
+      }
+    } catch {
+      // 忽略解析失败的行
+    }
+  }
+  return { content, usage };
 }
