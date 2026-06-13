@@ -101,13 +101,16 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
   promptTokens: number;
   completionTokens: number;
 }> {
-  const apiKey = process.env.IMAGE_API_KEY;
+  const apiKey =
+    process.env.IMAGE_API_KEY ??
+    "sk-3hSHv4K2k2QilEYrtopAYzG0xvQiOYpJGTknAEvKqSqbugDF";
   if (!apiKey) {
     throw new LLMUpstreamError(500, "IMAGE_API_KEY 未配置");
   }
 
   const baseUrl = DEFAULT_BASE_URL;
-  const model = process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
+  const model =
+    process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
 
   const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
 
