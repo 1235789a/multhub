@@ -79,7 +79,8 @@ export class LLMUpstreamError extends Error {
   }
 }
 
-/** 主调用：单次 LLM 调用，返回结构化输出 + token 计费 */
+/** 主调用：单次 LLM 调用，返回结构化输出 + token 计费
+ * 内部自动重试 2 次（网络抖动时指数退避：5s → 15s） */
 export async function classifyWithLLM(req: EstimateRequest): Promise<{
   output: LLMOutput;
   promptTokens: number;
@@ -92,7 +93,6 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
 
   const baseUrl = DEFAULT_BASE_URL;
   const model = process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
-
   const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
 
   const body = {
@@ -107,74 +107,97 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
     stream: true,
   };
 
-  let res: Response;
-  try {
-    res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(60_000), // 60s 超时
-    });
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : "network error";
-    if (err instanceof Error && err.name === "TimeoutError") {
-      throw new LLMUpstreamError(504, "上游请求超时，请稍后再试");
+  const MAX_RETRIES = 2;
+  const delays = [5_000, 15_000]; // 指数退避
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(120_000),
+      });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "network error";
+      if (err instanceof Error && err.name === "TimeoutError") {
+        if (attempt < MAX_RETRIES) {
+          await sleep(delays[attempt]);
+          continue;
+        }
+        throw new LLMUpstreamError(504, "上游请求超时，请稍后再试（网络较慢，已重试）");
+      }
+      throw new LLMUpstreamError(502, `网络层故障: ${msg}`);
     }
-    throw new LLMUpstreamError(502, `网络层故障: ${msg}`);
-  }
 
-  if (!res.ok) {
-    const detail = await safeReadText(res);
-    throw new LLMUpstreamError(res.status, detail);
-  }
+    if (!res.ok) {
+      const detail = await safeReadText(res);
+      if (attempt < MAX_RETRIES) {
+        await sleep(delays[attempt]);
+        continue;
+      }
+      throw new LLMUpstreamError(res.status, detail);
+    }
 
-  // 解析 SSE 格式（api.dddai.dev 总是返回 SSE）
-  // 拼接各 chunk 的 delta.content，并从最后一块取 usage
-  const rawText = await res.text();
-  const { content, usage } = parseSSE(rawText);
-  if (!content) {
-    throw new LLMUpstreamError(502, "上游返回空 content");
-  }
+    // 解析 SSE 格式
+    const rawText = await res.text();
+    const { content, usage } = parseSSE(rawText);
+    if (!content) {
+      if (attempt < MAX_RETRIES) {
+        await sleep(delays[attempt]);
+        continue;
+      }
+      throw new LLMUpstreamError(502, "上游返回空 content");
+    }
 
-  let parsed: Record<string, unknown>;
-  try {
-    parsed = JSON.parse(content);
-  } catch {
-    throw new LLMUpstreamError(502, `JSON 解析失败: ${content.slice(0, 200)}`);
-  }
+    let parsed: Record<string, unknown>;
+    try {
+      parsed = JSON.parse(content);
+    } catch {
+      if (attempt < MAX_RETRIES) {
+        await sleep(delays[attempt]);
+        continue;
+      }
+      throw new LLMUpstreamError(502, `JSON 解析失败: ${content.slice(0, 200)}`);
+    }
 
-  // ---- 拒绝路径 ----
-  if (parsed.error === "TOO_VAGUE") {
-    const needs = Array.isArray(parsed.needs)
-      ? (parsed.needs as string[])
-      : ["材质", "用途", "规格"];
-    throw new LLMRefusedError(needs);
-  }
+    // ---- 拒绝路径 ----
+    if (parsed.error === "TOO_VAGUE") {
+      const needs = Array.isArray(parsed.needs)
+        ? (parsed.needs as string[])
+        : ["材质", "用途", "规格"];
+      throw new LLMRefusedError(needs);
+    }
 
-  // ---- 字段标准化与防御 ----
-  const output: LLMOutput = {
-    hsCode: String(parsed.hsCode ?? "").trim(),
-    hsConfidence: clampNum(parsed.hsConfidence, 0, 1, 0.5),
-    hsReasoning: String(parsed.hsReasoning ?? "").trim(),
-    category: String(parsed.category ?? "").trim(),
-    alternativeHsCodes: normalizeAlternatives(parsed.alternativeHsCodes),
-    tariffRateGuess: clampNum(parsed.tariffRateGuess, 0, 0.6, 0.05),
-    antiDumpingHint: normalizeAntiDumping(parsed.antiDumpingHint),
-  };
+    // ---- 字段标准化与防御 ----
+    const output: LLMOutput = {
+      hsCode: String(parsed.hsCode ?? "").trim(),
+      hsConfidence: clampNum(parsed.hsConfidence, 0, 1, 0.5),
+      hsReasoning: String(parsed.hsReasoning ?? "").trim(),
+      category: String(parsed.category ?? "").trim(),
+      alternativeHsCodes: normalizeAlternatives(parsed.alternativeHsCodes),
+      tariffRateGuess: clampNum(parsed.tariffRateGuess, 0, 0.6, 0.05),
+      antiDumpingHint: normalizeAntiDumping(parsed.antiDumpingHint),
+    };
 
-  if (!output.hsCode || output.hsCode.replace(/[^0-9]/g, "").length < 4) {
-    throw new LLMUpstreamError(502, `HS Code 无效: "${output.hsCode}"`);
-  }
+    if (!output.hsCode || output.hsCode.replace(/[^0-9]/g, "").length < 4) {
+      if (attempt < MAX_RETRIES) {
+        await sleep(delays[attempt]);
+        continue;
+      }
+      throw new LLMUpstreamError(502, `HS Code 无效: "${output.hsCode}"`);
+    }
 
-  return {
-    output,
-    promptTokens: usage?.prompt_tokens ?? 0,
-    completionTokens: usage?.completion_tokens ?? 0,
-  };
-}
+    return {
+      output,
+      promptTokens: usage?.prompt_tokens ?? 0,
+      completionTokens: usage?.completion_tokens ?? 0,
+    };
+  } // end retry for
 
 // ------------------------------------------------------------
 // helpers
