@@ -135,10 +135,10 @@ export interface Product {
 }
 
 // ====================================
-// 产品列表 — Web3 Marketing Toolkit
+// 产品列表 — 仅保留可用产品
 // ====================================
 export const PRODUCTS: Product[] = [
-  // 🤝 Launch 系列 - Partnership Announcement Generator（新产品）
+  // 🤝 Launch 系列 - Partnership Announcement Generator
   {
     name: {
       en: "Partnership Announcement Generator",
@@ -169,133 +169,7 @@ export const PRODUCTS: Product[] = [
     launchPath: "/apps/partnership-announcement-generator",
     trialConfig: { allowed: true, maxUses: 3 },
   },
-  // 🚀 Launch 系列 - Token 发布文案生成器（优先级最高）
-  {
-    name: {
-      en: "Token Announcement Writer",
-      zh: "Token Announcement Writer · 代币发布文案",
-    },
-    slug: "token-announcement-writer",
-    icon: "🚀",
-    version: "v0.5",
-    priceBase: 19,
-    priceDisplay: "3 USDT",
-    priceUSDT: 3,
-    category: "launch",
-    features: {
-      en: [
-        "X(Twitter), Telegram, Discord announcements in one click",
-        "Launch, AMA, partnership announcements done fast",
-        "Matches real Web3 project announcement style",
-        "100 generations, one-time purchase",
-      ],
-      zh: [
-        "X(Twitter)、Telegram、Discord 官宣一键生成",
-        "上线公告、AMA公告、合作公告快速完成",
-        "符合真实 Web3 项目发布风格",
-        "100次生成额度，一次买断",
-      ],
-    },
-    status: "beta",
-    eta: "Q2 2026",
-    progress: 85,
-    trialConfig: { allowed: true, maxUses: 3 },
-  },
-  // 🎨 Marketing 系列 - Token 海报生成器
-  {
-    name: {
-      en: "Token Poster Generator",
-      zh: "Token Poster Generator · 代币海报生成",
-    },
-    slug: "token-poster-generator",
-    icon: "🎨",
-    version: "v0.3",
-    priceBase: 29,
-    priceDisplay: "4 USDT",
-    priceUSDT: 4,
-    category: "marketing",
-    features: {
-      en: [
-        "Airdrop, AMA, partnership posters generated fast",
-        "No design experience needed, ready to use",
-        "Fits X, Telegram, Discord promotion",
-        "50 generations, one-time purchase",
-      ],
-      zh: [
-        "空投、AMA、合作海报快速生成",
-        "无需设计经验即可直接使用",
-        "适配 X、Telegram、Discord 宣传场景",
-        "50次生成额度，一次买断",
-      ],
-    },
-    status: "beta",
-    eta: "Q2 2026",
-    progress: 60,
-    trialConfig: { allowed: true, maxUses: 2 },
-  },
-  // 🎁 Operations 系列 - 空投活动策划器
-  {
-    name: {
-      en: "Airdrop Campaign Planner",
-      zh: "Airdrop Campaign Planner · 空投策划器",
-    },
-    slug: "airdrop-campaign-planner",
-    icon: "🎁",
-    version: "v0.2",
-    priceBase: 29,
-    priceDisplay: "4 USDT",
-    priceUSDT: 4,
-    category: "operations",
-    features: {
-      en: [
-        "Generate airdrop campaign plans and reward structures automatically",
-        "Output execution steps and promotion copy",
-        "Help increase community engagement and spread",
-        "50 generations, one-time purchase",
-      ],
-      zh: [
-        "自动生成空投活动方案与奖励机制",
-        "输出执行步骤与宣传文案",
-        "帮助提升社区参与度和传播效果",
-        "50次生成额度，一次买断",
-      ],
-    },
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 40,
-  },
-  // 📝 Marketing 系列 - 落地页文案生成器
-  {
-    name: {
-      en: "Landing Page Copy Generator",
-      zh: "Landing Page Copy Generator · 落地页文案",
-    },
-    slug: "landing-page-copy-generator",
-    icon: "📝",
-    version: "v0.1",
-    priceBase: 19,
-    priceDisplay: "3 USDT",
-    priceUSDT: 3,
-    category: "marketing",
-    features: {
-      en: [
-        "Quickly generate core copy for project launch",
-        "Hero, features, FAQ all done in one pass",
-        "Built for tokens, AI agents, and Web3 SaaS",
-        "SEO optimized output included",
-      ],
-      zh: [
-        "快速生成项目上线所需核心文案",
-        "Hero、功能介绍、FAQ 一次完成",
-        "面向 Token、AI Agent 与 Web3 SaaS",
-        "支持 SEO 优化内容输出",
-      ],
-    },
-    status: "forging",
-    eta: "Q3 2026",
-    progress: 25,
-  },
-  // 🛃 保留产品 - 关税透镜（Operations）
+  // 🛃 Operations 系列 - Tariff Lens
   {
     name: {
       en: "Tariff Lens",
@@ -323,7 +197,6 @@ export const PRODUCTS: Product[] = [
       ],
     },
     status: "available",
-    progress: 100,
     launchPath: "/apps/tariff-lens",
     trialConfig: { allowed: true, maxUses: 3 },
   },
