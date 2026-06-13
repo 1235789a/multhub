@@ -101,9 +101,10 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
   promptTokens: number;
   completionTokens: number;
 }> {
-  const apiKey = process.env.IMAGE_API_KEY;
+  const apiKey =
+    process.env.PARTNERSHIP_API_KEY ?? process.env.IMAGE_API_KEY;
   if (!apiKey) {
-    throw new LLMUpstreamError(500, "IMAGE_API_KEY 未配置");
+    throw new LLMUpstreamError(500, "PARTNERSHIP_API_KEY / IMAGE_API_KEY 未配置");
   }
 
   const baseUrl = DEFAULT_BASE_URL;

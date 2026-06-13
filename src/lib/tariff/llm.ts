@@ -23,7 +23,7 @@ interface DeepSeekResponse {
 }
 
 const DEFAULT_BASE_URL = "https://api.dddai.dev/v1";
-const DEFAULT_MODEL = "gpt-5.4-mini";
+const DEFAULT_MODEL = "deepseek-v4-flash";
 
 const SYSTEM_PROMPT = `你是国际贸易海关分类专家。仅输出 JSON，禁止任何解释性文字。
 
@@ -109,6 +109,8 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
 
   const MAX_RETRIES = 2;
   const delays = [5_000, 15_000]; // 指数退避
+
+  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     let res: Response;
@@ -198,6 +200,7 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
       completionTokens: usage?.completion_tokens ?? 0,
     };
   } // end retry for
+}
 
 // ------------------------------------------------------------
 // helpers
