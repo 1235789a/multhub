@@ -133,9 +133,13 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(60_000), // 60s 超时
     });
   } catch (err) {
     const msg = err instanceof Error ? err.message : "network error";
+    if (err instanceof Error && err.name === "TimeoutError") {
+      throw new LLMUpstreamError(504, "上游请求超时，请稍后再试");
+    }
     throw new LLMUpstreamError(502, `网络层故障: ${msg}`);
   }
 
