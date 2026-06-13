@@ -127,7 +127,13 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
     throw new LLMUpstreamError(res.status, detail);
   }
 
-  const data = (await res.json()) as DeepSeekResponse;
+  let data: DeepSeekResponse;
+  try {
+    const rawText = await res.text();
+    data = JSON.parse(rawText);
+  } catch {
+    throw new LLMUpstreamError(502, `上游返回非 JSON，请稍后再试`);
+  }
   const content = data.choices?.[0]?.message?.content?.trim();
   if (!content) {
     throw new LLMUpstreamError(502, "上游返回空 content");

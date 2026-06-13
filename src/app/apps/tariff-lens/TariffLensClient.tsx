@@ -113,23 +113,31 @@ export default function TariffLensClient() {
         }),
       });
 
-      const data = await res.json();
+      let data: any = null;
+      const text = await res.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        const preview = text.replace(/<[^>]+>/g, "").slice(0, 200).trim() || "(空响应)";
+        setErrorMsg(`服务响应异常：${preview}`);
+        setStatus("error");
+        return;
+      }
+
       if (res.ok) {
         setResult(data);
         setStatus("done");
 
-        // 如果是试用模式，增加试用计数
         if (!hasValidLicense(license) && visitorId) {
           const newCount = incrementTrialCount(visitorId, PRODUCT_SLUG);
           setTrialCount(newCount);
-          
-          // 检查是否达到试用上限
+
           if (newCount >= MAX_TRIAL_USES) {
             setShowLimitModal(true);
           }
         }
       } else {
-        setErrorMsg(data.message || data.error || "请求失败");
+        setErrorMsg(data?.message || data?.error || `请求失败 (HTTP ${res.status})`);
         setStatus("error");
       }
     } catch (err) {

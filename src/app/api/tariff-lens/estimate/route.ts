@@ -32,10 +32,7 @@ import {
   LLMUpstreamError,
 } from "@/lib/tariff/llm";
 import { assessRisk } from "@/lib/tariff/risk";
-import type {
-  EstimateRequest,
-  EstimateResponse,
-} from "@/lib/tariff/types";
+import type { EstimateRequest, EstimateResponse } from "@/lib/tariff/types";
 
 const PRODUCT_SLUG = "tariff-lens";
 const DISCLAIMER =
@@ -56,22 +53,32 @@ function validateInput(body: unknown): EstimateRequest | { error: string } {
     return { error: "description 长度需在 4~500 字符" };
   }
 
-  const destination = String(o.destination ?? "").trim().toUpperCase();
+  const destination = String(o.destination ?? "")
+    .trim()
+    .toUpperCase();
   if (!/^[A-Z]{2}$/.test(destination)) {
     return { error: "destination 需为 ISO-3166 alpha-2 大写字母" };
   }
 
-  const originCountry = String(o.originCountry ?? "CN").trim().toUpperCase();
+  const originCountry = String(o.originCountry ?? "CN")
+    .trim()
+    .toUpperCase();
   if (!/^[A-Z]{2}$/.test(originCountry)) {
     return { error: "originCountry 需为 ISO-3166 alpha-2 大写字母" };
   }
 
   const declaredValue = Number(o.declaredValue);
-  if (!Number.isFinite(declaredValue) || declaredValue <= 0 || declaredValue > 1_000_000) {
+  if (
+    !Number.isFinite(declaredValue) ||
+    declaredValue <= 0 ||
+    declaredValue > 1_000_000
+  ) {
     return { error: "declaredValue 需为正数且 ≤1,000,000" };
   }
 
-  const currency = String(o.currency ?? "USD").trim().toUpperCase();
+  const currency = String(o.currency ?? "USD")
+    .trim()
+    .toUpperCase();
   if (!/^[A-Z]{3}$/.test(currency)) {
     return { error: "currency 需为 ISO-4217 三位字母" };
   }
@@ -162,100 +169,115 @@ async function checkLicense(
 // ------------------------------------------------------------
 
 export async function POST(request: NextRequest) {
-  // 1. License
-  const lic = await checkLicense(request);
-  if (!lic.ok) {
-    return NextResponse.json(
-      { error: lic.status === 402 ? "INVALID_LICENSE" : "UPSTREAM", message: lic.error },
-      { status: lic.status },
-    );
-  }
-
-  // 2. Body
-  let body: unknown;
   try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { error: "INVALID_INPUT", message: "请求体不是合法的 JSON" },
-      { status: 400 },
-    );
-  }
-  const v = validateInput(body);
-  if ("error" in v) {
-    return NextResponse.json(
-      { error: "INVALID_INPUT", message: v.error },
-      { status: 400 },
-    );
-  }
-  const req: EstimateRequest = v;
-
-  // 3. LLM
-  let llmResult;
-  try {
-    llmResult = await classifyWithLLM(req);
-  } catch (err) {
-    if (err instanceof LLMRefusedError) {
+    // 1. License
+    const lic = await checkLicense(request);
+    if (!lic.ok) {
       return NextResponse.json(
         {
-          error: "LLM_REFUSED",
-          message: "商品描述过于模糊，无法准确归类",
-          needs: err.needs,
+          error: lic.status === 402 ? "INVALID_LICENSE" : "UPSTREAM",
+          message: lic.error,
         },
-        { status: 422 },
+        { status: lic.status },
       );
     }
-    if (err instanceof LLMUpstreamError) {
-      console.error("LLM 上游错误:", err.status, err.detail);
+
+    // 2. Body
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
       return NextResponse.json(
-        { error: "LLM_UPSTREAM", message: "AI 推理服务暂时不可用，请稍后再试" },
-        { status: 502 },
+        { error: "INVALID_INPUT", message: "请求体不是合法的 JSON" },
+        { status: 400 },
       );
     }
+    const v = validateInput(body);
+    if ("error" in v) {
+      return NextResponse.json(
+        { error: "INVALID_INPUT", message: v.error },
+        { status: 400 },
+      );
+    }
+    const req: EstimateRequest = v;
+
+    // 3. LLM
+    let llmResult;
+    try {
+      llmResult = await classifyWithLLM(req);
+    } catch (err) {
+      if (err instanceof LLMRefusedError) {
+        return NextResponse.json(
+          {
+            error: "LLM_REFUSED",
+            message: "商品描述过于模糊，无法准确归类",
+            needs: err.needs,
+          },
+          { status: 422 },
+        );
+      }
+      if (err instanceof LLMUpstreamError) {
+        console.error("LLM 上游错误:", err.status, err.detail);
+        return NextResponse.json(
+          {
+            error: "LLM_UPSTREAM",
+            message: "AI 推理服务暂时不可用，请稍后再试",
+          },
+          { status: 502 },
+        );
+      }
+      const msg = err instanceof Error ? err.message : "unknown";
+      console.error("LLM 未知错误:", msg);
+      return NextResponse.json(
+        { error: "INTERNAL", message: "服务器内部错误" },
+        { status: 500 },
+      );
+    }
+
+    // 4. 数学兜底 + 风险评级
+    const calculation = calculate(req, llmResult.output);
+    const risk = assessRisk(req, llmResult.output, calculation);
+
+    // 5. 用量自增（best-effort，失败不阻塞）
+    let licenseUsage = 0;
+    let licenseQuota = 0;
+    if (lic.bypass) {
+      licenseUsage = 0;
+      licenseQuota = 9999;
+    } else if (lic.record) {
+      licenseUsage = lic.record.usedCount + 1;
+      licenseQuota = lic.record.quota;
+      incrementLicenseUsage(lic.record.license, lic.record).catch((err) => {
+        const m = err instanceof Error ? err.message : "unknown";
+        console.warn("incrementLicenseUsage 失败 (非致命):", m);
+      });
+    }
+
+    // 6. 响应
+    const response: EstimateResponse = {
+      input: req,
+      llmOutput: llmResult.output,
+      calculation,
+      riskLevel: risk.level,
+      riskReasons: risk.reasons,
+      disclaimer: DISCLAIMER,
+      meta: {
+        licenseUsage,
+        licenseQuota,
+        promptTokens: llmResult.promptTokens,
+        completionTokens: llmResult.completionTokens,
+      },
+    };
+
+    return NextResponse.json(response);
+  } catch (err) {
     const msg = err instanceof Error ? err.message : "unknown";
-    console.error("LLM 未知错误:", msg);
+    console.error("API 路由未捕获异常:", msg);
     return NextResponse.json(
-      { error: "INTERNAL", message: "服务器内部错误" },
+      { error: "INTERNAL", message: "服务器处理失败，请稍后再试" },
       { status: 500 },
     );
   }
-
-  // 4. 数学兜底 + 风险评级
-  const calculation = calculate(req, llmResult.output);
-  const risk = assessRisk(req, llmResult.output, calculation);
-
-  // 5. 用量自增（best-effort，失败不阻塞）
-  let licenseUsage = 0;
-  let licenseQuota = 0;
-  if (lic.bypass) {
-    licenseUsage = 0;
-    licenseQuota = 9999;
-  } else if (lic.record) {
-    licenseUsage = lic.record.usedCount + 1;
-    licenseQuota = lic.record.quota;
-    incrementLicenseUsage(lic.record.license, lic.record).catch((err) => {
-      const m = err instanceof Error ? err.message : "unknown";
-      console.warn("incrementLicenseUsage 失败 (非致命):", m);
-    });
-  }
-
-  // 6. 响应
-  const response: EstimateResponse = {
-    input: req,
-    llmOutput: llmResult.output,
-    calculation,
-    riskLevel: risk.level,
-    riskReasons: risk.reasons,
-    disclaimer: DISCLAIMER,
-    meta: {
-      licenseUsage,
-      licenseQuota,
-      promptTokens: llmResult.promptTokens,
-      completionTokens: llmResult.completionTokens,
-    },
-  };
-
-  return NextResponse.json(response);
 }
 
 // 显式禁用 GET（防误访问）

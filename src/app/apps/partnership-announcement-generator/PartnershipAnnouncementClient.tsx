@@ -125,7 +125,17 @@ export default function PartnershipAnnouncementClient() {
         }),
       });
 
-      const data = await res.json();
+      let data: any = null;
+      const text = await res.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        const preview = text.replace(/<[^>]+>/g, "").slice(0, 200).trim() || "(empty response)";
+        setErrorMsg(`Service response error: ${preview}`);
+        setStatus("error");
+        return;
+      }
+
       if (res.ok) {
         setResult(data);
         setStatus("done");
@@ -139,7 +149,7 @@ export default function PartnershipAnnouncementClient() {
           }
         }
       } else {
-        setErrorMsg(data.message || data.error || "Request failed");
+        setErrorMsg(data?.message || data?.error || `Request failed (HTTP ${res.status})`);
         setStatus("error");
       }
     } catch (err) {

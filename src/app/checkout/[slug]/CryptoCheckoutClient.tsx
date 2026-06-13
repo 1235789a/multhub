@@ -61,7 +61,16 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
         }),
       });
 
-      const data = await res.json();
+      let data: any = null;
+      const text = await res.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        setTxIdStatus("error");
+        setTxIdMessage("服务响应异常，请稍后再试");
+        return;
+      }
+
       if (res.ok && data.success) {
         setTxIdStatus("done");
         setTxIdMessage(
@@ -69,7 +78,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
         );
       } else {
         setTxIdStatus("error");
-        setTxIdMessage(data.error ?? t.txNotFoundOnChain);
+        setTxIdMessage(data?.error ?? t.txNotFoundOnChain);
       }
     } catch {
       setTxIdStatus("error");

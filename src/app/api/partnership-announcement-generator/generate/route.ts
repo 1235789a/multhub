@@ -81,17 +81,23 @@ function validateInput(body: unknown): GenerateRequest | { error: string } {
   const projectADescription = String(o.projectADescription ?? "").trim();
   const trimmedADescription = projectADescription;
   if (trimmedADescription.length < 4 || trimmedADescription.length > 2000) {
-    return { error: "projectADescription 长度需在 4~2000 字符（不计前后空格）" };
+    return {
+      error: "projectADescription 长度需在 4~2000 字符（不计前后空格）",
+    };
   }
 
   const projectBDescription = String(o.projectBDescription ?? "").trim();
   const trimmedBDescription = projectBDescription;
   if (trimmedBDescription.length < 4 || trimmedBDescription.length > 2000) {
-    return { error: "projectBDescription 长度需在 4~2000 字符（不计前后空格）" };
+    return {
+      error: "projectBDescription 长度需在 4~2000 字符（不计前后空格）",
+    };
   }
 
   const partnershipTypeRaw = String(o.partnershipType ?? "").trim();
-  if (!VALID_PARTNERSHIP_TYPES.includes(partnershipTypeRaw as PartnershipType)) {
+  if (
+    !VALID_PARTNERSHIP_TYPES.includes(partnershipTypeRaw as PartnershipType)
+  ) {
     return {
       error: `partnershipType 需为以下之一: ${VALID_PARTNERSHIP_TYPES.join(", ")}`,
     };
@@ -202,84 +208,99 @@ async function checkLicense(
 // ------------------------------------------------------------
 
 export async function POST(request: NextRequest) {
-  const lic = await checkLicense(request);
-  if (!lic.ok) {
-    return NextResponse.json(
-      { error: lic.status === 402 ? "INVALID_LICENSE" : "UPSTREAM", message: lic.error },
-      { status: lic.status },
-    );
-  }
-
-  let body: unknown;
   try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { error: "INVALID_INPUT", message: "请求体不是合法的 JSON" },
-      { status: 400 },
-    );
-  }
-  const v = validateInput(body);
-  if ("error" in v) {
-    return NextResponse.json(
-      { error: "INVALID_INPUT", message: v.error },
-      { status: 400 },
-    );
-  }
-  const req: GenerateRequest = v;
+    const lic = await checkLicense(request);
+    if (!lic.ok) {
+      return NextResponse.json(
+        {
+          error: lic.status === 402 ? "INVALID_LICENSE" : "UPSTREAM",
+          message: lic.error,
+        },
+        { status: lic.status },
+      );
+    }
 
-  let llmResult;
-  try {
-    llmResult = await generateWithLLM(req);
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: "INVALID_INPUT", message: "请求体不是合法的 JSON" },
+        { status: 400 },
+      );
+    }
+    const v = validateInput(body);
+    if ("error" in v) {
+      return NextResponse.json(
+        { error: "INVALID_INPUT", message: v.error },
+        { status: 400 },
+      );
+    }
+    const req: GenerateRequest = v;
+
+    let llmResult;
+    try {
+      llmResult = await generateWithLLM(req);
+    } catch (err) {
+      if (err instanceof LLMRefusedError) {
+        return NextResponse.json(
+          { error: "LLM_REFUSED", message: "输入信息不足，无法生成公告" },
+          { status: 422 },
+        );
+      }
+      if (err instanceof LLMUpstreamError) {
+        console.error("LLM 上游错误:", err.status, err.detail);
+        return NextResponse.json(
+          {
+            error: "LLM_UPSTREAM",
+            message: "AI 推理服务暂时不可用，请稍后再试",
+          },
+          { status: 502 },
+        );
+      }
+      const msg = err instanceof Error ? err.message : "unknown";
+      console.error("LLM 未知错误:", msg);
+      return NextResponse.json(
+        { error: "INTERNAL", message: "服务器内部错误" },
+        { status: 500 },
+      );
+    }
+
+    let licenseUsage = 0;
+    let licenseQuota = 0;
+    if (lic.bypass) {
+      licenseUsage = 0;
+      licenseQuota = 9999;
+    } else if (lic.record) {
+      licenseUsage = lic.record.usedCount + 1;
+      licenseQuota = lic.record.quota;
+      incrementLicenseUsage(lic.record.license, lic.record).catch((err) => {
+        const m = err instanceof Error ? err.message : "unknown";
+        console.warn("incrementLicenseUsage 失败 (非致命):", m);
+      });
+    }
+
+    const response: GenerateResponse = {
+      request: req,
+      content: llmResult.output,
+      disclaimer: DISCLAIMER,
+      meta: {
+        licenseUsage,
+        licenseQuota,
+        promptTokens: llmResult.promptTokens,
+        completionTokens: llmResult.completionTokens,
+      },
+    };
+
+    return NextResponse.json(response);
   } catch (err) {
-    if (err instanceof LLMRefusedError) {
-      return NextResponse.json(
-        { error: "LLM_REFUSED", message: "输入信息不足，无法生成公告" },
-        { status: 422 },
-      );
-    }
-    if (err instanceof LLMUpstreamError) {
-      console.error("LLM 上游错误:", err.status, err.detail);
-      return NextResponse.json(
-        { error: "LLM_UPSTREAM", message: "AI 推理服务暂时不可用，请稍后再试" },
-        { status: 502 },
-      );
-    }
     const msg = err instanceof Error ? err.message : "unknown";
-    console.error("LLM 未知错误:", msg);
+    console.error("API 路由未捕获异常:", msg);
     return NextResponse.json(
-      { error: "INTERNAL", message: "服务器内部错误" },
+      { error: "INTERNAL", message: "服务器处理失败，请稍后再试" },
       { status: 500 },
     );
   }
-
-  let licenseUsage = 0;
-  let licenseQuota = 0;
-  if (lic.bypass) {
-    licenseUsage = 0;
-    licenseQuota = 9999;
-  } else if (lic.record) {
-    licenseUsage = lic.record.usedCount + 1;
-    licenseQuota = lic.record.quota;
-    incrementLicenseUsage(lic.record.license, lic.record).catch((err) => {
-      const m = err instanceof Error ? err.message : "unknown";
-      console.warn("incrementLicenseUsage 失败 (非致命):", m);
-    });
-  }
-
-  const response: GenerateResponse = {
-    request: req,
-    content: llmResult.output,
-    disclaimer: DISCLAIMER,
-    meta: {
-      licenseUsage,
-      licenseQuota,
-      promptTokens: llmResult.promptTokens,
-      completionTokens: llmResult.completionTokens,
-    },
-  };
-
-  return NextResponse.json(response);
 }
 
 export async function GET() {
