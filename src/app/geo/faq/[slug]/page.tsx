@@ -13,9 +13,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const question = QUESTIONS.find((q) => q.id === params.slug);
+  const { slug } = await params;
+  const question = QUESTIONS.find((q) => q.id === slug);
   if (!question) {
     return {
       title: "Not Found",
@@ -34,12 +35,13 @@ export async function generateMetadata({
   };
 }
 
-export default function FaqPage({
+export default async function FaqPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const question = QUESTIONS.find((q) => q.id === params.slug);
+  const { slug } = await params;
+  const question = QUESTIONS.find((q) => q.id === slug);
   if (!question) notFound();
 
   return (
@@ -53,7 +55,7 @@ export default function FaqPage({
           Back to Home
         </Link>
 
-        <GeoContent type="faq" id={params.slug} lang="en" />
+        <GeoContent type="faq" id={slug} lang="en" />
 
         <div className="mt-8">
           <FaqSchema questions={[question]} />

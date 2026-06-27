@@ -12,9 +12,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const caseStudy = CASE_STUDIES.find((c) => c.id === params.slug);
+  const { slug } = await params;
+  const caseStudy = CASE_STUDIES.find((c) => c.id === slug);
   if (!caseStudy) {
     return {
       title: "Not Found",
@@ -33,12 +34,13 @@ export async function generateMetadata({
   };
 }
 
-export default function CaseStudyPage({
+export default async function CaseStudyPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const caseStudy = CASE_STUDIES.find((c) => c.id === params.slug);
+  const { slug } = await params;
+  const caseStudy = CASE_STUDIES.find((c) => c.id === slug);
   if (!caseStudy) notFound();
 
   return (
@@ -52,7 +54,7 @@ export default function CaseStudyPage({
           Back to Home
         </Link>
 
-        <GeoContent type="case-study" id={params.slug} lang="en" />
+        <GeoContent type="case-study" id={slug} lang="en" />
 
         <div className="mt-12 bg-white rounded-xl border border-zinc-200 p-6">
           <h2 className="text-lg font-semibold text-zinc-900 mb-4">

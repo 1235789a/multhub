@@ -296,8 +296,7 @@ export async function findLicenseUsage(
 /** 用量自增 + 时间戳更新（不做严格的事务，足够防止单 license 大规模刷量） */
 export async function incrementLicenseUsage(
   license: string,
-  current: LicenseUsageRecord,
-): Promise<void> {
+  current: LicenseUsageRecord,): Promise<void> {
   await upsertDocument("license_usage", license, {
     license: current.license,
     productSlug: current.productSlug,
@@ -307,4 +306,62 @@ export async function incrementLicenseUsage(
     createdAt: current.createdAt,
     lastUsedAt: new Date().toISOString(),
   });
+}
+
+// ============================================================
+// Trial Usage (免费试用计数)
+// ============================================================
+
+export interface TrialUsageRecord {
+  productSlug: string;
+  visitorId: string;
+  used: number;
+  maxUses: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export async function getTrialUsage(
+  productSlug: string,
+  visitorId: string,
+): Promise<TrialUsageRecord | null> {
+  const docId = `${productSlug}_${visitorId}`;
+  const doc = await getDocument("trial_usage", docId);
+  if (!doc) return null;
+  return doc as unknown as TrialUsageRecord;
+}
+
+export async function incrementTrialUsage(
+  productSlug: string,
+  visitorId: string,
+  maxUses: number,
+): Promise<{ used: number; maxUses: number }> {
+  const docId = `${productSlug}_${visitorId}`;
+  const now = new Date().toISOString();
+
+  const existing = await getTrialUsage(productSlug, visitorId);
+
+  if (!existing) {
+    await createDocumentIfNotExists("trial_usage", docId, {
+      productSlug,
+      visitorId,
+      used: 1,
+      maxUses,
+      createdAt: now,
+      updatedAt: now,
+    });
+    return { used: 1, maxUses };
+  }
+
+  const nextUsed = existing.used + 1;
+  await upsertDocument("trial_usage", docId, {
+    productSlug,
+    visitorId,
+    used: nextUsed,
+    maxUses,
+    createdAt: existing.createdAt,
+    updatedAt: now,
+  });
+
+  return { used: nextUsed, maxUses };
 }

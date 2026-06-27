@@ -97,6 +97,9 @@ export interface Product {
   /** 免费试用配置 */
   trialConfig?: { allowed: boolean; maxUses: number };
 
+  /** 购买后配额 */
+  quota?: { maxUses: number };
+
   // === GEO (Generative Engine Optimization) 字段 ===
 
   /** 一句话介绍（中英双语） */
@@ -138,6 +141,50 @@ export interface Product {
 // 产品列表 — 仅保留可用产品
 // ====================================
 export const PRODUCTS: Product[] = [
+  // 🎯 主产品 - Web3 Content Factory
+  {
+    name: {
+      en: "Web3 Content Factory",
+      zh: "Web3 Content Factory · Web3 内容工厂",
+    },
+    slug: "web3-content-factory",
+    icon: "🚀",
+    version: "v0.1",
+    priceBase: 69,
+    priceDisplay: "9 USDT",
+    priceUSDT: 9,
+    category: "marketing",
+    features: {
+      en: [
+        "Generate ready-to-post X and Telegram content for small Web3 projects",
+        "Create launch threads, pinned messages, meme prompts, and community posts",
+        "Built for meme coins, NFT projects, AI agents, Telegram bots, and crypto communities",
+        "100 generations, one-time purchase",
+      ],
+      zh: [
+        "为小型 Web3 项目生成可直接发布的 X / Telegram 内容",
+        "生成 Launch Thread、置顶消息、Meme Prompt、社区互动帖",
+        "适合 Meme coin、NFT、AI Agent、Telegram Bot 和加密社区",
+        "一次买断，100 次生成额度",
+      ],
+    },
+    status: "available",
+    launchPath: "/apps/web3-content-factory",
+    trialConfig: { allowed: true, maxUses: 3 },
+    quota: { maxUses: 100 },
+    tagline: {
+      en: "AI content tools for small Web3 projects",
+      zh: "面向小型 Web3 项目的 AI 内容工具",
+    },
+    description: {
+      en: "Create X posts, Telegram announcements, launch threads, meme prompts, pinned messages, and community engagement posts in minutes.",
+      zh: "几分钟内生成 X 帖子、Telegram 公告、Launch Thread、Meme Prompt、置顶消息和社区互动帖。",
+    },
+    targetUsers: {
+      en: ["Meme coins", "NFT projects", "AI agents", "Telegram bots", "Web3 tools", "Crypto communities"],
+      zh: ["Meme 币", "NFT 项目", "AI Agent", "Telegram Bot", "Web3 工具", "加密社区"],
+    },
+  },
   // 🤝 Launch 系列 - Partnership Announcement Generator
   {
     name: {
@@ -168,8 +215,9 @@ export const PRODUCTS: Product[] = [
     status: "available",
     launchPath: "/apps/partnership-announcement-generator",
     trialConfig: { allowed: true, maxUses: 3 },
+    quota: { maxUses: 100 },
   },
-  // 🛃 Operations 系列 - Tariff Lens
+  // 🛃 Operations 系列 - Tariff Lens（保留但标记 roadmap）
   {
     name: {
       en: "Tariff Lens",
@@ -196,8 +244,9 @@ export const PRODUCTS: Product[] = [
         "100 次配额 · 一次买断",
       ],
     },
-    status: "available",
+    status: "roadmap",
     launchPath: "/apps/tariff-lens",
     trialConfig: { allowed: true, maxUses: 3 },
+    quota: { maxUses: 100 },
   },
 ];

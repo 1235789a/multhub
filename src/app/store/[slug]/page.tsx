@@ -10,9 +10,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const product = PRODUCTS.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const product = PRODUCTS.find((p) => p.slug === slug);
   if (!product) {
     return { title: "Product Not Found" };
   }
@@ -33,17 +34,18 @@ export async function generateMetadata({
   };
 }
 
-export default function StoreDetailPage({
+export default async function StoreDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const product = PRODUCTS.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const product = PRODUCTS.find((p) => p.slug === slug);
 
   return (
     <>
       {product && <ProductJsonLd product={product} />}
-      <StoreDetailClient slug={params.slug} />
+      <StoreDetailClient slug={slug} />
     </>
   );
 }

@@ -200,6 +200,8 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
       completionTokens: usage?.completion_tokens ?? 0,
     };
   } // end retry for
+
+  throw new LLMUpstreamError(500, "Unexpected: max retries reached without return");
 }
 
 // ------------------------------------------------------------

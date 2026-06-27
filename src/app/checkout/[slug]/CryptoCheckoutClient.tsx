@@ -7,13 +7,17 @@ import { QRCodeSVG } from "qrcode.react";
 import { PRODUCTS } from "../../data/products";
 import { useLanguage } from "../../i18n/index";
 
-// ============================================================
-// 收款地址 — 硬编码，后期对接后端后可改为动态获取
-// ============================================================
-const RECEIVE_ADDRESS = "TAQ8mTABoYgBmqf1JrRi3sVnkeFgTqGgCd";
-const USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // TRC20-USDT
+const DEFAULT_RECEIVE_ADDRESS = "TAQ8mTABoYgBmqf1JrRi3sVnkeFgTqGgCd";
+const USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
+const SUPPORT_CONTACT = "support@multhub.top";
 
-/** 构建 TronLink 深链支付 URI */
+function getReceiveAddress(): string {
+  if (typeof window !== "undefined") {
+    return (window as any).__NEXT_DATA__?.props?.pageProps?.usdtAddress || DEFAULT_RECEIVE_ADDRESS;
+  }
+  return DEFAULT_RECEIVE_ADDRESS;
+}
+
 function buildTronPayUri(
   address: string,
   amount: number,
@@ -24,22 +28,23 @@ function buildTronPayUri(
   return `tron://scan/pay?toAddress=${address}&amount=${raw}&contractAddress=${contract}&decimal=${decimals}`;
 }
 
+function copyToClipboard(text: string) {
+  if (typeof navigator !== "undefined" && navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+}
+
 export default function CryptoCheckoutClient({ slug }: { slug: string }) {
   const { t, lang } = useLanguage();
   const product = PRODUCTS.find((p) => p.slug === slug);
 
-  // ---- TxID 自助补救 ----
   const [txIdInput, setTxIdInput] = useState("");
   const [txIdStatus, setTxIdStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [txIdMessage, setTxIdMessage] = useState("");
+  const [licenseKey, setLicenseKey] = useState("");
 
-  // USDT 支付金额：优先 priceUSDT；fallback 把 RMB 价 / 7.2 估算
-  const expectedUsdt =
-    product?.priceUSDT != null
-      ? product.priceUSDT
-      : product
-        ? Math.max(1, Math.round(product.priceBase / 7.2))
-        : 0;
+  const receiveAddress = getReceiveAddress();
+  const expectedUsdt = product?.priceUSDT ?? 0;
 
   const handleTxIdVerify = useCallback(async () => {
     const trimmed = txIdInput.trim();
@@ -47,6 +52,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
 
     setTxIdStatus("loading");
     setTxIdMessage("");
+    setLicenseKey("");
 
     try {
       const res = await fetch("/api/verify-trc20", {
@@ -54,9 +60,6 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           txId: trimmed,
-          expectedAmount: expectedUsdt,
-          expectedTo: RECEIVE_ADDRESS,
-          contract: USDT_CONTRACT,
           productSlug: product?.slug ?? "unknown",
         }),
       });
@@ -67,49 +70,49 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
         data = JSON.parse(text);
       } catch {
         setTxIdStatus("error");
-        setTxIdMessage("服务响应异常，请稍后再试");
+        setTxIdMessage("Service response error, please try again later");
         return;
       }
 
       if (res.ok && data.success) {
         setTxIdStatus("done");
+        setLicenseKey(data.licenseKey || data.license || "");
         setTxIdMessage(
-          t.licenseSuccess.replace("{{license}}", data.license ?? "已发送至你的邮箱"),
+          data.cached
+            ? "License already redeemed. Your license key is shown below."
+            : "Payment verified successfully! Your license key is shown below.",
         );
       } else {
         setTxIdStatus("error");
-        setTxIdMessage(data?.error ?? t.txNotFoundOnChain);
+        setTxIdMessage(data?.error ?? "Verification failed");
       }
     } catch {
       setTxIdStatus("error");
-      setTxIdMessage(t.errorNetwork);
+      setTxIdMessage("Network error, please try again");
     }
-  }, [txIdInput, expectedUsdt, product, t]);
+  }, [txIdInput, product]);
 
-  // ---- 404 ----
   if (!product) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white">{t.productNotFoundTitle}</h1>
-          <p className="mt-4 text-sm text-zinc-400">{t.productNotFound}</p>
+          <h1 className="text-2xl font-bold text-white">Product Not Found</h1>
+          <p className="mt-4 text-sm text-zinc-400">The product you are looking for does not exist.</p>
           <Link
             href="/store"
             className="mt-6 inline-block text-sm font-medium text-zinc-400 underline underline-offset-4 hover:text-zinc-200"
           >
-            {t.backToStore}
+            Back to Store
           </Link>
         </div>
       </div>
     );
   }
 
-  // 二维码深链使用 USDT 金额（链上支付币种是 USDT，跟 priceBase 的人民币数值无关）
-  const tronPayUri = buildTronPayUri(RECEIVE_ADDRESS, expectedUsdt, USDT_CONTRACT);
+  const tronPayUri = buildTronPayUri(receiveAddress, expectedUsdt, USDT_CONTRACT);
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Grid texture */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
         style={{
@@ -129,11 +132,10 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
             href="/store"
             className="mb-8 inline-block text-sm text-zinc-500 transition-colors hover:text-zinc-300"
           >
-            {t.backToStore}
+            ← Back to Store
           </Link>
         </motion.div>
 
-        {/* Product Summary */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -148,14 +150,57 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
             </div>
           </div>
           <div className="mt-3 flex items-baseline justify-between border-t border-zinc-800 pt-3">
-            <span className="text-sm text-zinc-400">{t.payableAmount}</span>
+            <span className="text-sm text-zinc-400">Amount</span>
             <span className="text-2xl font-bold text-white">
               {product.priceDisplay}
             </span>
           </div>
         </motion.div>
 
-        {/* QR Code */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6"
+        >
+          <h2 className="mb-4 text-sm font-semibold text-zinc-300">Payment Details</h2>
+
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Network</span>
+              <span className="text-zinc-200">TRON / TRC20</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Token</span>
+              <span className="text-zinc-200">USDT</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-zinc-500">Amount</span>
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-200 font-medium">{expectedUsdt} USDT</span>
+                <button
+                  onClick={() => copyToClipboard(String(expectedUsdt))}
+                  className="text-xs text-emerald-400 hover:text-emerald-300"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+            <div className="flex justify-between items-start">
+              <span className="text-zinc-500 pt-1">Receive Address</span>
+              <div className="flex flex-col items-end gap-1 max-w-[60]">
+                <span className="text-zinc-200 text-xs font-mono break-all text-right">{receiveAddress}</span>
+                <button
+                  onClick={() => copyToClipboard(receiveAddress)}
+                  className="text-xs text-emerald-400 hover:text-emerald-300"
+                >
+                  Copy Address
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -165,7 +210,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           <div className="rounded-2xl border border-zinc-800 bg-white p-5 shadow-lg shadow-zinc-900/50">
             <QRCodeSVG
               value={tronPayUri}
-              size={200}
+              size={180}
               bgColor="#ffffff"
               fgColor="#000000"
               level="M"
@@ -174,19 +219,18 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           </div>
 
           <p className="mt-4 text-center text-xs text-zinc-500 max-w-xs">
-            {t.scanQRPrompt}
+            Scan with TronLink wallet, or send USDT TRC20 from any exchange
           </p>
 
           <a
             href={tronPayUri}
             className="mt-3 inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 px-5 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white"
           >
-            {t.openTronLink}
+            Open in TronLink
             <span className="text-zinc-500">↗</span>
           </a>
         </motion.div>
 
-        {/* Awaiting payment indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -197,22 +241,21 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
             <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
           </span>
-          <span className="text-xs text-zinc-500">{t.awaitPayment}</span>
+          <span className="text-xs text-zinc-500">Awaiting payment...</span>
         </motion.div>
 
-        {/* Disclaimer */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="mb-10 rounded-lg border border-red-900/40 bg-red-950/30 p-4"
+          className="mb-10 rounded-lg border border-amber-900/40 bg-amber-950/30 p-4"
         >
-          <p className="text-xs leading-relaxed text-red-300/80">
-            ⚠️ {t.checkoutDisclaimer}
+          <p className="text-xs leading-relaxed text-amber-300/80">
+            ⚠️ Send only <strong>USDT (TRC20)</strong> to this address.
+            Sending any other token may result in permanent loss.
           </p>
         </motion.div>
 
-        {/* TxID Recovery */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -220,10 +263,10 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
           className="rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md p-6"
         >
           <h2 className="mb-3 text-sm font-semibold text-zinc-300">
-            {t.txidSelfRecovery}
+            Verify Payment
           </h2>
           <p className="mb-4 text-xs text-zinc-500">
-            {t.txidRecovery}
+            After payment, paste your TxID below to verify and get your license key.
           </p>
 
           <div className="flex gap-2">
@@ -231,7 +274,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
               type="text"
               value={txIdInput}
               onChange={(e) => setTxIdInput(e.target.value)}
-              placeholder={t.txidPlaceholder}
+              placeholder="Enter transaction ID (TxID)"
               className="flex-1 rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-emerald-500/50 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
             />
             <button
@@ -239,7 +282,7 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
               disabled={txIdStatus === "loading"}
               className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-700/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {txIdStatus === "loading" ? t.verifying : t.txidSubmit}
+              {txIdStatus === "loading" ? "Verifying..." : "Verify"}
             </button>
           </div>
 
@@ -256,6 +299,34 @@ export default function CryptoCheckoutClient({ slug }: { slug: string }) {
               {txIdMessage}
             </p>
           )}
+
+          {licenseKey && (
+            <div className="mt-4 rounded-lg border border-emerald-900/40 bg-emerald-950/30 p-3">
+              <p className="text-xs text-emerald-400 mb-2 font-medium">Your License Key:</p>
+              <div className="flex items-center gap-2">
+                <code className="flex-1 text-xs font-mono text-emerald-300 break-all">{licenseKey}</code>
+                <button
+                  onClick={() => copyToClipboard(licenseKey)}
+                  className="shrink-0 text-xs text-emerald-400 hover:text-emerald-300"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="mt-4 pt-4 border-t border-zinc-800">
+            <p className="text-xs text-zinc-500">
+              If verification fails after payment, contact{" "}
+              <a
+                href={`mailto:${SUPPORT_CONTACT}`}
+                className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2"
+              >
+                {SUPPORT_CONTACT}
+              </a>
+              {" "}with your TxID.
+            </p>
+          </div>
         </motion.div>
       </main>
     </div>

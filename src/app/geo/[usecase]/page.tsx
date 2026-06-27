@@ -5,16 +5,17 @@ import Link from "next/link";
 
 export async function generateStaticParams() {
   return USE_CASES.map((u) => ({
-    slug: u.id,
+    usecase: u.id,
   }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ usecase: string }>;
 }) {
-  const useCase = USE_CASES.find((u) => u.id === params.slug);
+  const { usecase } = await params;
+  const useCase = USE_CASES.find((u) => u.id === usecase);
   if (!useCase) {
     return {
       title: "Not Found",
@@ -33,12 +34,13 @@ export async function generateMetadata({
   };
 }
 
-export default function UseCasePage({
+export default async function UseCasePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ usecase: string }>;
 }) {
-  const useCase = USE_CASES.find((u) => u.id === params.slug);
+  const { usecase } = await params;
+  const useCase = USE_CASES.find((u) => u.id === usecase);
   if (!useCase) notFound();
 
   return (
@@ -52,7 +54,7 @@ export default function UseCasePage({
           Back to Home
         </Link>
 
-        <GeoContent type="usecase" id={params.slug} lang="en" />
+        <GeoContent type="usecase" id={usecase} lang="en" />
 
         <div className="mt-12 bg-white rounded-xl border border-zinc-200 p-6">
           <h2 className="text-lg font-semibold text-zinc-900 mb-4">

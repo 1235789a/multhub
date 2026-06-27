@@ -77,7 +77,11 @@ export default function StoreDetailClient({ slug }: { slug: string }) {
                     {product.version}
                   </span>
                   <span className="text-xs text-zinc-500">
-                    {t.freeTrial14Days}
+                    {product.trialConfig?.allowed
+                      ? `Free trial: ${product.trialConfig.maxUses} generations`
+                      : product.quota
+                        ? `${product.quota.maxUses} generations`
+                        : ""}
                   </span>
                 </div>
               </div>

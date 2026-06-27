@@ -10,9 +10,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const post = BLOG_POSTS.find((p) => p.slug === slug);
   if (!post) {
     return { title: "Post Not Found" };
   }
@@ -28,24 +29,23 @@ export async function generateMetadata({
       description: post.excerpt.en,
       type: "article",
       publishedTime: post.date,
-      authors: ["蜕羽"],
       url: `https://multhub.top/log/${post.slug}`,
       images: [{ url: "https://multhub.top/favicon.ico" }],
     },
   };
 }
 
-export default function BlogDetailPage({
+export default async function LogDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
-
+  const { slug } = await params;
+  const post = BLOG_POSTS.find((p) => p.slug === slug);
   return (
     <>
       {post && <ArticleJsonLd post={post} />}
-      <BlogDetailClient slug={params.slug} />
+      <BlogDetailClient slug={slug} />
     </>
   );
 }

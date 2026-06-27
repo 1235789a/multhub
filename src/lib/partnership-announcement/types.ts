@@ -41,5 +41,6 @@ export interface GenerateResponse {
     licenseQuota: number;
     promptTokens?: number;
     completionTokens?: number;
+    mode: "license" | "trial";
   };
 }
