@@ -22,7 +22,7 @@
   "vars": {
     "FIREBASE_PROJECT_ID": "multhub-10397",
     "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-fbsvc@multhub-10397.iam.gserviceaccount.com",
-    "USDT_RECEIVE_ADDRESS": "TAQ8mTABoYgBmqf1JrRi3sVnkeFgTqGgCd",
+    "USDT_RECEIVE_ADDRESS": "TWiDbdetRhXF3cnMHciM1EK8AjTPKHMjJF",
     "IMAGE_MODEL": "deepseek-chat",
     "NEXT_PUBLIC_SITE_URL": "https://multhub.top"
   }

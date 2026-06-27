@@ -9,7 +9,7 @@ import { PRODUCTS } from "@/app/data/products";
 
 const TRONGRID_API = "https://api.trongrid.io";
 const USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
-const DEFAULT_RECEIVE_ADDRESS = "TAQ8mTABoYgBmqf1JrRi3sVnkeFgTqGgCd";
+const DEFAULT_RECEIVE_ADDRESS = "TWiDbdetRhXF3cnMHciM1EK8AjTPKHMjJF";
 
 function getReceiveAddress(): string {
   return process.env.USDT_RECEIVE_ADDRESS || DEFAULT_RECEIVE_ADDRESS;

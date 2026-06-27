@@ -7,7 +7,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { PRODUCTS } from "../../data/products";
 import { useLanguage } from "../../i18n/index";
 
-const DEFAULT_RECEIVE_ADDRESS = "TAQ8mTABoYgBmqf1JrRi3sVnkeFgTqGgCd";
+const DEFAULT_RECEIVE_ADDRESS = "TWiDbdetRhXF3cnMHciM1EK8AjTPKHMjJF";
 const USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
 const SUPPORT_CONTACT = "support@multhub.top";
 

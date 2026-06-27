@@ -65,6 +65,7 @@ export type ProductStatus =
 export type ProductCategory =
   | "launch"     // 发布相关
   | "marketing"  // 营销工具
+  | "image"      // 生图工具
   | "operations"; // 运营工具
 
 export interface Product {
@@ -179,6 +180,50 @@ export const PRODUCTS: Product[] = [
     description: {
       en: "Create X posts, Telegram announcements, launch threads, meme prompts, pinned messages, and community engagement posts in minutes.",
       zh: "几分钟内生成 X 帖子、Telegram 公告、Launch Thread、Meme Prompt、置顶消息和社区互动帖。",
+    },
+    targetUsers: {
+      en: ["Meme coins", "NFT projects", "AI agents", "Telegram bots", "Web3 tools", "Crypto communities"],
+      zh: ["Meme 币", "NFT 项目", "AI Agent", "Telegram Bot", "Web3 工具", "加密社区"],
+    },
+  },
+  // 🎨 Image 系列 - Web3 Promo Image Factory
+  {
+    name: {
+      en: "Web3 Promo Image Factory",
+      zh: "Web3 Promo Image Factory · Web3 宣传图工厂",
+    },
+    slug: "web3-promo-image-factory",
+    icon: "🎨",
+    version: "v0.1",
+    priceBase: 69,
+    priceDisplay: "9 USDT",
+    priceUSDT: 9,
+    category: "image",
+    features: {
+      en: [
+        "Generate promo image concepts for small Web3 projects",
+        "Create meme visuals, launch posters, X images, and Telegram announcement visuals",
+        "Built for meme coins, NFT projects, AI agents, Telegram bots, and crypto communities",
+        "100 generations, one-time purchase",
+      ],
+      zh: [
+        "为小型 Web3 项目生成宣传图方案",
+        "生成 Meme 图、Launch 海报、X 配图、Telegram 公告图",
+        "适合 Meme coin、NFT、AI Agent、Telegram Bot 和加密社区",
+        "一次买断，100 次生成额度",
+      ],
+    },
+    status: "available",
+    launchPath: "/apps/web3-promo-image-factory",
+    trialConfig: { allowed: true, maxUses: 3 },
+    quota: { maxUses: 100 },
+    tagline: {
+      en: "AI image generator for small Web3 projects",
+      zh: "面向小型 Web3 项目的 AI 宣传图生成工具",
+    },
+    description: {
+      en: "Generate Web3 promo visuals, meme images, launch posters, and Telegram announcement graphics in minutes.",
+      zh: "几分钟内生成 Web3 宣传图、Meme 图、Launch 海报和 Telegram 公告图。",
     },
     targetUsers: {
       en: ["Meme coins", "NFT projects", "AI agents", "Telegram bots", "Web3 tools", "Crypto communities"],

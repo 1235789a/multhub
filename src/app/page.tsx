@@ -2,9 +2,13 @@ import Link from "next/link";
 import { PRODUCTS } from "./data/products";
 
 export default function HomePage() {
-  const mainProduct = PRODUCTS.find((p) => p.slug === "web3-content-factory");
-  const availableProducts = PRODUCTS.filter(
-    (p) => p.status === "available" && p.slug !== "web3-content-factory",
+  const web3ContentFactory = PRODUCTS.find((p) => p.slug === "web3-content-factory");
+  const web3PromoImageFactory = PRODUCTS.find((p) => p.slug === "web3-promo-image-factory");
+  const otherProducts = PRODUCTS.filter(
+    (p) =>
+      p.status === "available" &&
+      p.slug !== "web3-content-factory" &&
+      p.slug !== "web3-promo-image-factory",
   );
 
   return (
@@ -136,7 +140,72 @@ export default function HomePage() {
           </div>
         </div>
 
-        {availableProducts.length > 0 && (
+        {web3ContentFactory && web3PromoImageFactory && (
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Tools
+            </h2>
+            <p className="text-zinc-500 mb-8">
+              Create content and visuals for small Web3 projects.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <Link
+                href={`/store/${web3ContentFactory.slug}`}
+                className="group bg-zinc-900/50 border border-zinc-800 hover:border-emerald-600/50 rounded-xl p-5 transition-colors"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="text-3xl">{web3ContentFactory.icon}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                        {web3ContentFactory.name.en}
+                      </h3>
+                      <span className="text-sm text-emerald-400">
+                        {web3ContentFactory.priceDisplay}
+                      </span>
+                    </div>
+                    <p className="text-sm text-zinc-500 line-clamp-2">
+                      {web3ContentFactory.tagline?.en ?? web3ContentFactory.features.en[0] ?? ""}
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <span className="text-xs text-zinc-600">Content</span>
+                      <span className="text-xs text-zinc-600">X / Telegram</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                href={`/store/${web3PromoImageFactory.slug}`}
+                className="group bg-zinc-900/50 border border-zinc-800 hover:border-emerald-600/50 rounded-xl p-5 transition-colors"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="text-3xl">{web3PromoImageFactory.icon}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                        {web3PromoImageFactory.name.en}
+                      </h3>
+                      <span className="text-sm text-emerald-400">
+                        {web3PromoImageFactory.priceDisplay}
+                      </span>
+                    </div>
+                    <p className="text-sm text-zinc-500 line-clamp-2">
+                      {web3PromoImageFactory.tagline?.en ?? web3PromoImageFactory.features.en[0] ?? ""}
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <span className="text-xs text-zinc-600">Images</span>
+                      <span className="text-xs text-zinc-600">Prompts / Visuals</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {otherProducts.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold text-white mb-2">
               More tools
@@ -146,7 +215,7 @@ export default function HomePage() {
             </p>
 
             <div className="grid md:grid-cols-2 gap-4">
-              {availableProducts.map((p) => (
+              {otherProducts.map((p) => (
                 <Link
                   key={p.slug}
                   href={`/store/${p.slug}`}
