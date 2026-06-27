@@ -4,6 +4,8 @@ import {
   LLMRefusedError,
   LLMUpstreamError,
 } from "@/lib/web3-promo-image-factory/llm";
+import { generateImageIfAvailable } from "@/lib/web3-promo-image-factory/image-provider";
+import { getWorkflow } from "@/lib/web3-promo-image-factory/workflows";
 import {
   checkEntitlement,
   consumeEntitlement,
@@ -15,7 +17,6 @@ import type {
   VisualGoal,
   VisualStyle,
   ToneType,
-  OutputMode,
 } from "@/lib/web3-promo-image-factory/types";
 
 const PRODUCT_SLUG = "web3-promo-image-factory";
@@ -58,12 +59,6 @@ const VALID_TONES: ToneType[] = [
   "Degen",
   "Professional",
   "Community-first",
-];
-
-const VALID_OUTPUT_MODES: OutputMode[] = [
-  "Prompt Only",
-  "Visual Brief",
-  "Image if provider available",
 ];
 
 function validateInput(body: unknown): GenerateRequest | { error: string } {
@@ -109,11 +104,7 @@ function validateInput(body: unknown): GenerateRequest | { error: string } {
 
   const brandColors = o.brandColors != null ? String(o.brandColors).trim() : "";
   const logoDescription = o.logoDescription != null ? String(o.logoDescription).trim() : "";
-
-  const outputModeRaw = String(o.outputMode ?? "Prompt Only").trim();
-  const outputMode = VALID_OUTPUT_MODES.includes(outputModeRaw as OutputMode)
-    ? (outputModeRaw as OutputMode)
-    : "Prompt Only";
+  const workflowId = o.workflowId != null ? String(o.workflowId).trim() : undefined;
 
   return {
     projectName,
@@ -125,7 +116,7 @@ function validateInput(body: unknown): GenerateRequest | { error: string } {
     keyMessage,
     brandColors,
     logoDescription,
-    outputMode,
+    workflowId,
   };
 }
 
@@ -161,6 +152,9 @@ export async function POST(request: NextRequest) {
     }
     const req: GenerateRequest = v;
 
+    const workflowId = req.workflowId ?? "web3-launch-poster";
+    const workflow = getWorkflow(workflowId);
+
     let llmResult;
     try {
       llmResult = await generateWithLLM(req);
@@ -191,9 +185,17 @@ export async function POST(request: NextRequest) {
 
     consumeEntitlement(PRODUCT_SLUG, ent).catch(() => {});
 
+    const imageResult = await generateImageIfAvailable({
+      prompt: llmResult.output.imagePrompt,
+      negativePrompt: llmResult.output.negativePrompt,
+      workflowId,
+    });
+
     const response: GenerateResponse = {
       request: req,
       content: llmResult.output,
+      imageUrl: imageResult.imageUrl,
+      providerMode: imageResult.provider === "provider" ? "provider" : "prompt_only",
       disclaimer: DISCLAIMER,
       meta: {
         licenseUsage: ent.totalQuota - ent.remainingUses + (ent.ok ? 1 : 0),
@@ -217,7 +219,17 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json(
-    { error: "METHOD_NOT_ALLOWED", message: "POST only" },
+    {
+      error: "METHOD_NOT_ALLOWED",
+      message: "POST only",
+      workflows: [
+        { id: "web3-launch-poster", name: "Web3 Launch Poster" },
+        { id: "telegram-bot-promo", name: "Telegram Bot Promo" },
+        { id: "ai-agent-launch", name: "AI Agent Launch" },
+        { id: "crypto-dashboard-promo", name: "Crypto Dashboard Promo" },
+        { id: "meme-visual-concept", name: "Meme Visual Concept" },
+      ],
+    },
     { status: 405 },
   );
 }

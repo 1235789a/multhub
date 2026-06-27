@@ -196,7 +196,7 @@ export default function HomePage() {
                     </p>
                     <div className="mt-2 flex gap-2">
                       <span className="text-xs text-zinc-600">Images</span>
-                      <span className="text-xs text-zinc-600">Prompts / Visuals</span>
+                      <span className="text-xs text-zinc-600">Workflows</span>
                     </div>
                   </div>
                 </div>

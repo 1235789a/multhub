@@ -27,7 +27,7 @@ export type VisualStyle =
 
 export type ToneType = "Serious" | "Funny" | "Degen" | "Professional" | "Community-first";
 
-export type OutputMode = "Prompt Only" | "Visual Brief" | "Image if provider available";
+export type ImageProviderMode = "prompt_only" | "provider";
 
 export interface GenerateRequest {
   projectName: string;
@@ -39,7 +39,7 @@ export interface GenerateRequest {
   keyMessage: string;
   brandColors?: string;
   logoDescription?: string;
-  outputMode?: OutputMode;
+  workflowId?: string;
 }
 
 export interface GeneratedContent {
@@ -56,6 +56,7 @@ export interface GenerateResponse {
   request: GenerateRequest;
   content: GeneratedContent;
   imageUrl?: string;
+  providerMode: ImageProviderMode;
   disclaimer: string;
   meta: {
     licenseUsage: number;
@@ -64,4 +65,19 @@ export interface GenerateResponse {
     completionTokens: number;
     mode: "license" | "trial";
   };
+}
+
+export interface ApiErrorResponse {
+  error: string;
+  message?: string;
+}
+
+export interface RecentGeneration {
+  id: string;
+  projectName: string;
+  workflowId: string;
+  workflowName: string;
+  createdAt: string;
+  imageUrl?: string;
+  hasImage: boolean;
 }

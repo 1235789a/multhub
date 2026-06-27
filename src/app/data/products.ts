@@ -218,12 +218,12 @@ export const PRODUCTS: Product[] = [
     trialConfig: { allowed: true, maxUses: 3 },
     quota: { maxUses: 100 },
     tagline: {
-      en: "AI image generator for small Web3 projects",
-      zh: "面向小型 Web3 项目的 AI 宣传图生成工具",
+      en: "Workflow templates for launch posters, Telegram bots, AI agents, dashboards, and meme visuals",
+      zh: "工作流模板：Launch 海报、Telegram Bot、AI Agent、仪表盘、Meme 图",
     },
     description: {
-      en: "Generate Web3 promo visuals, meme images, launch posters, and Telegram announcement graphics in minutes.",
-      zh: "几分钟内生成 Web3 宣传图、Meme 图、Launch 海报和 Telegram 公告图。",
+      en: "Generate promo image prompts, visual briefs, captions, and layout ideas for your Web3 project in minutes. Powered by workflow templates.",
+      zh: "几分钟内生成 Web3 项目宣传图 prompt、视觉方案、配文和版式建议。",
     },
     targetUsers: {
       en: ["Meme coins", "NFT projects", "AI agents", "Telegram bots", "Web3 tools", "Crypto communities"],
