@@ -1,5 +1,6 @@
 import type { GenerateRequest, GeneratedContent } from "./types";
 import { getWorkflow } from "./workflows";
+import { getTextProviderConfig, maskKey } from "@/lib/ai/text-provider";
 
 interface DeepSeekResponse {
   choices: Array<{
@@ -12,9 +13,6 @@ interface DeepSeekResponse {
     total_tokens?: number;
   };
 }
-
-const DEFAULT_BASE_URL = "https://api.deepseek.com";
-const DEFAULT_MODEL = "deepseek-chat";
 
 export class LLMRefusedError extends Error {
   constructor(message = "LLM_REFUSED") {
@@ -109,16 +107,16 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
   promptTokens: number;
   completionTokens: number;
 }> {
-  const apiKey =
-    process.env.PARTNERSHIP_API_KEY ?? process.env.IMAGE_API_KEY;
+  const cfg = getTextProviderConfig();
+  const apiKey = cfg.apiKey;
   if (!apiKey) {
-    throw new LLMUpstreamError(500, "API key not configured");
+    throw new LLMUpstreamError(500, "TEXT_API_KEY 未配置（provider: " + cfg.provider + " / model: " + cfg.model + " / key: " + maskKey(apiKey) + "）");
   }
 
   const workflowId = req.workflowId ?? "web3-launch-poster";
 
-  const baseUrl = DEFAULT_BASE_URL;
-  const model = process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
+  const baseUrl = cfg.baseUrl;
+  const model = cfg.model;
   const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
 
   const body = {

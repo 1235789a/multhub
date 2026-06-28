@@ -6,6 +6,7 @@
 // ============================================================
 
 import type { GenerateRequest, GeneratedContent } from "./types";
+import { getTextProviderConfig, maskKey } from "@/lib/ai/text-provider";
 
 interface DeepSeekResponse {
   choices: Array<{
@@ -18,9 +19,6 @@ interface DeepSeekResponse {
     total_tokens?: number;
   };
 }
-
-const DEFAULT_BASE_URL = "https://api.deepseek.com";
-const DEFAULT_MODEL = "deepseek-chat";
 
 const SYSTEM_PROMPT = `You are a Web3 marketing expert specializing in crafting authentic partnership announcements.
 You write for real projects like LayerZero, Arbitrum, Base, Polygon, and EigenLayer.
@@ -101,15 +99,14 @@ export async function generateWithLLM(req: GenerateRequest): Promise<{
   promptTokens: number;
   completionTokens: number;
 }> {
-  const apiKey =
-    process.env.PARTNERSHIP_API_KEY ?? process.env.IMAGE_API_KEY;
+  const cfg = getTextProviderConfig();
+  const apiKey = cfg.apiKey;
   if (!apiKey) {
-    throw new LLMUpstreamError(500, "PARTNERSHIP_API_KEY / IMAGE_API_KEY 未配置");
+    throw new LLMUpstreamError(500, "TEXT_API_KEY 未配置（provider: " + cfg.provider + " / model: " + cfg.model + " / key: " + maskKey(apiKey) + "）");
   }
 
-  const baseUrl = DEFAULT_BASE_URL;
-  const model =
-    process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
+  const baseUrl = cfg.baseUrl;
+  const model = cfg.model;
 
   const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
 

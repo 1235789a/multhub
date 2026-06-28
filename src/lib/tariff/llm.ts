@@ -9,6 +9,7 @@
 // ============================================================
 
 import type { EstimateRequest, LLMOutput } from "./types";
+import { getTextProviderConfig, maskKey } from "@/lib/ai/text-provider";
 
 interface DeepSeekResponse {
   choices: Array<{
@@ -21,9 +22,6 @@ interface DeepSeekResponse {
     total_tokens?: number;
   };
 }
-
-const DEFAULT_BASE_URL = "https://api.dddai.dev/v1";
-const DEFAULT_MODEL = "deepseek-v4-flash";
 
 const SYSTEM_PROMPT = `你是国际贸易海关分类专家。仅输出 JSON，禁止任何解释性文字。
 
@@ -86,13 +84,17 @@ export async function classifyWithLLM(req: EstimateRequest): Promise<{
   promptTokens: number;
   completionTokens: number;
 }> {
-  const apiKey = process.env.IMAGE_API_KEY;
+  const cfg = getTextProviderConfig({
+    defaultBaseUrl: "https://api.dddai.dev/v1",
+    defaultModel: "deepseek-v4-flash",
+  });
+  const apiKey = cfg.apiKey;
   if (!apiKey) {
-    throw new LLMUpstreamError(500, "IMAGE_API_KEY 未配置");
+    throw new LLMUpstreamError(500, "TEXT_API_KEY 未配置（provider: " + cfg.provider + " / model: " + cfg.model + " / key: " + maskKey(apiKey) + "）");
   }
 
-  const baseUrl = DEFAULT_BASE_URL;
-  const model = process.env.IMAGE_MODEL ?? DEFAULT_MODEL;
+  const baseUrl = cfg.baseUrl;
+  const model = cfg.model;
   const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
 
   const body = {
