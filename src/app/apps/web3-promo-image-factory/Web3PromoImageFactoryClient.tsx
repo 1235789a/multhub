@@ -18,7 +18,7 @@ const WORKFLOWS = [
   {
     id: "web3-launch-poster",
     name: "Web3 Launch Poster",
-    description: "Launch poster prompt for small Web3 products.",
+    description: "Launch poster prompt and visual direction for a small Web3 product.",
     icon: "🚀",
     defaultVisualGoal: "Launch Poster" as VisualGoal,
     defaultStyle: "Dark Crypto" as VisualStyle,
@@ -27,7 +27,7 @@ const WORKFLOWS = [
   {
     id: "telegram-bot-promo",
     name: "Telegram Bot Promo",
-    description: "Promo visuals for Telegram bots and automation tools.",
+    description: "Promo visual brief for Telegram bots, automation tools, and crypto communities.",
     icon: "🤖",
     defaultVisualGoal: "Telegram Announcement Image" as VisualGoal,
     defaultStyle: "Clean Web3" as VisualStyle,
@@ -35,8 +35,8 @@ const WORKFLOWS = [
   },
   {
     id: "ai-agent-launch",
-    name: "AI Agent Launch",
-    description: "Launch visuals for AI x Crypto agents.",
+    name: "AI Agent Launch Visual",
+    description: "Futuristic launch visual prompt for AI x Crypto agents.",
     icon: "🤖",
     defaultVisualGoal: "X Promo Image" as VisualGoal,
     defaultStyle: "Futuristic" as VisualStyle,
@@ -45,7 +45,7 @@ const WORKFLOWS = [
   {
     id: "crypto-dashboard-promo",
     name: "Crypto Dashboard Promo",
-    description: "Promo visuals for dashboards and analytics tools.",
+    description: "Clean dashboard promo brief for analytics tools and crypto SaaS.",
     icon: "📊",
     defaultVisualGoal: "X Promo Image" as VisualGoal,
     defaultStyle: "Premium Fintech" as VisualStyle,
@@ -54,7 +54,7 @@ const WORKFLOWS = [
   {
     id: "meme-visual-concept",
     name: "Meme Visual Concept",
-    description: "Meme-friendly visuals without financial hype.",
+    description: "Meme-friendly visual concepts without fake financial claims.",
     icon: "🐸",
     defaultVisualGoal: "Meme Image" as VisualGoal,
     defaultStyle: "Meme / Degen" as VisualStyle,
@@ -315,22 +315,25 @@ export default function Web3PromoImageFactoryClient() {
             </h1>
           </div>
           <p className="text-zinc-400 max-w-2xl">
-            Generate Web3 promo visuals, meme images, launch posters, and
-            Telegram announcement graphics in minutes. Choose a workflow template
-            and get ready-to-use prompts for Midjourney, DALL-E, Leonardo, and more.
+            Generate prompt-ready promo visual packs for Web3 products. Pick a workflow
+            template and get a structured visual pack: image prompt, negative prompt,
+            visual brief, headline, caption, layout tips, and variants.
           </p>
           <p className="text-xs text-zinc-600 mt-2">
-            Prompt-ready output. Image generation provider can be connected with{" "}
-            <code className="text-zinc-500">IMAGE_API_KEY</code>.
+            Prompt-only mode. The tool works without an image provider. Connect an
+            image provider later if you want generated image previews.
           </p>
         </header>
 
         <div className="space-y-6">
           {/* Workflow Selection */}
           <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5">
-            <h2 className="text-sm font-semibold text-zinc-300 mb-4">
-              Choose a Workflow
+            <h2 className="text-sm font-semibold text-zinc-300 mb-2">
+              Choose a workflow template
             </h2>
+            <p className="text-xs text-zinc-500 mb-4">
+              Start from a proven visual workflow instead of a blank prompt.
+            </p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
               {WORKFLOWS.map((wf) => (
                 <button
@@ -526,7 +529,7 @@ export default function Web3PromoImageFactoryClient() {
                 }
                 className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-zinc-800 disabled:text-zinc-600 text-black font-semibold py-2.5 rounded-lg transition-colors text-sm"
               >
-                {loading ? "Generating..." : "🎨 Generate Image Prompts"}
+                {loading ? "Generating..." : "🎨 Generate Visual Pack"}
               </button>
               <button
                 onClick={loadDemo}
@@ -630,7 +633,8 @@ export default function Web3PromoImageFactoryClient() {
               </h3>
               <p className="text-sm text-zinc-500 max-w-md mx-auto">
                 Choose a workflow, fill in your project details, and click Generate.
-                You&apos;ll get image prompts and visual briefs ready for AI image tools.
+                You&apos;ll get a prompt-ready visual pack you can use with your
+                favorite image model or designer.
               </p>
             </div>
           )}
@@ -651,7 +655,7 @@ export default function Web3PromoImageFactoryClient() {
                   <div className="px-4 py-2.5 border-b border-zinc-800 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-emerald-400">
-                        ✨ Real Image Generated
+                        ✨ Generated Image Preview
                       </span>
                       <span className="text-xs text-zinc-500">via {providerMode}</span>
                     </div>
@@ -677,9 +681,8 @@ export default function Web3PromoImageFactoryClient() {
               {!imageUrl && (
                 <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
                   <p className="text-xs text-zinc-500">
-                    💡 Prompt-ready output. Connect an image provider (set{" "}
-                    <code className="text-zinc-400">IMAGE_API_KEY</code> in Cloudflare
-                    Secrets) to generate real images.
+                    💡 Prompt-ready output. No image provider is connected yet. Use the
+                    prompt with your preferred image model or designer.
                   </p>
                 </div>
               )}
@@ -760,16 +763,25 @@ export default function Web3PromoImageFactoryClient() {
               />
 
               <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
-                <p className="text-xs text-zinc-500 mb-2">💡 Tip</p>
+                <p className="text-xs text-zinc-500 mb-2">💡 How to use</p>
                 <p className="text-sm text-zinc-400">
                   Copy the Image Prompt and paste it into Midjourney, DALL-E,
-                  Leonardo, or Ideogram for best results. Add your own text
-                  overlay using Canva, Figma, or Photoshop.
+                  Leonardo, Ideogram, or your preferred image model. Add text
+                  overlay with Canva, Figma, or Photoshop.
                 </p>
               </div>
             </div>
           )}
         </div>
+
+        <footer className="mt-16 pt-8 border-t border-zinc-800">
+          <p className="text-xs text-zinc-600 max-w-2xl">
+            This tool generates marketing prompts and visual briefs.
+            It does not guarantee growth, trading results, token performance,
+            or financial returns. Avoid fake partnerships, fake endorsements,
+            and misleading financial claims.
+          </p>
+        </footer>
       </div>
 
       {showTrialLimit && (

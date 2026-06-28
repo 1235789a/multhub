@@ -195,7 +195,7 @@ export default function HomePage() {
                       {web3PromoImageFactory.tagline?.en ?? web3PromoImageFactory.features.en[0] ?? ""}
                     </p>
                     <div className="mt-2 flex gap-2">
-                      <span className="text-xs text-zinc-600">Images</span>
+                      <span className="text-xs text-zinc-600">Visual Prompts</span>
                       <span className="text-xs text-zinc-600">Workflows</span>
                     </div>
                   </div>

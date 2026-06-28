@@ -201,15 +201,17 @@ export const PRODUCTS: Product[] = [
     category: "image",
     features: {
       en: [
-        "Generate promo image concepts for small Web3 projects",
-        "Create meme visuals, launch posters, X images, and Telegram announcement visuals",
-        "Built for meme coins, NFT projects, AI agents, Telegram bots, and crypto communities",
+        "5 workflow templates for launch posters, Telegram bots, AI agents, dashboards, and meme visuals",
+        "Prompt-ready visual briefs, captions, and layout tips",
+        "Recent generation history stored locally",
+        "Optional image provider support",
         "100 generations, one-time purchase",
       ],
       zh: [
-        "为小型 Web3 项目生成宣传图方案",
-        "生成 Meme 图、Launch 海报、X 配图、Telegram 公告图",
-        "适合 Meme coin、NFT、AI Agent、Telegram Bot 和加密社区",
+        "5 个工作流模板：Launch 海报、Telegram Bot、AI Agent、仪表盘、Meme 图",
+        "Prompt 就绪的视觉方案、配文和版式建议",
+        "本地保存最近生成记录",
+        "可选图片 provider 支持",
         "一次买断，100 次生成额度",
       ],
     },
@@ -218,12 +220,12 @@ export const PRODUCTS: Product[] = [
     trialConfig: { allowed: true, maxUses: 3 },
     quota: { maxUses: 100 },
     tagline: {
-      en: "Workflow templates for launch posters, Telegram bots, AI agents, dashboards, and meme visuals",
-      zh: "工作流模板：Launch 海报、Telegram Bot、AI Agent、仪表盘、Meme 图",
+      en: "Workflow-based visual prompt generator for Web3 launches, Telegram bots, AI agents, dashboards, and meme concepts",
+      zh: "基于工作流的视觉 prompt 生成器，适合 Web3 发布、Telegram Bot、AI Agent、仪表盘和 Meme 概念",
     },
     description: {
-      en: "Generate promo image prompts, visual briefs, captions, and layout ideas for your Web3 project in minutes. Powered by workflow templates.",
-      zh: "几分钟内生成 Web3 项目宣传图 prompt、视觉方案、配文和版式建议。",
+      en: "Generate workflow-based promo visual prompts and briefs for Web3 products. Each generation includes prompt-ready visual direction, headline, caption, layout tips, and variants.",
+      zh: "为 Web3 产品生成基于工作流的宣传视觉 prompt 和方案。每次生成包含 prompt 就绪的视觉方向、标题、配文、版式建议和变体。",
     },
     targetUsers: {
       en: ["Meme coins", "NFT projects", "AI agents", "Telegram bots", "Web3 tools", "Crypto communities"],
