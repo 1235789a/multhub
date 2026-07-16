@@ -133,6 +133,9 @@ The bypass is ignored in production.
    npm run deploy
    ```
 
+   Cloudflare Workers Builds should use `npm run cf-build` as its build command and
+   `npm run cf-deploy` as its deploy command so production migrations run before each upload.
+
 7. In Cloudflare Zero Trust, create an Access self-hosted application for `/admin*`. Add the application audience value to `CF_ACCESS_AUD` and allow only the emails listed in `ADMIN_EMAILS`.
 
 8. Point the production hostname at the Worker and confirm `SITE_URL` exactly matches its origin. Same-origin checks intentionally reject writes from other origins.

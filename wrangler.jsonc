@@ -13,7 +13,7 @@
     {
       "binding": "DB",
       "database_name": "handmade-visibility",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "b9645b8f-3e3a-4857-b1eb-2679b33e53b3",
       "migrations_dir": "migrations"
     }
   ],
