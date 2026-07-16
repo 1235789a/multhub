@@ -13,7 +13,7 @@ function publicEnv(overrides: Partial<Bindings> = {}): Bindings {
     ADMIN_NOTIFY_EMAIL: "owner@example.com",
     FROM_EMAIL: "Handmade Visibility <hello@example.com>",
     DB: {} as D1Database,
-    PRODUCT_ASSETS: {} as R2Bucket,
+    PRODUCT_ASSETS: {} as KVNamespace,
     ASSETS: {} as Fetcher,
     ...overrides,
   };

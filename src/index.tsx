@@ -114,7 +114,7 @@ app.post("/api/reviews", async (c) => {
   for (const file of files) {
     const extension = file.type === "image/jpeg" ? "jpg" : file.type.split("/")[1] ?? "bin";
     const key = `private/leads/${lead.id}/${crypto.randomUUID()}.${extension}`;
-    await c.env.PRODUCT_ASSETS.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
+    await c.env.PRODUCT_ASSETS.put(key, file.stream(), { metadata: { contentType: file.type } });
     await addLeadAsset(c.env.DB, lead.id, { key, name: file.name.slice(0, 200), type: file.type, size: file.size });
   }
   await addActivity(c.env.DB, lead.id, "lead_created", "Personalized product review requested");
@@ -191,13 +191,13 @@ app.post("/admin/leads/:id", async (c) => {
 app.get("/admin/assets/:id", async (c) => {
   const asset = await getLeadAsset(c.env.DB, c.req.param("id"));
   if (!asset) return c.text("Not found", 404);
-  const object = await c.env.PRODUCT_ASSETS.get(asset.r2_key);
-  if (!object) return c.text("File not found", 404);
+  const object = await c.env.PRODUCT_ASSETS.getWithMetadata<{ contentType?: string }>(asset.r2_key, "stream");
+  if (!object.value) return c.text("File not found", 404);
   const headers = new Headers();
-  object.writeHttpMetadata(headers);
+  headers.set("Content-Type", object.metadata?.contentType ?? asset.content_type ?? "application/octet-stream");
   headers.set("Cache-Control", "private, no-store");
   headers.set("Content-Disposition", `inline; filename="${asset.file_name.replace(/[\"\\\r\n]/g, "_")}"`);
-  return new Response(object.body, { headers });
+  return new Response(object.value, { headers });
 });
 
 app.post("/admin/orders", async (c) => {

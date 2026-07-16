@@ -17,10 +17,10 @@
       "migrations_dir": "migrations"
     }
   ],
-  "r2_buckets": [
+  "kv_namespaces": [
     {
       "binding": "PRODUCT_ASSETS",
-      "bucket_name": "handmade-visibility-assets"
+      "id": "2c8aa947b58c4507b8343cfa56abea4d"
     }
   ],
   "vars": {

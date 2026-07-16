@@ -21,7 +21,7 @@ This file is the acceptance checklist for `Handmade_AI_Visibility_System_v1.md`.
 | Revisions | Per-order revision count; package defaults described in public copy |
 | Aftercare | Delivery link; 7-day asset correction or 14-day website technical window |
 | First-five offer | Public availability-limited offer, admin founding-client flag, draft approval, extra version, priority discovery consideration |
-| Cloudflare system | Workers, D1, R2, Access, Turnstile, Cron Triggers |
+| Cloudflare system | Workers, D1, Workers KV, Access, Turnstile, Cron Triggers |
 | Email automation | New lead, customer acknowledgment, order link, daily due-follow-up reminder |
 | Private community future | Contact-channel model supports Email, Telegram, WhatsApp, Instagram, and other |
 | Strategic stages | Six-step roadmap in `/admin/playbook` |

@@ -50,7 +50,7 @@ It turns one real product into a connected set of assets: a story, useful visual
 Browser
   ├─ public pages / product passports
   ├─ review form ──> Hono Worker ──> D1 leads
-  │                              └─> private R2 images
+  │                              └─> private Workers KV images
   ├─ private project link ────────> D1 orders / USDT status
   └─ Cloudflare Access ──> admin pipeline / product passports
 
@@ -61,7 +61,7 @@ Scheduled Worker ──> due follow-ups ──> Resend notifications
 - HTTP and SSR: Hono + Hono JSX
 - Validation: Zod
 - Data: Cloudflare D1
-- Private uploads: Cloudflare R2
+- Private uploads: Cloudflare Workers KV
 - Admin authentication: verified Cloudflare Access JWT
 - Email: Resend REST API
 - Anti-spam: Cloudflare Turnstile
@@ -71,7 +71,7 @@ The project intentionally uses a small, proven stack instead of rebuilding frame
 
 ## Local setup
 
-Requirements: Node.js 20+ and a Cloudflare account for real D1/R2 testing.
+Requirements: Node.js 20+ and a Cloudflare account for real D1/KV testing.
 
 ```bash
 npm install
@@ -101,7 +101,7 @@ The bypass is ignored in production.
 
    ```bash
    npx wrangler d1 create handmade-visibility
-   npx wrangler r2 bucket create handmade-visibility-assets
+   npx wrangler kv namespace create PRODUCT_ASSETS
    ```
 
 3. Replace the all-zero `database_id` in `wrangler.jsonc` with the ID printed by the D1 command.
@@ -171,7 +171,7 @@ This runs strict TypeScript, unit tests, and a Wrangler production-bundle dry ru
 ## Operational first week
 
 1. Replace placeholder email and Cloudflare identifiers.
-2. Submit a test review with three images and verify the private R2 flow.
+2. Submit a test review with three images and verify the private KV flow.
 3. Move the test lead through reply, interest, quote, submitted transaction, verified payment, and delivery.
 4. Create one unpublished product passport, verify every claim with the maker, then publish it.
 5. Test the daily follow-up cron from the Cloudflare dashboard.

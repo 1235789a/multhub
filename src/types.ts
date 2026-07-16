@@ -25,7 +25,7 @@ export type UsdtStatus = (typeof USDT_STATUSES)[number];
 
 export interface Bindings {
   DB: D1Database;
-  PRODUCT_ASSETS: R2Bucket;
+  PRODUCT_ASSETS: KVNamespace;
   ASSETS: Fetcher;
   ENVIRONMENT: string;
   SITE_URL: string;
