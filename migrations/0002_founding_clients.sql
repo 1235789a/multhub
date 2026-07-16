@@ -1,0 +1,1 @@
+ALTER TABLE leads ADD COLUMN is_founding_client INTEGER NOT NULL DEFAULT 0;

@@ -1,36 +1,30 @@
 {
-  "name": "landing-page",
-  "version": "0.1.0",
+  "name": "handmade-visibility",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "cf-build": "npx opennextjs-cloudflare build",
-    "deploy": "npx opennextjs-cloudflare build && npx opennextjs-cloudflare deploy",
-    "preview": "npx opennextjs-cloudflare build && npx opennextjs-cloudflare preview"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:dry": "wrangler deploy --dry-run --outdir dist",
+    "db:migrate:local": "wrangler d1 migrations apply handmade-visibility --local",
+    "db:migrate:remote": "wrangler d1 migrations apply handmade-visibility --remote",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run test && npm run deploy:dry"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "^5.2.0",
-    "framer-motion": "^12.38.0",
-    "jose": "^5.10.0",
-    "next": "16.1.1",
-    "qrcode.react": "^3.1.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-markdown": "^9.0.1"
+    "hono": "^4.12.30",
+    "jose": "^6.2.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.19.4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "wrangler": "^4.87.0"
+    "@cloudflare/workers-types": "^5.20260715.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.111.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

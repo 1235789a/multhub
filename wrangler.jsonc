@@ -1,29 +1,45 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "multhub",
-  "main": ".open-next/worker.js",
-  "compatibility_date": "2026-04-01",
+  "name": "handmade-visibility",
+  "main": "src/index.tsx",
+  "compatibility_date": "2026-07-16",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "handmade-visibility",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "PRODUCT_ASSETS",
+      "bucket_name": "handmade-visibility-assets"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "production",
+    "SITE_URL": "https://multhub.top",
+    "BRAND_NAME": "Handmade Visibility",
+    "PUBLIC_USDT_NETWORK": "TRC20",
+    "PUBLIC_USDT_ADDRESS": "TWiDbdetRhXF3cnMHciM1EK8AjTPKHMjJF",
+    "ADMIN_EMAILS": "",
+    "FROM_EMAIL": "Handmade Visibility <hello@example.com>",
+    "ADMIN_NOTIFY_EMAIL": "",
+    "CF_ACCESS_TEAM_DOMAIN": "",
+    "CF_ACCESS_AUD": "",
+    "TURNSTILE_SITE_KEY": ""
+  },
+  "triggers": {
+    "crons": ["0 1 * * *"]
   },
   "observability": {
     "enabled": true
-  },
-  // ============================================================
-  // 非敏感环境变量 (明文, 可进 Git)
-  //
-  // 敏感凭据 (FIREBASE_PRIVATE_KEY) 必须通过以下命令注入:
-  //   npx wrangler secret put FIREBASE_PRIVATE_KEY
-  // 或在 Cloudflare Dashboard → Workers → Settings → Variables and Secrets
-  // 中以 "Secret" 类型加密存储
-  // ============================================================
-  "vars": {
-    "FIREBASE_PROJECT_ID": "multhub-10397",
-    "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-fbsvc@multhub-10397.iam.gserviceaccount.com",
-    "USDT_RECEIVE_ADDRESS": "TWiDbdetRhXF3cnMHciM1EK8AjTPKHMjJF",
-    "IMAGE_MODEL": "deepseek-chat",
-    "NEXT_PUBLIC_SITE_URL": "https://multhub.top"
   }
 }

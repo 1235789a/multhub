@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4efe7"/>
+  <path d="M0 520C240 410 375 585 630 470c216-98 364-48 570-174v334H0Z" fill="#dfe9df"/>
+  <circle cx="1050" cy="100" r="170" fill="#f5c96f" opacity=".55"/>
+  <rect x="76" y="68" width="66" height="66" rx="18" fill="#173f35"/>
+  <path d="M94 108c7-1 10-7 12-17 4 11 9 17 17 18-9 2-14 7-17 15-2-8-6-13-12-16Z" fill="#f5c96f"/>
+  <circle cx="122" cy="88" r="5" fill="#e36f4d"/>
+  <text x="165" y="114" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#173f35">HANDMADE VISIBILITY</text>
+  <text x="76" y="272" font-family="Georgia, serif" font-size="76" font-weight="700" fill="#17221f">Your product is special.</text>
+  <text x="76" y="360" font-family="Georgia, serif" font-size="76" font-style="italic" fill="#c75538">Make that obvious.</text>
+  <text x="80" y="430" font-family="Arial, sans-serif" font-size="28" fill="#52605c">Story-led product assets for handmade sellers.</text>
+</svg>
