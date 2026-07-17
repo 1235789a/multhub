@@ -73,15 +73,16 @@ export function HomePage({ env }: { env: Bindings }) {
             <li>USDT accepted</li>
           </ul>
         </div>
-        <div class="hero-art reveal" aria-label="A product becoming a clear digital story">
-          <div class="paper-card card-back"><span>Materials</span><strong>Stoneware clay</strong><span>Made by hand</span></div>
-          <div class="product-frame">
-            <div class="frame-label">ONE REAL PRODUCT</div>
-            <div class="vase-illustration" role="img" aria-label="Abstract handmade vase illustration"><i></i><b></b></div>
-            <div class="frame-caption"><span>Made slowly</span><strong>Remembered easily.</strong></div>
-          </div>
-          <div class="paper-card story-card"><span>THE STORY</span><p>Not “a ceramic cup.”<br />A daily ritual shaped by hand.</p></div>
-          <svg class="scribble" viewBox="0 0 180 100" aria-hidden="true"><path d="M8 88 C 50 5, 110 95, 170 17" /><path d="M155 20 L170 17 L165 32" /></svg>
+        <div class="hero-visual reveal" aria-label="A handmade ceramic cup presented as a complete product story">
+          <figure class="hero-main-photo">
+            <img src="/images/product-lifestyle.webp" width="1536" height="1024" alt="Handmade stoneware cup styled beside linen and a green book in warm window light" loading="eager" decoding="async" />
+            <figcaption><span>PRODUCT SCENE</span><strong>Give buyers a reason to imagine it in their life.</strong></figcaption>
+          </figure>
+          <figure class="hero-detail-photo">
+            <img src="/images/product-detail.webp" width="1254" height="1254" alt="Close view of the cup's speckled glaze and hand-finished rim" loading="eager" decoding="async" />
+            <figcaption>Texture / glaze / finish</figcaption>
+          </figure>
+          <div class="hero-story-note"><span>ONE REAL PRODUCT</span><strong>→ one clear visual story</strong></div>
         </div>
       </section>
 
@@ -101,6 +102,29 @@ export function HomePage({ env }: { env: Bindings }) {
           <article><span>03</span><h3>Hard to discover</h3><p>Search and AI systems cannot confidently interpret incomplete product information.</p></article>
         </div>
         <div class="promise-strip reveal"><span>Our job</span><p>Build one consistent product story across every place a buyer might meet it.</p></div>
+      </section>
+
+      <section class="section section-shell evidence-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Make the value visible</p>
+          <h2>Show the details a buyer <em>cannot touch.</em></h2>
+          <p>A strong product presentation does more than look polished. It helps someone understand the handwork, scale, texture, and everyday use before they buy.</p>
+        </div>
+        <div class="evidence-grid">
+          <figure class="evidence-photo evidence-process reveal">
+            <img src="/images/maker-process.webp" width="1122" height="1402" alt="A ceramic maker shaping a cup by hand on a pottery wheel" loading="lazy" decoding="async" />
+            <figcaption><span>01 / PROCESS</span><strong>Let the hands behind the product build trust.</strong></figcaption>
+          </figure>
+          <figure class="evidence-photo evidence-scale reveal">
+            <img src="/images/product-scale.webp" width="1254" height="1254" alt="Two hands holding a handmade ceramic cup to demonstrate its size" loading="lazy" decoding="async" />
+            <figcaption><span>02 / SCALE</span><strong>Answer “how big is it?” without another message.</strong></figcaption>
+          </figure>
+          <article class="evidence-note reveal">
+            <p class="eyebrow">A useful image set</p>
+            <h3>Every frame should answer a buyer question.</h3>
+            <ul><li>What makes it handmade?</li><li>What will it feel like?</li><li>How does it fit into real life?</li></ul>
+          </article>
+        </div>
       </section>
 
       <section id="how-it-works" class="section section-shell process-section">
@@ -124,6 +148,10 @@ export function HomePage({ env }: { env: Bindings }) {
             <article><span>04</span><h3>Discovery structure</h3><p>Search metadata, schema, and AI-readable facts.</p></article>
           </div>
         </div>
+        <figure class="deliverables-preview reveal">
+          <img src="/images/service-deliverables.webp" width="1586" height="992" alt="A coordinated product page, social post, photo direction, and brand notes built around one ceramic cup" loading="lazy" decoding="async" />
+          <figcaption><span>EXAMPLE OUTPUT SYSTEM</span><div><strong>One product. Several consistent places to be understood.</strong><p>Product page direction, social content, visual references, and reusable brand details—built from the same source of truth.</p></div></figcaption>
+        </figure>
       </section>
 
       <section id="services" class="section services-section">
@@ -147,11 +175,34 @@ export function HomePage({ env }: { env: Bindings }) {
       </section>
 
       <section class="section section-shell example-section">
-        <div class="section-heading narrow reveal"><p class="eyebrow">A transparent example</p><h2>From a listing to a <em>reason to care.</em></h2><p>This is a demonstration—not a fabricated client result. It shows the kind of thinking your review will receive.</p></div>
-        <div class="before-after reveal">
-          <article class="before-panel"><span>BEFORE</span><h3>Personalized Pet Memorial</h3><p>Custom resin pet keepsake. Add your pet's name. Great gift. Message to order.</p><ul><li>No material reassurance</li><li>No making story</li><li>No clear custom process</li></ul></article>
+        <div class="section-heading narrow reveal"><p class="eyebrow">A transparent example</p><h2>From a quick photo to a <em>clearer buying story.</em></h2><p>Both images below are illustrative concepts created for this website—not a client result. They demonstrate how setting, light, and focus can change product presentation.</p></div>
+        <div class="before-after visual-comparison reveal">
+          <figure class="comparison-card comparison-before">
+            <div class="comparison-image"><img src="/images/before-photo.webp" width="1122" height="1402" alt="Illustrative casual photo of a ceramic cup on a busy dining table" loading="lazy" decoding="async" /><span>CONCEPT BEFORE</span></div>
+            <figcaption><h3>The product is visible, but the room sets the story.</h3><p>Mixed background objects, flat phone-camera light, and no deliberate visual hierarchy.</p></figcaption>
+          </figure>
           <div class="transformation-mark">→</div>
-          <article class="after-panel"><span>AFTER</span><p class="mini-label">A SMALL PLACE FOR A BIG MEMORY</p><h3>A keepsake shaped around the details you never want to forget.</h3><p>Each piece is poured and finished by hand, then personalized with your companion's name and chosen colors.</p><div class="fact-chips"><i>Hand-poured resin</i><i>Name personalization</i><i>Memorial gift</i></div></article>
+          <figure class="comparison-card comparison-after">
+            <div class="comparison-image"><img src="/images/after-photo.webp" width="1122" height="1402" alt="Illustrative improved product photo of the ceramic cup in focused warm window light" loading="lazy" decoding="async" /><span>CONCEPT DIRECTION</span></div>
+            <figcaption><h3>Now the texture, warmth, and daily ritual lead.</h3><p>A quieter setting and intentional light make the handmade qualities easier to notice.</p><div class="fact-chips"><i>Texture first</i><i>Warm natural light</i><i>Clear visual focus</i></div></figcaption>
+          </figure>
+        </div>
+        <p class="comparison-disclosure reveal"><strong>Illustrative transformation:</strong> generated for creative direction and clearly labeled. We never present concept work as a verified customer result.</p>
+      </section>
+
+      <section class="section category-section">
+        <div class="section-shell category-grid">
+          <figure class="category-image reveal">
+            <img src="/images/craft-category-collage.webp" width="1536" height="1024" alt="Illustrative collection of handmade jewelry, candle, crochet, resin, stained glass, and personalized keepsake products" loading="lazy" decoding="async" />
+            <figcaption>Illustrative craft category study</figcaption>
+          </figure>
+          <div class="category-copy reveal">
+            <p class="eyebrow">Built around what you make</p>
+            <h2>Different crafts need <em>different proof.</em></h2>
+            <p>A candle needs atmosphere and scent cues. Jewelry needs scale and finish. Crochet needs texture. Personalized keepsakes need a clear ordering process. We shape the visual system around the questions your product creates.</p>
+            <div class="category-chips" aria-label="Supported handmade product categories"><span>Jewelry</span><span>Candles</span><span>Crochet</span><span>Resin</span><span>Stained glass</span><span>Pet keepsakes</span><span>Personalized gifts</span></div>
+            <a class="text-link" href="#review">Show us what you make →</a>
+          </div>
         </div>
       </section>
 
