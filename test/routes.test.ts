@@ -24,20 +24,23 @@ describe("public routes", () => {
     const response = await app.request("/", {}, publicEnv());
     const html = await response.text();
     expect(response.status).toBe(200);
-    expect(html).toContain("One-Product First Fix");
-    expect(html).toContain("One-Product Visibility Launch");
-    expect(html).toContain("Custom Brand Visibility Site");
-    expect(html).toContain("Visibility Care");
-    expect(html).toContain("Request my personalized review");
+    expect(html).toContain("Product Listing Checkup");
+    expect(html).toContain("Complete Listing Refresh");
+    expect(html).toContain("Handmade Shop Website");
+    expect(html).toContain("Product Content Update");
+    expect(html).toContain("Send my product for review");
+    expect(html).not.toContain("Digital product passport");
+    expect(html).not.toContain("We do not guarantee rankings");
     expect(html).toContain("application/ld+json");
   });
 
-  it("publishes the honest AI-ready boundary", async () => {
+  it("explains search-ready product pages in plain language", async () => {
     const response = await app.request("/ai-ready", {}, publicEnv());
     const html = await response.text();
     expect(response.status).toBe(200);
-    expect(html).toContain("eligibility, not entitlement");
-    expect(html).toContain("nobody can promise it");
+    expect(html).toContain("Help search tools understand");
+    expect(html).toContain("Answer buying questions");
+    expect(html).not.toContain("eligibility, not entitlement");
   });
 
   it("fails closed on production admin access", async () => {

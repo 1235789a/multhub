@@ -17,7 +17,7 @@ interface LayoutProps {
 export function Layout({
   env,
   title,
-  description = "Story-led product pages, trustworthy visuals, and AI-ready information for handmade and personalized products.",
+  description = "Product photo direction, listing copy, and small shop websites for handmade and personalized-product sellers.",
   path = "/",
   image = "/social-card.svg",
   children,
@@ -25,7 +25,7 @@ export function Layout({
   structuredData,
   admin = false,
 }: LayoutProps) {
-  const pageTitle = title ? `${title} · ${env.BRAND_NAME}` : `${env.BRAND_NAME} · Help good handmade products get understood`;
+  const pageTitle = title ? `${title} · ${env.BRAND_NAME}` : `${env.BRAND_NAME} · Product photos and listing help for handmade sellers`;
   const canonical = absoluteUrl(env.SITE_URL, path);
   const organization = {
     "@context": "https://schema.org",
@@ -35,7 +35,7 @@ export function Layout({
     description,
     areaServed: "Worldwide",
     paymentAccepted: "USDT",
-    serviceType: "Handmade product visibility and digital product assets",
+    serviceType: "Product photography direction, listing copy, and product pages for handmade sellers",
   };
   const jsonLd = structuredData
     ? Array.isArray(structuredData) ? [organization, ...structuredData] : [organization, structuredData]
@@ -73,7 +73,7 @@ export function Layout({
             {admin ? (
               <>
                 <a href="/admin">Pipeline</a>
-                <a href="/admin/products">Passports</a>
+                <a href="/admin/products">Product pages</a>
                 <a href="/admin/playbook">Playbook</a>
                 <a href="/" target="_blank" rel="noreferrer">View site ↗</a>
               </>
@@ -81,7 +81,7 @@ export function Layout({
               <>
                 <a href="/#services">Services</a>
                 <a href="/discovery">Discover</a>
-                <a href="/ai-ready">AI-ready info</a>
+                <a href="/ai-ready">Search-ready pages</a>
                 <a href="/#faq">FAQ</a>
                 <a class="button button-small" href="/#review">Free product review</a>
               </>
@@ -93,16 +93,17 @@ export function Layout({
           <footer class="site-footer">
             <div>
               <a class="brand footer-brand" href="/"><img src="/mark.svg" alt="" width="30" height="30" /><span>{env.BRAND_NAME}</span></a>
-              <p>Real products, made easier to understand, trust, and discover.</p>
+              <p>Product photos, listing copy, and buyer-ready pages for independent makers.</p>
             </div>
             <div class="footer-links">
-              <a href="/discovery">Discovery</a>
-              <a href="/ai-ready">AI-ready information</a>
+              <a href="/#services">Services</a>
+              <a href="/discovery">Discover</a>
+              <a href="/ai-ready">Search-ready pages</a>
+              <a href="/#review">Free product review</a>
               <a href="/privacy">Privacy</a>
               <a href="/terms">Terms</a>
-              <a href="/llms.txt">llms.txt</a>
             </div>
-            <p class="fine-print">© {new Date().getUTCFullYear()} {env.BRAND_NAME}. We do not guarantee rankings, AI citations, or recommendations.</p>
+            <p class="fine-print">© {new Date().getUTCFullYear()} {env.BRAND_NAME}. Made for independent handmade sellers.</p>
           </footer>
         )}
         <script src="/app.js" defer></script>

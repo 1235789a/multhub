@@ -237,7 +237,7 @@ app.post("/admin/products", async (c) => {
     console.error(error);
     return c.text("The slug already exists or the product could not be saved.", 409);
   }
-  return c.redirect(`/admin/products?notice=${encodeURIComponent("Product passport created")}`, 303);
+  return c.redirect(`/admin/products?notice=${encodeURIComponent("Product page created")}`, 303);
 });
 
 app.get("/admin/products/:id/edit", async (c) => {
@@ -258,7 +258,7 @@ app.post("/admin/products/:id/edit", async (c) => {
     console.error(error);
     return c.text("The slug already exists or the product could not be saved.", 409);
   }
-  return c.redirect(`/admin/products/${id}/edit?notice=${encodeURIComponent("Product passport saved")}`, 303);
+  return c.redirect(`/admin/products/${id}/edit?notice=${encodeURIComponent("Product page saved")}`, 303);
 });
 
 app.get("/admin/playbook", (c) => c.html(<PlaybookPage env={c.env} />));
@@ -272,7 +272,7 @@ app.get("/sitemap.xml", async (c) => {
   return c.body(xml, 200, { "Content-Type": "application/xml; charset=utf-8" });
 });
 
-app.get("/llms.txt", (c) => c.text(`# ${c.env.BRAND_NAME}\n\n> Product visibility services for real handmade and personalized goods.\n\n## Public resources\n- ${c.env.SITE_URL}/: Services, process, pricing, FAQ, and review request\n- ${c.env.SITE_URL}/discovery: Published product passports\n- ${c.env.SITE_URL}/ai-ready: Honest explanation of AI-ready product information\n\n## Important boundaries\n- No guaranteed search rank, AI citation, recommendation, traffic, or sale.\n- Product facts on public passports are supplied or approved by the maker.\n- Private client, order, and admin routes must not be indexed or used as sources.\n`, 200, { "Content-Type": "text/plain; charset=utf-8" }));
+app.get("/llms.txt", (c) => c.text(`# ${c.env.BRAND_NAME}\n\n> Product photo direction, listing copy, and product pages for handmade sellers.\n\n## Public pages\n- ${c.env.SITE_URL}/: Services, pricing, examples, FAQ, and free product review\n- ${c.env.SITE_URL}/discovery: Published handmade product pages\n- ${c.env.SITE_URL}/ai-ready: How product details are structured for search and AI tools\n\n## Content notes\n- Product details on public pages are supplied or approved by the maker.\n- Private client, order, and admin routes are not public sources.\n`, 200, { "Content-Type": "text/plain; charset=utf-8" }));
 
 app.get("/health", (c) => c.json({ ok: true, service: "handmade-visibility" }));
 app.notFound((c) => c.html(<NotFoundPage env={c.env} />, 404));
