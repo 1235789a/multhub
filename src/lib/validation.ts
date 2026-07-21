@@ -1,9 +1,14 @@
 import { z } from "zod";
 import { LEAD_STATUSES, USDT_STATUSES } from "../types";
 
+const httpUrl = z.url().refine((value) => {
+  const protocol = new URL(value).protocol;
+  return protocol === "http:" || protocol === "https:";
+}, "Use a web address beginning with http:// or https://.");
+
 const optionalUrl = z.preprocess(
   (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
-  z.url().max(500).optional(),
+  httpUrl.max(500).optional(),
 );
 
 const optionalText = (max: number) =>

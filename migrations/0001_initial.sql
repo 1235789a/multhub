@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS leads (
   source TEXT NOT NULL DEFAULT 'website_review',
   is_referral_partner INTEGER NOT NULL DEFAULT 0,
   reusable_assets_created INTEGER NOT NULL DEFAULT 0,
+  is_founding_client INTEGER NOT NULL DEFAULT 0,
   consent_at TEXT NOT NULL
 );
 

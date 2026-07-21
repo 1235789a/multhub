@@ -25,13 +25,15 @@ export function AdminDashboard({
   status?: string;
   search?: string;
 }) {
-  const columns = [
-    { key: "leads", title: "New leads" },
-    { key: "contacted", title: "Contacted" },
-    { key: "replied", title: "Replied" },
-    { key: "interested", title: "Interested" },
-    { key: "quoted", title: "Quoted" },
-    { key: "paid", title: "Paid" },
+  const columns: Array<{ keys: Lead["status"][]; title: string }> = [
+    { keys: ["leads"], title: "New leads" },
+    { keys: ["contacted", "replied"], title: "Conversation" },
+    { keys: ["product_received", "problem_confirmed"], title: "Reviewing" },
+    { keys: ["interested"], title: "Interested" },
+    { keys: ["quoted"], title: "Quoted" },
+    { keys: ["paid"], title: "Paid" },
+    { keys: ["follow_up_due"], title: "Follow-up due" },
+    { keys: ["completed"], title: "Completed" },
   ];
   return (
     <Layout env={env} title="Client pipeline" path="/admin" noIndex admin>
@@ -39,7 +41,10 @@ export function AdminDashboard({
         <div class="admin-title"><div><p class="eyebrow">Private operations</p><h1>Client pipeline</h1></div><a class="button button-small" href="/admin/products">New product page</a></div>
         <div class="stats-grid"><Stat label="All leads" value={stats.total} /><Stat label="Needs reply" value={stats.needsReply} tone="warm" /><Stat label="Follow-ups due" value={stats.followUpsDue} tone="alert" /><Stat label="Payment in progress" value={stats.awaitingPayment} /><Stat label="Paid" value={stats.paid} tone="good" /></div>
         <form class="admin-filters" action="/admin" method="get"><label><span>Search</span><input type="search" name="q" value={search ?? ""} placeholder="Name, product, or contact" /></label><label><span>Status</span><select name="status"><option value="">All statuses</option>{LEAD_STATUSES.map((item) => <option value={item} selected={status === item}>{humanize(item)}</option>)}</select></label><button class="button button-small" type="submit">Filter</button></form>
-        {!status && !search ? <div class="kanban-board">{columns.map((column) => <section class="kanban-column"><header><h2>{column.title}</h2><span>{leads.filter((lead) => lead.status === column.key).length}</span></header><div>{leads.filter((lead) => lead.status === column.key).slice(0, 20).map((lead) => <LeadCard lead={lead} />)}{leads.filter((lead) => lead.status === column.key).length === 0 && <p class="column-empty">Nothing here</p>}</div></section>)}</div> : <LeadTable leads={leads} />}
+        {!status && !search ? <div class="kanban-board">{columns.map((column) => {
+          const columnLeads = leads.filter((lead) => column.keys.includes(lead.status));
+          return <section class="kanban-column"><header><h2>{column.title}</h2><span>{columnLeads.length}</span></header><div>{columnLeads.slice(0, 20).map((lead) => <LeadCard lead={lead} />)}{columnLeads.length === 0 && <p class="column-empty">Nothing here</p>}</div></section>;
+        })}</div> : <LeadTable leads={leads} />}
       </section>
     </Layout>
   );

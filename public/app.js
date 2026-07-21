@@ -22,6 +22,11 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08, rootMargin: "0px 0px -40px" });
 document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+// Never leave business-critical content invisible if a very fast scroll skips
+// an observer threshold or a browser throttles intersection callbacks.
+setTimeout(() => {
+  document.querySelectorAll(".reveal:not(.visible)").forEach((element) => element.classList.add("visible"));
+}, 1800);
 
 document.querySelectorAll("[data-package]").forEach((link) => {
   link.addEventListener("click", () => {
