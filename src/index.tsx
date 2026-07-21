@@ -28,6 +28,7 @@ import {
 } from "./lib/db";
 import { authenticateAdmin, verifyTurnstile } from "./lib/auth";
 import { notifyNewLead, sendFollowUpReminder, sendOrderLink } from "./lib/email";
+import { databaseHealth, ensureDatabase } from "./lib/schema";
 import { formToObject, isSameOrigin } from "./lib/utils";
 import {
   leadUpdateSchema,
@@ -51,6 +52,11 @@ import {
 type AppEnv = { Bindings: Bindings; Variables: AppVariables };
 const app = new Hono<AppEnv>();
 
+const databaseGuard = createMiddleware<AppEnv>(async (c, next) => {
+  await ensureDatabase(c.env.DB);
+  await next();
+});
+
 app.use("*", secureHeaders({
   contentSecurityPolicy: {
     defaultSrc: ["'self'"],
@@ -73,6 +79,12 @@ for (const path of ["/styles.css", "/app.js", "/mark.svg", "/social-card.svg"]) 
 }
 
 app.get("/", (c) => c.html(<HomePage env={c.env} />));
+
+app.use("/discovery", databaseGuard);
+app.use("/products/*", databaseGuard);
+app.use("/api/reviews", databaseGuard);
+app.use("/order/*", databaseGuard);
+app.use("/sitemap.xml", databaseGuard);
 
 app.get("/discovery", async (c) => {
   const category = c.req.query("category")?.slice(0, 80);
@@ -111,17 +123,32 @@ app.post("/api/reviews", async (c) => {
   }
 
   const lead = await createLead(c.env.DB, parsed.data);
+  let failedUploads = 0;
   for (const file of files) {
     const extension = file.type === "image/jpeg" ? "jpg" : file.type.split("/")[1] ?? "bin";
     const key = `private/leads/${lead.id}/${crypto.randomUUID()}.${extension}`;
-    await c.env.PRODUCT_ASSETS.put(key, file.stream(), { metadata: { contentType: file.type } });
-    await addLeadAsset(c.env.DB, lead.id, { key, name: file.name.slice(0, 200), type: file.type, size: file.size });
+    try {
+      await c.env.PRODUCT_ASSETS.put(key, file.stream(), { metadata: { contentType: file.type } });
+      await addLeadAsset(c.env.DB, lead.id, { key, name: file.name.slice(0, 200), type: file.type, size: file.size });
+    } catch (error) {
+      failedUploads += 1;
+      console.error("Private lead image upload failed", error);
+      await c.env.PRODUCT_ASSETS.delete(key).catch(() => undefined);
+    }
   }
   await addActivity(c.env.DB, lead.id, "lead_created", "Personalized product review requested");
+  if (failedUploads > 0) {
+    await addActivity(c.env.DB, lead.id, "asset_upload_failed", `${failedUploads} private image upload(s) need to be requested again`);
+  }
   c.executionCtx.waitUntil(notifyNewLead(c.env, lead));
 
   const acceptsJson = c.req.header("Accept")?.includes("application/json");
-  if (acceptsJson) return c.json({ ok: true, message: "Your product is in. A real person will review it and reply through your chosen channel." }, 201);
+  if (acceptsJson) return c.json({
+    ok: true,
+    message: failedUploads > 0
+      ? "Your request was received, but an image could not be stored. We will ask you to resend it when we reply."
+      : "Your product is in. A real person will review it and reply through your chosen channel.",
+  }, 201);
   return c.redirect("/?submitted=1#review", 303);
 });
 
@@ -159,6 +186,8 @@ const adminGuard = createMiddleware<AppEnv>(async (c, next) => {
 
 app.use("/admin", adminGuard);
 app.use("/admin/*", adminGuard);
+app.use("/admin", databaseGuard);
+app.use("/admin/*", databaseGuard);
 
 app.get("/admin", async (c) => {
   const status = c.req.query("status")?.slice(0, 40);
@@ -274,7 +303,15 @@ app.get("/sitemap.xml", async (c) => {
 
 app.get("/llms.txt", (c) => c.text(`# ${c.env.BRAND_NAME}\n\n> Product photo direction, listing copy, and product pages for handmade sellers.\n\n## Public pages\n- ${c.env.SITE_URL}/: Services, pricing, examples, FAQ, and free product review\n- ${c.env.SITE_URL}/discovery: Published handmade product pages\n- ${c.env.SITE_URL}/ai-ready: How product details are structured for search and AI tools\n\n## Content notes\n- Product details on public pages are supplied or approved by the maker.\n- Private client, order, and admin routes are not public sources.\n`, 200, { "Content-Type": "text/plain; charset=utf-8" }));
 
-app.get("/health", (c) => c.json({ ok: true, service: "handmade-visibility" }));
+app.get("/health", async (c) => {
+  try {
+    const healthy = await databaseHealth(c.env.DB);
+    return c.json({ ok: healthy, service: "handmade-visibility", database: healthy ? "ready" : "unavailable" }, healthy ? 200 : 503);
+  } catch (error) {
+    console.error("Database health check failed", error);
+    return c.json({ ok: false, service: "handmade-visibility", database: "unavailable" }, 503);
+  }
+});
 app.notFound((c) => c.html(<NotFoundPage env={c.env} />, 404));
 app.onError((error, c) => {
   console.error(error);
@@ -286,6 +323,7 @@ export { app };
 export default {
   fetch: app.fetch,
   async scheduled(_event: ScheduledEvent, env: Bindings, context: ExecutionContext): Promise<void> {
+    await ensureDatabase(env.DB);
     const leads = await getDueLeads(env.DB);
     for (const lead of leads) {
       context.waitUntil((async () => {

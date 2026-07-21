@@ -32,6 +32,20 @@ describe("reviewRequestSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("rejects non-web URL schemes", () => {
+    const result = reviewRequestSchema.safeParse({
+      name: "Maya Chen",
+      product_name: "Pressed flower necklace",
+      product_url: "javascript:alert(1)",
+      craft_type: "Handmade jewelry",
+      problem: "Visitors like the post but do not ask how to order.",
+      contact_channel: "email",
+      contact_value: "maya@example.com",
+      consent: "on",
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("product passport helpers", () => {

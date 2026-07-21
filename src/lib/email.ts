@@ -12,20 +12,25 @@ export async function sendEmail(env: Bindings, message: EmailMessage): Promise<b
     return false;
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ from: env.FROM_EMAIL, ...message }),
-  });
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from: env.FROM_EMAIL, ...message }),
+    });
 
-  if (!response.ok) {
-    console.error("Email delivery failed", response.status, await response.text());
+    if (!response.ok) {
+      console.error("Email delivery failed", response.status, await response.text());
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Email delivery request failed", error);
     return false;
   }
-  return true;
 }
 
 export async function notifyNewLead(env: Bindings, lead: Lead): Promise<void> {

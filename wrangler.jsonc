@@ -28,9 +28,9 @@
     "BRAND_NAME": "Handmade Visibility",
     "PUBLIC_USDT_NETWORK": "TRC20",
     "PUBLIC_USDT_ADDRESS": "TWiDbdetRhXF3cnMHciM1EK8AjTPKHMjJF",
-    "ADMIN_EMAILS": "",
+    "ADMIN_EMAILS": "chengzhao640@gmail.com",
     "FROM_EMAIL": "Handmade Visibility <hello@example.com>",
-    "ADMIN_NOTIFY_EMAIL": "",
+    "ADMIN_NOTIFY_EMAIL": "chengzhao640@gmail.com",
     "CF_ACCESS_TEAM_DOMAIN": "",
     "CF_ACCESS_AUD": "",
     "TURNSTILE_SITE_KEY": ""

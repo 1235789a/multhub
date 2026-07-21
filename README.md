@@ -67,6 +67,8 @@ Scheduled Worker ──> due follow-ups ──> Resend notifications
 - Anti-spam: Cloudflare Turnstile
 - Tests: Vitest
 
+Database-backed routes run an idempotent schema readiness check before use. This is a production safety net for a newly bound or accidentally unmigrated D1 database; Wrangler migrations remain the preferred deployment path.
+
 The project intentionally uses a small, proven stack instead of rebuilding framework, validation, auth-JWT, and edge-deployment primitives. The flow patterns were informed by open-source projects including Hono, Formbricks, Twenty CRM, and Cloudflare D1 starters; no application source was copied from them.
 
 ## Local setup
@@ -136,6 +138,13 @@ The bypass is ignored in production.
    Cloudflare Workers Builds should use `npm run cf-build` as its build command and
    `npm run cf-deploy` as its deploy command so production migrations run before each upload.
 
+   After deployment, verify that the real database—not only the Worker—is ready:
+
+   ```bash
+   curl https://your-domain.example/health
+   # {"ok":true,"service":"handmade-visibility","database":"ready"}
+   ```
+
 7. In Cloudflare Zero Trust, create an Access self-hosted application for `/admin*`. Add the application audience value to `CF_ACCESS_AUD` and allow only the emails listed in `ADMIN_EMAILS`.
 
 8. Point the production hostname at the Worker and confirm `SITE_URL` exactly matches its origin. Same-origin checks intentionally reject writes from other origins.
@@ -170,6 +179,8 @@ npm run check
 ```
 
 This runs strict TypeScript, unit tests, and a Wrangler production-bundle dry run. GitHub Actions runs the same check on pushes and pull requests.
+
+The integration suite exercises the early manual workflow end to end using an isolated SQLite database: schema initialization, review submission, private image metadata, admin pipeline, quote creation, customer project page, transaction submission, manual verification, and delivery.
 
 ## Operational first week
 
