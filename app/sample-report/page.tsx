@@ -4,9 +4,9 @@ import { MediaPlaceholder } from "../components/MediaPlaceholder";
 import { Footer, Header, PageHero } from "../components/SiteChrome";
 
 export const metadata: Metadata = {
-  title: "Sample Report — MultiHub GEO",
+  title: "Sample Report — molthub",
   description:
-    "Preview the evidence-led structure planned for MultiHub GEO audits and action plans.",
+    "Preview the evidence-led structure planned for molthub audits and action plans.",
 };
 
 const pages = [

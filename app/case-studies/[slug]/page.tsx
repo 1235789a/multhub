@@ -18,8 +18,8 @@ export async function generateMetadata({
   const study = getCaseStudy(slug);
   return {
     title: study
-      ? `${study.title} — MultiHub GEO Case Study`
-      : "Case Study — MultiHub GEO",
+      ? `${study.title} — molthub Case Study`
+      : "Case Study — molthub",
     description: study?.shortDescription,
   };
 }

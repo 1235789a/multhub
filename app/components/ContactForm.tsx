@@ -87,7 +87,7 @@ export function ContactForm() {
       <label className="consent">
         <input name="consent" type="checkbox" required />
         <span>
-          I agree that MultiHub GEO may use these details to respond to this
+          I agree that molthub may use these details to respond to this
           review request.
         </span>
       </label>

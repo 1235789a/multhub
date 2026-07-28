@@ -18,8 +18,8 @@ export async function generateMetadata({
   const insight = getInsight(slug);
   return {
     title: insight
-      ? `${insight.title} — MultiHub GEO Insights`
-      : "Insight — MultiHub GEO",
+      ? `${insight.title} — molthub Insights`
+      : "Insight — molthub",
     description: insight?.excerpt,
   };
 }

@@ -4,7 +4,7 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 import { caseStudies } from "../data/caseStudies";
 
 export const metadata: Metadata = {
-  title: "Case Studies — MultiHub GEO",
+  title: "Case Studies — molthub",
   description:
     "An expandable library for verified Web3 GEO client work, anonymous audits, public research, and diagnostic examples.",
 };

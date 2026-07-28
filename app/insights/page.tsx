@@ -4,7 +4,7 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 import { insights } from "../data/insights";
 
 export const metadata: Metadata = {
-  title: "Insights — MultiHub GEO",
+  title: "Insights — molthub",
   description:
     "Practical research and observations about Web3 projects in AI-generated answers.",
 };

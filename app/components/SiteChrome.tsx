@@ -3,12 +3,12 @@ import { navigation } from "../data/navigation";
 
 export function Brand() {
   return (
-    <Link className="brand" href="/" aria-label="MultiHub GEO home">
+    <Link className="brand" href="/" aria-label="molthub home">
       <span className="brand__mark" aria-hidden="true">
         M
       </span>
       <span className="brand__word">
-        MultiHub <b>GEO</b>
+        molthub
       </span>
     </Link>
   );
@@ -75,7 +75,7 @@ export function Footer() {
         </div>
       </div>
       <div className="container site-footer__bottom">
-        <span>© {new Date().getFullYear()} MultiHub GEO</span>
+        <span>© {new Date().getFullYear()} molthub · molthub.click</span>
         <span>No guaranteed AI rankings, citations, or recommendations.</span>
       </div>
     </footer>

@@ -10,7 +10,7 @@ import { insights } from "./data/insights";
 import { services } from "./data/services";
 
 export const metadata: Metadata = {
-  title: "MultiHub GEO — Web3 AI Search Visibility",
+  title: "molthub — Web3 AI Search Visibility",
   description:
     "Hands-on GEO audits and implementation for early-stage Web3 teams. Improve how AI search systems discover, understand, and cite your project.",
 };
@@ -290,7 +290,7 @@ export default function Home() {
           <div className="container">
             <SectionHeading
               eyebrow="Evidence-led deliverables"
-              title="See What a MultiHub GEO Report Looks Like"
+              title="See What a molthub GEO Report Looks Like"
               description="Every finding should be supported by evidence, context, priority, and a recommended action."
             />
             <div className="report-layout">
@@ -441,7 +441,7 @@ export default function Home() {
           <div className="container about__grid">
             <div>
               <SectionHeading
-                eyebrow="About MultiHub GEO"
+                eyebrow="About molthub"
                 title="A Small, Hands-On Web3 GEO Studio"
                 description="Focused on helping early-stage Web3 projects communicate clearly enough for people and AI systems to understand."
               />

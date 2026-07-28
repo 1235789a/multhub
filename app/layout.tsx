@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://molthub.click"),
   title: {
-    default: "MultiHub GEO — Web3 AI Search Visibility",
+    default: "molthub — Web3 AI Search Visibility",
     template: "%s",
   },
   description:
@@ -28,16 +29,20 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    siteName: "MultiHub GEO",
-    title: "MultiHub GEO — Web3 AI Search Visibility",
+    url: "https://molthub.click",
+    siteName: "molthub",
+    title: "molthub — Web3 AI Search Visibility",
     description:
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
   },
   twitter: {
     card: "summary",
-    title: "MultiHub GEO — Web3 AI Search Visibility",
+    title: "molthub — Web3 AI Search Visibility",
     description:
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
+  },
+  alternates: {
+    canonical: "https://molthub.click",
   },
 };
 
