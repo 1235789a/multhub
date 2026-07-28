@@ -34,12 +34,21 @@ export const metadata: Metadata = {
     title: "molthub — Web3 AI Search Visibility",
     description:
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1720,
+        height: 907,
+        alt: "molthub — Web3 AI Search Visibility",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "molthub — Web3 AI Search Visibility",
     description:
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
+    images: ["/og.png"],
   },
   alternates: {
     canonical: "https://molthub.click",

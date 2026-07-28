@@ -17,9 +17,8 @@ export const metadata: Metadata = {
 
 const trustPoints = [
   "Manual Web3 review",
-  "Implementation available",
-  "One-off projects accepted",
-  "No long-term contract required",
+  "Audit + implementation",
+  "One-off projects",
   "USDT accepted",
 ];
 
@@ -47,76 +46,51 @@ const problems = [
 const serviceProcess = [
   {
     step: "01",
-    title: "AI Visibility Review",
+    title: "Measure",
     description:
-      "Test how relevant AI systems discover, describe, and compare your project.",
+      "See how AI describes your project and which competitors appear first.",
     media: "AI Answer Screenshot",
   },
   {
     step: "02",
-    title: "Competitor Analysis",
+    title: "Verify",
     description:
-      "Compare answer presence, positioning, source coverage, and cited evidence.",
-    media: "Competitor Analysis Chart",
-  },
-  {
-    step: "03",
-    title: "Web3 Fact Verification",
-    description:
-      "Check product, network, token, custody, integration, and technical claims.",
+      "Check Web3 facts, competitor positioning, and the sources shaping answers.",
     media: "Factual Error Page",
   },
   {
-    step: "04",
-    title: "Website & Docs Improvements",
+    step: "03",
+    title: "Improve & Retest",
     description:
-      "Turn findings into clearer pages, stronger evidence, and implementation tasks.",
+      "Improve priority pages, then retest the same high-value questions.",
     media: "Before / After Comparison",
-  },
-  {
-    step: "05",
-    title: "Retest & Action Plan",
-    description:
-      "Recheck priority prompts and organize practical next steps by impact.",
-    media: "Priority Action Plan",
   },
 ];
 
 const reportPages = [
-  ["Executive Summary", "A concise view of the most important findings and priorities."],
-  ["Prompt Test Results", "Evidence-led snapshots of relevant AI answer behavior."],
-  ["Competitor Comparison", "A structured comparison of visibility and positioning."],
-  ["Factual Errors", "Specific inaccuracies, ambiguities, and source conflicts."],
-  ["Citation Sources", "An analysis of the sources shaping AI-generated answers."],
-  ["Website & Docs Findings", "Clarity, evidence, structure, and consistency observations."],
-  ["Priority Action Plan", "Recommended actions organized by urgency and effort."],
+  ["Prompt Results", "Where your project appears—and where it does not."],
+  ["Competitor Gap", "Who gets recommended first and why."],
+  ["Fact & Source Check", "What AI misunderstands or cannot verify."],
+  ["Action Plan", "What to improve first."],
 ];
 
 const whyUs = [
   [
     "Direct Communication",
-    "Speak directly with the person reviewing and working on your project.",
+    "Speak directly with the person doing the work.",
   ],
   [
     "Manual Web3 Verification",
-    "We review product, network, token, custody, integration, and documentation details manually.",
+    "Product and technical claims are checked manually.",
   ],
   [
     "Implementation Available",
-    "We can help apply improvements instead of stopping at a report.",
+    "We can apply improvements, not just report them.",
   ],
   [
     "Flexible Engagement",
-    "Start with a one-off review or short sprint without a long-term contract.",
+    "Start with one review—no long contract.",
   ],
-];
-
-const simpleProcess = [
-  "Submit Your Project",
-  "Receive an Initial Review",
-  "Choose the Right Scope",
-  "Analysis and Implementation",
-  "Receive the Report and Next Steps",
 ];
 
 function SectionHeading({
@@ -178,17 +152,20 @@ export default function Home() {
               </div>
             </div>
             <div className="hero__visual">
-              <div className="hero__visual-label">Evidence, not decoration</div>
-              <MediaPlaceholder
-                type="report"
-                label="Hero Report / Video Placeholder"
-                description="Reserved for a 30–45 second introduction, sample audit dashboard, report animation, or AI visibility overview."
-                aspectRatio="16:10"
-              />
+              <div className="hero__visual-label">From invisible to cited</div>
+              <div className="hero__image-frame">
+                <img
+                  src="/molthub-ai-visibility-hero.png"
+                  alt="A Web3 product moving from low visibility to a highlighted, cited AI answer."
+                />
+                <span className="hero__image-caption">
+                  Discover <b>→</b> Understand <b>→</b> Cite
+                </span>
+              </div>
               <div className="hero__visual-notes">
-                <span>01 / AI answer evidence</span>
-                <span>02 / Source analysis</span>
-                <span>03 / Action priority</span>
+                <span>AI answers</span>
+                <span>Sources</span>
+                <span>Actions</span>
               </div>
             </div>
           </div>
@@ -204,38 +181,11 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="section low-risk">
-          <div className="container low-risk__panel">
-            <div className="low-risk__number" aria-hidden="true">
-              01
-            </div>
-            <div>
-              <p className="eyebrow">A practical first step</p>
-              <h2>A Lower-Risk Way to Start with GEO</h2>
-              <p>
-                Begin with a focused manual review before deciding whether a
-                larger audit or implementation sprint makes sense.
-              </p>
-            </div>
-            <ul className="check-list">
-              <li>Start with a small manual review</li>
-              <li>No long-term agency contract</li>
-              <li>Direct communication</li>
-              <li>Clear deliverables</li>
-              <li>Upgrade only when useful</li>
-            </ul>
-            <a className="button button--secondary" href="#free-review">
-              Request a Free Initial Review
-            </a>
-          </div>
-        </section>
-
         <section className="section problems">
           <div className="container">
             <SectionHeading
               eyebrow="The visibility problem"
               title="Is AI Recommending Your Competitors Instead of You?"
-              description="AI systems form an opinion from the information they can find, reconcile, and trust. Weak signals create predictable problems."
             />
             <div className="problem-grid">
               {problems.map((problem) => (
@@ -251,13 +201,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section process-overview">
+        <section className="section process-overview" id="method">
           <div className="container">
             <div className="split-heading">
               <SectionHeading
                 eyebrow="What we actually do"
                 title="From Diagnosis to Implementation"
-                description="A structured workflow that connects observed AI answers to the pages, documentation, and source material that shape them."
               />
               <p className="statement">
                 We do not stop at vague recommendations.
@@ -274,7 +223,7 @@ export default function Home() {
                     </div>
                   </div>
                   <MediaPlaceholder
-                    type={item.step === "02" ? "chart" : item.step === "04" ? "comparison" : "report"}
+                    type={item.step === "02" ? "chart" : item.step === "03" ? "comparison" : "report"}
                     label={item.media}
                     description="Evidence placeholder"
                     aspectRatio="16:9"
@@ -291,7 +240,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Evidence-led deliverables"
               title="See What a molthub GEO Report Looks Like"
-              description="Every finding should be supported by evidence, context, priority, and a recommended action."
+              description="Evidence, context, priority, action."
             />
             <div className="report-layout">
               <div className="report-pages">
@@ -329,7 +278,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Expandable case library"
                 title="Selected Web3 GEO Work"
-                description="Client work, anonymous audits, public research, and diagnostic examples."
+                description="Built to grow as verified work is published."
               />
               <Link className="text-link" href="/case-studies">
                 View case-study library →
@@ -353,7 +302,6 @@ export default function Home() {
               <SectionHeading
                 eyebrow="A hands-on studio"
                 title="Why Early-Stage Web3 Teams Work With Us"
-                description="Built for teams that need senior attention, honest scope, and a practical path from findings to implementation."
               />
               <div className="why-us__list">
                 {whyUs.map(([title, description], index) => (
@@ -392,38 +340,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section how-it-works" id="how-it-works">
-          <div className="container">
-            <SectionHeading
-              eyebrow="How it works"
-              title="A Simple, Transparent Process"
-              description="Know what happens next, what information is needed, and when a larger scope is actually useful."
-              align="center"
-            />
-            <ol className="timeline">
-              {simpleProcess.map((step, index) => (
-                <li key={step}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>{step}</strong>
-                </li>
-              ))}
-            </ol>
-            <MediaPlaceholder
-              type="chart"
-              label="Service Process Illustration Placeholder"
-              description="Reserved for a horizontal diagram explaining the review and implementation workflow."
-              aspectRatio="16:9"
-            />
-          </div>
-        </section>
-
         <section className="section insights">
           <div className="container">
             <div className="section-heading-row">
               <SectionHeading
                 eyebrow="Research and observations"
                 title="Web3 AI Visibility Insights"
-                description="Practical research, observations, and case-driven lessons about how Web3 projects appear in AI-generated answers."
+                description="Short, practical lessons from real visibility questions."
               />
               <Link className="text-link" href="/insights">
                 Browse all insights →
@@ -443,36 +366,20 @@ export default function Home() {
               <SectionHeading
                 eyebrow="About molthub"
                 title="A Small, Hands-On Web3 GEO Studio"
-                description="Focused on helping early-stage Web3 projects communicate clearly enough for people and AI systems to understand."
+                description="Clearer for people. Easier for AI to understand."
               />
               <ul className="about__list">
                 <li>Focused on early-stage Web3 projects</li>
                 <li>Combines AI testing with manual review</li>
-                <li>Reads websites and technical documentation</li>
-                <li>Supports one-off and short-term projects</li>
-                <li>Values transparent scope and deliverables</li>
+                <li>Supports one-off and short-term work</li>
               </ul>
-              <div className="story-placeholder">
-                <span>Short Founder Story Placeholder</span>
-                <p>
-                  A concise, verifiable studio story can be added here when it
-                  is ready for publication.
-                </p>
-              </div>
             </div>
             <div className="about__media">
               <MediaPlaceholder
-                type="image"
-                label="Founder / Studio Image Placeholder"
-                description="Replace with an authentic portrait or studio image."
-                aspectRatio="4:3"
-              />
-              <MediaPlaceholder
                 type="video"
                 label="Studio Introduction Video Placeholder"
-                description="Optional founder or studio introduction. No autoplay."
+                description="A short founder-led explanation can be added here."
                 aspectRatio="16:9"
-                compact
               />
             </div>
           </div>
