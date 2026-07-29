@@ -33,6 +33,8 @@ test("server-renders the molthub homepage", async () => {
   assert.match(html, /Make Your Web3 Project/);
   assert.match(html, /Visible in AI Search/);
   assert.match(html, /molthub-ai-visibility-hero\.png/);
+  assert.match(html, /molthub-hero-loop\.mp4/);
+  assert.match(html, /autoPlay=""[^>]*loop=""[^>]*playsInline=""/);
   assert.match(html, /Selected Web3 GEO Work/);
   assert.match(html, /Find Out How AI Understands Your Web3 Project/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
@@ -43,6 +45,7 @@ test("keeps the compact homepage structure and required visual asset", async () 
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/data/navigation.ts", import.meta.url), "utf8"),
     access(new URL("../public/molthub-ai-visibility-hero.png", import.meta.url)),
+    access(new URL("../public/molthub-hero-loop.mp4", import.meta.url)),
   ]);
 
   assert.match(page, /id="method"/);

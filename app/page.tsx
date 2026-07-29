@@ -154,7 +154,20 @@ export default function Home() {
             <div className="hero__visual">
               <div className="hero__visual-label">From invisible to cited</div>
               <div className="hero__image-frame">
+                <video
+                  className="hero__loop"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster="/molthub-ai-visibility-hero.png"
+                  aria-label="A Web3 product moving from low visibility to a highlighted, cited AI answer."
+                >
+                  <source src="/molthub-hero-loop.mp4" type="video/mp4" />
+                </video>
                 <img
+                  className="hero__poster"
                   src="/molthub-ai-visibility-hero.png"
                   alt="A Web3 product moving from low visibility to a highlighted, cited AI answer."
                 />
