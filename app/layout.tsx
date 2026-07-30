@@ -61,6 +61,36 @@ export const viewport: Viewport = {
   themeColor: "#f7f8f6",
 };
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "molthub",
+  url: "https://molthub.click",
+  email: "chengzhao640@gmail.com",
+  description:
+    "Web3 GEO audits, AI-search visibility reports, fact verification and implementation services.",
+  areaServed: "Worldwide",
+  serviceType: [
+    "Web3 GEO",
+    "AI search visibility audit",
+    "Generative engine optimization",
+  ],
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Instant Visibility Report",
+      price: "2.99",
+      priceCurrency: "USD",
+    },
+    {
+      "@type": "Offer",
+      name: "Verified GEO Baseline",
+      price: "59",
+      priceCurrency: "USD",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,6 +99,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         {children}
       </body>
     </html>

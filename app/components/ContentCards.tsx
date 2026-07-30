@@ -59,21 +59,32 @@ export function InsightCard({ insight }: { insight: Insight }) {
 
 export function ServicePlanCard({ service }: { service: ServicePlan }) {
   return (
-    <article className="service-card">
-      <div className="service-card__number">
-        {service.name.replace("Service Option ", "")}
+    <article
+      className={`service-card${service.highlighted ? " service-card--highlighted" : ""}`}
+    >
+      {service.badge ? (
+        <span className="service-card__badge">{service.badge}</span>
+      ) : null}
+      <div className="service-card__category">
+        <span>{service.category}</span>
+        <span>{service.turnaround}</span>
       </div>
-      <p className="eyebrow">Configurable engagement</p>
       <h3>{service.name}</h3>
       <p>{service.shortDescription}</p>
-      <div className="service-card__empty">
-        <span>Scope</span>
-        <strong>Service details will be added soon.</strong>
-        <span>Pricing</span>
-        <strong>Defined after scope review.</strong>
+      <div className="service-card__price">
+        <strong>{service.price}</strong>
+        <span>{service.priceNote}</span>
       </div>
-      <a className="text-link" href={service.ctaHref}>
-        {service.ctaLabel} →
+      <ul className="service-card__features">
+        {service.features.map((feature) => (
+          <li key={feature}>{feature}</li>
+        ))}
+      </ul>
+      <a
+        className={`button ${service.highlighted ? "button--gold" : "button--secondary"}`}
+        href={service.ctaHref}
+      >
+        {service.ctaLabel}
       </a>
     </article>
   );

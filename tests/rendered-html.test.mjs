@@ -35,8 +35,14 @@ test("server-renders the molthub homepage", async () => {
   assert.match(html, /molthub-ai-visibility-hero\.png/);
   assert.match(html, /molthub-hero-loop\.mp4/);
   assert.match(html, /autoPlay=""[^>]*loop=""[^>]*playsInline=""/);
+  assert.match(html, /Run Free Scan/);
+  assert.match(html, /Five Clear Ways to Work With molthub/);
+  assert.match(html, /2\.99 USDT/);
+  assert.match(html, /59 USDT/);
+  assert.match(html, /299 USDT/);
+  assert.match(html, /999 USDT/);
   assert.match(html, /Selected Web3 GEO Work/);
-  assert.match(html, /Find Out How AI Understands Your Web3 Project/);
+  assert.match(html, /Start at 2\.99 USDT/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
 
@@ -51,7 +57,34 @@ test("keeps the compact homepage structure and required visual asset", async () 
   assert.match(page, /id="method"/);
   assert.match(page, /id="services"/);
   assert.match(page, /id="about"/);
+  assert.match(page, /id="free-scan"/);
+  assert.match(page, /id="trial-order"/);
+  assert.match(page, /id="service-order"/);
   assert.match(page, /id="free-review"/);
   assert.match(navigation, /\/#method/);
   assert.doesNotMatch(navigation, /\/#how-it-works/);
+});
+
+test("rejects private hosts in the public quick-scan endpoint", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("test", `scan-${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+  const response = await worker.fetch(
+    new Request("http://localhost/api/free-scan", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ website: "http://127.0.0.1" }),
+    }),
+    {
+      ASSETS: {
+        fetch: async () => new Response("Not found", { status: 404 }),
+      },
+    },
+    {
+      waitUntil() {},
+      passThroughOnException() {},
+    },
+  );
+  assert.equal(response.status, 400);
+  assert.match(await response.text(), /public project website/i);
 });

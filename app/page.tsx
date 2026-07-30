@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CaseStudyCard, InsightCard, ServicePlanCard } from "./components/ContentCards";
 import { ContactForm } from "./components/ContactForm";
+import { FreeScan } from "./components/FreeScan";
 import { MediaPlaceholder } from "./components/MediaPlaceholder";
 import { Footer, Header } from "./components/SiteChrome";
 import { caseStudies } from "./data/caseStudies";
@@ -135,8 +136,8 @@ export default function Home() {
                 understand, and cite across AI search platforms.
               </p>
               <div className="button-row">
-                <a className="button button--gold" href="#free-review">
-                  Get a Free Review
+                <a className="button button--gold" href="#free-scan">
+                  Run Free Scan
                 </a>
                 <Link className="button button--secondary" href="/sample-report">
                   View Sample Report
@@ -193,6 +194,90 @@ export default function Home() {
             <span>Anonymous work supported</span>
           </div>
         </div>
+
+        <section className="section free-scan" id="free-scan">
+          <div className="container">
+            <div className="scan-heading">
+              <SectionHeading
+                eyebrow="Free automated preview"
+                title="Check Your Website’s AI-Search Readiness"
+                description="Enter a public project website. Get a technical readiness score, detected gaps, buyer-intent prompt ideas and three priority actions."
+              />
+              <p className="scan-heading__note">
+                Instant · No card · No email gate
+              </p>
+            </div>
+            <FreeScan />
+          </div>
+        </section>
+
+        <section className="section services" id="services">
+          <div className="container">
+            <SectionHeading
+              eyebrow="Start small, upgrade when useful"
+              title="Five Clear Ways to Work With molthub"
+              description="Automated tools for a fast first answer. Human verification and implementation when the project matters more."
+              align="center"
+            />
+            <div className="service-ladder" aria-label="Service progression">
+              <span>Machine finds</span>
+              <b>→</b>
+              <span>Machine reports</span>
+              <b>→</b>
+              <span>Human verifies</span>
+              <b>→</b>
+              <span>Expert researches</span>
+              <b>→</b>
+              <span>Expert implements</span>
+            </div>
+            <div className="pricing-groups">
+              <div className="pricing-group">
+                <div className="pricing-group__heading">
+                  <span>01</span>
+                  <div>
+                    <p className="eyebrow">Automated tools</p>
+                    <h3>Low-risk first look</h3>
+                  </div>
+                </div>
+                <div className="pricing-grid pricing-grid--two">
+                  {services.slice(0, 2).map((service) => (
+                    <ServicePlanCard service={service} key={service.id} />
+                  ))}
+                </div>
+              </div>
+              <div className="pricing-group">
+                <div className="pricing-group__heading">
+                  <span>02</span>
+                  <div>
+                    <p className="eyebrow">Human-verified</p>
+                    <h3>Facts checked before you act</h3>
+                  </div>
+                </div>
+                <div className="pricing-grid pricing-grid--one">
+                  <ServicePlanCard service={services[2]} />
+                </div>
+              </div>
+              <div className="pricing-group">
+                <div className="pricing-group__heading">
+                  <span>03</span>
+                  <div>
+                    <p className="eyebrow">Expert services</p>
+                    <h3>Research or implementation</h3>
+                  </div>
+                </div>
+                <div className="pricing-grid pricing-grid--two">
+                  {services.slice(3).map((service) => (
+                    <ServicePlanCard service={service} key={service.id} />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <p className="pricing-note">
+              Upgrade credit: move to a higher plan within 14 days and the
+              amount already paid is deducted from the next plan.
+            </p>
+          </div>
+        </section>
 
         <section className="section problems">
           <div className="container">
@@ -337,22 +422,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section services" id="services">
-          <div className="container">
-            <SectionHeading
-              eyebrow="Flexible engagement formats"
-              title="Services"
-              description="Service details and pricing will be added only after each scope and deliverable set is finalized."
-              align="center"
-            />
-            <div className="card-grid card-grid--three">
-              {services.map((service) => (
-                <ServicePlanCard service={service} key={service.name} />
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="section insights">
           <div className="container">
             <div className="section-heading-row">
@@ -422,15 +491,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="final-cta" id="free-review">
+        <section className="final-cta" id="service-order">
+          <span className="anchor-target" id="trial-order" />
+          <span className="anchor-target" id="free-review" />
           <div className="container">
             <div className="final-cta__heading">
               <div>
-                <p className="eyebrow">Free initial review</p>
-                <h2>Find Out How AI Understands Your Web3 Project</h2>
+                <p className="eyebrow">Choose your next step</p>
+                <h2>Start at 2.99 USDT—or Ask for Expert Help</h2>
                 <p>
-                  Start with a focused initial review before committing to a
-                  larger project.
+                  Send your project details and selected plan. We will reply
+                  with payment or project-start instructions for the current
+                  pilot.
                 </p>
               </div>
               <MediaPlaceholder
@@ -443,19 +515,19 @@ export default function Home() {
             </div>
             <div className="final-cta__form">
               <div className="final-cta__aside">
-                <span className="aside-label">What happens next</span>
+                <span className="aside-label">Simple handoff</span>
                 <ol>
                   <li>
                     <b>01</b>
-                    <span>We read the project information you provide.</span>
+                    <span>Select the plan that matches your next step.</span>
                   </li>
                   <li>
                     <b>02</b>
-                    <span>We identify whether a focused review is useful.</span>
+                    <span>Send the project URL and delivery email.</span>
                   </li>
                   <li>
                     <b>03</b>
-                    <span>You receive a clear next-step recommendation.</span>
+                    <span>Receive checkout or project-start instructions.</span>
                   </li>
                 </ol>
                 <p>
