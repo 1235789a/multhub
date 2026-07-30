@@ -26,9 +26,14 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <Link className="button button--small desktop-cta" href="/#free-scan">
-          Run Free Scan
-        </Link>
+        <div className="desktop-actions">
+          <Link className="header-account-link" href="/account">
+            Account
+          </Link>
+          <Link className="button button--small desktop-cta" href="/#free-scan">
+            Run Free Scan
+          </Link>
+        </div>
         <details className="mobile-nav">
           <summary aria-label="Open navigation">
             <span />
@@ -40,6 +45,7 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <Link href="/account">Account</Link>
             <Link className="button" href="/#free-scan">
               Run Free Scan
             </Link>
@@ -70,6 +76,7 @@ export function Footer() {
         <div>
           <p className="footer-heading">Start</p>
           <Link href="/#free-scan">Free Quick Scan</Link>
+          <Link href="/account">Account & Scan History</Link>
           <Link href="/#services">Plans & Pricing</Link>
           <span>One-off projects welcome</span>
           <span>USDT accepted</span>

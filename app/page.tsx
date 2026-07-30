@@ -201,10 +201,10 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Free automated preview"
                 title="Check Your Website’s AI-Search Readiness"
-                description="Enter a public project website. Get a technical readiness score, detected gaps, buyer-intent prompt ideas and three priority actions."
+                description="See your score and one priority gap first. Create a free account to unlock the complete result, save it, and compare future improvements."
               />
               <p className="scan-heading__note">
-                Instant · No card · No email gate
+                Instant · No card · 2 saved scans / month
               </p>
             </div>
             <FreeScan />
