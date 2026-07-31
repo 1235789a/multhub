@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   monthStart.setUTCDate(1);
   monthStart.setUTCHours(0, 0, 0, 0);
 
-  const [{ data: scans, error }, { count }] = await Promise.all([
+  const [{ data: scans, error }, { count }, { data: orders, error: ordersError }] = await Promise.all([
     admin
       .from("scans")
       .select("id, website, category, score, verdict, created_at")
@@ -30,10 +30,19 @@ export async function GET(request: Request) {
       .select("id", { count: "exact", head: true })
       .eq("user_id", user.id)
       .gte("created_at", monthStart.toISOString()),
+    admin
+      .from("orders")
+      .select("id, plan_id, plan_name, amount_usdt, status, payment_txid, project_name, website, expires_at, paid_at, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(10),
   ]);
 
   if (error) {
     return Response.json({ error: error.message }, { status: 500 });
+  }
+  if (ordersError && ordersError.code !== "42P01") {
+    return Response.json({ error: ordersError.message }, { status: 500 });
   }
 
   await recordProductEvent({
@@ -51,5 +60,6 @@ export async function GET(request: Request) {
       limit: 2,
     },
     scans: scans ?? [],
+    orders: orders ?? [],
   });
 }

@@ -1,54 +1,26 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-
-const CONTACT_EMAIL = "chengzhao640@gmail.com";
+import { FormEvent } from "react";
 
 export function ContactForm() {
-  const [emailDraft, setEmailDraft] = useState("");
-
   function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const plan = String(data.get("plan") || "molthub service");
-    const subject = `molthub order request — ${plan}`;
-    const body = [
-      `Selected plan: ${plan}`,
-      `Name: ${String(data.get("name") || "")}`,
-      `Delivery email: ${String(data.get("email") || "")}`,
-      `Project: ${String(data.get("projectName") || "")}`,
-      `Website: ${String(data.get("website") || "")}`,
-      `Category: ${String(data.get("category") || "")}`,
-      `Main competitor: ${String(data.get("competitor") || "Not supplied")}`,
-      "",
-      "Notes:",
-      String(data.get("notes") || "No additional notes."),
-    ].join("\n");
-    const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setEmailDraft(mailto);
-    window.location.href = mailto;
-  }
-
-  if (emailDraft) {
-    return (
-      <div className="form-success" role="status" aria-live="polite">
-        <span aria-hidden="true">✓</span>
-        <h3>Your order email is ready.</h3>
-        <p>
-          Send the pre-filled email to complete the handoff. If your mail app
-          did not open, use the button below.
-        </p>
-        <a className="button button--gold" href={emailDraft}>
-          Open Order Email
-        </a>
-        <a className="text-link" href={`mailto:${CONTACT_EMAIL}`}>
-          Or email {CONTACT_EMAIL}
-        </a>
-        <button className="text-link" onClick={() => setEmailDraft("")}>
-          Edit project details
-        </button>
-      </div>
-    );
+    const planId = plan.startsWith("59")
+      ? "baseline"
+      : plan.startsWith("299")
+        ? "audit"
+        : plan.startsWith("999")
+          ? "sprint"
+          : "trial";
+    const params = new URLSearchParams({
+      plan: planId,
+      projectName: String(data.get("projectName") || ""),
+      website: String(data.get("website") || ""),
+      category: String(data.get("category") || ""),
+    });
+    window.location.href = `/checkout?${params.toString()}`;
   }
 
   return (
@@ -63,14 +35,6 @@ export function ContactForm() {
         </select>
       </label>
       <div className="form-grid">
-        <label>
-          Name
-          <input name="name" autoComplete="name" required />
-        </label>
-        <label>
-          Delivery email
-          <input name="email" type="email" autoComplete="email" required />
-        </label>
         <label>
           Project name
           <input name="projectName" required />
@@ -101,19 +65,7 @@ export function ContactForm() {
             required
           />
         </label>
-        <label>
-          Main competitor
-          <input name="competitor" placeholder="Name or URL" />
-        </label>
       </div>
-      <label>
-        Anything we should know?
-        <textarea
-          name="notes"
-          rows={4}
-          placeholder="Launch date, target market, known AI errors, or preferred contact channel."
-        />
-      </label>
       <label className="consent">
         <input name="consent" type="checkbox" required />
         <span>
@@ -122,12 +74,11 @@ export function ContactForm() {
         </span>
       </label>
       <button className="button button--gold button--full" type="submit">
-        Continue to Order Email
+        Continue to USDT Checkout
       </button>
       <p className="form-note">
-        Current pilot checkout uses a direct email handoff. Automated card and
-        crypto checkout will replace this step after payment details are
-        connected.
+        Payment uses USDT on TRON Mainnet (TRC20). The order remains attached
+        to your signed-in molthub account.
       </p>
     </form>
   );

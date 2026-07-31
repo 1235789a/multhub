@@ -49,7 +49,7 @@ export const services: ServicePlan[] = [
       "Downloadable report",
     ],
     ctaLabel: "Start the $2.99 Trial",
-    ctaHref: "#trial-order",
+    ctaHref: "/checkout?plan=trial",
   },
   {
     id: "baseline",
@@ -70,7 +70,7 @@ export const services: ServicePlan[] = [
     highlighted: true,
     badge: "Best place to start",
     ctaLabel: "Choose Verified Baseline",
-    ctaHref: "#service-order",
+    ctaHref: "/checkout?plan=baseline",
   },
   {
     id: "audit",
@@ -89,7 +89,7 @@ export const services: ServicePlan[] = [
       "90-day roadmap and 45-minute consultation",
     ],
     ctaLabel: "Book Expert Audit",
-    ctaHref: "#service-order",
+    ctaHref: "/checkout?plan=audit",
   },
   {
     id: "sprint",
@@ -109,6 +109,6 @@ export const services: ServicePlan[] = [
     ],
     badge: "Done for you",
     ctaLabel: "Apply for GEO Sprint",
-    ctaHref: "#service-order",
+    ctaHref: "/checkout?plan=sprint",
   },
 ];

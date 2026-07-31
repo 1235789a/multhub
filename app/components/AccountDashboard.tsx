@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
+import Link from "next/link";
 import { AuthGate } from "./AuthGate";
 import { getBrowserSupabase, isSupabaseConfigured } from "../lib/supabase-browser";
 
@@ -14,6 +15,19 @@ type AccountData = {
     category: string;
     score: number;
     verdict: string;
+    created_at: string;
+  }>;
+  orders: Array<{
+    id: string;
+    plan_id: string;
+    plan_name: string;
+    amount_usdt: string | number;
+    status: "pending" | "paid" | "expired" | "rejected";
+    payment_txid: string | null;
+    project_name: string;
+    website: string;
+    expires_at: string;
+    paid_at: string | null;
     created_at: string;
   }>;
 };
@@ -124,10 +138,41 @@ export function AccountDashboard() {
           <small>Latest 10 shown</small>
         </article>
         <article>
-          <span>Current plan</span>
-          <strong>Free</strong>
-          <small>Upgrade when useful</small>
+          <span>Payment orders</span>
+          <strong>{data?.orders.length ?? 0}</strong>
+          <small>Latest 10 shown</small>
         </article>
+      </div>
+
+      <div className="account-history">
+        <div className="section-heading-row">
+          <div>
+            <p className="eyebrow">Payment history</p>
+            <h2>Your USDT orders</h2>
+          </div>
+          <Link className="button button--secondary" href="/checkout">
+            Create order
+          </Link>
+        </div>
+        {data?.orders.length ? (
+          <div className="account-history__list">
+            {data.orders.map((order) => (
+              <article key={order.id}>
+                <div>
+                  <strong>{order.plan_name}</strong>
+                  <span>{order.project_name}</span>
+                </div>
+                <div>
+                  <b>{order.amount_usdt} USDT</b>
+                  <span className={`payment-status payment-status--${order.status}`}>{order.status}</span>
+                </div>
+                <Link href={`/checkout?plan=${order.plan_id}`}>Open order</Link>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="account-history__empty">No payment orders yet.</p>
+        )}
       </div>
 
       <div className="account-history">
@@ -136,9 +181,9 @@ export function AccountDashboard() {
             <p className="eyebrow">Scan history</p>
             <h2>Your recent projects</h2>
           </div>
-          <a className="button button--gold" href="/#free-scan">
+          <Link className="button button--gold" href="/#free-scan">
             Run another scan
-          </a>
+          </Link>
         </div>
         {data?.scans.length ? (
           <div className="account-history__list">

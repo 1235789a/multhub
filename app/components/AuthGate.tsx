@@ -9,10 +9,12 @@ export function AuthGate({
   open,
   onClose,
   onSignedIn,
+  returnTo = "/#free-scan",
 }: {
   open: boolean;
   onClose: () => void;
   onSignedIn: (session: Session) => void;
+  returnTo?: string;
 }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<"google" | "email" | "">("");
@@ -50,7 +52,7 @@ export function AuthGate({
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/#free-scan`,
+        redirectTo: `${window.location.origin}${returnTo}`,
       },
     });
 
@@ -71,7 +73,7 @@ export function AuthGate({
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/#free-scan`,
+        emailRedirectTo: `${window.location.origin}${returnTo}`,
       },
     });
 

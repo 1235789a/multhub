@@ -290,7 +290,7 @@ export function FreeScan() {
             </div>
             <a
               className="button button--secondary"
-              href={process.env.NEXT_PUBLIC_TRIAL_CHECKOUT_URL || "#trial-order"}
+              href="/checkout?plan=trial"
               onClick={() =>
                 void trackProductEvent(
                   "trial_checkout_started",
