@@ -1,16 +1,37 @@
 import { createClient, type SupabaseClient, type User } from "@supabase/supabase-js";
 
-function publicConfig() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+let cloudflareEnvPromise: Promise<Record<string, unknown>> | undefined;
+
+function processEnv(name: string) {
+  const processValue =
+    typeof process !== "undefined" ? process.env?.[name] : undefined;
+  return processValue || undefined;
+}
+
+async function runtimeEnv(name: string) {
+  const processValue = processEnv(name);
+  if (processValue) return processValue;
+
+  cloudflareEnvPromise ??= import("cloudflare:workers")
+    .then((module) => (module.env ?? {}) as Record<string, unknown>)
+    .catch(() => ({}));
+  const cloudflareEnv = await cloudflareEnvPromise;
+
+  const workerValue = cloudflareEnv[name];
+  return typeof workerValue === "string" ? workerValue : undefined;
+}
+
+async function publicConfig() {
+  const url = await runtimeEnv("NEXT_PUBLIC_SUPABASE_URL");
+  const anonKey = await runtimeEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
 
   if (!url || !anonKey) return null;
   return { url, anonKey };
 }
 
-export function getSupabaseAdmin(): SupabaseClient | null {
-  const config = publicConfig();
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+export async function getSupabaseAdmin(): Promise<SupabaseClient | null> {
+  const config = await publicConfig();
+  const serviceRoleKey = await runtimeEnv("SUPABASE_SERVICE_ROLE_KEY");
 
   if (!config || !serviceRoleKey) return null;
 
@@ -23,7 +44,7 @@ export function getSupabaseAdmin(): SupabaseClient | null {
 }
 
 export async function getRequestUser(request: Request): Promise<User | null> {
-  const config = publicConfig();
+  const config = await publicConfig();
   const authorization = request.headers.get("authorization");
   const accessToken = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
 
@@ -51,7 +72,7 @@ export async function recordProductEvent({
   anonymousId?: string | null;
   metadata?: Record<string, unknown>;
 }) {
-  const admin = getSupabaseAdmin();
+  const admin = await getSupabaseAdmin();
   if (!admin) return;
 
   await admin.from("product_events").insert({
