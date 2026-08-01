@@ -1,6 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
+import type { Session } from "@supabase/supabase-js";
+import { AuthGate } from "./AuthGate";
+import { getAnonymousId, trackProductEvent } from "../lib/product-events";
 
 type ScanSignal = {
   label: string;
@@ -8,7 +11,8 @@ type ScanSignal = {
   detail: string;
 };
 
-type ScanResult = {
+type FullScanResult = {
+  preview: false;
   website: string;
   projectName: string;
   category: string;
@@ -18,45 +22,124 @@ type ScanResult = {
   prompts: string[];
   actions: string[];
   note: string;
+  usage: { used: number; limit: number };
 };
 
+type PreviewScanResult = {
+  preview: true;
+  requiresAccount: true;
+  website: string;
+  projectName: string;
+  category: string;
+  score: number;
+  verdict: string;
+  firstGap: ScanSignal | null;
+  lockedFindings: number;
+  note: string;
+};
+
+type ScanResult = FullScanResult | PreviewScanResult;
+
+const PENDING_SCAN_KEY = "molthub_pending_scan";
+
 export function FreeScan() {
+  const [website, setWebsite] = useState("");
+  const [category, setCategory] = useState("Web3 infrastructure");
+  const [session, setSession] = useState<Session | null>(null);
   const [result, setResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+
+  const runScanRequest = useCallback(
+    async (
+      scanWebsite: string,
+      scanCategory: string,
+      activeSession?: Session | null,
+    ) => {
+      setLoading(true);
+      setError("");
+      await trackProductEvent(
+        "scan_started",
+        { website: scanWebsite, category: scanCategory },
+        activeSession,
+      );
+
+      try {
+        const response = await fetch("/api/free-scan", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            ...(activeSession?.access_token
+              ? { authorization: `Bearer ${activeSession.access_token}` }
+              : {}),
+          },
+          body: JSON.stringify({
+            website: scanWebsite,
+            category: scanCategory,
+            anonymousId: getAnonymousId(),
+          }),
+        });
+        const data = (await response.json()) as ScanResult & {
+          error?: string;
+          code?: string;
+        };
+        if (!response.ok) {
+          throw new Error(data.error || "The scan could not be completed.");
+        }
+
+        setResult(data);
+        if (!data.preview) {
+          window.localStorage.removeItem(PENDING_SCAN_KEY);
+          setAuthOpen(false);
+        }
+      } catch (scanError) {
+        setError(
+          scanError instanceof Error
+            ? scanError.message
+            : "The scan could not be completed.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
 
   async function runScan(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setLoading(true);
-    setError("");
     setResult(null);
 
-    const form = new FormData(event.currentTarget);
-
-    try {
-      const response = await fetch("/api/free-scan", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          website: form.get("website"),
-          category: form.get("category"),
-        }),
-      });
-      const data = (await response.json()) as ScanResult & { error?: string };
-      if (!response.ok) {
-        throw new Error(data.error || "The scan could not be completed.");
-      }
-      setResult(data);
-    } catch (scanError) {
-      setError(
-        scanError instanceof Error
-          ? scanError.message
-          : "The scan could not be completed.",
-      );
-    } finally {
-      setLoading(false);
-    }
+    window.localStorage.setItem(
+      PENDING_SCAN_KEY,
+      JSON.stringify({ website, category }),
+    );
+    await runScanRequest(website, category, session);
   }
+
+  const handleSignedIn = useCallback(
+    (nextSession: Session) => {
+      setSession(nextSession);
+      setAuthOpen(false);
+
+      const pendingRaw = window.localStorage.getItem(PENDING_SCAN_KEY);
+      let pending: { website?: string; category?: string } | null = null;
+      try {
+        pending = pendingRaw ? JSON.parse(pendingRaw) : null;
+      } catch {
+        pending = null;
+      }
+
+      const nextWebsite = pending?.website || website;
+      const nextCategory = pending?.category || category;
+      if (nextWebsite && (!result || result.preview)) {
+        setWebsite(nextWebsite);
+        setCategory(nextCategory);
+        void runScanRequest(nextWebsite, nextCategory, nextSession);
+      }
+    },
+    [category, result, runScanRequest, website],
+  );
 
   return (
     <div className="scan-shell">
@@ -69,6 +152,8 @@ export function FreeScan() {
             type="text"
             inputMode="url"
             placeholder="yourproject.xyz"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
             required
           />
         </div>
@@ -77,7 +162,8 @@ export function FreeScan() {
           <select
             id="scan-category"
             name="category"
-            defaultValue="Web3 infrastructure"
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
           >
             <option>Stablecoin payments</option>
             <option>Crypto payment infrastructure</option>
@@ -93,9 +179,18 @@ export function FreeScan() {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Scanning…" : "Run Free Scan"}
+          {loading ? "Scanning…" : session ? "Run & Save Scan" : "Run Free Preview"}
         </button>
       </form>
+
+      <div className="scan-account-note">
+        <span>
+          {session
+            ? `Signed in as ${session.user.email ?? "molthub user"}`
+            : "Preview first. Create a free account only when the result is useful."}
+        </span>
+        <a href="/account">{session ? "View account" : "Account sign-in"}</a>
+      </div>
 
       {error ? (
         <p className="scan-error" role="alert">
@@ -103,7 +198,44 @@ export function FreeScan() {
         </p>
       ) : null}
 
-      {result ? (
+      {result?.preview ? (
+        <div className="scan-preview" aria-live="polite">
+          <div className="scan-score">
+            <span>{result.score}</span>
+            <small>/100 readiness</small>
+          </div>
+          <div className="scan-result__summary">
+            <p className="eyebrow">{result.projectName}</p>
+            <h3>{result.verdict}</h3>
+            {result.firstGap ? (
+              <div className="scan-preview__finding">
+                <span className={result.firstGap.passed ? "scan-pass" : "scan-gap"}>
+                  {result.firstGap.passed ? "Detected" : "Priority gap"}
+                </span>
+                <strong>{result.firstGap.label}</strong>
+                <p>{result.firstGap.detail}</p>
+              </div>
+            ) : null}
+          </div>
+          <div className="scan-lock">
+            <div className="scan-lock__icon" aria-hidden="true">
+              M
+            </div>
+            <div>
+              <p className="eyebrow">Free account required</p>
+              <h3>Unlock {result.lockedFindings} more checks and save this scan</h3>
+              <p>{result.note}</p>
+            </div>
+            <button
+              className="button button--gold"
+              type="button"
+              onClick={() => setAuthOpen(true)}
+            >
+              Create free account
+            </button>
+          </div>
+        </div>
+      ) : result ? (
         <div className="scan-result" aria-live="polite">
           <div className="scan-score">
             <span>{result.score}</span>
@@ -113,6 +245,9 @@ export function FreeScan() {
             <p className="eyebrow">{result.projectName}</p>
             <h3>{result.verdict}</h3>
             <p>{result.note}</p>
+            <span className="scan-usage">
+              Free scans used this month: {result.usage.used}/{result.usage.limit}
+            </span>
           </div>
           <div className="scan-signals">
             {result.signals.map((signal) => (
@@ -149,11 +284,21 @@ export function FreeScan() {
             <div>
               <strong>Need real AI-platform checks?</strong>
               <span>
-                The 2.99 USDT trial adds prompt testing, one competitor and a
+                The 2.99 USDT trial will add prompt testing, one competitor and a
                 downloadable report.
               </span>
             </div>
-            <a className="button button--secondary" href="#trial-order">
+            <a
+              className="button button--secondary"
+              href="/checkout?plan=trial"
+              onClick={() =>
+                void trackProductEvent(
+                  "trial_checkout_started",
+                  { website: result.website },
+                  session,
+                )
+              }
+            >
               Unlock the $2.99 Report
             </a>
           </div>
@@ -162,22 +307,28 @@ export function FreeScan() {
         <div className="scan-empty" aria-hidden="true">
           <div>
             <span>01</span>
-            <strong>Crawler access</strong>
+            <strong>Instant score</strong>
           </div>
           <div>
             <span>02</span>
-            <strong>Content signals</strong>
+            <strong>One visible gap</strong>
           </div>
           <div>
             <span>03</span>
-            <strong>Prompt ideas</strong>
+            <strong>Sign in to unlock</strong>
           </div>
           <div>
             <span>04</span>
-            <strong>Priority actions</strong>
+            <strong>Saved history</strong>
           </div>
         </div>
       )}
+
+      <AuthGate
+        open={authOpen}
+        onClose={() => setAuthOpen(false)}
+        onSignedIn={handleSignedIn}
+      />
     </div>
   );
 }

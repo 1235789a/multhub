@@ -1,8 +1,16 @@
+import {
+  getRequestUser,
+  getSupabaseAdmin,
+  recordProductEvent,
+} from "../../lib/supabase-server";
+
 const MAX_HTML_BYTES = 1_000_000;
+const FREE_MONTHLY_LIMIT = 2;
 
 type ScanPayload = {
   website?: string;
   category?: string;
+  anonymousId?: string;
 };
 
 function normalizeWebsite(value: string) {
@@ -87,6 +95,7 @@ function isCrawlerBlocked(robotsText: string, targetAgent: string) {
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as ScanPayload;
+    const user = await getRequestUser(request);
     const url = normalizeWebsite(payload.website ?? "");
     const category = payload.category?.trim() || "Web3 infrastructure";
 
@@ -231,7 +240,7 @@ export async function POST(request: Request) {
       actions.push(fallbackActions[actions.length]);
     }
 
-    return Response.json({
+    const fullResult = {
       website: url.origin,
       projectName,
       category,
@@ -247,6 +256,113 @@ export async function POST(request: Request) {
       actions,
       note:
         "This free scan checks website readiness signals. It does not query paid AI platforms or guarantee mentions.",
+    };
+
+    if (!user) {
+      const firstGap =
+        signals.find((signal) => !signal.passed) ??
+        signals.find((signal) => signal.passed) ??
+        null;
+
+      await recordProductEvent({
+        name: "preview_completed",
+        anonymousId: payload.anonymousId?.slice(0, 100),
+        metadata: {
+          website: url.hostname,
+          category,
+          score,
+        },
+      });
+
+      return Response.json({
+        preview: true,
+        requiresAccount: true,
+        website: url.origin,
+        projectName,
+        category,
+        score,
+        verdict: fullResult.verdict,
+        firstGap,
+        lockedFindings: Math.max(signals.length - 1, 0),
+        note:
+          "Create a free account to reveal every finding, save this scan, and track future changes.",
+      });
+    }
+
+    const admin = getSupabaseAdmin();
+    if (!admin) {
+      return Response.json(
+        {
+          error:
+            "Account storage is being connected. Your preview is still available.",
+          code: "ACCOUNT_STORAGE_UNAVAILABLE",
+        },
+        { status: 503 },
+      );
+    }
+
+    const monthStart = new Date();
+    monthStart.setUTCDate(1);
+    monthStart.setUTCHours(0, 0, 0, 0);
+
+    const { count, error: countError } = await admin
+      .from("scans")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gte("created_at", monthStart.toISOString());
+
+    if (countError) {
+      throw new Error(countError.message);
+    }
+
+    if ((count ?? 0) >= FREE_MONTHLY_LIMIT) {
+      await recordProductEvent({
+        name: "free_limit_reached",
+        userId: user.id,
+        anonymousId: payload.anonymousId?.slice(0, 100),
+        metadata: { website: url.hostname },
+      });
+      return Response.json(
+        {
+          error:
+            "You have used both free scans for this month. Upgrade to continue.",
+          code: "FREE_LIMIT_REACHED",
+        },
+        { status: 429 },
+      );
+    }
+
+    const { error: saveError } = await admin.from("scans").insert({
+      user_id: user.id,
+      website: url.origin,
+      category,
+      score,
+      verdict: fullResult.verdict,
+      result: fullResult,
+    });
+
+    if (saveError) {
+      throw new Error(saveError.message);
+    }
+
+    await recordProductEvent({
+      name: "scan_completed",
+      userId: user.id,
+      anonymousId: payload.anonymousId?.slice(0, 100),
+      metadata: {
+        website: url.hostname,
+        category,
+        score,
+      },
+    });
+
+    return Response.json({
+      ...fullResult,
+      preview: false,
+      usage: {
+        used: (count ?? 0) + 1,
+        limit: FREE_MONTHLY_LIMIT,
+      },
     });
   } catch (error) {
     const message =
