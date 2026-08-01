@@ -1,3 +1,4 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getOrderPlan } from "../../../data/paymentPlans";
 import {
   getRequestUser,
@@ -5,6 +6,46 @@ import {
   recordProductEvent,
 } from "../../../lib/supabase-server";
 import { verifyConfirmedUsdtPayment } from "../../../lib/tron-payment-server";
+
+const DELIVERY_TURNAROUND_DAYS: Record<string, number> = {
+  trial: 0,
+  baseline: 2,
+  audit: 4,
+  sprint: 10,
+};
+
+// Starts delivery tracking after a payment is confirmed. The delivery columns
+// and deliverables table exist only after the delivery_workflow migration is
+// applied; "not initialized" errors (42P01 / 42703) are ignored so payment
+// confirmation is never blocked by a pending migration.
+async function startDeliveryTracking(
+  admin: SupabaseClient,
+  orderId: string,
+  userId: string,
+  plan: { id: string; name: string },
+) {
+  const days = DELIVERY_TURNAROUND_DAYS[plan.id] ?? 2;
+  const dueAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+
+  const orderUpdate = await admin
+    .from("orders")
+    .update({ delivery_status: "in_progress", delivery_due_at: dueAt })
+    .eq("id", orderId);
+  if (orderUpdate.error && !["42P01", "42703"].includes(orderUpdate.error.code ?? "")) {
+    return;
+  }
+
+  const kind =
+    plan.id === "audit" ? "audit" : plan.id === "sprint" ? "implementation" : "report";
+  await admin.from("deliverables").insert({
+    order_id: orderId,
+    user_id: userId,
+    kind,
+    title: `${plan.name} deliverable`,
+    status: "pending",
+    due_at: dueAt,
+  });
+}
 
 export async function POST(request: Request) {
   const user = await getRequestUser(request);
@@ -115,6 +156,8 @@ export async function POST(request: Request) {
     }
     return Response.json({ error: updateError.message }, { status: 500 });
   }
+
+  await startDeliveryTracking(admin, order.id, user.id, plan);
 
   await recordProductEvent({
     name: "payment_confirmed",

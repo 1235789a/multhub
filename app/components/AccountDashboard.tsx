@@ -29,7 +29,35 @@ type AccountData = {
     expires_at: string;
     paid_at: string | null;
     created_at: string;
+    delivery_status?: string;
+    delivery_due_at?: string | null;
+    delivery_completed_at?: string | null;
   }>;
+  deliverables: Array<{
+    id: string;
+    order_id: string;
+    kind: string;
+    title: string;
+    status: string;
+    asset_url: string | null;
+    due_at: string | null;
+    created_at: string;
+  }>;
+};
+
+const DELIVERY_LABELS: Record<string, string> = {
+  pending: "Delivery queued",
+  in_progress: "Delivery in progress",
+  ready: "Delivery ready",
+  delivered: "Delivered",
+  blocked: "Delivery on hold",
+};
+
+const DELIVERABLE_LABELS: Record<string, string> = {
+  pending: "Queued",
+  in_progress: "In progress",
+  ready: "Ready",
+  delivered: "Delivered",
 };
 
 export function AccountDashboard() {
@@ -165,6 +193,11 @@ export function AccountDashboard() {
                 <div>
                   <b>{order.amount_usdt} USDT</b>
                   <span className={`payment-status payment-status--${order.status}`}>{order.status}</span>
+                  {order.status === "paid" && order.delivery_status ? (
+                    <span className={`payment-status payment-status--${order.delivery_status}`}>
+                      {DELIVERY_LABELS[order.delivery_status] ?? order.delivery_status}
+                    </span>
+                  ) : null}
                 </div>
                 <Link href={`/checkout?plan=${order.plan_id}`}>Open order</Link>
               </article>
@@ -174,6 +207,42 @@ export function AccountDashboard() {
           <p className="account-history__empty">No payment orders yet.</p>
         )}
       </div>
+
+      {data?.deliverables.length ? (
+        <div className="account-history">
+          <div className="section-heading-row">
+            <div>
+              <p className="eyebrow">Deliverables</p>
+              <h2>Your reports and assets</h2>
+            </div>
+          </div>
+          <div className="account-history__list">
+            {data.deliverables.map((item) => (
+              <article key={item.id}>
+                <div>
+                  <strong>{item.title}</strong>
+                  <span>{item.kind}</span>
+                </div>
+                <div>
+                  <span className={`payment-status payment-status--${item.status}`}>
+                    {DELIVERABLE_LABELS[item.status] ?? item.status}
+                  </span>
+                  {item.due_at ? (
+                    <time dateTime={item.due_at}>
+                      Due {new Date(item.due_at).toLocaleDateString()}
+                    </time>
+                  ) : null}
+                </div>
+                {item.asset_url ? (
+                  <Link href={item.asset_url} target="_blank" rel="noreferrer">
+                    Open deliverable
+                  </Link>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div className="account-history">
         <div className="section-heading-row">

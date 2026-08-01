@@ -18,7 +18,12 @@ export async function GET(request: Request) {
   monthStart.setUTCDate(1);
   monthStart.setUTCHours(0, 0, 0, 0);
 
-  const [{ data: scans, error }, { count }, { data: orders, error: ordersError }] = await Promise.all([
+  const [
+    { data: scans, error },
+    { count },
+    { data: orders, error: ordersError },
+    { data: deliverables, error: deliverablesError },
+  ] = await Promise.all([
     admin
       .from("scans")
       .select("id, website, category, score, verdict, created_at")
@@ -32,10 +37,18 @@ export async function GET(request: Request) {
       .gte("created_at", monthStart.toISOString()),
     admin
       .from("orders")
-      .select("id, plan_id, plan_name, amount_usdt, status, payment_txid, project_name, website, expires_at, paid_at, created_at")
+      .select(
+        "id, plan_id, plan_name, amount_usdt, status, payment_txid, project_name, website, expires_at, paid_at, created_at, delivery_status, delivery_due_at, delivery_completed_at",
+      )
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(10),
+    admin
+      .from("deliverables")
+      .select("id, order_id, kind, title, status, asset_url, due_at, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(20),
   ]);
 
   if (error) {
@@ -43,6 +56,11 @@ export async function GET(request: Request) {
   }
   if (ordersError && ordersError.code !== "42P01") {
     return Response.json({ error: ordersError.message }, { status: 500 });
+  }
+  // deliverables table (and order delivery columns) exist only after the
+  // delivery_workflow migration is applied. 42P01 / 42703 → not initialized yet.
+  if (deliverablesError && !["42P01", "42703"].includes(deliverablesError.code ?? "")) {
+    return Response.json({ error: deliverablesError.message }, { status: 500 });
   }
 
   await recordProductEvent({
@@ -61,5 +79,6 @@ export async function GET(request: Request) {
     },
     scans: scans ?? [],
     orders: orders ?? [],
+    deliverables: deliverables ?? [],
   });
 }
