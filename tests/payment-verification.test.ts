@@ -23,7 +23,7 @@ const validTransfer = {
   from: "TExampleSenderAddress1111111111111111",
   to: USDT_TRC20_WALLET,
   type: "Transfer",
-  value: "9900000",
+  value: "9990000",
 };
 
 test("accepts only 64-character hexadecimal TRON transaction IDs", () => {
@@ -32,17 +32,17 @@ test("accepts only 64-character hexadecimal TRON transaction IDs", () => {
 });
 
 test("converts USDT decimal amounts to six-decimal base units", () => {
-  assert.equal(usdtToBaseUnits("9.9"), "9900000");
+  assert.equal(usdtToBaseUnits("9.99"), "9990000");
   assert.equal(usdtToBaseUnits("59"), "59000000");
 });
 
 test("accepts an exact confirmed USDT-TRC20 payment", () => {
-  const result = validateTransfer(validTransfer, txid, "9.9");
+  const result = validateTransfer(validTransfer, txid, "9.99");
   assert.equal(result.ok, true);
 });
 
 test("normalizes transaction IDs before comparison and storage", () => {
-  const result = validateTransfer(validTransfer, txid.toUpperCase(), "9.9");
+  const result = validateTransfer(validTransfer, txid.toUpperCase(), "9.99");
   assert.equal(normalizeTronTxid(txid.toUpperCase()), txid);
   assert.equal(result.ok, true);
   if (result.ok) assert.equal(result.txid, txid);
@@ -52,7 +52,7 @@ test("rejects a wrong recipient", () => {
   const result = validateTransfer(
     { ...validTransfer, to: "TWrongRecipient111111111111111111111" },
     txid,
-    "9.9",
+    "9.99",
   );
   assert.deepEqual(result.ok ? null : result.code, "wrong_recipient");
 });
@@ -61,17 +61,17 @@ test("rejects a wrong token contract", () => {
   const result = validateTransfer(
     { ...validTransfer, token_info: { ...validTransfer.token_info, address: "TWrongContract" } },
     txid,
-    "9.9",
+    "9.99",
   );
   assert.deepEqual(result.ok ? null : result.code, "wrong_contract");
 });
 
 test("rejects a wrong amount", () => {
-  const result = validateTransfer({ ...validTransfer, value: "3000000" }, txid, "9.9");
+  const result = validateTransfer({ ...validTransfer, value: "3000000" }, txid, "9.99");
   assert.deepEqual(result.ok ? null : result.code, "wrong_amount");
 });
 
 test("rejects a transfer that is not confirmed as a Transfer event", () => {
-  const result = validateTransfer({ ...validTransfer, type: "Approval" }, txid, "9.9");
+  const result = validateTransfer({ ...validTransfer, type: "Approval" }, txid, "9.99");
   assert.deepEqual(result.ok ? null : result.code, "unconfirmed");
 });

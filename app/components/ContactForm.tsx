@@ -55,8 +55,8 @@ export function ContactForm() {
     <form className="contact-form" onSubmit={submitForm}>
       <label>
         Select a plan
-        <select name="plan" defaultValue="9.9 USDT — Instant Visibility Report" required>
-          <option>9.9 USDT — Instant Visibility Report</option>
+        <select name="plan" defaultValue="9.99 USDT — Instant Visibility Report" required>
+          <option>9.99 USDT — Instant Visibility Report</option>
           <option>59 USDT — Verified GEO Baseline</option>
           <option>299 USDT — Expert Web3 GEO Audit</option>
           <option>999 USDT — Done-for-You GEO Sprint</option>

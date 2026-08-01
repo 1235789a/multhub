@@ -37,12 +37,12 @@ test("server-renders the molthub homepage", async () => {
   assert.match(html, /autoPlay=""[^>]*loop=""[^>]*playsInline=""/);
   assert.match(html, /Run Free Scan/);
   assert.match(html, /Five Clear Ways to Work With molthub/);
-  assert.match(html, /9\.9 USDT/);
+  assert.match(html, /9\.99 USDT/);
   assert.match(html, /59 USDT/);
   assert.match(html, /299 USDT/);
   assert.match(html, /999 USDT/);
   assert.match(html, /Selected Web3 GEO Work/);
-  assert.match(html, /Start at 9\.9 USDT/);
+  assert.match(html, /Start at 9\.99 USDT/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
 
