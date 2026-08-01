@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Sign in required." }, { status: 401 });
   }
 
-  const admin = getSupabaseAdmin();
+  const admin = await getSupabaseAdmin();
   if (!admin) {
     return Response.json(
       { error: "Account storage is not configured yet." },

@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Sign in required." }, { status: 401 });
   }
 
-  const admin = getSupabaseAdmin();
+  const admin = await getSupabaseAdmin();
   if (!admin) {
     return Response.json({ error: "Payment storage is not configured." }, { status: 503 });
   }
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Enter a valid public website URL." }, { status: 400 });
   }
 
-  const admin = getSupabaseAdmin();
+  const admin = await getSupabaseAdmin();
   if (!admin) {
     return Response.json({ error: "Payment storage is not configured." }, { status: 503 });
   }

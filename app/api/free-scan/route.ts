@@ -289,7 +289,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const admin = getSupabaseAdmin();
+    const admin = await getSupabaseAdmin();
     if (!admin) {
       return Response.json(
         {

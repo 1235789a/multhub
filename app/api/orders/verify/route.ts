@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Order ID and transaction ID are required." }, { status: 400 });
   }
 
-  const admin = getSupabaseAdmin();
+  const admin = await getSupabaseAdmin();
   if (!admin) {
     return Response.json({ error: "Payment storage is not configured." }, { status: 503 });
   }
