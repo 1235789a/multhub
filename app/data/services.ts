@@ -37,7 +37,7 @@ export const services: ServicePlan[] = [
     name: "Instant Visibility Report",
     shortDescription:
       "A low-cost automated report for projects that want a broader first look.",
-    price: "2.99 USDT",
+    price: "9.9 USDT",
     priceNote: "One-time trial",
     category: "Automated",
     turnaround: "Instant after checkout",
@@ -48,7 +48,7 @@ export const services: ServicePlan[] = [
       "AI description, source gaps and 10 actions",
       "Downloadable report",
     ],
-    ctaLabel: "Start the $2.99 Trial",
+    ctaLabel: "Start the $9.90 Trial",
     ctaHref: "#trial-order",
   },
   {

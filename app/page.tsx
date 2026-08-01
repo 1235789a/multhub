@@ -442,7 +442,7 @@ export default function Home() {
             <div className="final-cta__heading">
               <div>
                 <p className="eyebrow">Choose your next step</p>
-                <h2>Start at 2.99 USDT—or Ask for Expert Help</h2>
+                <h2>Start at 9.9 USDT—or Ask for Expert Help</h2>
                 <p>
                   Send your project details and selected plan. We will reply
                   with payment or project-start instructions for the current

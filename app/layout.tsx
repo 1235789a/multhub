@@ -79,7 +79,7 @@ const structuredData = {
     {
       "@type": "Offer",
       name: "Instant Visibility Report",
-      price: "2.99",
+      price: "9.90",
       priceCurrency: "USD",
     },
     {

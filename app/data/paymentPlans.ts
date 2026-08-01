@@ -7,7 +7,7 @@ export const paidPlans = {
   trial: {
     id: "trial",
     name: "Instant Visibility Report",
-    amount: "2.99",
+    amount: "9.9",
     nextStep: "Your paid report request is recorded in your account.",
   },
   baseline: {
