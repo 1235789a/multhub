@@ -35,30 +35,46 @@ export async function getSupabaseAdmin(): Promise<SupabaseClient | null> {
 
   if (!config || !serviceRoleKey) return null;
 
-  return createClient(config.url, serviceRoleKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
+  try {
+    return createClient(config.url, serviceRoleKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
+  } catch (error) {
+    console.error(
+      "Supabase admin client could not be initialized",
+      error instanceof Error ? error.message : error,
+    );
+    return null;
+  }
 }
 
 export async function getRequestUser(request: Request): Promise<User | null> {
-  const config = await publicConfig();
-  const authorization = request.headers.get("authorization");
-  const accessToken = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
+  try {
+    const config = await publicConfig();
+    const authorization = request.headers.get("authorization");
+    const accessToken = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
 
-  if (!config || !accessToken) return null;
+    if (!config || !accessToken) return null;
 
-  const authClient = createClient(config.url, config.anonKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
-  const { data, error } = await authClient.auth.getUser(accessToken);
-  if (error) return null;
-  return data.user;
+    const authClient = createClient(config.url, config.anonKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
+    const { data, error } = await authClient.auth.getUser(accessToken);
+    if (error) return null;
+    return data.user;
+  } catch (error) {
+    console.error(
+      "Supabase user lookup failed",
+      error instanceof Error ? error.message : error,
+    );
+    return null;
+  }
 }
 
 export async function recordProductEvent({
