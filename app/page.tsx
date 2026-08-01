@@ -204,7 +204,7 @@ export default function Home() {
                 description="Enter a public project website. Get a technical readiness score, detected gaps, buyer-intent prompt ideas and three priority actions."
               />
               <p className="scan-heading__note">
-                Instant · No card · No email gate
+                Instant preview · No card required
               </p>
             </div>
             <FreeScan />
@@ -267,7 +267,7 @@ export default function Home() {
                   <MediaPlaceholder
                     type={item.step === "02" ? "chart" : item.step === "03" ? "comparison" : "report"}
                     label={item.media}
-                    description="Evidence placeholder"
+                    description="Illustrative evidence sample"
                     aspectRatio="16:9"
                     compact
                   />
@@ -302,8 +302,8 @@ export default function Home() {
               <div className="report-video">
                 <MediaPlaceholder
                   type="video"
-                  label="Sample Report Walkthrough Video Placeholder"
-                  description="Reserved for a 60–90 second guided report walkthrough."
+                  label="Sample report walkthrough (illustrative)"
+                  description="An illustrative 60–90 second report walkthrough."
                   aspectRatio="16:10"
                 />
                 <Link className="button button--secondary" href="/sample-report">
@@ -359,8 +359,8 @@ export default function Home() {
             </div>
             <MediaPlaceholder
               type="video"
-              label="Founder / Studio Introduction Video Placeholder"
-              description="Reserved for a direct, personal introduction to the studio and its working approach."
+              label="Studio introduction (illustrative)"
+              description="An illustrative studio introduction preview."
               aspectRatio="3:4"
             />
           </div>
@@ -403,8 +403,8 @@ export default function Home() {
             <div className="about__media">
               <MediaPlaceholder
                 type="video"
-                label="Studio Introduction Video Placeholder"
-                description="A short founder-led explanation can be added here."
+                label="Studio introduction (illustrative)"
+                description="An illustrative studio introduction preview."
                 aspectRatio="16:9"
               />
             </div>
@@ -451,8 +451,8 @@ export default function Home() {
               </div>
               <MediaPlaceholder
                 type="comparison"
-                label="Final CTA Visual Placeholder"
-                description="Reserved for a future before-and-after or review overview."
+                label="Before-and-after comparison (illustrative)"
+                description="An illustrative before-and-after comparison preview."
                 aspectRatio="16:9"
                 compact
               />
