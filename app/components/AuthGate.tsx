@@ -83,11 +83,16 @@ export function AuthGate({
     void trackProductEvent("signup_started", { method: "google" });
 
     try {
+      // OAuth providers append their response in the URL hash. Do not include
+      // an existing fragment (for example `/#free-scan`) in the redirect URI,
+      // otherwise the callback becomes `/#free-scan#access_token` and
+      // Supabase cannot parse the returned session.
+      const redirectPath = returnTo.split("#", 1)[0] || "/";
       const { error } = await withAuthTimeout(
         supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: `${window.location.origin}${returnTo}`,
+            redirectTo: `${window.location.origin}${redirectPath}`,
           },
         }),
         "Google sign-in did not respond. Check the Google provider and redirect URL in Supabase, then try again.",
