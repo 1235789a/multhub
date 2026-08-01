@@ -6,7 +6,7 @@ import { FreeScan } from "./components/FreeScan";
 import { MediaPlaceholder } from "./components/MediaPlaceholder";
 import { PricingCheckout } from "./components/PricingCheckout";
 import { Footer, Header } from "./components/SiteChrome";
-import { caseStudies } from "./data/caseStudies";
+import { publishedCaseStudies as publishedCases } from "./data/caseStudies";
 import { faqs } from "./data/faqs";
 import { insights } from "./data/insights";
 
@@ -314,29 +314,31 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section case-studies">
-          <div className="container">
-            <div className="section-heading-row">
-              <SectionHeading
-                eyebrow="Expandable case library"
-                title="Selected Web3 GEO Work"
-                description="Built to grow as verified work is published."
-              />
-              <Link className="text-link" href="/case-studies">
-                View case-study library →
-              </Link>
+        {publishedCases.length > 0 ? (
+          <section className="section case-studies">
+            <div className="container">
+              <div className="section-heading-row">
+                <SectionHeading
+                  eyebrow="Expandable case library"
+                  title="Selected Web3 GEO Work"
+                  description="Built to grow as verified work is published."
+                />
+                <Link className="text-link" href="/case-studies">
+                  View case-study library →
+                </Link>
+              </div>
+              <div className="card-grid card-grid--three">
+                {publishedCases.map((study) => (
+                  <CaseStudyCard study={study} key={study.slug} />
+                ))}
+              </div>
+              <p className="disclaimer-line">
+                No client names, results, or testimonials are shown until they can
+                be verified and published with permission.
+              </p>
             </div>
-            <div className="card-grid card-grid--three">
-              {caseStudies.map((study) => (
-                <CaseStudyCard study={study} key={study.slug} />
-              ))}
-            </div>
-            <p className="disclaimer-line">
-              No client names, results, or testimonials are shown until they can
-              be verified and published with permission.
-            </p>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
         <section className="section why-us">
           <div className="container why-us__grid">

@@ -186,13 +186,19 @@ export function MediaPlaceholder({
   description,
   aspectRatio = "16:9",
   compact = false,
+  devOnly = false,
 }: {
   type: MediaType;
   label: string;
   description: string;
   aspectRatio?: AspectRatio;
   compact?: boolean;
+  devOnly?: boolean;
 }) {
+  // When devOnly is set, the placeholder renders only in development so
+  // production never shows unfinished media slots.
+  if (devOnly && process.env.NODE_ENV === "production") return null;
+
   const processChart = label.toLowerCase().includes("process");
 
   return (

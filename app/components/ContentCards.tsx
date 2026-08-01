@@ -6,25 +6,40 @@ import { MediaPlaceholder } from "./MediaPlaceholder";
 import { StatusBadge } from "./SiteChrome";
 
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
+  const isPublished = study.status === "published";
   return (
     <article className="content-card case-card">
-      <MediaPlaceholder
-        type="case-study"
-        label={`${study.title} Visual`}
-        description="Future audit evidence or case-study imagery."
-        aspectRatio="16:10"
-        compact
-      />
+      {isPublished && study.thumbnail ? (
+        <img
+          src={study.thumbnail}
+          alt={`${study.title} evidence`}
+          className="content-card__image"
+        />
+      ) : (
+        <MediaPlaceholder
+          type="case-study"
+          label={`${study.title} Visual`}
+          description="Future audit evidence or case-study imagery."
+          aspectRatio="16:10"
+          compact
+        />
+      )}
       <div className="content-card__body">
         <div className="content-card__meta">
           <span>{study.category}</span>
-          <StatusBadge>Coming soon</StatusBadge>
+          {isPublished ? (
+            study.featured ? <StatusBadge>Featured</StatusBadge> : null
+          ) : (
+            <StatusBadge>Coming soon</StatusBadge>
+          )}
         </div>
         <h3>{study.title}</h3>
         <p>{study.shortDescription}</p>
         <div className="content-card__footer">
           <span>{study.caseType}</span>
-          <Link href={`/case-studies/${study.slug}`}>View structure →</Link>
+          <Link href={`/case-studies/${study.slug}`}>
+            {isPublished ? "Read case study →" : "View structure →"}
+          </Link>
         </div>
       </div>
     </article>

@@ -80,6 +80,14 @@ export function Footer() {
           <span>One-off projects welcome</span>
           <span>USDT-TRC20 accepted</span>
         </div>
+        <div>
+          <p className="footer-heading">Support & Legal</p>
+          <Link href="/contact">Contact</Link>
+          <Link href="/delivery">Delivery Policy</Link>
+          <Link href="/refund">Refund Policy</Link>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/terms">Terms of Service</Link>
+        </div>
       </div>
       <div className="container site-footer__bottom">
         <span>© {new Date().getFullYear()} molthub · molthub.click</span>

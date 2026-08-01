@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ServicePlanCard } from "./ContentCards";
 import { UsdtCheckout } from "./UsdtCheckout";
 import { isPaidPlanId, type PaidPlanId } from "../data/paymentPlans";
@@ -10,13 +10,31 @@ import { services } from "../data/services";
 // buttons open a checkout overlay (二级菜单) instead of scrolling to an anchor.
 export function PricingCheckout() {
   const [selectedPlan, setSelectedPlan] = useState<PaidPlanId | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!selectedPlan) return;
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+    const closeBtn = panelRef.current?.querySelector<HTMLButtonElement>(
+      ".checkout-overlay__close",
+    );
+    closeBtn?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSelectedPlan(null);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
+      window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = previous;
+      previouslyFocused.current?.focus?.();
     };
   }, [selectedPlan]);
 
@@ -110,7 +128,7 @@ export function PricingCheckout() {
             aria-label="Close checkout"
             onClick={() => setSelectedPlan(null)}
           />
-          <div className="checkout-overlay__panel">
+          <div className="checkout-overlay__panel" ref={panelRef}>
             <button
               type="button"
               className="checkout-overlay__close"

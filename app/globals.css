@@ -1689,8 +1689,10 @@ textarea:focus-visible {
   position: fixed;
   z-index: 1000;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
   background: rgba(4, 14, 30, 0.72);
   padding: 20px;
 }
@@ -1698,6 +1700,7 @@ textarea:focus-visible {
 .auth-dialog {
   position: relative;
   width: min(100%, 500px);
+  margin-block: auto;
   border: 1px solid #c7d1df;
   border-radius: 22px;
   background: var(--white);
@@ -2593,7 +2596,7 @@ textarea:focus-visible {
 
 .site-footer__top {
   display: grid;
-  grid-template-columns: 1fr 0.42fr 0.42fr;
+  grid-template-columns: 1fr 0.42fr 0.42fr 0.42fr;
   gap: 80px;
   padding-block: 70px;
 }
@@ -2668,6 +2671,75 @@ textarea:focus-visible {
 
 .listing-section {
   min-height: 600px;
+}
+
+/* Legal / policy pages */
+.legal-content {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.legal-content h2 {
+  margin: 36px 0 12px;
+  font-size: 1.25rem;
+}
+
+.legal-content h2:first-child {
+  margin-top: 0;
+}
+
+.legal-content ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.legal-content a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-content__updated {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  color: #8090a3;
+  font-size: 0.74rem;
+}
+
+/* Contact page */
+.contact-page {
+  display: grid;
+  gap: 48px;
+  grid-template-columns: 1fr 280px;
+}
+
+.contact-page__note {
+  margin-bottom: 20px;
+  font-size: 0.82rem;
+}
+
+.contact-page__aside {
+  display: grid;
+  gap: 28px;
+  align-content: start;
+}
+
+.contact-page__aside a {
+  color: var(--blue-deep);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .contact-page {
+    grid-template-columns: 1fr;
+  }
 }
 
 .library-note {
@@ -3772,6 +3844,7 @@ textarea:focus-visible {
 .checkout-form select,
 .verify-form input {
   width: 100%;
+  min-width: 0;
   min-height: 50px;
   border: 1px solid #c8d0da;
   border-radius: 10px;

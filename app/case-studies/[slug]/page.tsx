@@ -57,7 +57,11 @@ export default async function CaseStudyDetail({
               </Link>
               <div className="detail-hero__meta">
                 <span>{study.category}</span>
-                <StatusBadge>Coming soon</StatusBadge>
+                {study.status === "published" ? (
+                  <StatusBadge>{study.publishedDate ?? "Published"}</StatusBadge>
+                ) : (
+                  <StatusBadge>Coming soon</StatusBadge>
+                )}
               </div>
               <h1>{study.title}</h1>
               <p>{study.shortDescription}</p>

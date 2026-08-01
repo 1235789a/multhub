@@ -1,0 +1,34 @@
+# molthub
+
+> Web3 GEO (Generative Engine Optimization) studio. We help early-stage Web3 projects improve how AI search systems discover, understand, and cite them.
+
+## What we do
+
+molthub provides evidence-based AI visibility analysis and implementation for Web3 projects. We do not guarantee specific AI rankings, citations, or recommendations. We analyze how AI models perceive your project and provide actionable improvements.
+
+## Services
+
+- **Free Quick Scan**: Instant browser-based AI visibility check. No account required.
+- **Instant Visibility Report (9.9 USDT)**: Automated paid report delivered immediately after payment confirmation.
+- **Verified GEO Baseline (59 USDT)**: Human-verified project positioning review, delivered within 2 business days.
+- **Expert Web3 GEO Audit (299 USDT)**: Expert audit with findings and action plan, delivered within 4 business days.
+- **Done-for-You GEO Sprint (from 999 USDT)**: Application-based implementation service. Scope and price confirmed during application review before any payment.
+
+## Payment
+
+USDT-TRC20 on the TRON network. No wallet connection required. Payments verified on-chain via TronGrid.
+
+## Key pages
+
+- [Homepage](https://molthub.click/)
+- [Sample Report](https://molthub.click/sample-report)
+- [Case Studies](https://molthub.click/case-studies)
+- [Contact](https://molthub.click/contact)
+- [Privacy Policy](https://molthub.click/privacy)
+- [Terms of Service](https://molthub.click/terms)
+- [Refund Policy](https://molthub.click/refund)
+- [Delivery Policy](https://molthub.click/delivery)
+
+## Contact
+
+Email: chengzhao640@gmail.com

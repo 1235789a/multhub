@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getBrowserSupabase, isSupabaseConfigured } from "../lib/supabase-browser";
 import { trackProductEvent } from "../lib/product-events";
@@ -19,6 +19,10 @@ export function AuthGate({
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<"google" | "email" | "">("");
   const [message, setMessage] = useState("");
+  const dialogRef = useRef<HTMLElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     const supabase = getBrowserSupabase();
@@ -39,6 +43,32 @@ export function AuthGate({
 
     return () => subscription.unsubscribe();
   }, [onSignedIn]);
+
+  useEffect(() => {
+    if (!open) return;
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const closeBtn = dialogRef.current?.querySelector<HTMLButtonElement>(
+      ".auth-dialog__close",
+    );
+    closeBtn?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onCloseRef.current();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused.current?.focus?.();
+    };
+  }, [open]);
 
   if (!open) return null;
 
@@ -88,6 +118,7 @@ export function AuthGate({
   return (
     <div className="auth-overlay" role="presentation" onMouseDown={onClose}>
       <section
+        ref={dialogRef}
         className="auth-dialog"
         role="dialog"
         aria-modal="true"

@@ -64,3 +64,9 @@ export const caseStudies: CaseStudy[] = [
 export function getCaseStudy(slug: string) {
   return caseStudies.find((study) => study.slug === slug);
 }
+
+// Only cases with status "published" represent real, verified work.
+// "coming-soon" entries are structural placeholders, not client claims.
+export const publishedCaseStudies = caseStudies.filter(
+  (study) => study.status === "published",
+);
