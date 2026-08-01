@@ -5,6 +5,7 @@ import type { Session } from "@supabase/supabase-js";
 import Image from "next/image";
 import { AuthGate } from "./AuthGate";
 import {
+  getOrderPlan,
   paidPlans,
   type PaidPlanId,
   type PaymentStatus,
@@ -17,7 +18,7 @@ import { getBrowserSupabase, isSupabaseConfigured } from "../lib/supabase-browse
 
 type Order = {
   id: string;
-  plan_id: PaidPlanId;
+  plan_id: string;
   plan_name: string;
   amount_usdt: string | number;
   network: string;
@@ -233,7 +234,7 @@ export function UsdtCheckout({
               <div><dt>Status</dt><dd>Paid</dd></div>
               <div><dt>Transaction</dt><dd>{order.payment_txid}</dd></div>
             </dl>
-            <p>{paidPlans[order.plan_id].nextStep}</p>
+            <p>{getOrderPlan(order.plan_id)?.nextStep}</p>
             <a className="button button--gold" href="/account">View account</a>
           </div>
         ) : (

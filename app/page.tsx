@@ -444,9 +444,8 @@ export default function Home() {
                 <p className="eyebrow">Choose your next step</p>
                 <h2>Start at 9.9 USDT—or Ask for Expert Help</h2>
                 <p>
-                  Send your project details and selected plan. We will reply
-                  with payment or project-start instructions for the current
-                  pilot.
+                  Send your question or project details. We reply with checkout
+                  or project-start instructions.
                 </p>
               </div>
               <MediaPlaceholder
@@ -467,7 +466,7 @@ export default function Home() {
                   </li>
                   <li>
                     <b>02</b>
-                    <span>Send the project URL and delivery email.</span>
+                    <span>Send your question or project details.</span>
                   </li>
                   <li>
                     <b>03</b>

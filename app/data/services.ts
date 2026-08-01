@@ -96,8 +96,8 @@ export const services: ServicePlan[] = [
     name: "Done-for-You GEO Sprint",
     shortDescription:
       "We diagnose, rewrite, implement and retest the highest-priority improvements for you.",
-    price: "999 USDT",
-    priceNote: "One-time",
+    price: "Starting at 999 USDT",
+    priceNote: "Application-based",
     category: "Expert service",
     turnaround: "7–10 business days",
     features: [

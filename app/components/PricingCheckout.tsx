@@ -53,7 +53,7 @@ export function PricingCheckout() {
               <ServicePlanCard
                 service={service}
                 key={service.id}
-                onSelect={service.id !== "free" ? handleSelect : undefined}
+                onSelect={isPaidPlanId(service.id) ? handleSelect : undefined}
               />
             ))}
           </div>
@@ -86,7 +86,7 @@ export function PricingCheckout() {
               <ServicePlanCard
                 service={service}
                 key={service.id}
-                onSelect={handleSelect}
+                onSelect={isPaidPlanId(service.id) ? handleSelect : undefined}
               />
             ))}
           </div>

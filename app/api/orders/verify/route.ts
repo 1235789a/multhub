@@ -1,4 +1,4 @@
-import { getPaidPlan } from "../../../data/paymentPlans";
+import { getOrderPlan } from "../../../data/paymentPlans";
 import {
   getRequestUser,
   getSupabaseAdmin,
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const plan = getPaidPlan(order.plan_id);
+  const plan = getOrderPlan(order.plan_id);
   if (!plan || String(order.amount_usdt) !== plan.amount) {
     return Response.json({ error: "Order amount could not be validated." }, { status: 409 });
   }
