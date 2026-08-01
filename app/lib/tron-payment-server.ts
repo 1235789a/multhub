@@ -37,8 +37,12 @@ export type PaymentVerification =
       message: string;
     };
 
+export function normalizeTronTxid(value: string) {
+  return value.trim().toLowerCase();
+}
+
 export function isTronTxid(value: string) {
-  return /^[a-fA-F0-9]{64}$/.test(value.trim());
+  return /^[a-f0-9]{64}$/.test(normalizeTronTxid(value));
 }
 
 export function usdtToBaseUnits(amount: string) {
@@ -54,7 +58,8 @@ export function validateTransfer(
   txid: string,
   expectedAmount: string,
 ): PaymentVerification {
-  if (transfer.transaction_id?.toLowerCase() !== txid.toLowerCase()) {
+  const normalizedTxid = normalizeTronTxid(txid);
+  if (transfer.transaction_id?.toLowerCase() !== normalizedTxid) {
     return {
       ok: false,
       code: "not_found",
@@ -96,7 +101,7 @@ export function validateTransfer(
 
   return {
     ok: true,
-    txid,
+    txid: normalizedTxid,
     from: transfer.from ?? "",
     receivedAt: transfer.block_timestamp
       ? new Date(transfer.block_timestamp).toISOString()
@@ -108,7 +113,7 @@ export async function verifyConfirmedUsdtPayment(
   txid: string,
   expectedAmount: string,
 ): Promise<PaymentVerification> {
-  const normalizedTxid = txid.trim();
+  const normalizedTxid = normalizeTronTxid(txid);
   if (!isTronTxid(normalizedTxid)) {
     return {
       ok: false,
@@ -134,6 +139,7 @@ export async function verifyConfirmedUsdtPayment(
     response = await fetch(endpoint, {
       headers,
       cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
     });
   } catch {
     return {
@@ -151,10 +157,26 @@ export async function verifyConfirmedUsdtPayment(
     };
   }
 
-  const payload = (await response.json()) as {
-    success?: boolean;
-    data?: TronGridTransfer[];
-  };
+  let payload: { success?: boolean; data?: TronGridTransfer[] };
+  try {
+    payload = (await response.json()) as {
+      success?: boolean;
+      data?: TronGridTransfer[];
+    };
+  } catch {
+    return {
+      ok: false,
+      code: "provider_error",
+      message: "TRON verification is temporarily unavailable. Try again shortly.",
+    };
+  }
+  if (payload.success === false) {
+    return {
+      ok: false,
+      code: "provider_error",
+      message: "TRON verification is temporarily unavailable. Try again shortly.",
+    };
+  }
   const transfer = payload.data?.find(
     (item) => item.transaction_id?.toLowerCase() === normalizedTxid.toLowerCase(),
   );

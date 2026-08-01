@@ -45,7 +45,6 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link href="/account">Account</Link>
             <Link className="button" href="/#free-scan">
               Run Free Scan
             </Link>
@@ -78,7 +77,6 @@ export function Footer() {
           <Link href="/#free-scan">Free Quick Scan</Link>
           <Link href="/account">Account & Scan History</Link>
           <Link href="/#services">Plans & Pricing</Link>
-          <Link href="/checkout">USDT-TRC20 Checkout</Link>
           <span>One-off projects welcome</span>
           <span>USDT-TRC20 accepted</span>
         </div>

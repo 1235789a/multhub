@@ -37,7 +37,7 @@ export const services: ServicePlan[] = [
     name: "Instant Visibility Report",
     shortDescription:
       "A low-cost automated report for projects that want a broader first look.",
-    price: "2.99 USDT",
+    price: "9.9 USDT",
     priceNote: "One-time trial",
     category: "Automated",
     turnaround: "Instant after checkout",
@@ -48,8 +48,8 @@ export const services: ServicePlan[] = [
       "AI description, source gaps and 10 actions",
       "Downloadable report",
     ],
-    ctaLabel: "Start the $2.99 Trial",
-    ctaHref: "/checkout?plan=trial",
+    ctaLabel: "Start the $9.90 Trial",
+    ctaHref: "#trial-order",
   },
   {
     id: "baseline",
@@ -70,7 +70,7 @@ export const services: ServicePlan[] = [
     highlighted: true,
     badge: "Best place to start",
     ctaLabel: "Choose Verified Baseline",
-    ctaHref: "/checkout?plan=baseline",
+    ctaHref: "#service-order",
   },
   {
     id: "audit",
@@ -89,7 +89,7 @@ export const services: ServicePlan[] = [
       "90-day roadmap and 45-minute consultation",
     ],
     ctaLabel: "Book Expert Audit",
-    ctaHref: "/checkout?plan=audit",
+    ctaHref: "#service-order",
   },
   {
     id: "sprint",
@@ -109,6 +109,6 @@ export const services: ServicePlan[] = [
     ],
     badge: "Done for you",
     ctaLabel: "Apply for GEO Sprint",
-    ctaHref: "/checkout?plan=sprint",
+    ctaHref: "#service-order",
   },
 ];

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CaseStudyCard, InsightCard, ServicePlanCard } from "./components/ContentCards";
+import { CaseStudyCard, InsightCard } from "./components/ContentCards";
 import { ContactForm } from "./components/ContactForm";
 import { FreeScan } from "./components/FreeScan";
 import { MediaPlaceholder } from "./components/MediaPlaceholder";
+import { PricingCheckout } from "./components/PricingCheckout";
 import { Footer, Header } from "./components/SiteChrome";
 import { caseStudies } from "./data/caseStudies";
 import { faqs } from "./data/faqs";
 import { insights } from "./data/insights";
-import { services } from "./data/services";
 
 export const metadata: Metadata = {
   title: "molthub — Web3 AI Search Visibility",
@@ -201,10 +201,10 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Free automated preview"
                 title="Check Your Website’s AI-Search Readiness"
-                description="See your score and one priority gap first. Create a free account to unlock the complete result, save it, and compare future improvements."
+                description="Enter a public project website. Get a technical readiness score, detected gaps, buyer-intent prompt ideas and three priority actions."
               />
               <p className="scan-heading__note">
-                Instant · No card · 2 saved scans / month
+                Instant · No card · No email gate
               </p>
             </div>
             <FreeScan />
@@ -219,63 +219,7 @@ export default function Home() {
               description="Automated tools for a fast first answer. Human verification and implementation when the project matters more."
               align="center"
             />
-            <div className="service-ladder" aria-label="Service progression">
-              <span>Machine finds</span>
-              <b>→</b>
-              <span>Machine reports</span>
-              <b>→</b>
-              <span>Human verifies</span>
-              <b>→</b>
-              <span>Expert researches</span>
-              <b>→</b>
-              <span>Expert implements</span>
-            </div>
-            <div className="pricing-groups">
-              <div className="pricing-group">
-                <div className="pricing-group__heading">
-                  <span>01</span>
-                  <div>
-                    <p className="eyebrow">Automated tools</p>
-                    <h3>Low-risk first look</h3>
-                  </div>
-                </div>
-                <div className="pricing-grid pricing-grid--two">
-                  {services.slice(0, 2).map((service) => (
-                    <ServicePlanCard service={service} key={service.id} />
-                  ))}
-                </div>
-              </div>
-              <div className="pricing-group">
-                <div className="pricing-group__heading">
-                  <span>02</span>
-                  <div>
-                    <p className="eyebrow">Human-verified</p>
-                    <h3>Facts checked before you act</h3>
-                  </div>
-                </div>
-                <div className="pricing-grid pricing-grid--one">
-                  <ServicePlanCard service={services[2]} />
-                </div>
-              </div>
-              <div className="pricing-group">
-                <div className="pricing-group__heading">
-                  <span>03</span>
-                  <div>
-                    <p className="eyebrow">Expert services</p>
-                    <h3>Research or implementation</h3>
-                  </div>
-                </div>
-                <div className="pricing-grid pricing-grid--two">
-                  {services.slice(3).map((service) => (
-                    <ServicePlanCard service={service} key={service.id} />
-                  ))}
-                </div>
-              </div>
-            </div>
-            <p className="pricing-note">
-              Upgrade credit: move to a higher plan within 14 days and the
-              amount already paid is deducted from the next plan.
-            </p>
+            <PricingCheckout />
           </div>
         </section>
 
@@ -498,7 +442,7 @@ export default function Home() {
             <div className="final-cta__heading">
               <div>
                 <p className="eyebrow">Choose your next step</p>
-                <h2>Start at 2.99 USDT—or Ask for Expert Help</h2>
+                <h2>Start at 9.9 USDT—or Ask for Expert Help</h2>
                 <p>
                   Send your project details and selected plan. We will reply
                   with payment or project-start instructions for the current

@@ -5,6 +5,38 @@ import type { Session } from "@supabase/supabase-js";
 import { getBrowserSupabase, isSupabaseConfigured } from "../lib/supabase-browser";
 import { trackProductEvent } from "../lib/product-events";
 
+const AUTH_REQUEST_TIMEOUT_MS = 12_000;
+const GOOGLE_REDIRECT_GRACE_MS = 8_000;
+
+function authErrorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error && error.message) return error.message;
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof error.message === "string"
+  ) {
+    return error.message;
+  }
+  return fallback;
+}
+
+function withAuthTimeout<T>(promise: Promise<T>, message: string) {
+  return new Promise<T>((resolve, reject) => {
+    const timeoutId = window.setTimeout(() => reject(new Error(message)), AUTH_REQUEST_TIMEOUT_MS);
+    promise.then(
+      (value) => {
+        window.clearTimeout(timeoutId);
+        resolve(value);
+      },
+      (error) => {
+        window.clearTimeout(timeoutId);
+        reject(error);
+      },
+    );
+  });
+}
+
 export function AuthGate({
   open,
   onClose,
@@ -48,16 +80,46 @@ export function AuthGate({
 
     setLoading("google");
     setMessage("");
-    await trackProductEvent("signup_started", { method: "google" });
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}${returnTo}`,
-      },
-    });
+    void trackProductEvent("signup_started", { method: "google" });
 
-    if (error) {
-      setMessage(error.message);
+    try {
+      // OAuth providers append their response in the URL hash. Do not include
+      // an existing fragment (for example `/#free-scan`) in the redirect URI,
+      // otherwise the callback becomes `/#free-scan#access_token` and
+      // Supabase cannot parse the returned session.
+      const redirectPath = returnTo.split("#", 1)[0] || "/";
+      const { error } = await withAuthTimeout(
+        supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: `${window.location.origin}${redirectPath}`,
+          },
+        }),
+        "Google sign-in did not respond. Check the Google provider and redirect URL in Supabase, then try again.",
+      );
+
+      if (error) {
+        setMessage(error.message);
+        setLoading("");
+        return;
+      }
+
+      window.setTimeout(() => {
+        setLoading((current) => {
+          if (current === "google") {
+            setMessage("Google sign-in did not open. Check the Google provider and redirect URL in Supabase.");
+            return "";
+          }
+          return current;
+        });
+      }, GOOGLE_REDIRECT_GRACE_MS);
+    } catch (error) {
+      setMessage(
+        authErrorMessage(
+          error,
+          "Google sign-in could not start. Check the Google provider and redirect URL in Supabase.",
+        ),
+      );
       setLoading("");
     }
   }
@@ -69,18 +131,31 @@ export function AuthGate({
 
     setLoading("email");
     setMessage("");
-    await trackProductEvent("signup_started", { method: "email" });
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}${returnTo}`,
-      },
-    });
+    void trackProductEvent("signup_started", { method: "email" });
 
-    if (error) {
-      setMessage(error.message);
-    } else {
-      setMessage("Check your email for a secure sign-in link.");
+    try {
+      const { error } = await withAuthTimeout(
+        supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}${returnTo}`,
+          },
+        }),
+        "Email sign-in did not respond. Check the Supabase email provider and redirect URL, then try again.",
+      );
+
+      if (error) {
+        setMessage(error.message);
+      } else {
+        setMessage("Check your email for a secure sign-in link.");
+      }
+    } catch (error) {
+      setMessage(
+        authErrorMessage(
+          error,
+          "Email sign-in could not start. Check the Supabase email provider and redirect URL.",
+        ),
+      );
     }
     setLoading("");
   }

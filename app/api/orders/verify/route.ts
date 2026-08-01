@@ -4,7 +4,10 @@ import {
   getSupabaseAdmin,
   recordProductEvent,
 } from "../../../lib/supabase-server";
-import { verifyConfirmedUsdtPayment } from "../../../lib/tron-payment-server";
+import {
+  normalizeTronTxid,
+  verifyConfirmedUsdtPayment,
+} from "../../../lib/tron-payment-server";
 
 export async function POST(request: Request) {
   const user = await getRequestUser(request);
@@ -16,7 +19,7 @@ export async function POST(request: Request) {
     | { orderId?: unknown; txid?: unknown }
     | null;
   const orderId = typeof payload?.orderId === "string" ? payload.orderId.trim() : "";
-  const txid = typeof payload?.txid === "string" ? payload.txid.trim() : "";
+  const txid = typeof payload?.txid === "string" ? normalizeTronTxid(payload.txid) : "";
 
   if (!orderId || !txid) {
     return Response.json({ error: "Order ID and transaction ID are required." }, { status: 400 });
@@ -63,7 +66,7 @@ export async function POST(request: Request) {
   const duplicate = await admin
     .from("orders")
     .select("id")
-    .eq("payment_txid", txid)
+    .ilike("payment_txid", txid)
     .neq("id", order.id)
     .maybeSingle();
   if (duplicate.data) {

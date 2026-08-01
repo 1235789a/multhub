@@ -57,7 +57,14 @@ export function InsightCard({ insight }: { insight: Insight }) {
   );
 }
 
-export function ServicePlanCard({ service }: { service: ServicePlan }) {
+export function ServicePlanCard({
+  service,
+  onSelect,
+}: {
+  service: ServicePlan;
+  onSelect?: (id: string) => void;
+}) {
+  const buttonClassName = `button ${service.highlighted ? "button--gold" : "button--secondary"}`;
   return (
     <article
       className={`service-card${service.highlighted ? " service-card--highlighted" : ""}`}
@@ -80,12 +87,19 @@ export function ServicePlanCard({ service }: { service: ServicePlan }) {
           <li key={feature}>{feature}</li>
         ))}
       </ul>
-      <a
-        className={`button ${service.highlighted ? "button--gold" : "button--secondary"}`}
-        href={service.ctaHref}
-      >
-        {service.ctaLabel}
-      </a>
+      {onSelect ? (
+        <button
+          type="button"
+          className={buttonClassName}
+          onClick={() => onSelect(service.id)}
+        >
+          {service.ctaLabel}
+        </button>
+      ) : (
+        <a className={buttonClassName} href={service.ctaHref}>
+          {service.ctaLabel}
+        </a>
+      )}
     </article>
   );
 }
