@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   isTronTxid,
+  normalizeTronTxid,
   usdtToBaseUnits,
   validateTransfer,
 } from "../app/lib/tron-payment-server";
@@ -38,6 +39,13 @@ test("converts USDT decimal amounts to six-decimal base units", () => {
 test("accepts an exact confirmed USDT-TRC20 payment", () => {
   const result = validateTransfer(validTransfer, txid, "9.9");
   assert.equal(result.ok, true);
+});
+
+test("normalizes transaction IDs before comparison and storage", () => {
+  const result = validateTransfer(validTransfer, txid.toUpperCase(), "9.9");
+  assert.equal(normalizeTronTxid(txid.toUpperCase()), txid);
+  assert.equal(result.ok, true);
+  if (result.ok) assert.equal(result.txid, txid);
 });
 
 test("rejects a wrong recipient", () => {
