@@ -39,9 +39,11 @@ export async function GET(request: Request) {
   ]);
 
   if (error) {
+    console.error("Account scans query failed", error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }
   if (ordersError && ordersError.code !== "42P01") {
+    console.error("Account orders query failed", ordersError.message);
     return Response.json({ error: ordersError.message }, { status: 500 });
   }
 
