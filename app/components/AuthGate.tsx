@@ -74,6 +74,12 @@ export function AuthGate({
 
   if (!open) return null;
 
+  // OAuth providers append their response in the URL hash. Do not include
+  // an existing fragment (for example `/#free-scan`) in the redirect URI,
+  // otherwise the callback becomes `/#free-scan#access_token` and
+  // Supabase cannot parse the returned session.
+  const redirectPath = returnTo.split("#", 1)[0] || "/";
+
   async function continueWithGoogle() {
     const supabase = getBrowserSupabase();
     if (!supabase) return;
@@ -83,11 +89,6 @@ export function AuthGate({
     void trackProductEvent("signup_started", { method: "google" });
 
     try {
-      // OAuth providers append their response in the URL hash. Do not include
-      // an existing fragment (for example `/#free-scan`) in the redirect URI,
-      // otherwise the callback becomes `/#free-scan#access_token` and
-      // Supabase cannot parse the returned session.
-      const redirectPath = returnTo.split("#", 1)[0] || "/";
       const { error } = await withAuthTimeout(
         supabase.auth.signInWithOAuth({
           provider: "google",
@@ -138,7 +139,7 @@ export function AuthGate({
         supabase.auth.signInWithOtp({
           email,
           options: {
-            emailRedirectTo: `${window.location.origin}${returnTo}`,
+            emailRedirectTo: `${window.location.origin}${redirectPath}`,
           },
         }),
         "Email sign-in did not respond. Check the Supabase email provider and redirect URL, then try again.",
