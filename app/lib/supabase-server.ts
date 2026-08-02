@@ -21,6 +21,18 @@ async function runtimeEnv(name: string) {
   return typeof workerValue === "string" ? workerValue : undefined;
 }
 
+export async function isAdminUser(user: User | null) {
+  const email = user?.email?.trim().toLowerCase();
+  if (!email) return false;
+
+  const configuredEmails = (await runtimeEnv("ADMIN_EMAILS"))
+    ?.split(",")
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
+
+  return Boolean(configuredEmails?.includes(email));
+}
+
 async function publicConfig() {
   const url = await runtimeEnv("NEXT_PUBLIC_SUPABASE_URL");
   const anonKey = await runtimeEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
