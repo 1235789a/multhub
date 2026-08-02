@@ -57,7 +57,7 @@ export default async function CaseStudyDetail({
               </Link>
               <div className="detail-hero__meta">
                 <span>{study.category}</span>
-                <StatusBadge>{study.evidenceLevel}</StatusBadge>
+                <StatusBadge>{study.workflowStatus}</StatusBadge>
               </div>
               <h1>{study.title}</h1>
               <p>{study.shortDescription}</p>
@@ -72,11 +72,11 @@ export default async function CaseStudyDetail({
                 </div>
                 <div>
                   <dt>Status</dt>
-                  <dd>{study.status}</dd>
+                  <dd>{study.workflowStatus}</dd>
                 </div>
                 <div>
-                  <dt>Prompt coverage</dt>
-                  <dd>{study.promptCoverage}</dd>
+                  <dt>Evidence level</dt>
+                  <dd>{study.evidenceLevel}</dd>
                 </div>
               </dl>
             </div>

@@ -24,7 +24,7 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
       <div className="content-card__body">
         <div className="content-card__meta">
           <span>{study.category}</span>
-          <StatusBadge>{study.evidenceLevel}</StatusBadge>
+          <StatusBadge>{study.workflowStatus}</StatusBadge>
         </div>
         <h3>{study.title}</h3>
         <p>{study.shortDescription}</p>
