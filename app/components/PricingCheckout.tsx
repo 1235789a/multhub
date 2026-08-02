@@ -39,6 +39,13 @@ export function PricingCheckout() {
         <b>→</b>
         <span>Expert implements</span>
       </div>
+      <div className="service-decision-strip">
+        <div>
+          <span>Start with the question you need answered</span>
+          <strong>Find gaps → establish a baseline → fix and retest</strong>
+        </div>
+        <p>Every paid plan produces an evidence trail. Upgrade only when the next layer is useful.</p>
+      </div>
       <div className="pricing-groups">
         <div className="pricing-group">
           <div className="pricing-group__heading">

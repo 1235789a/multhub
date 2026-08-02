@@ -57,7 +57,7 @@ export default async function CaseStudyDetail({
               </Link>
               <div className="detail-hero__meta">
                 <span>{study.category}</span>
-                <StatusBadge>Coming soon</StatusBadge>
+                <StatusBadge>{study.evidenceLevel}</StatusBadge>
               </div>
               <h1>{study.title}</h1>
               <p>{study.shortDescription}</p>
@@ -74,6 +74,10 @@ export default async function CaseStudyDetail({
                   <dt>Status</dt>
                   <dd>{study.status}</dd>
                 </div>
+                <div>
+                  <dt>Prompt coverage</dt>
+                  <dd>{study.promptCoverage}</dd>
+                </div>
               </dl>
             </div>
             <MediaPlaceholder
@@ -88,6 +92,37 @@ export default async function CaseStudyDetail({
               src={study.thumbnail}
               alt={`${study.title} illustrative cover`}
             />
+          </div>
+        </section>
+
+        <section className="section detail-evidence">
+          <div className="container">
+            <div className="detail-evidence__heading">
+              <p className="eyebrow">Evidence protocol</p>
+              <h2>What this page is ready to prove.</h2>
+              <p>
+                The structure follows the same loop used for real GEO work. It
+                keeps research, client evidence, and illustrative material
+                visibly separate.
+              </p>
+            </div>
+            <div className="detail-evidence__grid">
+              <article>
+                <span>Measured</span>
+                <strong>{study.platformCoverage}</strong>
+                <p>Prompts, source pages, entity facts, and dated observations are recorded here.</p>
+              </article>
+              <article>
+                <span>Next step</span>
+                <strong>{study.nextStep}</strong>
+                <p>Each finding must point to a concrete page, fact, or retest action.</p>
+              </article>
+              <article>
+                <span>Not claimed</span>
+                <strong>No invented ranking or client result.</strong>
+                <p>Numbers and testimonials appear only after permissioned or public evidence is attached.</p>
+              </article>
+            </div>
           </div>
         </section>
 

@@ -2,6 +2,7 @@ export type ServicePlan = {
   id: string;
   name: string;
   shortDescription: string;
+  fit: string;
   price: string;
   priceNote: string;
   category: "Automated" | "Human-verified" | "Expert service";
@@ -19,6 +20,7 @@ export const services: ServicePlan[] = [
     name: "Free Quick Scan",
     shortDescription:
       "A fast website-readiness check for Web3 teams testing GEO for the first time.",
+    fit: "Best for: finding obvious gaps before spending.",
     price: "Free",
     priceNote: "No card required",
     category: "Automated",
@@ -37,6 +39,7 @@ export const services: ServicePlan[] = [
     name: "Instant Visibility Report",
     shortDescription:
       "A low-cost automated report for projects that want a broader first look.",
+    fit: "Best for: a quick baseline you can share internally.",
     price: "9.99 USDT",
     priceNote: "One-time trial",
     category: "Automated",
@@ -56,6 +59,7 @@ export const services: ServicePlan[] = [
     name: "Verified GEO Baseline",
     shortDescription:
       "Automation plus a focused human Web3 fact check before recommendations are delivered.",
+    fit: "Best for: teams that need facts checked before publishing.",
     price: "59 USDT",
     priceNote: "One-time",
     category: "Human-verified",
@@ -77,6 +81,7 @@ export const services: ServicePlan[] = [
     name: "Expert Web3 GEO Audit",
     shortDescription:
       "A complete expert-led diagnosis for teams preparing a serious launch or growth push.",
+    fit: "Best for: a launch, repositioning, or competitive review.",
     price: "299 USDT",
     priceNote: "One-time",
     category: "Expert service",
@@ -96,6 +101,7 @@ export const services: ServicePlan[] = [
     name: "Done-for-You GEO Sprint",
     shortDescription:
       "We diagnose, rewrite, implement and retest the highest-priority improvements for you.",
+    fit: "Best for: teams that want implementation handled end to end.",
     price: "999 USDT",
     priceNote: "One-time",
     category: "Expert service",

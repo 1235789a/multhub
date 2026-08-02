@@ -24,13 +24,23 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
       <div className="content-card__body">
         <div className="content-card__meta">
           <span>{study.category}</span>
-          <StatusBadge>{study.status === "published" ? "Published" : "Coming soon"}</StatusBadge>
+          <StatusBadge>{study.evidenceLevel}</StatusBadge>
         </div>
         <h3>{study.title}</h3>
         <p>{study.shortDescription}</p>
+        <dl className="case-card__facts">
+          <div>
+            <dt>Prompts</dt>
+            <dd>{study.promptCoverage}</dd>
+          </div>
+          <div>
+            <dt>Platforms</dt>
+            <dd>{study.platformCoverage}</dd>
+          </div>
+        </dl>
         <div className="content-card__footer">
           <span>{study.caseType}</span>
-          <Link href={`/case-studies/${study.slug}`}>View structure →</Link>
+          <Link href={`/case-studies/${study.slug}`}>View diagnostic structure →</Link>
         </div>
       </div>
     </article>
@@ -84,6 +94,7 @@ export function ServicePlanCard({
       </div>
       <h3>{service.name}</h3>
       <p>{service.shortDescription}</p>
+      <p className="service-card__fit">{service.fit}</p>
       <div className="service-card__price">
         <strong>{service.price}</strong>
         <span>{service.priceNote}</span>

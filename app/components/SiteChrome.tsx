@@ -70,6 +70,7 @@ export function Footer() {
           <p className="footer-heading">Explore</p>
           <Link href="/sample-report">Sample Report</Link>
           <Link href="/case-studies">Case Studies</Link>
+          <Link href="/partners">Partner Pilot</Link>
           <Link href="/insights">Insights</Link>
         </div>
         <div>

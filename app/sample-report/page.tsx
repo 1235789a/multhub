@@ -54,6 +54,30 @@ export default function SampleReportPage() {
               </div>
             </div>
 
+            <div className="report-scorecard" aria-label="Report scorecard fields">
+              {[
+                ["Visibility score", "Calculated per project", "Prompt presence across the agreed test set."],
+                ["Citation rate", "Calculated per project", "How often a useful source appears in answers."],
+                ["Source authority", "Evidence map", "Which pages and domains support the answer."],
+                ["Competitive share", "Comparison field", "A dated view of mentions within the same prompts."],
+              ].map(([label, value, description]) => (
+                <article key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                  <p>{description}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="report-method-note">
+              <strong>What makes the report useful?</strong>
+              <p>
+                The same prompt set, source list, and date are kept with the
+                delivery so a later retest can show what changed. Empty fields
+                stay empty until evidence exists.
+              </p>
+            </div>
+
             <div className="sample-report-page__grid">
               {pages.map(([title, description], index) => (
                 <article key={title}>
