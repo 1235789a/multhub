@@ -11,14 +11,20 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
       <MediaPlaceholder
         type="case-study"
         label={`${study.title} Visual`}
-        description="Future audit evidence or case-study imagery."
+        description={
+          study.thumbnail
+            ? "Illustrative case-study cover; verified client evidence is published separately."
+            : "Future audit evidence or case-study imagery."
+        }
         aspectRatio="16:10"
         compact
+        src={study.thumbnail}
+        alt={`${study.title} illustrative cover`}
       />
       <div className="content-card__body">
         <div className="content-card__meta">
           <span>{study.category}</span>
-          <StatusBadge>Coming soon</StatusBadge>
+          <StatusBadge>{study.status === "published" ? "Published" : "Coming soon"}</StatusBadge>
         </div>
         <h3>{study.title}</h3>
         <p>{study.shortDescription}</p>

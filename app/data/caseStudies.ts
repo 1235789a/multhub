@@ -27,6 +27,7 @@ export const caseStudies: CaseStudy[] = [
     caseType: "Diagnostic Sample",
     shortDescription:
       "A reserved case-study structure for a future stablecoin payment visibility review.",
+    thumbnail: "/case-studies/stablecoin-payment-project.png",
     status: "coming-soon",
     featured: true,
     clientVisibility: "not-a-client",
@@ -40,6 +41,7 @@ export const caseStudies: CaseStudy[] = [
     caseType: "Diagnostic Sample",
     shortDescription:
       "A reserved case-study structure for a future wallet positioning and fact-accuracy review.",
+    thumbnail: "/case-studies/web3-wallet.png",
     status: "coming-soon",
     featured: true,
     clientVisibility: "not-a-client",
@@ -53,6 +55,7 @@ export const caseStudies: CaseStudy[] = [
     caseType: "Independent Public Analysis",
     shortDescription:
       "A reserved case-study structure for future public research into developer infrastructure.",
+    thumbnail: "/case-studies/developer-infrastructure.png",
     status: "coming-soon",
     featured: true,
     clientVisibility: "not-a-client",

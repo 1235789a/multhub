@@ -449,6 +449,21 @@ textarea:focus-visible {
   padding: 12px;
 }
 
+.media-placeholder--image {
+  padding: 0;
+  background: #07162d;
+}
+
+.media-placeholder__image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+}
+
 .evidence-ui {
   position: relative;
   z-index: 1;

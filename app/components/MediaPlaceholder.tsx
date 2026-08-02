@@ -186,27 +186,38 @@ export function MediaPlaceholder({
   description,
   aspectRatio = "16:9",
   compact = false,
+  src,
+  alt,
 }: {
   type: MediaType;
   label: string;
   description: string;
   aspectRatio?: AspectRatio;
   compact?: boolean;
+  src?: string;
+  alt?: string;
 }) {
   const processChart = label.toLowerCase().includes("process");
+  const hasImage = Boolean(src);
 
   return (
     <figure
-      className={`media-placeholder media-placeholder--visual ${compact ? "media-placeholder--compact" : ""}`}
+      className={`media-placeholder media-placeholder--visual ${compact ? "media-placeholder--compact" : ""} ${hasImage ? "media-placeholder--image" : ""}`}
       style={{ aspectRatio: aspectRatio.replace(":", " / ") }}
       aria-label={`${label}. ${description}`}
     >
-      {type === "report" ? <ReportVisual /> : null}
-      {type === "chart" ? <ChartVisual process={processChart} /> : null}
-      {type === "comparison" ? <ComparisonVisual /> : null}
-      {type === "case-study" ? <CaseVisual label={label} /> : null}
-      {type === "video" ? <VideoVisual compact={compact} /> : null}
-      {type === "image" ? <ResearchVisual /> : null}
+      {src ? (
+        <img className="media-placeholder__image" src={src} alt={alt ?? label} />
+      ) : (
+        <>
+          {type === "report" ? <ReportVisual /> : null}
+          {type === "chart" ? <ChartVisual process={processChart} /> : null}
+          {type === "comparison" ? <ComparisonVisual /> : null}
+          {type === "case-study" ? <CaseVisual label={label} /> : null}
+          {type === "video" ? <VideoVisual compact={compact} /> : null}
+          {type === "image" ? <ResearchVisual /> : null}
+        </>
+      )}
     </figure>
   );
 }

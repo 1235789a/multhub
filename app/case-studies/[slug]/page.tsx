@@ -79,8 +79,14 @@ export default async function CaseStudyDetail({
             <MediaPlaceholder
               type="case-study"
               label="Case Study Hero Visual"
-              description="Reserved for verified audit evidence or approved client imagery."
+              description={
+                study.thumbnail
+                  ? "Illustrative cover image; verified audit evidence will be added only with permission."
+                  : "Reserved for verified audit evidence or approved client imagery."
+              }
               aspectRatio="4:3"
+              src={study.thumbnail}
+              alt={`${study.title} illustrative cover`}
             />
           </div>
         </section>
