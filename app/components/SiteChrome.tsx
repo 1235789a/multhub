@@ -80,6 +80,18 @@ export function Footer() {
           <span>One-off projects welcome</span>
           <span>USDT-TRC20 accepted</span>
         </div>
+        <div>
+          <p className="footer-heading">Contact</p>
+          <a
+            href="https://wa.me/8615863789235"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Contact molthub on WhatsApp"
+          >
+            WhatsApp +86 158 6378 9235
+          </a>
+          <a href="mailto:chengzhao640@gmail.com">chengzhao640@gmail.com</a>
+        </div>
       </div>
       <div className="container site-footer__bottom">
         <span>© {new Date().getFullYear()} molthub · molthub.click</span>

@@ -67,6 +67,7 @@ const structuredData = {
   name: "molthub",
   url: "https://molthub.click",
   email: "chengzhao640@gmail.com",
+  telephone: "+86 158 6378 9235",
   description:
     "Web3 GEO audits, AI-search visibility reports, fact verification and implementation services.",
   areaServed: "Worldwide",

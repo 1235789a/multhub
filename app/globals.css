@@ -2630,6 +2630,29 @@ textarea:focus-visible {
   padding-top: 24px;
 }
 
+.direct-contact {
+  display: grid;
+  margin-top: 28px;
+  border-top: 1px solid #31445e;
+  gap: 9px;
+  padding-top: 24px;
+}
+
+.direct-contact .aside-label {
+  margin-bottom: 4px;
+}
+
+.direct-contact a {
+  color: #dce9ff;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.direct-contact a:hover {
+  color: var(--white);
+  text-decoration: underline;
+}
+
 .contact-form {
   color: var(--ink);
   padding: 42px;
@@ -2744,7 +2767,7 @@ textarea:focus-visible {
 
 .site-footer__top {
   display: grid;
-  grid-template-columns: 1fr 0.42fr 0.42fr;
+  grid-template-columns: 1fr 0.42fr 0.42fr 0.58fr;
   gap: 80px;
   padding-block: 70px;
 }

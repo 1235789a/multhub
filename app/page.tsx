@@ -475,6 +475,19 @@ export default function Home() {
                   Direct communication · Clear scope · No required long-term
                   contract
                 </p>
+                <div className="direct-contact">
+                  <span className="aside-label">Contact us directly</span>
+                  <a
+                    href="https://wa.me/8615863789235"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    WhatsApp +86 158 6378 9235
+                  </a>
+                  <a href="mailto:chengzhao640@gmail.com">
+                    chengzhao640@gmail.com
+                  </a>
+                </div>
               </div>
               <ContactForm />
             </div>
