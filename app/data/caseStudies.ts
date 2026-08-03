@@ -52,6 +52,9 @@ export const caseStudies: CaseStudy[] = [
     status: "coming-soon",
     featured: true,
     clientVisibility: "permission-pending",
+    scope: ["Web3 Product Build", "AI Lead Engine", "Full Growth System"],
+    keyFinding:
+      "The preview is designed to help visitors choose a clear service path before they start an enquiry.",
     evidenceLevel: "Illustrative structure",
     promptCoverage: "Service-path intent",
     platformCoverage: "Website information architecture",
@@ -71,6 +74,9 @@ export const caseStudies: CaseStudy[] = [
     status: "coming-soon",
     featured: true,
     clientVisibility: "permission-pending",
+    scope: ["API onboarding", "Social and on-chain value", "Shortest access path"],
+    keyFinding:
+      "The preview focuses on making one real workflow and the first API request easier to understand.",
     evidenceLevel: "Public diagnostic",
     promptCoverage: "Developer use-case prompts",
     platformCoverage: "API onboarding + public preview",
@@ -90,6 +96,9 @@ export const caseStudies: CaseStudy[] = [
     status: "coming-soon",
     featured: true,
     clientVisibility: "permission-pending",
+    scope: ["TON Mini App development", "Telegram Mini App development", "Web3 wallet development"],
+    keyFinding:
+      "The promised mini-check targets broad catalogue positioning, scattered proof points, and missing dedicated query pages.",
     evidenceLevel: "Public diagnostic",
     promptCoverage: "TON, Telegram Mini App, wallet",
     platformCoverage: "AI answer engines",

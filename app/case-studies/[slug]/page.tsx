@@ -35,6 +35,30 @@ const detailSections = [
   "Retest Results",
 ];
 
+function getSectionCopy(
+  study: NonNullable<ReturnType<typeof getCaseStudy>>,
+  section: string,
+) {
+  const scope = study.scope?.join(" · ");
+  const copy: Record<string, string> = {
+    "Project Context": study.shortDescription,
+    Challenge:
+      study.keyFinding ??
+      "The preview is scoped to one clear visibility question rather than a broad, unverified claim.",
+    "Audit Scope":
+      scope ?? `${study.promptCoverage} across ${study.platformCoverage}.`,
+    "Key Findings":
+      study.keyFinding ??
+      "Findings remain pending until the agreed preview or diagnostic is delivered.",
+    "Recommended Actions": study.nextStep,
+    Deliverables: `Current handoff: ${study.caseType}. The next evidence item is recorded before publication.`,
+    "Implementation Status": `Workflow status: ${study.workflowStatus}. Client visibility: ${study.clientVisibility ?? "not specified"}.`,
+    "Retest Results":
+      "No retest result is claimed yet. A dated comparison will be added only after the same prompt set is run again.",
+  };
+  return copy[section] ?? "Evidence will be added when it is permissioned and dated.";
+}
+
 export default async function CaseStudyDetail({
   params,
 }: {
@@ -139,18 +163,14 @@ export default async function CaseStudyDetail({
             <div className="detail-sections">
               {detailSections.map((section, index) => (
                 <section
-                  className="empty-detail-section"
+                  className="detail-section"
                   id={`section-${index + 1}`}
                   key={section}
                 >
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <div>
                     <h2>{section}</h2>
-                    <p>
-                      This section is intentionally reserved until verified
-                      research, client-approved material, or diagnostic
-                      evidence is available.
-                    </p>
+                    <p>{getSectionCopy(study, section)}</p>
                   </div>
                 </section>
               ))}
@@ -159,26 +179,28 @@ export default async function CaseStudyDetail({
                 <div>
                   <MediaPlaceholder
                     type="image"
-                    label="Case Study Image Gallery"
-                    description="Future evidence image 01"
+                    label={`${study.title} preview cover`}
+                    description="Illustrative cover linked to this real preview case; not a client screenshot."
                     aspectRatio="4:3"
                     compact
+                    src={study.thumbnail}
+                    alt={`${study.title} illustrative preview cover`}
                   />
-                  <MediaPlaceholder
-                    type="comparison"
-                    label="Before / After Comparison"
-                    description="Future evidence image 02"
-                    aspectRatio="4:3"
-                    compact
-                  />
+                  <div className="detail-gallery__status">
+                    <span>Evidence status</span>
+                    <strong>No before / after result published yet.</strong>
+                    <p>
+                      The next approved screenshot, source link, or dated
+                      observation will be added here.
+                    </p>
+                  </div>
                 </div>
               </section>
-              <MediaPlaceholder
-                type="video"
-                label="Case-Study Video Walkthrough"
-                description="Reserved for an optional evidence-led explanation. No autoplay."
-                aspectRatio="16:9"
-              />
+              <div className="detail-next-step">
+                <span>Next evidence handoff</span>
+                <strong>{study.nextStep}</strong>
+                <Link href="/case-studies">Return to the case library →</Link>
+              </div>
               <div className="detail-disclaimer">
                 <strong>Disclaimer</strong>
                 <p>{study.disclaimer}</p>

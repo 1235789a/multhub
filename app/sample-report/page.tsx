@@ -6,17 +6,45 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 export const metadata: Metadata = {
   title: "Sample Report — molthub",
   description:
-    "Preview the evidence-led structure planned for molthub audits and action plans.",
+    "Preview the evidence-led structure using current client preview cases without inventing scores or outcomes.",
 };
 
 const pages = [
-  ["Executive Summary", "High-level findings, context, and priority view."],
-  ["Prompt Test Results", "AI answer screenshots and structured observations."],
-  ["Competitor Comparison", "Presence, positioning, source, and evidence comparison."],
-  ["Factual Errors", "Incorrect, ambiguous, or conflicting project information."],
-  ["Citation Sources", "Sources that influence how AI systems form answers."],
-  ["Website & Docs Findings", "Clarity, structure, consistency, and evidence gaps."],
-  ["Priority Action Plan", "Recommended actions organized by impact and effort."],
+  [
+    "Executive Summary",
+    "Mehfil preview: context, service-path question, and next handoff.",
+    "/case-studies/stablecoin-payment-project.png",
+  ],
+  [
+    "Prompt Test Results",
+    "Dappfort preview: TON, Telegram Mini App, and wallet query set.",
+    "/case-studies/web3-wallet.png",
+  ],
+  [
+    "Competitor Comparison",
+    "A dated comparison field for the same high-intent prompt set.",
+    "/case-studies/developer-infrastructure.png",
+  ],
+  [
+    "Factual Errors",
+    "The fact and entity checks required before a Web3 claim is published.",
+    "/case-studies/web3-wallet.png",
+  ],
+  [
+    "Citation Sources",
+    "The source map behind an answer, separated from unsupported claims.",
+    "/case-studies/developer-infrastructure.png",
+  ],
+  [
+    "Website & Docs Findings",
+    "Service paths, proof blocks, FAQs, and documentation clarity.",
+    "/case-studies/stablecoin-payment-project.png",
+  ],
+  [
+    "Priority Action Plan",
+    "One practical next step for each verified finding.",
+    "/case-studies/web3-wallet.png",
+  ],
 ];
 
 export default function SampleReportPage() {
@@ -27,7 +55,7 @@ export default function SampleReportPage() {
         <PageHero
           eyebrow="Sample report"
           title="A Clear View of the Evidence Behind Every Finding"
-          description="This page previews the planned report structure without inventing test data, scores, or client results."
+          description="This page uses current preview cases to show the report structure without inventing test data, scores, or client results."
         />
         <section className="section sample-report-page">
           <div className="container">
@@ -79,19 +107,15 @@ export default function SampleReportPage() {
             </div>
 
             <div className="sample-report-page__grid">
-              {pages.map(([title, description], index) => (
+              {pages.map(([title, description, image], index) => (
                 <article key={title}>
                   <MediaPlaceholder
-                    type={
-                      index === 2
-                        ? "chart"
-                        : index === 6
-                          ? "comparison"
-                          : "report"
-                    }
+                    type="image"
                     label={title}
-                    description={`${description} Real screenshots and verified findings will replace this placeholder.`}
+                    description={`${description} Linked to a current preview case; dated evidence is added after handoff.`}
                     aspectRatio="16:10"
+                    src={image}
+                    alt={`${title} illustrative preview cover`}
                   />
                   <div>
                     <span>Page {String(index + 1).padStart(2, "0")}</span>
@@ -104,20 +128,23 @@ export default function SampleReportPage() {
 
             <div className="report-walkthrough">
               <MediaPlaceholder
-                type="video"
-                label="Sample Report Walkthrough Video Placeholder"
-                description="Reserved for a 60–90 second walkthrough once a verified sample report is available."
+                type="image"
+                label="Current preview case covers"
+                description="Dappfort, RogerAI, and Mehfil currently anchor the evidence handoff."
                 aspectRatio="16:9"
+                src="/case-studies/developer-infrastructure.png"
+                alt="Illustrative cover for a current preview case"
               />
               <div>
-                <p className="eyebrow">What this page does not show</p>
-                <h2>No fictional scores or invented findings.</h2>
+                <p className="eyebrow">How the real cases feed the report</p>
+                <h2>Preview first, then attach dated evidence.</h2>
                 <p>
-                  The final sample report will use either permissioned,
-                  anonymized work or clearly labeled public diagnostic research.
+                  The current cases provide the question, scope, and next step.
+                  Screenshots, source links, and retest results are added only
+                  after the evidence handoff and permission check.
                 </p>
-                <Link className="button button--gold" href="/#free-review">
-                  Request a Free Review
+                <Link className="button button--gold" href="/case-studies">
+                  View the three preview cases
                 </Link>
               </div>
             </div>

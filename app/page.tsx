@@ -51,6 +51,9 @@ const serviceProcess = [
     description:
       "See how AI describes your project and which competitors appear first.",
     media: "AI Answer Screenshot",
+    mediaDescription:
+      "Dappfort preview: TON, Telegram Mini App, and wallet discovery questions.",
+    src: "/case-studies/web3-wallet.png",
   },
   {
     step: "02",
@@ -58,6 +61,9 @@ const serviceProcess = [
     description:
       "Check Web3 facts, competitor positioning, and the sources shaping answers.",
     media: "Factual Error Page",
+    mediaDescription:
+      "RogerAI preview: a concrete API workflow and the shortest access path.",
+    src: "/case-studies/developer-infrastructure.png",
   },
   {
     step: "03",
@@ -65,6 +71,9 @@ const serviceProcess = [
     description:
       "Improve priority pages, then retest the same high-value questions.",
     media: "Before / After Comparison",
+    mediaDescription:
+      "Mehfil preview: a clearer choice between three service paths.",
+    src: "/case-studies/stablecoin-payment-project.png",
   },
 ];
 
@@ -267,9 +276,11 @@ export default function Home() {
                   <MediaPlaceholder
                     type={item.step === "02" ? "chart" : item.step === "03" ? "comparison" : "report"}
                     label={item.media}
-                    description="Evidence placeholder"
+                    description={item.mediaDescription}
                     aspectRatio="16:9"
                     compact
+                    src={item.src}
+                    alt={`${item.media} linked to a real molthub preview case`}
                   />
                 </article>
               ))}
@@ -301,10 +312,12 @@ export default function Home() {
               </div>
               <div className="report-video">
                 <MediaPlaceholder
-                  type="video"
-                  label="Sample Report Walkthrough Video Placeholder"
-                  description="Reserved for a 60–90 second guided report walkthrough."
+                  type="image"
+                  label="RogerAI API preview cover"
+                  description="Illustrative cover for a real preview case; no client result is implied."
                   aspectRatio="16:10"
+                  src="/case-studies/developer-infrastructure.png"
+                  alt="Illustrative cover for the RogerAI API preview"
                 />
                 <Link className="button button--secondary" href="/sample-report">
                   View Full Sample Report
@@ -358,10 +371,12 @@ export default function Home() {
               </div>
             </div>
             <MediaPlaceholder
-              type="video"
-              label="Founder / Studio Introduction Video Placeholder"
-              description="Reserved for a direct, personal introduction to the studio and its working approach."
+              type="case-study"
+              label="Current preview case covers"
+              description="Three real preview cases currently anchor the studio's work: Dappfort, RogerAI, and Mehfil."
               aspectRatio="3:4"
+              src="/case-studies/web3-wallet.png"
+              alt="Illustrative cover for the Dappfort preview"
             />
           </div>
         </section>
@@ -402,10 +417,12 @@ export default function Home() {
             </div>
             <div className="about__media">
               <MediaPlaceholder
-                type="video"
-                label="Studio Introduction Video Placeholder"
-                description="A short founder-led explanation can be added here."
+                type="case-study"
+                label="Dappfort preview cover"
+                description="A real preview case currently awaiting its evidence handoff."
                 aspectRatio="16:9"
+                src="/case-studies/web3-wallet.png"
+                alt="Illustrative cover for the Dappfort preview"
               />
             </div>
           </div>
@@ -450,11 +467,13 @@ export default function Home() {
                 </p>
               </div>
               <MediaPlaceholder
-                type="comparison"
-                label="Final CTA Visual Placeholder"
-                description="Reserved for a future before-and-after or review overview."
+                type="case-study"
+                label="Mehfil preview cover"
+                description="Illustrative cover for a real service-path preview; no outcome is claimed."
                 aspectRatio="16:9"
                 compact
+                src="/case-studies/stablecoin-payment-project.png"
+                alt="Illustrative cover for the Mehfil preview"
               />
             </div>
             <div className="final-cta__form">
