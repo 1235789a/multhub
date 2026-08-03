@@ -40,74 +40,10 @@ export type CaseStudy = {
   disclaimer?: string;
 };
 
-export const caseStudies: CaseStudy[] = [
-  {
-    title: "Mehfil",
-    slug: "mehfil-choose-your-build",
-    category: "Web3 + AI services",
-    caseType: "Client Preview",
-    shortDescription:
-      "A compact service-path preview that helps visitors choose between a Web3 product build, AI lead engine, and full growth system.",
-    thumbnail: "/case-studies/stablecoin-payment-project.png",
-    status: "coming-soon",
-    featured: true,
-    clientVisibility: "permission-pending",
-    scope: ["Web3 Product Build", "AI Lead Engine", "Full Growth System"],
-    keyFinding:
-      "The preview is designed to help visitors choose a clear service path before they start an enquiry.",
-    evidenceLevel: "Illustrative structure",
-    promptCoverage: "Service-path intent",
-    platformCoverage: "Website information architecture",
-    nextStep: "Send the local preview and ask which path should generate enquiries first.",
-    workflowStatus: "Preview ready",
-    disclaimer:
-      "A client preview was agreed and prepared; no implementation, payment, or launch is claimed.",
-  },
-  {
-    title: "RogerAI API",
-    slug: "rogerai-api",
-    category: "Web3 API",
-    caseType: "Portfolio Preview",
-    shortDescription:
-      "An API onboarding preview that makes the social and on-chain data workflow, access path, and first response easier to understand.",
-    thumbnail: "/case-studies/developer-infrastructure.png",
-    status: "coming-soon",
-    featured: true,
-    clientVisibility: "permission-pending",
-    scope: ["API onboarding", "Social and on-chain value", "Shortest access path"],
-    keyFinding:
-      "The preview focuses on making one real workflow and the first API request easier to understand.",
-    evidenceLevel: "Public diagnostic",
-    promptCoverage: "Developer use-case prompts",
-    platformCoverage: "API onboarding + public preview",
-    nextStep: "Attach a dated screenshot or response sample and confirm public-use permission.",
-    workflowStatus: "Preview sent",
-    disclaimer:
-      "A preview link and positive replies are recorded; no paid conversion or production launch is claimed.",
-  },
-  {
-    title: "Dappfort Ltd",
-    slug: "dappfort-ton-mini-app",
-    category: "TON / Telegram Mini App",
-    caseType: "Client Preview",
-    shortDescription:
-      "A three-finding GEO mini-check for a TON and Telegram Mini App development team, focused on positioning, proof, and high-intent pages.",
-    thumbnail: "/case-studies/web3-wallet.png",
-    status: "coming-soon",
-    featured: true,
-    clientVisibility: "permission-pending",
-    scope: ["TON Mini App development", "Telegram Mini App development", "Web3 wallet development"],
-    keyFinding:
-      "The promised mini-check targets broad catalogue positioning, scattered proof points, and missing dedicated query pages.",
-    evidenceLevel: "Public diagnostic",
-    promptCoverage: "TON, Telegram Mini App, wallet",
-    platformCoverage: "AI answer engines",
-    nextStep: "Send the three findings and ask whether a dedicated TON/Telegram page is useful.",
-    workflowStatus: "Diagnostic pending",
-    disclaimer:
-      "The client agreed to receive a mini-check; findings have not been presented as completed results yet.",
-  },
-];
+// Public case entries stay empty until a real, permissioned case is ready.
+// Keep the type and routes in place so the library can be restored without a
+// layout rewrite when the first evidence pack arrives.
+export const caseStudies: CaseStudy[] = [];
 
 export function getCaseStudy(slug: string) {
   return caseStudies.find((study) => study.slug === slug);

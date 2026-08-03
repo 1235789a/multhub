@@ -41,7 +41,8 @@ test("server-renders the molthub homepage", async () => {
   assert.match(html, /59 USDT/);
   assert.match(html, /299 USDT/);
   assert.match(html, /999 USDT/);
-  assert.match(html, /Selected Web3 GEO Work/);
+  assert.doesNotMatch(html, /Selected Web3 GEO Work/);
+  assert.doesNotMatch(html, /CaseStudyCard/);
   assert.match(html, /Start at 9\.99 USDT/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
