@@ -2811,6 +2811,106 @@ textarea:focus-visible {
   font-size: 0.68rem;
 }
 
+.contact-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+}
+
+.contact-fab > summary {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #0d3fba;
+  border-radius: 999px;
+  background: var(--blue);
+  box-shadow: 0 14px 32px rgba(7, 22, 45, 0.2);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 1.2rem;
+  gap: 9px;
+  padding: 0 18px;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.contact-fab > summary::-webkit-details-marker {
+  display: none;
+}
+
+.contact-fab > summary::marker {
+  display: none;
+}
+
+.contact-fab > summary:hover {
+  transform: translateY(-2px);
+  background: var(--blue-deep);
+}
+
+.contact-fab[open] > summary {
+  background: var(--ink);
+}
+
+.contact-fab__text {
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+
+.contact-fab__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  display: grid;
+  width: min(306px, calc(100vw - 40px));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 20px 55px rgba(7, 22, 45, 0.18);
+  gap: 12px;
+  padding: 18px;
+}
+
+.contact-fab__panel strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.contact-fab__panel a {
+  display: grid;
+  border-top: 1px solid var(--line);
+  color: var(--blue-deep);
+  font-size: 0.76rem;
+  gap: 3px;
+  padding-top: 12px;
+}
+
+.contact-fab__panel a:hover {
+  color: var(--blue);
+}
+
+.contact-fab__panel a span {
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+}
+
+@media (max-width: 580px) {
+  .contact-fab {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .contact-fab > summary {
+    width: 54px;
+    min-height: 54px;
+    padding: 0;
+  }
+
+  .contact-fab__text {
+    display: none;
+  }
+}
+
 /* Inner pages */
 .page-hero {
   padding: 108px 0 90px;

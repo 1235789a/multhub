@@ -57,47 +57,70 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="container site-footer__top">
-        <div>
-          <Brand />
-          <p className="site-footer__intro">
-            A focused, hands-on Web3 GEO studio for projects that want clearer
-            AI visibility and stronger source material.
-          </p>
+    <>
+      <footer className="site-footer">
+        <div className="container site-footer__top">
+          <div>
+            <Brand />
+            <p className="site-footer__intro">
+              A focused, hands-on Web3 GEO studio for projects that want clearer
+              AI visibility and stronger source material.
+            </p>
+          </div>
+          <div>
+            <p className="footer-heading">Explore</p>
+            <Link href="/sample-report">Sample Report</Link>
+            <Link href="/partners">Partner Pilot</Link>
+            <Link href="/insights">Insights</Link>
+          </div>
+          <div>
+            <p className="footer-heading">Start</p>
+            <Link href="/#free-scan">Free Quick Scan</Link>
+            <Link href="/account">Account & Scan History</Link>
+            <Link href="/#services">Plans & Pricing</Link>
+            <span>One-off projects welcome</span>
+            <span>USDT-TRC20 accepted</span>
+          </div>
+          <div>
+            <p className="footer-heading">Contact</p>
+            <a
+              href="https://wa.me/8615863789235"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Contact molthub on WhatsApp"
+            >
+              WhatsApp +86 158 6378 9235
+            </a>
+            <a href="mailto:chengzhao640@gmail.com">chengzhao640@gmail.com</a>
+          </div>
         </div>
-        <div>
-          <p className="footer-heading">Explore</p>
-          <Link href="/sample-report">Sample Report</Link>
-          <Link href="/partners">Partner Pilot</Link>
-          <Link href="/insights">Insights</Link>
+        <div className="container site-footer__bottom">
+          <span>© {new Date().getFullYear()} molthub · molthub.click</span>
+          <span>No guaranteed AI rankings, citations, or recommendations.</span>
         </div>
-        <div>
-          <p className="footer-heading">Start</p>
-          <Link href="/#free-scan">Free Quick Scan</Link>
-          <Link href="/account">Account & Scan History</Link>
-          <Link href="/#services">Plans & Pricing</Link>
-          <span>One-off projects welcome</span>
-          <span>USDT-TRC20 accepted</span>
-        </div>
-        <div>
-          <p className="footer-heading">Contact</p>
+      </footer>
+      <details className="contact-fab">
+        <summary aria-label="Open molthub contact options">
+          <span aria-hidden="true">☎</span>
+          <span className="contact-fab__text">Contact</span>
+        </summary>
+        <div className="contact-fab__panel">
+          <strong>Contact molthub</strong>
           <a
             href="https://wa.me/8615863789235"
             target="_blank"
             rel="noreferrer"
-            aria-label="Contact molthub on WhatsApp"
           >
-            WhatsApp +86 158 6378 9235
+            WhatsApp
+            <span>+86 158 6378 9235</span>
           </a>
-          <a href="mailto:chengzhao640@gmail.com">chengzhao640@gmail.com</a>
+          <a href="mailto:chengzhao640@gmail.com">
+            Email
+            <span>chengzhao640@gmail.com</span>
+          </a>
         </div>
-      </div>
-      <div className="container site-footer__bottom">
-        <span>© {new Date().getFullYear()} molthub · molthub.click</span>
-        <span>No guaranteed AI rankings, citations, or recommendations.</span>
-      </div>
-    </footer>
+      </details>
+    </>
   );
 }
 
