@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { InsightCard } from "../components/ContentCards";
+import { ArticleLibrary } from "../components/ArticleLibrary";
 import { Footer, Header, PageHero } from "../components/SiteChrome";
-import { insights } from "../data/insights";
+import { getPublishedInsights, insightSchedule } from "../data/insights";
 
 export const metadata: Metadata = {
   title: "Insights — molthub",
@@ -17,22 +17,31 @@ export default function InsightsPage() {
         <PageHero
           eyebrow="Research and observations"
           title="Web3 AI Visibility Insights"
-          description="Practical research, observations, and case-driven lessons about how Web3 projects appear in AI-generated answers."
+          description="Two useful English articles every day: one for a clear first understanding, and one for teams ready to implement."
         />
         <section className="section listing-section">
           <div className="container">
             <div className="library-note">
-              <span>Editorial approach</span>
+              <span>Editorial rhythm · UTC+8</span>
               <p>
-                Articles will support real screenshots, charts, videos, X posts,
-                related research, and clear calls to action when published.
+                Beginner explainers arrive at 08:00. Professional implementation
+                notes arrive at 20:00. Each article has a unique slug and date
+                slot, so the library stays free of repeats.
               </p>
             </div>
-            <div className="card-grid card-grid--three">
-              {insights.map((insight) => (
-                <InsightCard insight={insight} key={insight.slug} />
+            <div className="insights-schedule" aria-label="Daily publishing schedule">
+              {insightSchedule.map((slot) => (
+                <div className="insights-schedule__slot" key={slot.time}>
+                  <span>{slot.time}</span>
+                  <div>
+                    <strong>{slot.audience}</strong>
+                    <p>{slot.title}</p>
+                    <small>{slot.description}</small>
+                  </div>
+                </div>
               ))}
             </div>
+            <ArticleLibrary insights={getPublishedInsights()} />
           </div>
         </section>
       </main>

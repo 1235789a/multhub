@@ -17,9 +17,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const insight = getInsight(slug);
   return {
-    title: insight
-      ? `${insight.title} — molthub Insights`
-      : "Insight — molthub",
+    title: insight ? `${insight.title} — molthub Insights` : "Insight — molthub",
     description: insight?.excerpt,
   };
 }
@@ -46,7 +44,8 @@ export default async function InsightDetail({
               </Link>
               <div className="article-meta">
                 <span>{insight.category}</span>
-                <StatusBadge>Coming soon</StatusBadge>
+                <span>{insight.publishedDate} · {insight.publishTime} UTC+8</span>
+                <StatusBadge>{insight.audience}</StatusBadge>
               </div>
               <h1>{insight.title}</h1>
               <p>{insight.excerpt}</p>
@@ -60,35 +59,30 @@ export default async function InsightDetail({
 
           <div className="container article-layout">
             <aside>
-              <p>Planned article support</p>
-              <span>Images</span>
-              <span>Charts</span>
-              <span>YouTube / Vimeo</span>
-              <span>Self-hosted video</span>
-              <span>X posts</span>
-              <span>Related articles</span>
+              <p>Article details</p>
+              <span>{insight.readingTime}</span>
+              <span>{insight.author}</span>
+              <span>Beginner · 08:00</span>
+              <span>Professional · 20:00</span>
             </aside>
             <div className="article-body">
               <MediaPlaceholder
                 type="image"
                 label="Insight Article Cover"
-                description="A purpose-built editorial cover will be added with the final article."
+                description="An editorial visual can be added later without changing this article layout."
                 aspectRatio="16:9"
               />
-              <div className="article-empty">
-                <span>Editorial draft pending</span>
-                <h2>Research will be published here.</h2>
-                <p>
-                  This page is a structured publishing template. It deliberately
-                  avoids presenting draft observations as completed research.
-                </p>
+              <div className="article-prose">
+                {insight.sections.map((section, index) => (
+                  <section key={section.heading}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h2>{section.heading}</h2>
+                      <p>{section.body}</p>
+                    </div>
+                  </section>
+                ))}
               </div>
-              <MediaPlaceholder
-                type="video"
-                label="Insight Article Video Embed"
-                description="Reserved for YouTube, Vimeo, or a self-hosted video. No autoplay."
-                aspectRatio="16:9"
-              />
               <div className="inline-cta">
                 <div>
                   <p className="eyebrow">Apply this to your project</p>

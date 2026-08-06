@@ -53,20 +53,28 @@ export function InsightCard({ insight }: { insight: Insight }) {
       <MediaPlaceholder
         type="image"
         label="Insight Article Cover"
-        description="Editorial cover image will be added with the article."
+        description="Editorial cover image can be added to the article without changing its content structure."
         aspectRatio="16:10"
         compact
       />
       <div className="content-card__body">
         <div className="content-card__meta">
           <span>{insight.category}</span>
-          <StatusBadge>Coming soon</StatusBadge>
+          <StatusBadge>
+            {insight.audience} · {insight.publishTime}
+          </StatusBadge>
         </div>
         <h3>{insight.title}</h3>
         <p>{insight.excerpt}</p>
+        <div className="insight-card__details">
+          <span>{insight.publishedDate}</span>
+          <span>{insight.readingTime}</span>
+        </div>
         <div className="content-card__footer">
           <span>{insight.tags.slice(0, 2).join(" · ")}</span>
-          <Link href={`/insights/${insight.slug}`}>View outline →</Link>
+          <Link href={`/insights/${insight.slug}`}>
+            {insight.status === "published" ? "Read article →" : "View outline →"}
+          </Link>
         </div>
       </div>
     </article>

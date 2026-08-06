@@ -7,7 +7,7 @@ import { MediaPlaceholder } from "./components/MediaPlaceholder";
 import { PricingCheckout } from "./components/PricingCheckout";
 import { Footer, Header } from "./components/SiteChrome";
 import { faqs } from "./data/faqs";
-import { insights } from "./data/insights";
+import { getPublishedInsights, insightSchedule } from "./data/insights";
 
 export const metadata: Metadata = {
   title: "molthub — Web3 AI Search Visibility",
@@ -114,6 +114,8 @@ function SectionHeading({
 }
 
 export default function Home() {
+  const latestInsights = getPublishedInsights().slice(0, 4);
+
   return (
     <>
       <Header />
@@ -367,16 +369,27 @@ export default function Home() {
           <div className="container">
             <div className="section-heading-row">
               <SectionHeading
-                eyebrow="Research and observations"
-                title="Web3 AI Visibility Insights"
-                description="Short, practical lessons from real visibility questions."
+                eyebrow="Daily editorial notes"
+                title="Learn Web3 GEO in two depths"
+                description="A beginner-friendly concept in the morning. A practical implementation note in the evening."
               />
               <Link className="text-link" href="/insights">
-                Browse all insights →
+                Browse all articles →
               </Link>
             </div>
+            <div className="insights-schedule insights-schedule--home" aria-label="Daily publishing schedule">
+              {insightSchedule.map((slot) => (
+                <div className="insights-schedule__slot" key={slot.time}>
+                  <span>{slot.time}</span>
+                  <div>
+                    <strong>{slot.audience}</strong>
+                    <p>{slot.title}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
             <div className="card-grid card-grid--three">
-              {insights.map((insight) => (
+              {latestInsights.map((insight) => (
                 <InsightCard insight={insight} key={insight.slug} />
               ))}
             </div>
