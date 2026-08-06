@@ -62,8 +62,7 @@ export default async function InsightDetail({
               <p>Article details</p>
               <span>{insight.readingTime}</span>
               <span>{insight.author}</span>
-              <span>Beginner · 08:00</span>
-              <span>Professional · 20:00</span>
+              <span>{insight.audience} · {insight.publishTime} UTC+8</span>
             </aside>
             <div className="article-body">
               <MediaPlaceholder
