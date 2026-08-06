@@ -371,7 +371,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Daily editorial notes"
                 title="Learn Web3 GEO in two depths"
-                description="A beginner-friendly concept in the morning. A practical implementation note in the evening."
+                description="One new article per day, alternating between a plain-language Beginner guide and a Professional implementation note."
               />
               <Link className="text-link" href="/insights">
                 Browse all articles →

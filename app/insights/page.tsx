@@ -17,16 +17,16 @@ export default function InsightsPage() {
         <PageHero
           eyebrow="Research and observations"
           title="Web3 AI Visibility Insights"
-          description="Two useful English articles every day: one for a clear first understanding, and one for teams ready to implement."
+          description="A growing English library with one new article each day, alternating between a clear first understanding and a practical implementation note."
         />
         <section className="section listing-section">
           <div className="container">
             <div className="library-note">
-              <span>Editorial rhythm · UTC+8</span>
+              <span>Starter library · 15 articles</span>
               <p>
-                Beginner explainers arrive at 08:00. Professional implementation
-                notes arrive at 20:00. Each article has a unique slug and date
-                slot, so the library stays free of repeats.
+                One article is planned for 08:00 UTC+8 each day. The editorial
+                voice alternates between Beginner and Professional, with a
+                unique slug and date slot for every article.
               </p>
             </div>
             <div className="insights-schedule" aria-label="Daily publishing schedule">
