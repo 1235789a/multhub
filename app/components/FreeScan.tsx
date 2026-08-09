@@ -284,8 +284,8 @@ export function FreeScan() {
             <div>
               <strong>Need real AI-platform checks?</strong>
               <span>
-                The 9.99 USDT trial will add prompt testing, one competitor and a
-                downloadable report.
+                The 9.99 USDT starting order adds a defined prompt set, competitor
+                review, and report delivery after payment confirmation.
               </span>
             </div>
             <a
@@ -299,7 +299,7 @@ export function FreeScan() {
                 )
               }
             >
-              Unlock the $9.99 Report
+              Start the 9.99 USDT Report
             </a>
           </div>
         </div>

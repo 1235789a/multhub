@@ -31,7 +31,7 @@ export function PricingCheckout() {
       <div className="service-ladder" aria-label="Service progression">
         <span>Machine finds</span>
         <b>→</b>
-        <span>Machine reports</span>
+        <span>Entry order</span>
         <b>→</b>
         <span>Human verifies</span>
         <b>→</b>
@@ -51,8 +51,8 @@ export function PricingCheckout() {
           <div className="pricing-group__heading">
             <span>01</span>
             <div>
-              <p className="eyebrow">Automated tools</p>
-              <h3>Low-risk first look</h3>
+              <p className="eyebrow">Tools + starting order</p>
+              <h3>Low-risk first step</h3>
             </div>
           </div>
           <div className="pricing-grid pricing-grid--two">

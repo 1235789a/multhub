@@ -53,9 +53,11 @@ export function InsightCard({ insight }: { insight: Insight }) {
       <MediaPlaceholder
         type="image"
         label="Insight Article Cover"
-        description="Editorial cover image can be added to the article without changing its content structure."
+        description="Editorial cover image for this insight."
         aspectRatio="16:10"
         compact
+        src={insight.coverImage}
+        alt={insight.title}
       />
       <div className="content-card__body">
         <div className="content-card__meta">

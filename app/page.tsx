@@ -357,10 +357,12 @@ export default function Home() {
               </div>
             </div>
             <MediaPlaceholder
-              type="video"
-              label="Studio Introduction Visual"
-              description="A personal studio introduction can be added when the final recording is ready."
+              type="image"
+              label="molthub visibility visual"
+              description="The same visual system used in the live hero loop."
               aspectRatio="3:4"
+              src="/molthub-ai-visibility-hero.png"
+              alt="Abstract Web3 project visibility moving toward a cited AI answer"
             />
           </div>
         </section>
@@ -412,10 +414,12 @@ export default function Home() {
             </div>
             <div className="about__media">
               <MediaPlaceholder
-                type="video"
-                label="Studio Introduction Visual"
-                description="A short founder-led explanation can be added when ready."
+                type="image"
+                label="molthub editorial visual"
+                description="A visual proof point from the live molthub homepage."
                 aspectRatio="16:9"
+                src="/molthub-ai-visibility-hero.png"
+                alt="molthub visual showing a Web3 product becoming easier to discover and cite"
               />
             </div>
           </div>
@@ -454,9 +458,8 @@ export default function Home() {
                 <p className="eyebrow">Choose your next step</p>
                 <h2>Start at 9.99 USDT—or Ask for Expert Help</h2>
                 <p>
-                  Send your project details and selected plan. We will reply
-                  with payment or project-start instructions for the current
-                  pilot.
+                  Choose a plan, continue to checkout, and keep your order
+                  status in your molthub account.
                 </p>
               </div>
               <MediaPlaceholder
@@ -481,7 +484,7 @@ export default function Home() {
                   </li>
                   <li>
                     <b>03</b>
-                    <span>Receive checkout or project-start instructions.</span>
+                    <span>Open checkout, pay with USDT-TRC20, and keep the order status.</span>
                   </li>
                 </ol>
                 <p>

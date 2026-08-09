@@ -79,7 +79,7 @@ const structuredData = {
   offers: [
     {
       "@type": "Offer",
-      name: "Instant Visibility Report",
+      name: "Visibility Report Request",
       price: "9.99",
       priceCurrency: "USD",
     },

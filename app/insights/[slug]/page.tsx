@@ -65,11 +65,32 @@ export default async function InsightDetail({
               <span>{insight.audience} · {insight.publishTime} UTC+8</span>
             </aside>
             <div className="article-body">
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Article",
+                    headline: insight.title,
+                    description: insight.excerpt,
+                    datePublished: insight.publishedDate,
+                    dateModified: insight.publishedDate,
+                    author: { "@type": "Organization", name: "molthub" },
+                    publisher: { "@type": "Organization", name: "molthub" },
+                    mainEntityOfPage: `https://molthub.click/insights/${insight.slug}`,
+                    image: insight.coverImage
+                      ? `https://molthub.click${insight.coverImage}`
+                      : undefined,
+                  }),
+                }}
+              />
               <MediaPlaceholder
                 type="image"
                 label="Insight Article Cover"
-                description="An editorial visual can be added later without changing this article layout."
+                description="Editorial cover image for this insight."
                 aspectRatio="16:9"
+                src={insight.coverImage}
+                alt={insight.title}
               />
               <div className="article-prose">
                 {insight.sections.map((section, index) => (
