@@ -1,4 +1,5 @@
 export const navigation = [
+  { label: "App", href: "/app" },
   { label: "Pricing", href: "/#services" },
   { label: "Sample Report", href: "/sample-report" },
   { label: "Method", href: "/#method" },

@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { PwaInstallPrompt } from "./components/PwaInstallPrompt";
+import { PwaRegister } from "./components/PwaRegister";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +51,16 @@ export const metadata: Metadata = {
     description:
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
     images: ["/og.png"],
+  },
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/app-icon.svg",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "molthub",
+    statusBarStyle: "default",
   },
   alternates: {
     canonical: "https://molthub.click",
@@ -104,6 +116,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <PwaRegister />
+        <PwaInstallPrompt />
         {children}
       </body>
     </html>

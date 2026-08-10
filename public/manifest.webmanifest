@@ -1,0 +1,40 @@
+{
+  "name": "molthub — Web3 AI Search Visibility",
+  "short_name": "molthub",
+  "description": "A focused workspace for Web3 AI-search visibility, scans, orders and insights.",
+  "start_url": "/app?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "portrait-primary",
+  "background_color": "#f7f8f6",
+  "theme_color": "#f7f8f6",
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Run a free scan",
+      "short_name": "Free scan",
+      "url": "/#free-scan",
+      "icons": [{ "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Open account",
+      "short_name": "Account",
+      "url": "/account",
+      "icons": [{ "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Check an order",
+      "short_name": "Orders",
+      "url": "/checkout?plan=trial",
+      "icons": [{ "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}
