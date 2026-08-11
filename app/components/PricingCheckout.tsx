@@ -51,7 +51,6 @@ export function PricingCheckout() {
           <div className="pricing-group__heading">
             <span>01</span>
             <div>
-              <p className="eyebrow">Tools + starting order</p>
               <h3>Low-risk first step</h3>
             </div>
           </div>
@@ -69,7 +68,6 @@ export function PricingCheckout() {
           <div className="pricing-group__heading">
             <span>02</span>
             <div>
-              <p className="eyebrow">Human-verified</p>
               <h3>Facts checked before you act</h3>
             </div>
           </div>
@@ -84,7 +82,6 @@ export function PricingCheckout() {
           <div className="pricing-group__heading">
             <span>03</span>
             <div>
-              <p className="eyebrow">Expert services</p>
               <h3>Research or implementation</h3>
             </div>
           </div>

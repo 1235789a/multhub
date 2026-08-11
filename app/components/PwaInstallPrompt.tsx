@@ -12,6 +12,8 @@ export function PwaInstallPrompt() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
+    if (window.location.pathname === "/install") return;
+
     const handleBeforeInstall = (event: Event) => {
       event.preventDefault();
       setInstallEvent(event as InstallPromptEvent);

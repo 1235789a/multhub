@@ -1,20 +1,40 @@
 {
+  "id": "/app",
   "name": "molthub — Web3 AI Search Visibility",
   "short_name": "molthub",
   "description": "A focused workspace for Web3 AI-search visibility, scans, orders and insights.",
   "start_url": "/app?source=pwa",
   "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities"],
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#f7f8f6",
   "theme_color": "#f7f8f6",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/app-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/app-icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
@@ -22,19 +42,19 @@
       "name": "Run a free scan",
       "short_name": "Free scan",
       "url": "/#free-scan",
-      "icons": [{ "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Open account",
       "short_name": "Account",
       "url": "/account",
-      "icons": [{ "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Check an order",
       "short_name": "Orders",
       "url": "/checkout?plan=trial",
-      "icons": [{ "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MediaPlaceholder } from "../../components/MediaPlaceholder";
-import { Footer, Header, StatusBadge } from "../../components/SiteChrome";
+import { Footer, Header } from "../../components/SiteChrome";
 import { caseStudies, getCaseStudy } from "../../data/caseStudies";
 
 export function generateStaticParams() {
@@ -79,10 +79,6 @@ export default async function CaseStudyDetail({
               <Link className="back-link" href="/case-studies">
                 ← Case-study library
               </Link>
-              <div className="detail-hero__meta">
-                <span>{study.category}</span>
-                <StatusBadge>{study.workflowStatus}</StatusBadge>
-              </div>
               <h1>{study.title}</h1>
               <p>{study.shortDescription}</p>
               <dl className="detail-facts">

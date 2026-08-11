@@ -1,10 +1,15 @@
-const CACHE_NAME = "molthub-shell-v1";
+const CACHE_NAME = "molthub-shell-v2";
 const APP_SHELL = [
   "/",
   "/app",
+  "/install",
+  "/offline",
   "/insights",
   "/manifest.webmanifest",
   "/app-icon.svg",
+  "/app-icon-192.png",
+  "/app-icon-512.png",
+  "/app-icon-maskable-512.png",
   "/favicon.svg",
 ];
 
@@ -41,12 +46,19 @@ self.addEventListener("fetch", (event) => {
 
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request).catch(() => caches.match(url.pathname === "/app" ? "/app" : "/")),
+      fetch(request).catch(() => caches.match("/offline")),
     );
     return;
   }
 
-  if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/insights/") || url.pathname.endsWith(".webmanifest")) {
+  if (
+    url.pathname.startsWith("/assets/") ||
+    url.pathname.startsWith("/_next/static/") ||
+    url.pathname.startsWith("/insights/") ||
+    url.pathname.endsWith(".webmanifest") ||
+    url.pathname.endsWith(".png") ||
+    url.pathname.endsWith(".svg")
+  ) {
     event.respondWith(
       caches.match(request).then((cached) => cached || fetch(request).then((response) => {
         const copy = response.clone();

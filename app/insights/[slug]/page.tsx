@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MediaPlaceholder } from "../../components/MediaPlaceholder";
-import { Footer, Header, StatusBadge } from "../../components/SiteChrome";
+import { Footer, Header } from "../../components/SiteChrome";
 import { getInsight, insights } from "../../data/insights";
 
 export function generateStaticParams() {
@@ -45,15 +45,9 @@ export default async function InsightDetail({
               <div className="article-meta">
                 <span>{insight.category}</span>
                 <span>{insight.publishedDate} · {insight.publishTime} UTC+8</span>
-                <StatusBadge>{insight.audience}</StatusBadge>
               </div>
               <h1>{insight.title}</h1>
               <p>{insight.excerpt}</p>
-              <div className="tag-row">
-                {insight.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
             </div>
           </header>
 

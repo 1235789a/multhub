@@ -3,7 +3,6 @@ import type { CaseStudy } from "../data/caseStudies";
 import type { Insight } from "../data/insights";
 import type { ServicePlan } from "../data/services";
 import { MediaPlaceholder } from "./MediaPlaceholder";
-import { StatusBadge } from "./SiteChrome";
 
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
@@ -22,10 +21,6 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
         alt={`${study.title} illustrative cover`}
       />
       <div className="content-card__body">
-        <div className="content-card__meta">
-          <span>{study.category}</span>
-          <StatusBadge>{study.workflowStatus}</StatusBadge>
-        </div>
         <h3>{study.title}</h3>
         <p>{study.shortDescription}</p>
         <dl className="case-card__facts">
@@ -60,12 +55,6 @@ export function InsightCard({ insight }: { insight: Insight }) {
         alt={insight.title}
       />
       <div className="content-card__body">
-        <div className="content-card__meta">
-          <span>{insight.category}</span>
-          <StatusBadge>
-            {insight.audience} · {insight.publishTime}
-          </StatusBadge>
-        </div>
         <h3>{insight.title}</h3>
         <p>{insight.excerpt}</p>
         <div className="insight-card__details">
@@ -73,7 +62,6 @@ export function InsightCard({ insight }: { insight: Insight }) {
           <span>{insight.readingTime}</span>
         </div>
         <div className="content-card__footer">
-          <span>{insight.tags.slice(0, 2).join(" · ")}</span>
           <Link href={`/insights/${insight.slug}`}>
             {insight.status === "published" ? "Read article →" : "View outline →"}
           </Link>
@@ -95,11 +83,7 @@ export function ServicePlanCard({
     <article
       className={`service-card${service.highlighted ? " service-card--highlighted" : ""}`}
     >
-      {service.badge ? (
-        <span className="service-card__badge">{service.badge}</span>
-      ) : null}
       <div className="service-card__category">
-        <span>{service.category}</span>
         <span>{service.turnaround}</span>
       </div>
       <h3>{service.name}</h3>

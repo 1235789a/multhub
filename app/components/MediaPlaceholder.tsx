@@ -13,7 +13,6 @@ function ReportVisual() {
     <div className="evidence-ui evidence-ui--report">
       <div className="evidence-ui__topline">
         <span className="evidence-ui__brand">molthub</span>
-        <span>ILLUSTRATIVE SAMPLE</span>
       </div>
       <div className="evidence-ui__heading">
         <div>
@@ -70,7 +69,6 @@ function ChartVisual({ process }: { process: boolean }) {
     <div className="evidence-ui evidence-ui--bars">
       <div className="evidence-ui__topline">
         <span>COMPETITOR SHARE OF VOICE</span>
-        <span>SAMPLE</span>
       </div>
       {[
         ["Your project", "38%", "38%"],
@@ -112,18 +110,9 @@ function ComparisonVisual() {
 
 function CaseVisual({ label }: { label: string }) {
   const title = label.replace(" Visual", "");
-  const category = title.includes("Wallet")
-    ? "WALLET"
-    : title.includes("Developer")
-      ? "INFRASTRUCTURE"
-      : "PAYMENTS";
 
   return (
     <div className="evidence-ui evidence-ui--case">
-      <div className="evidence-ui__topline">
-        <span>{category}</span>
-        <span>DIAGNOSTIC SAMPLE</span>
-      </div>
       <strong>{title}</strong>
       <div>
         <span>
