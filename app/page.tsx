@@ -398,6 +398,28 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="restricted-entry">
+          <div className="container restricted-entry__grid">
+            <div>
+              <p className="eyebrow">Beyond Web3</p>
+              <h2>Operating legally in a market with tighter advertising rules?</h2>
+              <p>
+                Molthub also supports selected regulated and ad-restricted brands
+                with compliant organic and AI-search visibility. Every higher-risk
+                engagement is reviewed before scope or payment.
+              </p>
+            </div>
+            <div className="restricted-entry__actions">
+              <span>Legal businesses only</span>
+              <span>No ad-policy evasion</span>
+              <span>USDT-TRC20 available</span>
+              <Link className="button button--secondary" href="/regulated-industries">
+                Review eligible industries
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <section className="section about" id="about">
           <div className="container about__grid">
             <div>

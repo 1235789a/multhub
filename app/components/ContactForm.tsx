@@ -53,6 +53,12 @@ export function ContactForm() {
             <option>On-chain data</option>
             <option>Web3 SaaS</option>
             <option>Infrastructure</option>
+            <option>Privacy &amp; security</option>
+            <option>Alcohol &amp; regulated consumer products</option>
+            <option>Tobacco accessories / cigar B2B (where legal)</option>
+            <option>Adult wellness</option>
+            <option>CBD / hemp (where legal)</option>
+            <option>Licensed gaming</option>
             <option>Other</option>
           </select>
         </label>

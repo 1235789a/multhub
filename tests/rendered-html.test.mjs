@@ -44,7 +44,24 @@ test("server-renders the molthub homepage", async () => {
   assert.doesNotMatch(html, /Selected Web3 GEO Work/);
   assert.doesNotMatch(html, /CaseStudyCard/);
   assert.match(html, /Start at 9\.99 USDT/);
+  assert.match(html, /Operating legally in a market with tighter advertising rules/);
+  assert.match(html, /href="\/regulated-industries"/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
+});
+
+test("server-renders the regulated industries page with clear compliance boundaries", async () => {
+  const response = await render("/regulated-industries");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const html = await response.text();
+  assert.match(html, /Organic and AI-search visibility, built for stricter markets/);
+  assert.match(html, /Legal businesses only|Legal business/);
+  assert.match(html, /No ad-policy evasion|evade review systems/);
+  assert.match(html, /USDT-TRC20/);
+  assert.match(html, /Cigar &amp; Tobacco Accessories/);
+  assert.match(html, /Licensed Gaming/);
+  assert.match(html, /Request an eligibility review/);
 });
 
 test("keeps the compact homepage structure and required visual asset", async () => {
