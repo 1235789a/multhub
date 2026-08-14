@@ -6,7 +6,7 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 export const metadata: Metadata = {
   title: "Sample Report — molthub",
   description:
-    "Preview the evidence-led structure planned for molthub audits and action plans.",
+    "See the evidence-led structure used for molthub audits and action plans.",
 };
 
 const pages = [
@@ -27,7 +27,7 @@ export default function SampleReportPage() {
         <PageHero
           eyebrow="Sample report"
           title="A Clear View of the Evidence Behind Every Finding"
-          description="This page previews the report structure without presenting training data as a client result."
+          description="This page shows the report structure. Client findings are added only after a completed review."
         />
         <section className="section sample-report-page">
           <div className="container">
@@ -60,7 +60,7 @@ export default function SampleReportPage() {
                   <MediaPlaceholder
                     type={type}
                     label={title}
-                    description={`${description} Illustrative structure only; verified findings are added per project.`}
+                    description={`${description} Verified findings are added for each project.`}
                     aspectRatio="16:10"
                   />
                   <div><span>Page {String(index + 1).padStart(2, "0")}</span><h2>{title}</h2><p>{description}</p></div>
@@ -72,13 +72,13 @@ export default function SampleReportPage() {
               <MediaPlaceholder
                 type="report"
                 label="Report walkthrough structure"
-                description="A walkthrough video can be added when a permissioned report is ready."
+                description="The walkthrough explains the evidence, context and next action for each finding."
                 aspectRatio="16:9"
               />
               <div>
-                <p className="eyebrow">What this page does not show</p>
-                <h2>No fictional scores or invented findings.</h2>
-                <p>Only permissioned, anonymized work or clearly labeled public diagnostic research will be added later.</p>
+                <p className="eyebrow">Evidence standard</p>
+                <h2>Every score comes from a dated review.</h2>
+                <p>Molthub publishes client work only with permission. Private reports remain private.</p>
                 <Link className="button button--gold" href="/#free-review">Request a Free Review</Link>
               </div>
             </div>

@@ -205,7 +205,7 @@ export function AccountDashboard() {
           </div>
         ) : (
           <p className="account-history__empty">
-            No completed scans yet. Run the free preview to create your first
+            No completed scans yet. Run the free scan to create your first
             saved result.
           </p>
         )}

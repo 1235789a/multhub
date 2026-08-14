@@ -218,8 +218,8 @@ export function AuthGate({
           </>
         ) : (
           <div className="auth-setup-note">
-            Account access is being connected. The public preview remains
-            available in the meantime.
+            You can run the public scan without an account. Sign-in is required
+            only to save results and track orders.
           </div>
         )}
 

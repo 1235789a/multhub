@@ -44,12 +44,12 @@ function getSectionCopy(
     "Project Context": study.shortDescription,
     Challenge:
       study.keyFinding ??
-      "The preview is scoped to one clear visibility question rather than a broad, unverified claim.",
+      "The review is scoped to one clear visibility question rather than a broad, unverified claim.",
     "Audit Scope":
       scope ?? `${study.promptCoverage} across ${study.platformCoverage}.`,
     "Key Findings":
       study.keyFinding ??
-      "Findings remain pending until the agreed preview or diagnostic is delivered.",
+      "Findings are documented after the agreed review or diagnostic is delivered.",
     "Recommended Actions": study.nextStep,
     Deliverables: `Current handoff: ${study.caseType}. The next evidence item is recorded before publication.`,
     "Implementation Status": `Workflow status: ${study.workflowStatus}. Client visibility: ${study.clientVisibility ?? "not specified"}.`,
@@ -105,12 +105,12 @@ export default async function CaseStudyDetail({
               label="Case Study Hero Visual"
               description={
                 study.thumbnail
-                  ? "Illustrative cover image; verified audit evidence will be added only with permission."
+                  ? "Case cover image. Audit evidence is published only with permission."
                   : "Reserved for verified audit evidence or approved client imagery."
               }
               aspectRatio="4:3"
               src={study.thumbnail}
-              alt={`${study.title} illustrative cover`}
+              alt={`${study.title} case-study cover`}
             />
           </div>
         </section>
@@ -122,7 +122,7 @@ export default async function CaseStudyDetail({
               <h2>What this page is ready to prove.</h2>
               <p>
                 The structure follows the same loop used for real GEO work. It
-                keeps research, client evidence, and illustrative material
+                keeps research, client evidence, and report visuals
                 visibly separate.
               </p>
             </div>
@@ -175,12 +175,12 @@ export default async function CaseStudyDetail({
                 <div>
                   <MediaPlaceholder
                     type="image"
-                    label={`${study.title} preview cover`}
-                    description="Illustrative cover linked to this real preview case; not a client screenshot."
+                    label={`${study.title} case cover`}
+                    description="Case cover linked to this review. Client screenshots require publication permission."
                     aspectRatio="4:3"
                     compact
                     src={study.thumbnail}
-                    alt={`${study.title} illustrative preview cover`}
+                    alt={`${study.title} case-study cover`}
                   />
                   <div className="detail-gallery__status">
                     <span>Evidence status</span>

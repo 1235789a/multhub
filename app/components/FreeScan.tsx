@@ -179,7 +179,7 @@ export function FreeScan() {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Scanning…" : session ? "Run & Save Scan" : "Run Free Preview"}
+          {loading ? "Scanning…" : session ? "Run & Save Scan" : "Run Free Scan"}
         </button>
       </form>
 
@@ -187,7 +187,7 @@ export function FreeScan() {
         <span>
           {session
             ? `Signed in as ${session.user.email ?? "molthub user"}`
-            : "Preview first. Create a free account only when the result is useful."}
+            : "Run the scan first. Create a free account only if you want to save the result."}
         </span>
         <a href="/account">{session ? "View account" : "Account sign-in"}</a>
       </div>

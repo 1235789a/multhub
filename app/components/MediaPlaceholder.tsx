@@ -103,7 +103,7 @@ function ComparisonVisual() {
         <span>Core facts verified</span>
         <span>Evidence is easier to cite</span>
       </div>
-      <em>Illustrative workflow — not a ranking guarantee</em>
+      <em>Report format. Project results are calculated separately.</em>
     </div>
   );
 }
@@ -128,7 +128,7 @@ function CaseVisual({ label }: { label: string }) {
           Next action
         </span>
       </div>
-      <p>No client claim. Structure ready for verified evidence.</p>
+      <p>Case format. Client evidence is published only with permission.</p>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export const services: ServicePlan[] = [
     id: "free",
     name: "Free Quick Scan",
     shortDescription:
-      "A fast website-readiness check for Web3 teams testing GEO for the first time.",
+      "A fast website-readiness check for Web3 teams starting with GEO.",
     fit: "Best for: finding obvious gaps before spending.",
     price: "Free",
     priceNote: "No card required",
@@ -51,7 +51,7 @@ export const services: ServicePlan[] = [
       "AI description and source-gap review",
       "Report delivered after the review is completed",
     ],
-    ctaLabel: "Start the $9.99 Trial",
+    ctaLabel: "Order the $9.99 Snapshot",
     ctaHref: "#trial-order",
   },
   {

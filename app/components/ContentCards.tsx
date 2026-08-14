@@ -12,13 +12,13 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
         label={`${study.title} Visual`}
         description={
           study.thumbnail
-            ? "Illustrative case-study cover; verified client evidence is published separately."
-            : "Future audit evidence or case-study imagery."
+            ? "Case-study cover. Verified client evidence is published separately."
+            : "Case-study evidence and approved client imagery."
         }
         aspectRatio="16:10"
         compact
         src={study.thumbnail}
-        alt={`${study.title} illustrative cover`}
+        alt={`${study.title} case-study cover`}
       />
       <div className="content-card__body">
         <h3>{study.title}</h3>

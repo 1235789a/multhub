@@ -5,7 +5,7 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 export const metadata: Metadata = {
   title: "Case Studies — molthub",
   description:
-    "The molthub case library will publish permissioned, evidence-backed work when it is ready.",
+    "The molthub case library publishes permissioned, evidence-backed work while keeping private client reports confidential.",
 };
 
 export default function CaseStudiesPage() {
@@ -15,8 +15,8 @@ export default function CaseStudiesPage() {
       <main>
         <PageHero
           eyebrow="Case-study library"
-          title="Real work will appear here when the evidence is ready."
-          description="We are temporarily keeping this library empty rather than presenting training examples as client work."
+          title="Client work stays private unless publication is approved."
+          description="Molthub publishes only dated, permissioned evidence. Anonymous engagements and private reports remain confidential."
         />
         <section className="section listing-section">
           <div className="container">
@@ -28,11 +28,11 @@ export default function CaseStudiesPage() {
               </p>
             </div>
             <div className="detail-disclaimer">
-              <strong>No public cases yet.</strong>
+              <strong>Current client work is private.</strong>
               <p>
-                Start with the free scan or request a focused review. Once a
-                client preview is approved and documented, it can be added here
-                without changing the page structure.
+                Start with the free scan or request a focused review. A case is
+                published only after the scope, evidence and client permission
+                are documented.
               </p>
               <Link className="button button--secondary" href="/#free-scan">
                 Run a Free Scan

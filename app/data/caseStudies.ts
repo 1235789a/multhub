@@ -7,8 +7,8 @@ export type CaseStudy = {
     | "Anonymous Client Audit"
     | "Independent Public Analysis"
     | "Diagnostic Sample"
-    | "Client Preview"
-    | "Portfolio Preview";
+    | "Client Review"
+    | "Portfolio Review";
   shortDescription: string;
   scope?: string[];
   keyFinding?: string;
@@ -23,7 +23,7 @@ export type CaseStudy = {
     | "not-a-client"
     | "permission-pending";
   evidenceLevel:
-    | "Illustrative structure"
+    | "Report structure"
     | "Public diagnostic"
     | "Anonymous client"
     | "Verified client";
@@ -31,9 +31,9 @@ export type CaseStudy = {
   platformCoverage: string;
   nextStep: string;
   workflowStatus:
-    | "Structure only"
-    | "Preview ready"
-    | "Preview sent"
+    | "Report structure"
+    | "Review ready"
+    | "Review sent"
     | "Diagnostic pending"
     | "Awaiting feedback"
     | "Warm lead";

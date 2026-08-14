@@ -200,7 +200,7 @@ export default function Home() {
           <div className="container">
             <div className="scan-heading">
               <SectionHeading
-                eyebrow="Free automated preview"
+                eyebrow="Free automated scan"
                 title="Check Your Website’s AI-Search Readiness"
                 description="Enter a public project website. Get a technical readiness score, detected gaps, buyer-intent prompt ideas and three priority actions."
               />
@@ -268,7 +268,7 @@ export default function Home() {
                   <MediaPlaceholder
                     type={item.step === "02" ? "chart" : item.step === "03" ? "comparison" : "report"}
                     label={item.media}
-                    description="Illustrative workflow view; project evidence is attached per engagement."
+                    description="Analysis workflow. Project evidence is attached to each engagement."
                     aspectRatio="16:9"
                     compact
                   />
@@ -304,7 +304,7 @@ export default function Home() {
                 <MediaPlaceholder
                   type="report"
                   label="Sample Report Structure"
-                  description="Illustrative report layout; no client result is implied."
+                  description="Report structure. Client findings are added for each engagement."
                   aspectRatio="16:10"
                 />
                 <Link className="button button--secondary" href="/sample-report">
@@ -430,7 +430,7 @@ export default function Home() {
               />
               <ul className="about__list">
                 <li>Focused on early-stage Web3 projects</li>
-                <li>Combines AI testing with manual review</li>
+                <li>Combines AI answer checks with manual review</li>
                 <li>Supports one-off and short-term work</li>
               </ul>
             </div>
@@ -487,7 +487,7 @@ export default function Home() {
               <MediaPlaceholder
                 type="comparison"
                 label="Review Workflow Visual"
-                description="Illustrative review workflow; no client result is implied."
+                description="Review workflow. Client findings are added for each engagement."
                 aspectRatio="16:9"
                 compact
               />

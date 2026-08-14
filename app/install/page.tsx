@@ -24,7 +24,7 @@ export default function InstallPage() {
               </p>
               <WindowsInstall />
             </div>
-            <div className="windows-app-preview" aria-label="molthub Windows app preview">
+            <div className="windows-app-preview" aria-label="molthub Windows app window">
               <div className="windows-app-preview__bar">
                 <span />
                 <strong>molthub</strong>

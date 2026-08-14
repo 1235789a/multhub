@@ -64,6 +64,27 @@ test("server-renders the regulated industries page with clear compliance boundar
   assert.match(html, /Request an eligibility review/);
 });
 
+test("public pages do not present molthub as a trial or unfinished website", async () => {
+  const pages = ["/", "/sample-report", "/case-studies"];
+  const bannedCopy = [
+    /Start the \$9\.99 Trial/i,
+    /Run Free Preview/i,
+    /Preview first/i,
+    /Account access is being connected/i,
+    /Illustrative workflow/i,
+    /Illustrative report/i,
+    /temporarily keeping this library empty/i,
+    /No public cases yet/i,
+  ];
+
+  for (const pathname of pages) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    for (const pattern of bannedCopy) assert.doesNotMatch(html, pattern);
+  }
+});
+
 test("keeps the compact homepage structure and required visual asset", async () => {
   const [page, navigation] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
