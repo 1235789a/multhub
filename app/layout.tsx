@@ -38,9 +38,9 @@ export const metadata: Metadata = {
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
     images: [
       {
-        url: "/og.png",
-        width: 1720,
-        height: 907,
+        url: "/og-geo-foundation.png",
+        width: 1774,
+        height: 887,
         alt: "molthub — Web3 AI Search Visibility",
       },
     ],
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "molthub — Web3 AI Search Visibility",
     description:
       "Hands-on GEO audits and implementation for early-stage Web3 teams.",
-    images: ["/og.png"],
+    images: ["/og-geo-foundation.png"],
   },
   manifest: "/manifest.webmanifest",
   icons: {
@@ -62,9 +62,6 @@ export const metadata: Metadata = {
     title: "molthub",
     statusBarStyle: "default",
   },
-  alternates: {
-    canonical: "https://molthub.click",
-  },
 };
 
 export const viewport: Viewport = {
@@ -75,31 +72,46 @@ export const viewport: Viewport = {
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "molthub",
-  url: "https://molthub.click",
-  email: "chengzhao640@gmail.com",
-  telephone: "+86 158 6378 9235",
-  description:
-    "Web3 GEO audits, AI-search visibility reports, fact verification and implementation services.",
-  areaServed: "Worldwide",
-  serviceType: [
-    "Web3 GEO",
-    "AI search visibility audit",
-    "Generative engine optimization",
-  ],
-  offers: [
+  "@graph": [
     {
-      "@type": "Offer",
-      name: "Visibility Report Request",
-      price: "9.99",
-      priceCurrency: "USD",
+      "@type": "Organization",
+      "@id": "https://molthub.click/#organization",
+      name: "molthub",
+      url: "https://molthub.click",
+      logo: "https://molthub.click/app-icon-512.png",
+      email: "chengzhao640@gmail.com",
+      telephone: "+86 158 6378 9235",
+      description:
+        "A hands-on Web3 GEO studio providing AI-search visibility audits, fact verification and implementation support.",
+      areaServed: "Worldwide",
+      knowsAbout: [
+        "Generative Engine Optimization",
+        "AI search visibility",
+        "Web3 documentation",
+        "Web3 entity verification",
+      ],
     },
     {
-      "@type": "Offer",
-      name: "Verified GEO Baseline",
-      price: "59",
-      priceCurrency: "USD",
+      "@type": "WebSite",
+      "@id": "https://molthub.click/#website",
+      name: "molthub",
+      url: "https://molthub.click",
+      publisher: { "@id": "https://molthub.click/#organization" },
+      inLanguage: "en",
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://molthub.click/#service",
+      name: "molthub Web3 GEO services",
+      url: "https://molthub.click/#services",
+      provider: { "@id": "https://molthub.click/#organization" },
+      areaServed: "Worldwide",
+      serviceType: [
+        "Web3 GEO audit",
+        "AI-search visibility review",
+        "Web3 fact verification",
+        "Website and documentation implementation",
+      ],
     },
   ],
 };

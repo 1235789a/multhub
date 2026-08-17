@@ -78,6 +78,7 @@ export default function RegulatedIndustriesPage() {
       <Header />
       <main className="regulated-page">
         <PageHero
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Regulated Industries" }]}
           eyebrow="Regulated & ad-restricted industries"
           title="Organic and AI-search visibility, built for stricter markets."
           description="Molthub supports legally operating brands that face tighter advertising rules. The work focuses on clear facts, useful content and compliant discoverability—not bypassing platform review."

@@ -1,11 +1,8 @@
 export const navigation = [
-  { label: "App", href: "/app" },
-  { label: "Install", href: "/install" },
-  { label: "Pricing", href: "/#services" },
+  { label: "Services", href: "/#services" },
+  { label: "Methodology", href: "/methodology" },
   { label: "Sample Report", href: "/sample-report" },
-  { label: "Method", href: "/#method" },
   { label: "Industries", href: "/regulated-industries" },
   { label: "Insights", href: "/insights" },
-  { label: "About", href: "/#about" },
-  { label: "Account", href: "/account" },
+  { label: "About", href: "/about" },
 ];

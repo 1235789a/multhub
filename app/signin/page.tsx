@@ -5,6 +5,7 @@ import { Footer, Header } from "../components/SiteChrome";
 export const metadata: Metadata = {
   title: "Sign in | molthub",
   description: "Sign in to save molthub scans and track USDT-TRC20 orders.",
+  robots: { index: false, follow: false },
 };
 
 export default function SignInRoute() {

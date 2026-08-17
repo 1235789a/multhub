@@ -22,16 +22,6 @@ export type Insight = {
   sections: InsightSection[];
 };
 
-export const insightSchedule = [
-  {
-    time: "08:00",
-    audience: "Daily rotation",
-    title: "One new article every day",
-    description:
-      "Beginner and Professional voices alternate so the library stays useful without repeating itself.",
-  },
-];
-
 export const insights: Insight[] = [
   {
     title: "What Is GEO for a Web3 Project?",
@@ -39,7 +29,7 @@ export const insights: Insight[] = [
     excerpt:
       "A plain-English introduction to how AI search discovers, classifies, and explains Web3 products.",
     category: "GEO Fundamentals",
-    coverImage: "/insights/geo-project-clarity.png",
+    coverImage: "/insights/geo-project-clarity.webp",
     publishedDate: "2026-08-06",
     publishTime: "08:00",
     audience: "Beginner",
@@ -72,7 +62,7 @@ export const insights: Insight[] = [
     excerpt:
       "Why the same project must be described consistently across its homepage, docs, GitHub, ecosystem listings, and social profiles.",
     category: "AI Visibility",
-    coverImage: "/insights/entity-consistency.png",
+    coverImage: "/insights/entity-consistency.webp",
     publishedDate: "2026-08-05",
     publishTime: "08:00",
     audience: "Professional",
@@ -105,7 +95,7 @@ export const insights: Insight[] = [
     excerpt:
       "Three practical reasons a smaller Web3 product can disappear from an answer while a better-documented competitor gets the mention.",
     category: "Competitive Visibility",
-    coverImage: "/insights/competitor-paths.png",
+    coverImage: "/insights/competitor-paths.webp",
     publishedDate: "2026-08-04",
     publishTime: "08:00",
     audience: "Beginner",
@@ -137,7 +127,7 @@ export const insights: Insight[] = [
     excerpt:
       "A practical source hierarchy for turning product facts into pages that AI assistants and human buyers can verify.",
     category: "Source Engineering",
-    coverImage: "/insights/source-map.png",
+    coverImage: "/insights/source-map.webp",
     publishedDate: "2026-08-03",
     publishTime: "08:00",
     audience: "Professional",
@@ -169,7 +159,7 @@ export const insights: Insight[] = [
     excerpt:
       "A quick first-pass checklist for founders who want to spot obvious AI-search gaps before commissioning a full review.",
     category: "Practical Checks",
-    coverImage: "/insights/website-audit.png",
+    coverImage: "/insights/website-audit.webp",
     publishedDate: "2026-08-02",
     publishTime: "08:00",
     audience: "Beginner",
@@ -201,7 +191,7 @@ export const insights: Insight[] = [
     excerpt:
       "A careful way to compare AI mentions over time without pretending that one answer is a permanent ranking.",
     category: "Measurement",
-    coverImage: "/insights/prompt-share-voice.png",
+    coverImage: "/insights/prompt-share-voice.webp",
     publishedDate: "2026-08-01",
     publishTime: "08:00",
     audience: "Professional",
@@ -233,7 +223,7 @@ export const insights: Insight[] = [
     excerpt:
       "A beginner-friendly way to turn a technical homepage into a clear answer about product, audience, and use case.",
     category: "Website Clarity",
-    coverImage: "/insights/homepage-clarity.png",
+    coverImage: "/insights/homepage-clarity.webp",
     publishedDate: "2026-07-31",
     publishTime: "08:00",
     audience: "Beginner",
@@ -265,7 +255,7 @@ export const insights: Insight[] = [
     excerpt:
       "How to create a small, durable prompt set that can be tested again after a website or documentation change.",
     category: "Measurement",
-    coverImage: "/insights/prompt-set.png",
+    coverImage: "/insights/prompt-set.webp",
     publishedDate: "2026-07-30",
     publishTime: "08:00",
     audience: "Professional",
@@ -297,7 +287,7 @@ export const insights: Insight[] = [
     excerpt:
       "Before publishing more marketing content, check whether the documentation answers the questions an AI system must get right.",
     category: "Documentation",
-    coverImage: "/insights/docs-clarity.png",
+    coverImage: "/insights/docs-clarity.webp",
     publishedDate: "2026-07-29",
     publishTime: "08:00",
     audience: "Beginner",
@@ -329,7 +319,7 @@ export const insights: Insight[] = [
     excerpt:
       "A practical structure for comparison pages that help buyers decide without making claims you cannot verify.",
     category: "Content Engineering",
-    coverImage: "/insights/comparison-balance.png",
+    coverImage: "/insights/comparison-balance.webp",
     publishedDate: "2026-07-28",
     publishTime: "08:00",
     audience: "Professional",
@@ -361,7 +351,7 @@ export const insights: Insight[] = [
     excerpt:
       "A simple explanation of the sources behind AI answers and how a Web3 project can become easier to verify.",
     category: "GEO Fundamentals",
-    coverImage: "/insights/citation-bridge.png",
+    coverImage: "/insights/citation-bridge.webp",
     publishedDate: "2026-07-27",
     publishTime: "08:00",
     audience: "Beginner",
@@ -393,7 +383,7 @@ export const insights: Insight[] = [
     excerpt:
       "A lightweight review process for checking chains, custody, token references, product status, and integration claims before publication.",
     category: "Operations",
-    coverImage: "/insights/fact-verification.png",
+    coverImage: "/insights/fact-verification.webp",
     publishedDate: "2026-07-26",
     publishTime: "08:00",
     audience: "Professional",
@@ -425,7 +415,7 @@ export const insights: Insight[] = [
     excerpt:
       "The three Web3 terms that are often mixed together—and a simple way to separate them in your website copy.",
     category: "Web3 Clarity",
-    coverImage: "/insights/wallet-protocol-token.png",
+    coverImage: "/insights/wallet-protocol-token.webp",
     publishedDate: "2026-07-25",
     publishTime: "08:00",
     audience: "Beginner",
@@ -457,7 +447,7 @@ export const insights: Insight[] = [
     excerpt:
       "How to compress a complex Web3 project into a source-backed brief that supports writers, partners, and AI visibility work.",
     category: "Content Engineering",
-    coverImage: "/insights/evidence-brief.png",
+    coverImage: "/insights/evidence-brief.webp",
     publishedDate: "2026-07-24",
     publishTime: "08:00",
     audience: "Professional",
@@ -489,7 +479,7 @@ export const insights: Insight[] = [
     excerpt:
       "A practical first-week sequence for turning an AI visibility observation into a small set of website and docs improvements.",
     category: "Practical Checks",
-    coverImage: "/insights/founder-first-week.png",
+    coverImage: "/insights/founder-first-week.webp",
     publishedDate: "2026-07-23",
     publishTime: "08:00",
     audience: "Beginner",

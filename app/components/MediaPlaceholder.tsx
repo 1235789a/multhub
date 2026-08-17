@@ -13,6 +13,7 @@ function ReportVisual() {
     <div className="evidence-ui evidence-ui--report">
       <div className="evidence-ui__topline">
         <span className="evidence-ui__brand">molthub</span>
+        <span className="evidence-ui__sample">SAMPLE DATA</span>
       </div>
       <div className="evidence-ui__heading">
         <div>
@@ -69,6 +70,7 @@ function ChartVisual({ process }: { process: boolean }) {
     <div className="evidence-ui evidence-ui--bars">
       <div className="evidence-ui__topline">
         <span>COMPETITOR SHARE OF VOICE</span>
+        <span className="evidence-ui__sample">SAMPLE DATA</span>
       </div>
       {[
         ["Your project", "38%", "38%"],
@@ -196,7 +198,13 @@ export function MediaPlaceholder({
       aria-label={`${label}. ${description}`}
     >
       {src ? (
-        <img className="media-placeholder__image" src={src} alt={alt ?? label} />
+        <img
+          className="media-placeholder__image"
+          src={src}
+          alt={alt ?? label}
+          loading="lazy"
+          decoding="async"
+        />
       ) : (
         <>
           {type === "report" ? <ReportVisual /> : null}

@@ -3,9 +3,10 @@ import Link from "next/link";
 import { Footer, Header, PageHero } from "../components/SiteChrome";
 
 export const metadata: Metadata = {
-  title: "Partner with molthub – Web3 referrals",
+  title: "Partner with molthub — Web3 referrals",
   description:
     "A transparent referral pilot for small Web3 community operators and niche builders.",
+  alternates: { canonical: "https://molthub.click/partners" },
 };
 
 const partnerTypes = [
@@ -27,6 +28,7 @@ export default function PartnersPage() {
       <Header />
       <main>
         <PageHero
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Partner Pilot" }]}
           eyebrow="Partner pilot"
           title="Help serious Web3 teams find the evidence they are missing."
           description="molthub works best when a trusted niche operator introduces a team with a real AI-visibility, documentation, or fact-clarity problem. This is a small referral pilot, not an ad marketplace."

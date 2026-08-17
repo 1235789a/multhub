@@ -100,8 +100,45 @@ test("keeps the compact homepage structure and required visual asset", async () 
   assert.match(page, /id="trial-order"/);
   assert.match(page, /id="service-order"/);
   assert.match(page, /id="free-review"/);
-  assert.match(navigation, /\/#method/);
+  assert.match(navigation, /\/methodology/);
+  assert.doesNotMatch(navigation, /label: "Account"/);
   assert.doesNotMatch(navigation, /\/#how-it-works/);
+});
+
+test("publishes the molthub entity, methodology and transparent experiment pages", async () => {
+  const routes = [
+    ["/about", /What is molthub/],
+    ["/methodology", /A repeatable process for Web3 AI-search visibility/],
+    ["/research/self-geo-experiment", /Baseline setup in progress/],
+  ];
+
+  for (const [pathname, expected] of routes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), expected);
+  }
+});
+
+test("labels static report metrics as sample data", async () => {
+  const response = await render("/sample-report");
+  const html = await response.text();
+  assert.match(html, /SAMPLE DATA/);
+});
+
+test("does not claim an automated daily editorial schedule", async () => {
+  for (const pathname of ["/", "/insights"]) {
+    const response = await render(pathname);
+    const html = await response.text();
+    assert.doesNotMatch(html, /one new article (?:each|per) day/i);
+  }
+});
+
+test("keeps transactional and account routes out of search results", async () => {
+  for (const pathname of ["/account", "/checkout?plan=trial", "/signin"]) {
+    const response = await render(pathname);
+    const html = await response.text();
+    assert.match(html, /<meta name="robots" content="noindex, nofollow"/i);
+  }
 });
 
 test("rejects private hosts in the public quick-scan endpoint", async () => {

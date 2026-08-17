@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Install molthub on Windows",
   description:
     "Install the molthub Web3 visibility workspace on Windows from Microsoft Edge or Google Chrome.",
+  alternates: { canonical: "https://molthub.click/install" },
 };
 
 export default function InstallPage() {
@@ -17,7 +18,7 @@ export default function InstallPage() {
         <section className="install-hero">
           <div className="container install-hero__grid">
             <div>
-              <h1>Install molthub on Windows.</h1>
+              <h1>Install the molthub web app on Windows.</h1>
               <p>
                 Use molthub in its own window, launch it from the Start menu, and keep your
                 scans, account and order trail one click away.

@@ -7,12 +7,13 @@ import { MediaPlaceholder } from "./components/MediaPlaceholder";
 import { PricingCheckout } from "./components/PricingCheckout";
 import { Footer, Header } from "./components/SiteChrome";
 import { faqs } from "./data/faqs";
-import { getPublishedInsights, insightSchedule } from "./data/insights";
+import { getPublishedInsights } from "./data/insights";
 
 export const metadata: Metadata = {
   title: "molthub — Web3 AI Search Visibility",
   description:
     "Hands-on GEO audits and implementation for early-stage Web3 teams. Improve how AI search systems discover, understand, and cite your project.",
+  alternates: { canonical: "https://molthub.click" },
 };
 
 const trustPoints = [
@@ -132,9 +133,9 @@ export default function Home() {
                 <span className="text-blue">Visible in AI Search</span>
               </h1>
               <p className="hero__lead">
-                Hands-on GEO audits and implementation for early-stage Web3
-                teams. We help your project become easier to discover,
-                understand, and cite across AI search platforms.
+                molthub is a hands-on Web3 GEO studio for early-stage teams. We
+                audit and improve the public information that helps AI-powered
+                search systems discover, understand, and cite a project.
               </p>
               <div className="button-row">
                 <a className="button button--gold" href="#free-scan">
@@ -356,13 +357,16 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            <div className="section-action">
+              <Link className="text-link" href="/methodology">
+                Read the full molthub methodology →
+              </Link>
+            </div>
             <MediaPlaceholder
-              type="image"
-              label="molthub visibility visual"
-              description="The same visual system used in the live hero loop."
+              type="chart"
+              label="Manual verification process"
+              description="A five-step workflow from submission to retest."
               aspectRatio="3:4"
-              src="/molthub-ai-visibility-hero.png"
-              alt="Abstract Web3 project visibility moving toward a cited AI answer"
             />
           </div>
         </section>
@@ -371,24 +375,13 @@ export default function Home() {
           <div className="container">
             <div className="section-heading-row">
               <SectionHeading
-                eyebrow="Daily editorial notes"
+                eyebrow="Evidence-led editorial library"
                 title="Learn Web3 GEO in two depths"
-                description="One new article per day, alternating between a plain-language Beginner guide and a Professional implementation note."
+                description="Beginner guides explain the fundamentals. Professional notes document measurement, source and implementation decisions."
               />
               <Link className="text-link" href="/insights">
                 Browse all articles →
               </Link>
-            </div>
-            <div className="insights-schedule insights-schedule--home" aria-label="Daily publishing schedule">
-              {insightSchedule.map((slot) => (
-                <div className="insights-schedule__slot" key={slot.time}>
-                  <span>{slot.time}</span>
-                  <div>
-                    <strong>{slot.audience}</strong>
-                    <p>{slot.title}</p>
-                  </div>
-                </div>
-              ))}
             </div>
             <div className="card-grid card-grid--three">
               {latestInsights.map((insight) => (
@@ -433,15 +426,16 @@ export default function Home() {
                 <li>Combines AI answer checks with manual review</li>
                 <li>Supports one-off and short-term work</li>
               </ul>
+              <Link className="button button--secondary" href="/about">
+                About molthub
+              </Link>
             </div>
             <div className="about__media">
               <MediaPlaceholder
                 type="image"
-                label="molthub editorial visual"
-                description="A visual proof point from the live molthub homepage."
+                label="molthub research model"
+                description="Discover, verify and cite: the editorial model behind molthub research."
                 aspectRatio="16:9"
-                src="/molthub-ai-visibility-hero.png"
-                alt="molthub visual showing a Web3 product becoming easier to discover and cite"
               />
             </div>
           </div>

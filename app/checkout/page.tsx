@@ -6,6 +6,7 @@ import { isPaidPlanId } from "../data/paymentPlans";
 export const metadata: Metadata = {
   title: "USDT-TRC20 Checkout | molthub",
   description: "Create and verify a molthub payment order using USDT on TRON Mainnet.",
+  robots: { index: false, follow: false },
 };
 
 export default async function CheckoutPage({

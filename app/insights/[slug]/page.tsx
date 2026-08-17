@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { MediaPlaceholder } from "../../components/MediaPlaceholder";
 import { Footer, Header } from "../../components/SiteChrome";
 import { getInsight, insights } from "../../data/insights";
@@ -16,9 +17,30 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const insight = getInsight(slug);
+  const url = `https://molthub.click/insights/${slug}`;
+  const image = insight?.coverImage ? `https://molthub.click${insight.coverImage}` : undefined;
   return {
     title: insight ? `${insight.title} — molthub Insights` : "Insight — molthub",
     description: insight?.excerpt,
+    alternates: { canonical: url },
+    openGraph: insight
+      ? {
+          title: insight.title,
+          description: insight.excerpt,
+          url,
+          type: "article",
+          publishedTime: `${insight.publishedDate}T${insight.publishTime}:00+08:00`,
+          images: image ? [{ url: image, alt: insight.title }] : [],
+        }
+      : undefined,
+    twitter: insight
+      ? {
+          card: "summary_large_image",
+          title: insight.title,
+          description: insight.excerpt,
+          images: image ? [image] : [],
+        }
+      : undefined,
   };
 }
 
@@ -39,9 +61,7 @@ export default async function InsightDetail({
         <article className="article-shell">
           <header className="article-hero">
             <div className="container article-hero__inner">
-              <Link className="back-link" href="/insights">
-                ← All insights
-              </Link>
+              <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Insights", href: "/insights" }, { label: insight.title }]} />
               <div className="article-meta">
                 <span>{insight.category}</span>
                 <span>{insight.publishedDate} · {insight.publishTime} UTC+8</span>
@@ -97,6 +117,17 @@ export default async function InsightDetail({
                   </section>
                 ))}
               </div>
+              <aside className="article-evidence-note">
+                <p className="eyebrow">Editorial record</p>
+                <h2>Published and reviewed by molthub.</h2>
+                <dl>
+                  <div><dt>Published</dt><dd>{insight.publishedDate}</dd></div>
+                  <div><dt>Last reviewed</dt><dd>{insight.publishedDate}</dd></div>
+                  <div><dt>Author</dt><dd>{insight.author}</dd></div>
+                </dl>
+                <p>Articles explain molthub's operating approach. When a claim depends on an external standard or study, the relevant primary source should be linked directly.</p>
+                <Link className="text-link" href="/methodology">Review the methodology and public references →</Link>
+              </aside>
               <div className="inline-cta">
                 <div>
                   <p className="eyebrow">Apply this to your project</p>

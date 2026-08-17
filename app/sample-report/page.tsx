@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Sample Report — molthub",
   description:
     "See the evidence-led structure used for molthub audits and action plans.",
+  alternates: { canonical: "https://molthub.click/sample-report" },
 };
 
 const pages = [
@@ -25,6 +26,7 @@ export default function SampleReportPage() {
       <Header />
       <main>
         <PageHero
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Sample Report" }]}
           eyebrow="Sample report"
           title="A Clear View of the Evidence Behind Every Finding"
           description="This page shows the report structure. Client findings are added only after a completed review."

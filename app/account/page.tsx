@@ -4,6 +4,7 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 export const metadata = {
   title: "Account | molthub",
   description: "View saved molthub scans, usage, and account details.",
+  robots: { index: false, follow: false },
 };
 
 export default function AccountPage() {

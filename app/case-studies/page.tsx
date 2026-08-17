@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Case Studies — molthub",
   description:
     "The molthub case library publishes permissioned, evidence-backed work while keeping private client reports confidential.",
+  robots: { index: false, follow: true },
 };
 
 export default function CaseStudiesPage() {

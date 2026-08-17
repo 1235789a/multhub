@@ -5,6 +5,7 @@ import { Footer, Header, PageHero } from "../components/SiteChrome";
 export const metadata: Metadata = {
   title: "molthub App",
   description: "The compact molthub workspace for scans, orders and Web3 AI-search insights.",
+  alternates: { canonical: "https://molthub.click/app" },
 };
 
 const quickActions = [
@@ -41,7 +42,7 @@ export default function AppPage() {
               </div>
               <div>
                 <p>This first version reuses the secure website flows you already have. The payment page still verifies USDT-TRC20 onchain, and account pages remain protected by sign-in.</p>
-                <Link className="button button--gold" href="/install">Install on Windows</Link>
+                <Link className="button button--gold" href="/install">Install the web app</Link>
               </div>
             </div>
           </div>

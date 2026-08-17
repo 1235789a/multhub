@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { navigation } from "../data/navigation";
+import { Breadcrumbs, type BreadcrumbItem } from "./Breadcrumbs";
 
 export function Brand() {
   return (
@@ -45,6 +46,7 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <Link href="/account">Account</Link>
             <Link className="button" href="/#free-scan">
               Run Free Scan
             </Link>
@@ -69,9 +71,10 @@ export function Footer() {
           </div>
           <div>
             <p className="footer-heading">Explore</p>
+            <Link href="/methodology">Methodology</Link>
             <Link href="/sample-report">Sample Report</Link>
+            <Link href="/research/self-geo-experiment">Self-GEO Experiment</Link>
             <Link href="/regulated-industries">Regulated Industries</Link>
-            <Link href="/partners">Partner Pilot</Link>
             <Link href="/insights">Insights</Link>
           </div>
           <div>
@@ -79,6 +82,8 @@ export function Footer() {
             <Link href="/#free-scan">Free Quick Scan</Link>
             <Link href="/account">Account & Scan History</Link>
             <Link href="/#services">Plans & Pricing</Link>
+            <Link href="/app">Web App</Link>
+            <Link href="/install">Installable Web App</Link>
             <span>One-off projects welcome</span>
             <span>USDT-TRC20 accepted</span>
           </div>
@@ -129,14 +134,17 @@ export function PageHero({
   eyebrow,
   title,
   description,
+  breadcrumbs,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  breadcrumbs?: BreadcrumbItem[];
 }) {
   return (
     <section className="page-hero">
       <div className="container page-hero__inner">
+        {breadcrumbs ? <Breadcrumbs items={breadcrumbs} /> : null}
         <p className="eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
         <p>{description}</p>
