@@ -361,6 +361,9 @@ export default function Home() {
               <Link className="text-link" href="/methodology">
                 Read the full molthub methodology →
               </Link>
+              <Link className="text-link" href="/geo/web3-geo-services">
+                Review Web3 GEO service evidence →
+              </Link>
             </div>
             <MediaPlaceholder
               type="chart"

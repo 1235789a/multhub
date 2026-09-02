@@ -1,5 +1,34 @@
 # molthub GEO Changelog
 
+## 2026-09-02 — Query coverage and first measured observation
+
+### What changed
+
+- Re-scored the existing forty-query universe without creating forty pages.
+- Recorded a current public-source map and one five-query OpenAI web-search observation.
+- Published the zero result: 0/5 molthub mentions and 0/5 molthub citations in that observation.
+- Documented a material brand collision with a separate AI-agent project using the molthub name.
+- Added five evidence pages for distinct Web3 commercial intents.
+- Added direct answers, fact tables, evidence grades, visible limitations, dates and source links.
+- Connected the pages through Methodology, the homepage and the sitemap.
+- Prepared a consistent off-site source pack.
+
+### Deliberately unchanged
+
+- Homepage visual system and section IDs
+- Free Scan logic and API
+- Supabase authentication and storage
+- USDT pricing, wallet, order and payment verification
+- Worker, vinext, Vite, hosting bindings and environment-variable structure
+- PWA and service-worker behavior
+
+### Current measured state
+
+- Search Console indexed pages: unknown.
+- Non-brand molthub mentions: 0/5 in one public web-search observation.
+- molthub citations: 0/5 in the same observation.
+- Cross-platform consumer-chat baseline: pending.
+
 ## 2026-08-17 — Entity and evidence foundation
 
 ### Baseline
@@ -64,4 +93,3 @@ molthub explained what it sold more clearly than how its conclusions would be pr
 ### Measurement plan
 
 Use the five-query initial set weekly for eight weeks. Record platform, model when known, exact query, mention, citation, citation URL, factual accuracy, competitors and notes. Connect AI referral traffic and qualified conversions only after analytics can distinguish them.
-

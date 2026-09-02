@@ -125,7 +125,7 @@ export default async function InsightDetail({
                   <div><dt>Last reviewed</dt><dd>{insight.publishedDate}</dd></div>
                   <div><dt>Author</dt><dd>{insight.author}</dd></div>
                 </dl>
-                <p>Articles explain molthub's operating approach. When a claim depends on an external standard or study, the relevant primary source should be linked directly.</p>
+                <p>Articles explain molthub&apos;s operating approach. When a claim depends on an external standard or study, the relevant primary source should be linked directly.</p>
                 <Link className="text-link" href="/methodology">Review the methodology and public references →</Link>
               </aside>
               <div className="inline-cta">

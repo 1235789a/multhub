@@ -2,6 +2,17 @@
 
 Diagnosis date: 2026-08-17
 
+Update date: 2026-09-02
+
+## Current state after the first observation
+
+- The original entity, methodology and technical foundation remains intact.
+- One five-query public web-search observation returned 0 molthub mentions and 0 molthub citations.
+- Search Console index count remains unknown.
+- The `molthub` name collides with a more visible, unrelated AI-agent project in public search.
+- Existing editorial coverage is broad, but high-intent Web3 sector and service evidence was thin.
+- Five evidence pages now close the first commercial query gaps; the next bottleneck is indexing, repeated observation and legitimate off-site entity signals.
+
 ## Primary bottleneck
 
 **molthub had a credible sales proposition but not yet a complete, independently inspectable evidence system.**
@@ -63,4 +74,3 @@ Without those answers, the site risks looking like a service landing page that d
 ## Priority decision
 
 The first implementation should improve truth, entity clarity and inspectable methodology before creating additional topic pages. New content is valuable only when it closes a documented query or evidence gap.
-

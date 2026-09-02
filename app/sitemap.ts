@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublishedInsights } from "./data/insights";
+import { evidencePages } from "./data/evidencePages";
 
 const baseUrl = "https://molthub.click";
 
@@ -24,5 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...fixedRoutes, ...insightRoutes];
+  const evidenceRoutes = Object.values(evidencePages).map((page) => ({
+    url: `${baseUrl}/geo/${page.slug}`,
+    lastModified: new Date(`${page.lastUpdated}T00:00:00Z`),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
+  return [...fixedRoutes, ...evidenceRoutes, ...insightRoutes];
 }

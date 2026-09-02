@@ -109,13 +109,44 @@ test("publishes the molthub entity, methodology and transparent experiment pages
   const routes = [
     ["/about", /What is molthub/],
     ["/methodology", /A repeatable process for Web3 AI-search visibility/],
-    ["/research/self-geo-experiment", /Baseline setup in progress/],
+    ["/research/self-geo-experiment", /First public observation completed/],
   ];
 
   for (const [pathname, expected] of routes) {
     const response = await render(pathname);
     assert.equal(response.status, 200);
     assert.match(await response.text(), expected);
+  }
+});
+
+test("publishes five distinct Web3 evidence pages with metadata and direct answers", async () => {
+  const routes = [
+    ["/geo/web3-geo-services", /GEO services for Web3 startups/],
+    ["/geo/stablecoin-geo", /GEO for stablecoin payment infrastructure/],
+    ["/geo/crypto-payment-api-geo-audit", /GEO audit for crypto payment APIs/],
+    ["/geo/affordable-web3-geo", /Affordable GEO for early-stage Web3 teams/],
+    ["/geo/measure-web3-ai-visibility", /How to measure AI-search visibility for Web3/],
+  ];
+
+  for (const [pathname, expected] of routes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, expected);
+    assert.match(html, /Direct answer/);
+    assert.match(html, /Evidence and sources/);
+    assert.match(html, /What this page does not prove/);
+    assert.match(html, new RegExp(`<link rel="canonical" href="https://molthub.click${pathname}"`));
+    assert.doesNotMatch(html, /noindex/i);
+  }
+});
+
+test("includes every evidence page in the sitemap", async () => {
+  const response = await render("/sitemap.xml");
+  assert.equal(response.status, 200);
+  const xml = await response.text();
+  for (const slug of ["web3-geo-services", "stablecoin-geo", "crypto-payment-api-geo-audit", "affordable-web3-geo", "measure-web3-ai-visibility"]) {
+    assert.match(xml, new RegExp(`https://molthub.click/geo/${slug}`));
   }
 });
 

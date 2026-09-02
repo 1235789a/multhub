@@ -2,6 +2,8 @@
 
 Research date: 2026-08-17
 
+Update: 2026-09-02 — first public query observation and source map completed.
+
 ## Scope and limitation
 
 This is an initial public-web source analysis, not a claim about permanent ChatGPT, Gemini or Perplexity results. AI answers vary, and a source appearing in web research does not prove that every platform cites it for every query.
@@ -44,3 +46,16 @@ This is an initial public-web source analysis, not a claim about permanent ChatG
 
 The highest-value gap is not another generic definition article. It is a dated, reproducible molthub experiment that shows what was measured, what was changed, what remained unknown and what happened next.
 
+## 2026-09-02 result
+
+The first five-query OpenAI web-search observation returned 0/5 molthub mentions and 0/5 molthub citations. Current sources were mapped in `docs/GEO_CURRENT_SOURCE_MAP.md`.
+
+The source pattern supports five distinct assets rather than more generic education:
+
+- Web3 GEO commercial service evidence
+- Stablecoin payment infrastructure evidence
+- Crypto payment API audit evidence
+- Transparent early-stage pricing and scope
+- Repeatable Web3 AI-visibility measurement
+
+The remaining P0 gap is now discovery and external entity authority, not missing on-site schema.

@@ -3605,6 +3605,55 @@ textarea:focus-visible {
   font-size: 0.76rem;
 }
 
+.source-list small {
+  color: #4c5d72;
+  font-size: 0.73rem;
+  line-height: 1.55;
+}
+
+.evidence-table-wrap {
+  overflow-x: auto;
+  margin-top: 34px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+}
+
+.evidence-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.evidence-table th,
+.evidence-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 20px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.evidence-table thead th {
+  background: #e5ebf1;
+  color: var(--blue-deep);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.evidence-table tbody th {
+  width: 24%;
+  color: var(--ink);
+  font-size: 0.84rem;
+}
+
+.evidence-table td {
+  color: #4c5d72;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
 .source-disclaimer {
   margin-top: 20px;
 }

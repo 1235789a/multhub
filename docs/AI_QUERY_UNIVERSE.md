@@ -1,6 +1,6 @@
 # molthub AI Query Universe
 
-Version: 2026-08-17  
+Version: 2026-09-02
 Use: research and measurement planning, not automatic page generation.
 
 Legend: `Covered` means a useful page currently addresses the question; `Partial` means the topic appears but needs a stronger answer; `Missing` means no dedicated evidence asset exists.
@@ -82,3 +82,67 @@ The initial public experiment should use a small repeatable set rather than all 
 - Build a new page only when the query has distinct intent and the page can add original evidence.
 - Prioritize Web3 commercial and technical queries over broad generic GEO traffic.
 
+## 2026-09-02 re-score
+
+The original forty queries remain valid as a planning universe. They are not forty page briefs.
+
+Scales are 0–5. `Competition` is scored for opportunity, so 5 means easier. `Existing coverage` is scored for current molthub coverage, so 5 means already strong. The priority score rewards a coverage gap rather than duplicate coverage:
+
+`Priority = 4×Commercial + 4×Web3 fit + 3×Retrieval opportunity + 2×Competition + 2×Evidence + 2×(5−Existing coverage) + 3×Conversion`
+
+Maximum: 100.
+
+| # | Commercial | Web3 fit | Retrieval | Competition | Evidence | Existing coverage | Conversion | Priority |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 1 | 2 | 2 | 2 | 5 | 5 | 1 | 35 |
+| 2 | 2 | 2 | 3 | 2 | 5 | 2 | 2 | 51 |
+| 3 | 1 | 2 | 3 | 3 | 4 | 0 | 1 | 48 |
+| 4 | 3 | 3 | 5 | 3 | 1 | 2 | 4 | 65 |
+| 5 | 2 | 3 | 4 | 2 | 4 | 2 | 3 | 59 |
+| 6 | 2 | 3 | 4 | 2 | 4 | 4 | 3 | 55 |
+| 7 | 1 | 2 | 3 | 2 | 5 | 4 | 2 | 43 |
+| 8 | 3 | 4 | 5 | 3 | 4 | 4 | 4 | 71 |
+| 9 | 3 | 3 | 3 | 3 | 5 | 5 | 3 | 58 |
+| 10 | 4 | 3 | 4 | 3 | 2 | 2 | 4 | 68 |
+| 11 | 3 | 3 | 5 | 3 | 3 | 4 | 4 | 65 |
+| 12 | 3 | 4 | 4 | 2 | 3 | 5 | 4 | 62 |
+| 13 | 3 | 5 | 5 | 4 | 4 | 2 | 5 | 84 |
+| 14 | 3 | 5 | 5 | 4 | 4 | 2 | 4 | 81 |
+| 15 | 3 | 4 | 5 | 3 | 4 | 2 | 5 | 78 |
+| 16 | 3 | 5 | 5 | 4 | 4 | 4 | 5 | 80 |
+| 17 | 4 | 4 | 5 | 3 | 4 | 4 | 5 | 78 |
+| 18 | 4 | 4 | 5 | 3 | 4 | 2 | 5 | 82 |
+| 19 | 3 | 4 | 4 | 3 | 4 | 4 | 4 | 68 |
+| 20 | 5 | 4 | 5 | 2 | 3 | 5 | 5 | 76 |
+| 21 | 5 | 4 | 5 | 3 | 5 | 2 | 5 | 88 |
+| 22 | 5 | 1 | 3 | 1 | 1 | 2 | 4 | 55 |
+| 23 | 5 | 5 | 5 | 3 | 5 | 4 | 5 | 88 |
+| 24 | 5 | 4 | 5 | 4 | 5 | 4 | 5 | 86 |
+| 25 | 5 | 3 | 4 | 3 | 5 | 4 | 5 | 77 |
+| 26 | 5 | 4 | 5 | 2 | 5 | 5 | 5 | 80 |
+| 27 | 5 | 4 | 5 | 2 | 5 | 5 | 5 | 80 |
+| 28 | 4 | 2 | 5 | 3 | 4 | 0 | 4 | 75 |
+| 29 | 4 | 3 | 4 | 3 | 5 | 5 | 4 | 68 |
+| 30 | 5 | 5 | 4 | 5 | 5 | 5 | 4 | 84 |
+| 31 | 5 | 5 | 5 | 3 | 5 | 3 | 5 | 90 |
+| 32 | 4 | 5 | 5 | 3 | 4 | 4 | 5 | 82 |
+| 33 | 5 | 5 | 5 | 2 | 1 | 2 | 5 | 82 |
+| 34 | 5 | 5 | 5 | 5 | 5 | 1 | 5 | 98 |
+| 35 | 3 | 5 | 5 | 4 | 5 | 5 | 4 | 77 |
+| 36 | 4 | 5 | 5 | 4 | 4 | 1 | 5 | 90 |
+| 37 | 3 | 5 | 5 | 4 | 5 | 5 | 4 | 77 |
+| 38 | 5 | 5 | 5 | 5 | 5 | 1 | 5 | 98 |
+| 39 | 3 | 5 | 4 | 4 | 5 | 4 | 4 | 76 |
+| 40 | 4 | 5 | 4 | 5 | 3 | 0 | 4 | 86 |
+
+### First implementation cluster
+
+Five distinct intents were selected after public source research:
+
+1. `GEO services for Web3 startups` — query 31; commercial umbrella.
+2. `GEO for stablecoin payment infrastructure` — query 34; sector evidence.
+3. `GEO audit for crypto payment APIs` — query 38; technical purchase intent.
+4. `Affordable GEO for early-stage Web3 teams` — query 21; pricing and scope intent.
+5. `How to measure AI-search visibility for Web3` — queries 8, 17 and 18 consolidated into one method page.
+
+Queries 11–12 were not given new pages because existing insights already address the problem. Query 28 remains a future comparison candidate, but its Web3 fit is lower than the selected cluster.

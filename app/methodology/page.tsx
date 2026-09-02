@@ -99,6 +99,23 @@ export default function MethodologyPage() {
           </div>
         </section>
 
+        <section className="section evidence-page">
+          <div className="container">
+            <div className="evidence-heading">
+              <p className="eyebrow">Query coverage</p>
+              <h2>Web3 evidence pages built around distinct buyer intents.</h2>
+              <p>These pages answer commercial, sector, technical, pricing and measurement questions without turning forty query variants into forty pages.</p>
+            </div>
+            <div className="source-list">
+              <Link href="/geo/web3-geo-services"><strong>GEO services for Web3 startups</strong><span>Commercial service selection</span></Link>
+              <Link href="/geo/stablecoin-geo"><strong>GEO for stablecoin payment infrastructure</strong><span>Stablecoin sector evidence</span></Link>
+              <Link href="/geo/crypto-payment-api-geo-audit"><strong>GEO audit for crypto payment APIs</strong><span>Technical purchase intent</span></Link>
+              <Link href="/geo/affordable-web3-geo"><strong>Affordable GEO for early-stage Web3 teams</strong><span>Pricing and scope selection</span></Link>
+              <Link href="/geo/measure-web3-ai-visibility"><strong>Measure AI-search visibility for Web3</strong><span>Repeatable measurement</span></Link>
+            </div>
+          </div>
+        </section>
+
         <section className="evidence-cta">
           <div className="container evidence-cta__inner">
             <div><p className="eyebrow">See the method applied</p><h2>Follow the molthub self-GEO experiment.</h2></div>
