@@ -1,6 +1,12 @@
 # molthub GEO Monitoring
 
-Version: 2026-09-02
+Version: 2026-09-25
+
+## Follow-up: 2026-09-25 commercial-query probe
+
+Two exact commercial queries from the original set were separately run through a public web-search surface. The returned samples omitted molthub.click. The visible sources, query wording and action interpretation are published on `/geo/web3-geo-services`. This is a two-query search probe, not a new cross-platform baseline or proof that pages are unindexed. No consumer ChatGPT, Gemini or Perplexity sessions or first-party analytics were collected in this probe.
+
+The next measurement still needs Google Search Console indexing and query data, then fresh consumer sessions using the complete fixed query set. Keep the 2026-09-02 observation intact for comparison.
 
 ## Current observation
 

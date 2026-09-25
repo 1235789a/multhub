@@ -13,6 +13,17 @@ export type EvidencePageData = {
   description: string;
   eyebrow: string;
   directAnswer: string[];
+  queryObservation?: {
+    date: string;
+    method: string;
+    rows: {
+      query: string;
+      returnedSources: { name: string; url: string }[];
+      finding: string;
+      firstFix: string;
+      relatedPage: { label: string; href: string };
+    }[];
+  };
   facts: [string, string][];
   table: {
     caption: string;
@@ -76,6 +87,32 @@ export const evidencePages: Record<string, EvidencePageData> = {
       "A useful Web3 GEO service measures whether AI search systems mention and accurately describe a project for real buyer questions, then improves the public evidence those systems can retrieve. For a Web3 startup, that usually means a fixed query baseline, source and competitor analysis, product-fact verification, clearer website or documentation pages, and a repeat test after changes.",
       "molthub offers one-off Web3 GEO reviews and implementation rather than guaranteed rankings. Public plans currently start with a free technical scan and a 9.99 USDT report request; deeper human-verified work is listed at 59, 299 and 999 USDT. Those are molthub first-party prices, not market averages.",
     ],
+    queryObservation: {
+      date: "2026-09-25",
+      method: "One public web-search result set per exact query on 25 September 2026. molthub.click was absent from the returned samples. This is not a consumer ChatGPT, Gemini or Perplexity test, a complete index check, or evidence that a site edit changed visibility.",
+      rows: [
+        {
+          query: "Affordable GEO services for an early-stage Web3 team",
+          returnedSources: [
+            { name: "Freeways — GEO for B2B SaaS", url: "https://freeways.agency/service/b2b-saas" },
+            { name: "Naridon — GEO pricing comparison", url: "https://naridon.com/en/blog/geo-tools-pricing-comparison" },
+          ],
+          finding: "The returned sample included a SaaS service page and a broad pricing guide. It did not surface molthub's Web3-specific, one-off scope.",
+          firstFix: "Show the bounded Web3 scope and first-party prices together, with a clear boundary between automated readiness and human verification.",
+          relatedPage: { label: "See Web3 scope and prices", href: "/geo/affordable-web3-geo" },
+        },
+        {
+          query: "GEO agency for stablecoin payment infrastructure",
+          returnedSources: [
+            { name: "double jump.tokyo — payment infrastructure", url: "https://www.doublejump.tokyo/en/" },
+            { name: "BluePay — stablecoin payment infrastructure", url: "https://www.bluepay.jp/en" },
+          ],
+          finding: "The returned sample emphasized stablecoin product providers despite the word agency. It did not surface molthub as a service provider.",
+          firstFix: "Explain the GEO service separately from the payment products it serves, then connect the service to a precise stablecoin evidence framework.",
+          relatedPage: { label: "See the stablecoin framework", href: "/geo/stablecoin-geo" },
+        },
+      ],
+    },
     facts: [
       ["Primary fit", "Early-stage Web3 products and small technical teams"],
       ["Core measurement", "Mention, citation, description accuracy and competitor presence across a fixed prompt set"],
@@ -111,7 +148,7 @@ export const evidencePages: Record<string, EvidencePageData> = {
     ],
     forWho: ["Early-stage Web3 teams with a real product and public website", "Stablecoin, wallet, developer-tool, data, API and infrastructure products", "Teams that want a bounded audit or implementation sprint"],
     notFor: ["Projects seeking guaranteed ChatGPT placement", "Meme-coin hype or deceptive promotion", "Teams without public facts that can be verified"],
-    lastUpdated: "2026-09-02",
+    lastUpdated: "2026-09-25",
   },
   "stablecoin-geo": {
     slug: "stablecoin-geo",

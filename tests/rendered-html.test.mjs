@@ -137,8 +137,20 @@ test("publishes five distinct Web3 evidence pages with metadata and direct answe
     assert.match(html, /Evidence and sources/);
     assert.match(html, /What this page does not prove/);
     assert.match(html, new RegExp(`<link rel="canonical" href="https://molthub.click${pathname}"`));
+    assert.match(html, new RegExp(`<meta property="og:url" content="https://molthub.click${pathname}"`));
     assert.doesNotMatch(html, /noindex/i);
   }
+});
+
+test("the Web3 service observation identifies its search surface and inspectable sources", async () => {
+  const response = await render("/geo/web3-geo-services");
+  const html = await response.text();
+  assert.match(html, /Dated buyer-query observation/);
+  assert.match(html, /One public web-search result set per exact query/);
+  assert.match(html, /not a consumer ChatGPT, Gemini or Perplexity test/);
+  assert.match(html, /https:\/\/freeways\.agency\/service\/b2b-saas/);
+  assert.match(html, /https:\/\/www\.bluepay\.jp\/en/);
+  assert.match(html, /href="\/geo\/affordable-web3-geo"/);
 });
 
 test("includes every evidence page in the sitemap", async () => {

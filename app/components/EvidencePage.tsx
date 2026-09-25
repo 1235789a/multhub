@@ -51,6 +51,33 @@ export function EvidencePage({ page }: { page: EvidencePageData }) {
           </div>
         </section>
 
+        {page.queryObservation ? (
+          <section className="section evidence-page evidence-page--muted">
+            <div className="container experiment-section">
+              <div className="evidence-heading">
+                <p className="eyebrow">Dated buyer-query observation · {page.queryObservation.date}</p>
+                <h2>What the returned sources showed.</h2>
+                <p>{page.queryObservation.method}</p>
+              </div>
+              <div className="evidence-table-wrap">
+                <table className="evidence-table">
+                  <thead><tr><th scope="col">Exact query</th><th scope="col">Sources in the sample</th><th scope="col">Observed gap</th><th scope="col">First page fix</th></tr></thead>
+                  <tbody>
+                    {page.queryObservation.rows.map((row) => (
+                      <tr key={row.query}>
+                        <th scope="row">{row.query}</th>
+                        <td>{row.returnedSources.map((source) => <div key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a></div>)}</td>
+                        <td>{row.finding}</td>
+                        <td>{row.firstFix} <Link href={row.relatedPage.href}>{row.relatedPage.label}</Link></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section className="section evidence-page evidence-page--muted">
           <div className="container experiment-section">
             <div className="evidence-heading"><p className="eyebrow">Key facts</p><h2>{page.table.caption}</h2></div>

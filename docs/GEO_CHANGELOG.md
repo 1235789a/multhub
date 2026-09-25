@@ -1,5 +1,13 @@
 # molthub GEO Changelog
 
+## 2026-09-25 — Commercial-query evidence and page identities
+
+- Added a dated, source-linked two-query public web-search observation to the Web3 GEO services page. Both returned samples omitted molthub; one matched broad SaaS/pricing sources and the other matched stablecoin product providers. This is a bounded search observation, not a consumer AI-answer, indexing or outcome claim.
+- Connected each observed query gap to a relevant existing sector or pricing page and a first page fix.
+- Gave all five GEO evidence pages their own Open Graph URL, title and description while retaining the existing canonical and share image.
+- Added rendered HTML checks for those URLs and the evidence disclosure.
+- Search Console indexed pages, AI referrals and qualified lead attribution remain unknown without owner analytics access.
+
 ## 2026-09-02 — Query coverage and first measured observation
 
 ### What changed
