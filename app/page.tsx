@@ -198,6 +198,7 @@ export default function Home() {
         </div>
 
         <section className="section free-scan" id="free-scan">
+          <span className="anchor-target" id="free-review" />
           <div className="container">
             <div className="scan-heading">
               <SectionHeading
@@ -470,7 +471,6 @@ export default function Home() {
 
         <section className="final-cta" id="service-order">
           <span className="anchor-target" id="trial-order" />
-          <span className="anchor-target" id="free-review" />
           <div className="container">
             <div className="final-cta__heading">
               <div>

@@ -7,6 +7,22 @@ export const metadata: Metadata = {
   description:
     "Learn what molthub does, who it helps, how its Web3 GEO work is delivered, and the boundaries it does not claim to control.",
   alternates: { canonical: "https://molthub.click/about" },
+  openGraph: {
+    type: "website",
+    url: "https://molthub.click/about",
+    siteName: "molthub",
+    title: "About molthub — Web3 GEO Studio",
+    description:
+      "Learn what molthub does, who it helps, how its Web3 GEO work is delivered, and the boundaries it does not claim to control.",
+    images: [{ url: "/og-geo-foundation.png", width: 1774, height: 887, alt: "About molthub — Web3 GEO Studio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About molthub — Web3 GEO Studio",
+    description:
+      "Learn what molthub does, who it helps, how its Web3 GEO work is delivered, and the boundaries it does not claim to control.",
+    images: ["/og-geo-foundation.png"],
+  },
 };
 
 const facts = [

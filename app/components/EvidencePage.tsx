@@ -51,6 +51,29 @@ export function EvidencePage({ page }: { page: EvidencePageData }) {
           </div>
         </section>
 
+        {page.workedExample ? (
+          <section className="section evidence-page evidence-page--muted">
+            <div className="container experiment-section">
+              <div className="evidence-heading">
+                <p className="eyebrow">First-party worked example</p>
+                <h2>{page.workedExample.title}</h2>
+                <p>{page.workedExample.summary}</p>
+              </div>
+              <div className="evidence-cards">
+                {page.workedExample.stages.map(([title, body], index) => (
+                  <article key={title}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <h3>{title}</h3>
+                    <p>{body}</p>
+                  </article>
+                ))}
+              </div>
+              <p><Link className="text-link" href={page.workedExample.evidence.href}>{page.workedExample.evidence.label} →</Link></p>
+              <p className="source-disclaimer">{page.workedExample.limitation}</p>
+            </div>
+          </section>
+        ) : null}
+
         {page.queryObservation ? (
           <section className="section evidence-page evidence-page--muted">
             <div className="container experiment-section">

@@ -162,10 +162,21 @@ test("includes every evidence page in the sitemap", async () => {
   }
 });
 
-test("labels static report metrics as sample data", async () => {
-  const response = await render("/sample-report");
-  const html = await response.text();
-  assert.match(html, /SAMPLE DATA/);
+test("labels sample metrics with consistent prompt-presence arithmetic and a free-scan CTA", async () => {
+  for (const pathname of ["/", "/sample-report"]) {
+    const response = await render(pathname);
+    const html = await response.text();
+    assert.match(html, /SAMPLE DATA/);
+    assert.match(html, /35%/);
+    assert.match(html, /7 \/ 20/);
+    assert.doesNotMatch(html, /38%/);
+  }
+
+  const html = await (await render("/sample-report")).text();
+  assert.match(html, /PROMPT MENTION RATE/);
+  assert.match(html, /Rates can overlap/);
+  assert.match(html, /href="\/#free-scan"[^>]*>Run Free Quick Scan/);
+  assert.doesNotMatch(html, /Request a Free Review/);
 });
 
 test("does not claim an automated daily editorial schedule", async () => {
@@ -206,4 +217,46 @@ test("rejects private hosts in the public quick-scan endpoint", async () => {
   );
   assert.equal(response.status, 400);
   assert.match(await response.text(), /public project website/i);
+});
+
+test("public information pages render their own metadata and social URLs", async () => {
+  const pages = [
+    ["/about", "About molthub — Web3 GEO Studio", "Learn what molthub does"],
+    ["/methodology", "Web3 GEO Methodology — molthub", "The evidence-led molthub process"],
+    ["/sample-report", "Sample Web3 GEO Report — molthub", "Explore molthub"],
+  ];
+
+  for (const [pathname, title, descriptionStart] of pages) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    const titles = [...html.matchAll(/<title>(.*?)<\/title>/g)].map((match) => match[1]);
+    assert.deepEqual(titles, [title]);
+    const tags = [...html.matchAll(/<meta\s[^>]*>/g)].map((match) => match[0]);
+    for (const [attribute, name, expected] of [
+      ["name", "description", descriptionStart],
+      ["property", "og:title", title],
+      ["property", "og:description", descriptionStart],
+      ["property", "og:url", `https://molthub.click${pathname}`],
+      ["name", "twitter:title", title],
+      ["name", "twitter:description", descriptionStart],
+    ]) {
+      const matches = tags.filter((tag) => tag.includes(`${attribute}="${name}"`));
+      assert.equal(matches.length, 1, `${pathname}: ${name}`);
+      assert.ok(matches[0].includes(`content="${expected}`), `${pathname}: ${name}`);
+    }
+    assert.match(html, new RegExp(`<link rel="canonical" href="https://molthub.click${pathname}"`));
+  }
+});
+
+test("the measurement worked example keeps search observations separate from access failures", async () => {
+  const response = await render("/geo/measure-web3-ai-visibility");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /First-party worked example/);
+  assert.match(html, /0 molthub mentions and 0 citations/);
+  assert.match(html, /HTTP 403/);
+  assert.match(html, /failed robots retrieval as unknown/);
+  assert.match(html, /No visibility gain, client result or business outcome has been verified/);
+  assert.match(html, /href="\/research\/self-geo-experiment"/);
 });
