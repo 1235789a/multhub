@@ -8,6 +8,18 @@ type MediaType =
 
 type AspectRatio = "16:9" | "4:3" | "1:1" | "3:4" | "16:10";
 
+// Illustrative response counts only; these are not observed client results.
+const sampleResponseCount = 20;
+const sampleBrands = [
+  { name: "Your project", mentions: 7 },
+  { name: "Competitor A", mentions: 12 },
+  { name: "Competitor B", mentions: 10 },
+];
+
+function sampleMentionRate(mentions: number) {
+  return `${Math.round((mentions / sampleResponseCount) * 100)}%`;
+}
+
 function ReportVisual() {
   return (
     <div className="evidence-ui evidence-ui--report">
@@ -20,29 +32,33 @@ function ReportVisual() {
           <small>WEB3 AI VISIBILITY AUDIT</small>
           <strong>Evidence before promises.</strong>
         </div>
-        <b>38%</b>
+        <b aria-label="Sample prompt presence">{sampleMentionRate(sampleBrands[0].mentions)}</b>
       </div>
       <div className="evidence-ui__metrics">
         <span>
           <small>Prompt presence</small>
-          <b>7 / 20</b>
+          <b>{`${sampleBrands[0].mentions} / ${sampleResponseCount}`}</b>
         </span>
         <span>
-          <small>Competitor mentions</small>
-          <b>12 / 20</b>
+          <small>Competitor A mentions</small>
+          <b>{`${sampleBrands[1].mentions} / ${sampleResponseCount}`}</b>
         </span>
         <span>
           <small>Fact conflicts</small>
           <b>2 found</b>
         </span>
       </div>
-      <div className="evidence-ui__chart">
-        <span style={{ width: "38%" }} />
-        <span style={{ width: "66%" }} />
-        <span style={{ width: "52%" }} />
+      <div className="evidence-ui__chart" aria-label="Sample brand mention rates across the same 20 responses">
+        {sampleBrands.map((brand) => (
+          <span
+            key={brand.name}
+            aria-label={`${brand.name}: ${sampleMentionRate(brand.mentions)}`}
+            style={{ width: sampleMentionRate(brand.mentions) }}
+          />
+        ))}
       </div>
       <div className="evidence-ui__footer">
-        <span>AI Visibility</span>
+        <span>Prompt presence</span>
         <span>Citation Sources</span>
         <span>Priority Actions</span>
       </div>
@@ -69,20 +85,16 @@ function ChartVisual({ process }: { process: boolean }) {
   return (
     <div className="evidence-ui evidence-ui--bars">
       <div className="evidence-ui__topline">
-        <span>COMPETITOR SHARE OF VOICE</span>
+        <span>PROMPT MENTION RATE · 20 RESPONSES</span>
         <span className="evidence-ui__sample">SAMPLE DATA</span>
       </div>
-      {[
-        ["Your project", "38%", "38%"],
-        ["Competitor A", "66%", "66%"],
-        ["Competitor B", "52%", "52%"],
-      ].map(([name, value, width]) => (
-        <div className="evidence-bar" key={name}>
-          <span>{name}</span>
+      {sampleBrands.map((brand) => (
+        <div className="evidence-bar" key={brand.name}>
+          <span>{brand.name}</span>
           <i>
-            <b style={{ width }} />
+            <b style={{ width: sampleMentionRate(brand.mentions) }} />
           </i>
-          <strong>{value}</strong>
+          <strong>{sampleMentionRate(brand.mentions)}</strong>
         </div>
       ))}
     </div>

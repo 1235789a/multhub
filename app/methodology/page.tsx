@@ -7,6 +7,22 @@ export const metadata: Metadata = {
   description:
     "The evidence-led molthub process for measuring, verifying and improving Web3 visibility across AI-powered search systems.",
   alternates: { canonical: "https://molthub.click/methodology" },
+  openGraph: {
+    type: "website",
+    url: "https://molthub.click/methodology",
+    siteName: "molthub",
+    title: "Web3 GEO Methodology — molthub",
+    description:
+      "The evidence-led molthub process for measuring, verifying and improving Web3 visibility across AI-powered search systems.",
+    images: [{ url: "/og-geo-foundation.png", width: 1774, height: 887, alt: "Web3 GEO Methodology — molthub" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Web3 GEO Methodology — molthub",
+    description:
+      "The evidence-led molthub process for measuring, verifying and improving Web3 visibility across AI-powered search systems.",
+    images: ["/og-geo-foundation.png"],
+  },
 };
 
 const stages = [

@@ -4,10 +4,26 @@ import { MediaPlaceholder } from "../components/MediaPlaceholder";
 import { Footer, Header, PageHero } from "../components/SiteChrome";
 
 export const metadata: Metadata = {
-  title: "Sample Report — molthub",
+  title: "Sample Web3 GEO Report — molthub",
   description:
-    "See the evidence-led structure used for molthub audits and action plans.",
+    "Explore molthub's Web3 GEO audit structure, sample prompt-presence metrics, evidence fields and action plans. Sample data is not a client result.",
   alternates: { canonical: "https://molthub.click/sample-report" },
+  openGraph: {
+    type: "website",
+    url: "https://molthub.click/sample-report",
+    siteName: "molthub",
+    title: "Sample Web3 GEO Report — molthub",
+    description:
+      "Explore molthub's Web3 GEO audit structure, sample prompt-presence metrics, evidence fields and action plans. Sample data is not a client result.",
+    images: [{ url: "/og-geo-foundation.png", width: 1774, height: 887, alt: "Sample Web3 GEO Report — molthub" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sample Web3 GEO Report — molthub",
+    description:
+      "Explore molthub's Web3 GEO audit structure, sample prompt-presence metrics, evidence fields and action plans. Sample data is not a client result.",
+    images: ["/og-geo-foundation.png"],
+  },
 };
 
 const pages = [
@@ -42,10 +58,10 @@ export default function SampleReportPage() {
 
             <div className="report-scorecard" aria-label="Report scorecard fields">
               {[
-                ["Visibility score", "Calculated per project", "Prompt presence across the agreed test set."],
+                ["Prompt presence", "Calculated per project", "Responses mentioning the project divided by all responses in the agreed test set. Sample: 7 / 20 = 35%."],
                 ["Citation rate", "Calculated per project", "How often a useful source appears in answers."],
                 ["Source authority", "Evidence map", "Which pages and domains support the answer."],
-                ["Competitive share", "Comparison field", "A dated view of mentions within the same prompts."],
+                ["Competitor mention rate", "Comparison field", "Each competitor uses the same response denominator. Rates can overlap when one answer names several brands."],
               ].map(([label, value, description]) => (
                 <article key={label}><span>{label}</span><strong>{value}</strong><p>{description}</p></article>
               ))}
@@ -79,9 +95,9 @@ export default function SampleReportPage() {
               />
               <div>
                 <p className="eyebrow">Evidence standard</p>
-                <h2>Every score comes from a dated review.</h2>
-                <p>Molthub publishes client work only with permission. Private reports remain private.</p>
-                <Link className="button button--gold" href="/#free-review">Request a Free Review</Link>
+                <h2>Real project metrics need a dated review.</h2>
+                <p>The numbers shown here are sample data, not observed molthub or client results. Molthub publishes client work only with permission. Private reports remain private.</p>
+                <Link className="button button--gold" href="/#free-scan">Run Free Quick Scan</Link>
               </div>
             </div>
           </div>

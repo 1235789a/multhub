@@ -5,9 +5,9 @@ export const faqs = [
       "Generative Engine Optimization improves how clearly AI search systems can discover, understand, and cite information about a project. It complements traditional SEO but focuses more directly on answer quality, factual clarity, source strength, and citation readiness.",
   },
   {
-    question: "What does the free review include?",
+    question: "What does the Free Quick Scan include?",
     answer:
-      "It is a focused initial look at your project, website, and documentation to identify whether a deeper review could be useful. The exact scope depends on the information you provide and is confirmed before any paid work begins.",
+      "The Free Quick Scan is an instant automated check of a public project website. It reports technical AI-search readiness and detected gaps, with buyer-intent prompt ideas and suggested next actions. No card or email is needed to start; a free account lets you save results. It does not run live AI-platform prompt tests or measure mentions, citations, rankings or revenue. Human-verified reviews are separate paid services with a defined scope.",
   },
   {
     question: "Do you guarantee AI rankings or mentions?",

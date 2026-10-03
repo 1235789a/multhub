@@ -24,6 +24,13 @@ export type EvidencePageData = {
       relatedPage: { label: string; href: string };
     }[];
   };
+  workedExample?: {
+    title: string;
+    summary: string;
+    stages: [string, string][];
+    evidence: { label: string; href: string };
+    limitation: string;
+  };
   facts: [string, string][];
   table: {
     caption: string;
@@ -311,6 +318,18 @@ export const evidencePages: Record<string, EvidencePageData> = {
       "Measure Web3 AI-search visibility with a fixed set of buyer questions and a dated observation log. For each platform response, record whether the project is mentioned, whether it is cited, the citation URL, how accurately the answer describes the product, which competitors appear, and which sources support the answer. Group results by intent and buyer rather than treating one prompt as a permanent rank.",
       "Keep visibility metrics separate from business outcomes. Mentions and citations show retrieval; AI referral visits, free-scan completions, contacts and paid orders show whether visibility produced action. Repeat the same method after material changes, and publish zero results when the brand is not found.",
     ],
+    workedExample: {
+      title: "molthub: separate an absent brand from an unverified fetch",
+      summary: "This first-party example applies the method to molthub's own public experiment. It is not a client case study or evidence of improved AI visibility.",
+      stages: [
+        ["Observed problem", "On 2 September 2026, the five-query OpenAI web-search observation returned 0 molthub mentions and 0 citations. Separately, the 3 October access review recorded HTTP 403 responses for public pages from one audit environment."],
+        ["Evidence", "The public experiment preserves the exact historical queries and returned sources, plus the dated access review. A missing brand in that search sample and a failed HTTP request are different observations; neither establishes an official index count or a consumer AI-platform baseline."],
+        ["Action", "Preserve the zero-result search panel and log access failures separately. The published quick-scan repair marks failed robots retrieval as unknown instead of awarding a pass. That repairs measurement integrity; it does not prove crawler access or visibility improved."],
+        ["Next measurement", "Inspect the relevant Cloudflare security events and official search URL inspections, then repeat the same five queries on the same web-search surface. Record any consumer ChatGPT, Gemini or Perplexity tests as separate dated baselines with exact answers and citation URLs."],
+      ],
+      evidence: { label: "Inspect molthub's public self-GEO experiment", href: "/research/self-geo-experiment" },
+      limitation: "The triggering security rule and official index counts remain unverified. Successful retrieval by one tool does not establish access for every crawler. No visibility gain, client result or business outcome has been verified.",
+    },
     facts: [
       ["Minimum observation", "Date, platform, exact query, fresh session, mention, citation, accuracy, competitors and sources"],
       ["Core visibility KPIs", "Mention rate, citation rate, accurate-description rate and query coverage"],
@@ -348,7 +367,7 @@ export const evidencePages: Record<string, EvidencePageData> = {
     ],
     forWho: ["Web3 founders establishing a baseline", "Marketing and developer-relations teams tracking buyer questions", "Agencies that need an inspectable client measurement method"],
     notFor: ["Anyone seeking a single permanent AI rank", "Dashboards that hide the prompt set or source URLs", "Reports that omit zero results"],
-    lastUpdated: "2026-09-02",
+    lastUpdated: "2026-10-03",
   },
 };
 

@@ -131,10 +131,10 @@ export default async function InsightDetail({
               <div className="inline-cta">
                 <div>
                   <p className="eyebrow">Apply this to your project</p>
-                  <h2>Request a focused initial review.</h2>
+                  <h2>Check your website&apos;s technical readiness.</h2>
                 </div>
-                <Link className="button" href="/#free-review">
-                  Get a Free Review
+                <Link className="button" href="/#free-scan">
+                  Run Free Quick Scan
                 </Link>
               </div>
             </div>
