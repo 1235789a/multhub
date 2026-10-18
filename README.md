@@ -96,3 +96,15 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)
 - [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+
+
+## MultiHub AI Visibility Checker
+
+The evidence-backed free checker lives at `/tools/ai-visibility` with shareable reports, D1 persistence, consent-based audit requests and protected administration. Its free readiness score is distinct from optional paid model API tests.
+
+- [Open-source review and license evidence](docs/visibility/OPEN_SOURCE_REVIEW.md)
+- [Run, deploy, configure secrets and roll back](docs/visibility/DEPLOYMENT.md)
+- [Actual validation results and limitations](docs/visibility/QA_RESULTS.md)
+- [Isolated live preview](https://multihub-visibility.chengzhao640.chatgpt.site/tools/ai-visibility)
+
+`npm test` runs the build, visibility suite, workerd HTTP regressions and existing payment tests. Production `molthub.click` was not replaced by this preview.

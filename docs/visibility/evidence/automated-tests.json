@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-18",
+  "command": "npm test",
+  "visibility": {
+    "passed": 65,
+    "failed": 0
+  },
+  "http_render_regressions": {
+    "passed": 13,
+    "failed": 0
+  },
+  "existing_payment": {
+    "passed": 8,
+    "failed": 0
+  },
+  "upstream_optifeed": {
+    "passed": 803,
+    "failed": 0
+  },
+  "typecheck": "passed",
+  "build": "passed"
+}

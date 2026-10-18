@@ -1,0 +1,964 @@
+{
+  "checkedAt": "2026-10-18T00:09:16.908Z",
+  "scope": "Installed production dependency closure; actual license/notice file hashes. Upstream vendored license tracked separately.",
+  "packages": [
+    {
+      "name": "@emnapi/runtime",
+      "version": "1.11.3",
+      "location": "node_modules/@emnapi/runtime",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "2088f55c6731498410b20c95ebd345ed4a4a800bf74c0fba4d282fd2a021daaa",
+          "bytes": 1076,
+          "firstLine": "MIT License  Copyright (c) 2021-present Toyobayashi"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "location": "node_modules/@img/sharp-darwin-arm64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-darwin-x64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-freebsd-wasm32",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-freebsd-wasm32/node_modules/@img/sharp-wasm32",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0 AND LGPL-3.0-or-later AND MIT",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-darwin-arm64",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-darwin-x64",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-linux-arm",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-linux-arm64",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-linux-ppc64",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-linux-riscv64",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-linux-s390x",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "name": "@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "location": "node_modules/@img/sharp-libvips-linux-x64",
+      "spdx": "LGPL-3.0-or-later",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "location": "node_modules/@img/sharp-libvips-linuxmusl-arm64",
+      "version": "1.3.4",
+      "spdx": "LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "name": "@img/sharp-libvips-linuxmusl-x64",
+      "version": "1.3.4",
+      "location": "node_modules/@img/sharp-libvips-linuxmusl-x64",
+      "spdx": "LGPL-3.0-or-later",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "location": "node_modules/@img/sharp-linux-arm",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-linux-arm64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-linux-ppc64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-linux-riscv64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-linux-s390x",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "name": "@img/sharp-linux-x64",
+      "version": "0.35.5",
+      "location": "node_modules/@img/sharp-linux-x64",
+      "spdx": "Apache-2.0",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68",
+          "bytes": 10273,
+          "firstLine": "Apache License Version 2.0, January 2004 http://www.apache.org/licenses/"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "location": "node_modules/@img/sharp-linuxmusl-arm64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "name": "@img/sharp-linuxmusl-x64",
+      "version": "0.35.5",
+      "location": "node_modules/@img/sharp-linuxmusl-x64",
+      "spdx": "Apache-2.0",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68",
+          "bytes": 10273,
+          "firstLine": "Apache License Version 2.0, January 2004 http://www.apache.org/licenses/"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "location": "node_modules/@img/sharp-webcontainers-wasm32",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-webcontainers-wasm32/node_modules/@img/sharp-wasm32",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0 AND LGPL-3.0-or-later AND MIT",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-win32-arm64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0 AND LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-win32-ia32",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0 AND LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@img/sharp-win32-x64",
+      "version": "0.35.5",
+      "spdx": "Apache-2.0 AND LGPL-3.0-or-later",
+      "installed": false
+    },
+    {
+      "name": "@next/env",
+      "version": "16.4.2",
+      "location": "node_modules/@next/env",
+      "spdx": "MIT",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "location": "node_modules/@next/swc-darwin-arm64",
+      "version": "16.4.2",
+      "spdx": "MIT",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@next/swc-darwin-x64",
+      "version": "16.4.2",
+      "spdx": "MIT",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@next/swc-linux-arm64-gnu",
+      "version": "16.4.2",
+      "spdx": "MIT",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@next/swc-linux-arm64-musl",
+      "version": "16.4.2",
+      "spdx": "MIT",
+      "installed": false
+    },
+    {
+      "name": "@next/swc-linux-x64-gnu",
+      "version": "16.4.2",
+      "location": "node_modules/@next/swc-linux-x64-gnu",
+      "spdx": "MIT",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "name": "@next/swc-linux-x64-musl",
+      "version": "16.4.2",
+      "location": "node_modules/@next/swc-linux-x64-musl",
+      "spdx": "MIT",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "location": "node_modules/@next/swc-win32-arm64-msvc",
+      "version": "16.4.2",
+      "spdx": "MIT",
+      "installed": false
+    },
+    {
+      "location": "node_modules/@next/swc-win32-x64-msvc",
+      "version": "16.4.2",
+      "spdx": "MIT",
+      "installed": false
+    },
+    {
+      "name": "@supabase/auth-js",
+      "version": "2.111.0",
+      "location": "node_modules/@supabase/auth-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2020 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@supabase/functions-js",
+      "version": "2.111.0",
+      "location": "node_modules/@supabase/functions-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2020 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@supabase/phoenix",
+      "version": "0.4.5",
+      "location": "node_modules/@supabase/phoenix",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE.md",
+          "sha256": "41a686069f0199ff369d7e5277d5267385cc54d9199f1efc960bacbe2e799255",
+          "bytes": 1071,
+          "firstLine": "# MIT License  Copyright (c) 2014 Chris McCord"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@supabase/postgrest-js",
+      "version": "2.111.0",
+      "location": "node_modules/@supabase/postgrest-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2020 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@supabase/realtime-js",
+      "version": "2.111.0",
+      "location": "node_modules/@supabase/realtime-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2020 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@supabase/storage-js",
+      "version": "2.111.0",
+      "location": "node_modules/@supabase/storage-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2020 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@supabase/supabase-js",
+      "version": "2.111.0",
+      "location": "node_modules/@supabase/supabase-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2020 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "@swc/helpers",
+      "version": "0.5.23",
+      "location": "node_modules/@swc/helpers",
+      "spdx": "Apache-2.0",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "d96eba1f1881334d50ffc144276dfa98e147a415e7c591ecdfcb81680361dc91",
+          "bytes": 10836,
+          "firstLine": "                              Apache License                         Version 2.0, January 2004                      http://www.apache.org/licenses/"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "baseline-browser-mapping",
+      "version": "2.11.29",
+      "location": "node_modules/baseline-browser-mapping",
+      "spdx": "Apache-2.0",
+      "licenseFiles": [
+        {
+          "file": "LICENSE.txt",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357,
+          "firstLine": "                                 Apache License                            Version 2.0, January 2004                         http://www.apache.org/licenses/"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "boolbase",
+      "version": "1.0.0",
+      "location": "node_modules/boolbase",
+      "spdx": "ISC",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "name": "caniuse-lite",
+      "version": "1.0.30001816",
+      "location": "node_modules/caniuse-lite",
+      "spdx": "CC-BY-4.0",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "fd3a263fe19ed8faa9068b43abaebafc02c77897b0c6fc09abc04bb592e5f16e",
+          "bytes": 18651,
+          "firstLine": "Attribution 4.0 International  ======================================================================="
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "cheerio",
+      "version": "1.2.0",
+      "location": "node_modules/cheerio",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "61c1e21d3a8ff20f9b69abe15104a75584688080febc22f60a4cbf3854becf4e",
+          "bytes": 1081,
+          "firstLine": "MIT License  Copyright (c) 2022 The Cheerio contributors"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "cheerio-select",
+      "version": "2.1.0",
+      "location": "node_modules/cheerio-select",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "client-only",
+      "version": "0.0.1",
+      "location": "node_modules/client-only",
+      "spdx": "MIT",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "name": "css-select",
+      "version": "5.2.2",
+      "location": "node_modules/css-select",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "css-what",
+      "version": "6.2.2",
+      "location": "node_modules/css-what",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "dom-serializer",
+      "version": "2.0.0",
+      "location": "node_modules/dom-serializer",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "94cfe87de9b178e8fee313a19178e625129e2ce559db32e772e7bd95114ee6ff",
+          "bytes": 1098,
+          "firstLine": "License  (The MIT License)"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "domelementtype",
+      "version": "2.3.0",
+      "location": "node_modules/domelementtype",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "domhandler",
+      "version": "5.0.3",
+      "location": "node_modules/domhandler",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "domutils",
+      "version": "3.2.2",
+      "location": "node_modules/domutils",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "drizzle-orm",
+      "version": "0.45.2",
+      "location": "node_modules/drizzle-orm",
+      "spdx": "Apache-2.0",
+      "licenseFiles": [],
+      "verifiedFilePresent": false
+    },
+    {
+      "name": "encoding-sniffer",
+      "version": "0.2.1",
+      "location": "node_modules/encoding-sniffer",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "14ea882b80407e75e92b36d6f3b5e70d38427502747717ac1842f9b3e8d7302e",
+          "bytes": 1071,
+          "firstLine": "Copyright (c) 2022 Felix Boehm <me@feedic.com>  Permission is hereby granted, free of charge, to any person obtaining a copy of"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "entities",
+      "version": "4.5.0",
+      "location": "node_modules/entities",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "htmlparser2",
+      "version": "10.1.0",
+      "location": "node_modules/htmlparser2",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "204cfa747341660e4da64cd23e8c876c6b20279d247f48564993d3fc4a2eab47",
+          "bytes": 1104,
+          "firstLine": "Copyright 2010, 2011, Chris Winberry <chris@winberry.net>. All rights reserved. Permission is hereby granted, free of charge, to any person obtaining a copy of "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "entities",
+      "version": "7.0.1",
+      "location": "node_modules/htmlparser2/node_modules/entities",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "iceberg-js",
+      "version": "0.8.1",
+      "location": "node_modules/iceberg-js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "e6e972dba808fb9d80863fe90ca222a47710cb850f6e6e2af95cdc0d022f79bd",
+          "bytes": 1065,
+          "firstLine": "MIT License  Copyright (c) 2025 Supabase"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "iconv-lite",
+      "version": "0.6.3",
+      "location": "node_modules/iconv-lite",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "ac779f7314c74f232ef847ea86e714abe25cf6eeb5cc97b69451b74e2af6492d",
+          "bytes": 1064,
+          "firstLine": "Copyright (c) 2011 Alexander Shtuchkin  Permission is hereby granted, free of charge, to any person obtaining"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "ipaddr.js",
+      "version": "2.3.0",
+      "location": "node_modules/ipaddr.js",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "62568a2d1337b77171ecca9db10579163446de1ba6151678e81f06cdc199971b",
+          "bytes": 1087,
+          "firstLine": "Copyright (C) 2011-2017 whitequark <whitequark@whitequark.org>  Permission is hereby granted, free of charge, to any person obtaining a copy"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "nanoid",
+      "version": "3.3.20",
+      "location": "node_modules/nanoid",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "da4db1480d9beea3483a2eda5c53b22238d0827d57da162b48f122e04d2d9987",
+          "bytes": 1095,
+          "firstLine": "The MIT License (MIT)  Copyright 2017 Andrey Sitnik <andrey@sitnik.ru>"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "next",
+      "version": "16.4.2",
+      "location": "node_modules/next",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "license.md",
+          "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+          "bytes": 1079,
+          "firstLine": "The MIT License (MIT)  Copyright (c) 2025 Vercel, Inc."
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "nth-check",
+      "version": "2.1.1",
+      "location": "node_modules/nth-check",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "parse5",
+      "version": "7.3.0",
+      "location": "node_modules/parse5",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "8c535800331e1e4439835555b3f9edc7fe9dee2fab0d8bbbd5a982e8b8343d4d",
+          "bytes": 1109,
+          "firstLine": "Copyright (c) 2013-2019 Ivan Nikulin (ifaaan@gmail.com, https://github.com/inikulin)  Permission is hereby granted, free of charge, to any person obtaining a co"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "parse5-htmlparser2-tree-adapter",
+      "version": "7.1.0",
+      "location": "node_modules/parse5-htmlparser2-tree-adapter",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "8c535800331e1e4439835555b3f9edc7fe9dee2fab0d8bbbd5a982e8b8343d4d",
+          "bytes": 1109,
+          "firstLine": "Copyright (c) 2013-2019 Ivan Nikulin (ifaaan@gmail.com, https://github.com/inikulin)  Permission is hereby granted, free of charge, to any person obtaining a co"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "parse5-parser-stream",
+      "version": "7.1.2",
+      "location": "node_modules/parse5-parser-stream",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "8c535800331e1e4439835555b3f9edc7fe9dee2fab0d8bbbd5a982e8b8343d4d",
+          "bytes": 1109,
+          "firstLine": "Copyright (c) 2013-2019 Ivan Nikulin (ifaaan@gmail.com, https://github.com/inikulin)  Permission is hereby granted, free of charge, to any person obtaining a co"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "entities",
+      "version": "6.0.1",
+      "location": "node_modules/parse5/node_modules/entities",
+      "spdx": "BSD-2-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164",
+          "bytes": 1260,
+          "firstLine": "Copyright (c) Felix Böhm All rights reserved. "
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "picocolors",
+      "version": "1.1.1",
+      "location": "node_modules/picocolors",
+      "spdx": "ISC",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "6582629e2979466878f6014313dcc2f3756c9616148682227ce3063dde310750",
+          "bytes": 787,
+          "firstLine": "ISC License  Copyright (c) 2021-2024 Oleksii Raspopov, Kostiantyn Denysov, Anton Verinov"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "postcss",
+      "version": "8.5.23",
+      "location": "node_modules/postcss",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "5be1f3465bba68a626777f984878814aaf35e7ef8e9fd314d469bcf887050fb8",
+          "bytes": 1095,
+          "firstLine": "The MIT License (MIT)  Copyright 2013 Andrey Sitnik <andrey@sitnik.es>"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "react",
+      "version": "19.3.1",
+      "location": "node_modules/react",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "bytes": 1088,
+          "firstLine": "MIT License  Copyright (c) Meta Platforms, Inc. and affiliates."
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "react-dom",
+      "version": "19.3.1",
+      "location": "node_modules/react-dom",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "bytes": 1088,
+          "firstLine": "MIT License  Copyright (c) Meta Platforms, Inc. and affiliates."
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "robots-parser",
+      "version": "3.0.1",
+      "location": "node_modules/robots-parser",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE.md",
+          "sha256": "d81ffd6a25349cad4126b365f6dbcc2cdc06496de4d020c76e47058a1ee32a7a",
+          "bytes": 1077,
+          "firstLine": "The MIT License (MIT)  Copyright (c) 2014 Sam Clarke"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "safer-buffer",
+      "version": "2.1.2",
+      "location": "node_modules/safer-buffer",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "4bc935e71be198c67ddf3c2b5fddb195f6edc182bfc155a96a6db61b44b494b9",
+          "bytes": 1094,
+          "firstLine": "MIT License  Copyright (c) 2018 Nikita Skovoroda <chalkerx@gmail.com>"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "scheduler",
+      "version": "0.28.0",
+      "location": "node_modules/scheduler",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+          "bytes": 1088,
+          "firstLine": "MIT License  Copyright (c) Meta Platforms, Inc. and affiliates."
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "source-map-js",
+      "version": "1.2.2",
+      "location": "node_modules/source-map-js",
+      "spdx": "BSD-3-Clause",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "6cb0631f71c7749763fd3dd1d5bee52dd1070ec17f2edc1710079ad070bd2fbd",
+          "bytes": 1526,
+          "firstLine": " Copyright (c) 2009-2011, Mozilla Foundation and contributors All rights reserved."
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "styled-jsx",
+      "version": "5.1.6",
+      "location": "node_modules/styled-jsx",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "license.md",
+          "sha256": "24d4a4580df855c345705b3016404f0c9da7e7674dc3b21a3ce7d0e5d0c37e2d",
+          "bytes": 1077,
+          "firstLine": "MIT License  Copyright (c) 2016-present Vercel, Inc."
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "location": "node_modules/tslib",
+      "spdx": "0BSD",
+      "licenseFiles": [
+        {
+          "file": "LICENSE.txt",
+          "sha256": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751",
+          "bytes": 655,
+          "firstLine": "Copyright (c) Microsoft Corporation.\r \r Permission to use, copy, modify, and/or distribute this software for any\r"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "undici",
+      "version": "7.29.1",
+      "location": "node_modules/undici",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE",
+          "sha256": "a6db8096b2707bc0102d256917d4d33f298ba36d8c3f25de067a2b5bb379db27",
+          "bytes": 1090,
+          "firstLine": "MIT License  Copyright (c) Matteo Collina and Undici contributors"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "whatwg-encoding",
+      "version": "3.1.1",
+      "location": "node_modules/whatwg-encoding",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE.txt",
+          "sha256": "528eec83cb836a0adda9f8fc3d6a2a70a710d6cc0be9a155f92212c8df28acfa",
+          "bytes": 1069,
+          "firstLine": "Copyright © Domenic Denicola <d@domenic.me>  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated docume"
+        }
+      ],
+      "verifiedFilePresent": true
+    },
+    {
+      "name": "whatwg-mimetype",
+      "version": "4.0.0",
+      "location": "node_modules/whatwg-mimetype",
+      "spdx": "MIT",
+      "licenseFiles": [
+        {
+          "file": "LICENSE.txt",
+          "sha256": "528eec83cb836a0adda9f8fc3d6a2a70a710d6cc0be9a155f92212c8df28acfa",
+          "bytes": 1069,
+          "firstLine": "Copyright © Domenic Denicola <d@domenic.me>  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated docume"
+        }
+      ],
+      "verifiedFilePresent": true
+    }
+  ]
+}

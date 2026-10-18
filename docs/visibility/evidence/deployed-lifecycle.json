@@ -1,0 +1,47 @@
+{
+  "origin": "https://multihub-visibility.chengzhao640.chatgpt.site",
+  "results": [
+    {
+      "test": "scan",
+      "status": 201,
+      "cacheHit": true,
+      "reportId": "718d2fc3-944c-4e3b-a119-22087463b09d"
+    },
+    {
+      "test": "cache",
+      "passed": true
+    },
+    {
+      "test": "lead-submit",
+      "status": 201
+    },
+    {
+      "test": "public-report-no-contact",
+      "passed": true
+    },
+    {
+      "test": "admin-denies-anonymous",
+      "status": 401
+    },
+    {
+      "test": "admin-authorized-attribution-and-consent",
+      "passed": true
+    },
+    {
+      "test": "follow-up-status",
+      "passed": true
+    },
+    {
+      "test": "paid-model-disabled",
+      "status": 503
+    },
+    {
+      "test": "delete-contact",
+      "passed": true
+    },
+    {
+      "test": "deletion-readback",
+      "passed": true
+    }
+  ]
+}

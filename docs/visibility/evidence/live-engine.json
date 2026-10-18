@@ -1,0 +1,190 @@
+[
+  {
+    "website": "https://molthub.click",
+    "status": "success",
+    "seconds": 3.93,
+    "score": 95,
+    "coverage": 100,
+    "checks": [
+      {
+        "id": "crawler",
+        "status": "pass",
+        "evidence": "OAI-SearchBot: allowed; PerplexityBot: allowed; Googlebot: allowed"
+      },
+      {
+        "id": "content",
+        "status": "pass",
+        "evidence": "1624 whitespace-delimited words extracted from main, excluding scripts, navigation and hidden elements. Web3 GEO / AI Search VisibilityMake Your Web3 Project Visible in AI Searchmolthub is a hands-on Web3 GEO studio for early-stage teams. We audit and improve the public information that helps AI-powered"
+      },
+      {
+        "id": "indexing",
+        "status": "pass",
+        "evidence": "No noindex/none directive found in the HTML robots meta tags. X-Robots-Tag is not included in this rule."
+      },
+      {
+        "id": "sitemap",
+        "status": "pass",
+        "evidence": "HTTP 200; 36 <loc> entries in sitemap or index. Child sitemaps were not crawled."
+      },
+      {
+        "id": "schema",
+        "status": "pass",
+        "evidence": "1 valid JSON-LD block(s); 0 invalid. Types: Organization, WebSite, ProfessionalService."
+      },
+      {
+        "id": "meta",
+        "status": "pass",
+        "evidence": "Title: molthub — Web3 AI Search Visibility | Description: Hands-on GEO audits and implementation for early-stage Web3 teams. Improve how AI search systems discover, understand, and cite your project. | Canonical: https://molthub.click | Lang: en"
+      },
+      {
+        "id": "headings",
+        "status": "pass",
+        "evidence": "1 H1 heading(s). H1: Make Your Web3 Project Visible in AI Search | H2: Check Your Website’s AI-Search Readiness | H2: Five Clear Ways to Work With molthub | H3: Low-risk first step | H3: Free Quick Scan"
+      },
+      {
+        "id": "brand",
+        "status": "pass",
+        "evidence": "Selected brand: molthub. Organization / product schema: molthub (matches) | Open Graph site name: molthub (matches) | Page title: molthub (matches)"
+      },
+      {
+        "id": "llms",
+        "status": "warn",
+        "evidence": "HTTP 404; no text guidance verified."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://molthub.click/",
+        "finalUrl": "https://molthub.click/",
+        "status": 200,
+        "ok": true,
+        "bytes": 106852,
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://molthub.click/robots.txt",
+        "finalUrl": "https://molthub.click/robots.txt",
+        "status": 200,
+        "ok": true,
+        "bytes": 171,
+        "contentType": "text/plain"
+      },
+      {
+        "url": "https://molthub.click/sitemap.xml",
+        "finalUrl": "https://molthub.click/sitemap.xml",
+        "status": 200,
+        "ok": true,
+        "bytes": 6212,
+        "contentType": "application/xml"
+      },
+      {
+        "url": "https://molthub.click/llms.txt",
+        "finalUrl": "https://molthub.click/llms.txt",
+        "status": 404,
+        "ok": false,
+        "bytes": 9,
+        "contentType": "text/plain;charset=UTF-8"
+      }
+    ]
+  },
+  {
+    "website": "https://example.com",
+    "status": "success",
+    "seconds": 0.691,
+    "score": 41,
+    "coverage": 100,
+    "checks": [
+      {
+        "id": "crawler",
+        "status": "pass",
+        "evidence": "HTTP 404: no robots.txt, so access is allowed by default."
+      },
+      {
+        "id": "content",
+        "status": "fail",
+        "evidence": "25 whitespace-delimited words extracted from body, excluding scripts, navigation and hidden elements. This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes."
+      },
+      {
+        "id": "indexing",
+        "status": "pass",
+        "evidence": "No noindex/none directive found in the HTML robots meta tags. X-Robots-Tag is not included in this rule."
+      },
+      {
+        "id": "sitemap",
+        "status": "warn",
+        "evidence": "HTTP 404; sitemap not retrieved."
+      },
+      {
+        "id": "schema",
+        "status": "warn",
+        "evidence": "0 valid JSON-LD block(s); 0 invalid. Types: none."
+      },
+      {
+        "id": "meta",
+        "status": "warn",
+        "evidence": "Title: Example Domain | Description: (missing) | Canonical: (missing) | Lang: en"
+      },
+      {
+        "id": "headings",
+        "status": "warn",
+        "evidence": "0 H1 heading(s). No H1–H3 headings found."
+      },
+      {
+        "id": "brand",
+        "status": "pass",
+        "evidence": "Selected brand: Example Domain. Page title: Example Domain (matches)"
+      },
+      {
+        "id": "llms",
+        "status": "warn",
+        "evidence": "HTTP 404; no text guidance verified."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://example.com/",
+        "finalUrl": "https://example.com/",
+        "status": 200,
+        "ok": true,
+        "bytes": 577,
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://example.com/robots.txt",
+        "finalUrl": "https://example.com/robots.txt",
+        "status": 404,
+        "ok": false,
+        "bytes": 577,
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://example.com/sitemap.xml",
+        "finalUrl": "https://example.com/sitemap.xml",
+        "status": 404,
+        "ok": false,
+        "bytes": 577,
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "url": "https://example.com/llms.txt",
+        "finalUrl": "https://example.com/llms.txt",
+        "status": 404,
+        "ok": false,
+        "bytes": 577,
+        "contentType": "text/html; charset=utf-8"
+      }
+    ]
+  },
+  {
+    "website": "https://multihub-nonexistent-20261018.com",
+    "status": "error",
+    "seconds": 0.028,
+    "error": "This hostname could not be resolved through public DNS."
+  },
+  {
+    "website": "https://127.0.0.1.nip.io",
+    "status": "error",
+    "seconds": 0.071,
+    "error": "This hostname resolves to a private, reserved or unavailable network address."
+  }
+]

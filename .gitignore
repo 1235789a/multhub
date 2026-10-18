@@ -40,3 +40,7 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# Local visibility credentials and build metadata
+.dev.vars*
+*.tsbuildinfo
