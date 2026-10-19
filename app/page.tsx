@@ -138,7 +138,7 @@ export default function Home() {
                 search systems discover, understand, and cite a project.
               </p>
               <div className="button-row">
-                <a className="button button--gold" href="#free-scan">
+                <a className="button button--gold" href="/tools/ai-visibility">
                   Run Free Scan
                 </a>
                 <Link className="button button--secondary" href="/sample-report">

@@ -1,0 +1,559 @@
+/**
+ * Cost estimation and the spend guard.
+ *
+ * Hard rule #5: any operation that will spend LLM money goes through the cost
+ * guard - estimate first, never spend silently. Hard rule #6: estimates are
+ * estimates and say so (see {@link CostEstimate.assumptions}).
+ */
+import type { RunSpend } from './types.js';
+
+/** Per-million-token pricing for a model. */
+export interface ModelPricing {
+  inputPerMTokens: number;
+  outputPerMTokens: number;
+  /**
+   * Flat USD charged per request, on top of tokens. Some grounded engines bill a
+   * search fee per call (Perplexity), which token-only pricing misses entirely.
+   */
+  perRequestUsd?: number;
+  /**
+   * USD charged per individual SEARCH QUERY, on top of tokens. Distinct from
+   * {@link perRequestUsd}: Google bills grounding per query and one request can
+   * issue several, so the multiplier is the search count, not the call count.
+   * Charged only when a call actually searched.
+   */
+  perSearchUsd?: number;
+  /**
+   * Typical output tokens for one ask against THIS model, overriding
+   * {@link EstimateAssumptions.avgOutputTokens}.
+   *
+   * Exists because a single global figure cannot describe both a plain chat
+   * model and a thinking model: the global 500 was ~5x under for Gemini, whose
+   * reasoning tokens bill as output. That gap under-quoted the confirm gate
+   * and under-reserved the cap. Omit unless a model is measurably different.
+   */
+  avgOutputTokens?: number;
+}
+
+/**
+ * Checked-in pricing table. `lastUpdated` flags staleness; prices are USD per
+ * million tokens and are approximate - good enough for a pre-run estimate, not
+ * billing. Update the date when you touch the numbers.
+ *
+ * OpenAI rows retrieved 2026-07-17 from the official sheet
+ * (https://developers.openai.com/api/docs/pricing); `gpt-5.6-sol` (the ask
+ * default) and `chat-latest` both re-verified there 2026-08-13, each at
+ * $5.00/$30.00.
+ *
+ * The ask default is a PINNED snapshot, so the id priced here and the id asked
+ * are the same string AND that string cannot change under us - which is the
+ * whole reason for pinning. It took two breakages to get here: the default was
+ * `gpt-5.3-chat-latest`, which the sheet never listed (it borrowed the generic
+ * `chat-latest` number, an assumption rather than a quote) and which OpenAI then
+ * retired outright with HTTP 404; and then briefly `chat-latest` itself, which
+ * is quoted but floats. A floating row can go stale with no change here and
+ * nothing in the response to reveal it, so a snapshot is the only form of this
+ * row that stays true on its own.
+ *
+ * Gemini + Perplexity rows verified live 2026-07-20 (M17 engine smoke):
+ * - `gemini-flash-latest` $1.50/$9.00 from the official sheet
+ *   (https://ai.google.dev/gemini-api/docs/pricing, quoting `gemini-3.5-flash`,
+ *   which the alias resolved to live). That output rate EXPLICITLY includes
+ *   thinking tokens, which is why the adapter counts `thoughtsTokenCount` as
+ *   output. Same floating caveat as `-chat-latest`. The `gemini-2.5-flash` row
+ *   is kept for historical snapshots only - that model now 404s.
+ * - `sonar` token rates confirmed against Perplexity's own `usage.cost` on a
+ *   real call ($1/$1), plus a flat `perRequestUsd` search fee of $0.005 that
+ *   token-only pricing missed entirely (7x under-report on that call).
+ *
+ * Anthropic rows verified 2026-07-20 against the official sheet: `claude-haiku-4-5`
+ * $1/$5 and `claude-sonnet-5` $3/$15 were both already correct. Note Sonnet 5 is
+ * on introductory pricing ($2/$10) through 2026-08-31, so the row over-estimates
+ * until then - deliberate, an estimate should not under-report spend.
+ *
+ * Google Search grounding is modelled as of 2026-07-20 (`perSearchUsd`): $14
+ * per 1,000 search queries on top of tokens. The billing unit is the SEARCH,
+ * not the request - "A customer-submitted request to Gemini may result in one
+ * or more queries to Google Search. You will be charged for each individual
+ * search query performed" (official sheet, retrieved 2026-07-20). RECORDED
+ * spend is exact because the response reports the queries it ran
+ * (`webSearchQueries` -> `fanoutQueries`); only the pre-run ESTIMATE assumes a
+ * count, via {@link EstimateAssumptions.searchesPerGroundedCall}. This fee is
+ * not small: on the real captured grounded call it was $0.042 against $0.034
+ * of tokens.
+ *
+ * Google also grants a free grounding allowance (5,000 prompts/month at the
+ * time of writing), so a user inside it pays nothing. Pricing it anyway is
+ * deliberate: an estimate must not under-report spend.
+ */
+export const MODEL_PRICING: {
+  lastUpdated: string;
+  models: Record<string, ModelPricing>;
+} = {
+  lastUpdated: '2026-08-13',
+  models: {
+    // Current generation (what ChatGPT serves / what we ask + judge with).
+    // avgOutputTokens measured live 2026-07-20: ~2583 on a grounded ask.
+    // Superseded as the ask default on 2026-08-13, hours after it became one:
+    // it is quoted on the sheet but FLOATS, and nothing in a response reveals
+    // when OpenAI repoints it. Kept because snapshots written in that window
+    // record answers from it, and because the measurement below is still the
+    // best evidence anyone has for what it costs to ask.
+    //
+    // `avgOutputTokens` here is MEASURED, and it is the reason the row needed
+    // an override at all: whatever `chat-latest` resolved to answered far more
+    // briefly than the model the global default was built from. Real `check`
+    // run 2026-08-13, 8 answers (bcombinator.com, es-ES): mean 480, median 450,
+    // range 298-744, against a global of 2600 back-solved from
+    // gpt-5.3-chat-latest at ~2583. Set above the observed MAX rather than at
+    // the mean, because an estimate should not under-report spend.
+    'chat-latest': {
+      inputPerMTokens: 5,
+      outputPerMTokens: 30,
+      avgOutputTokens: 800,
+    },
+    // Retired 2026-08-13: OpenAI deprecated the per-generation chat aliases and
+    // this now 404s. Kept only so snapshots written before the switch still
+    // price - dropping the row would silently value those runs at $0.
+    'gpt-5.3-chat-latest': {
+      inputPerMTokens: 5,
+      outputPerMTokens: 30,
+      avgOutputTokens: 2600,
+    },
+    // The ask default (pinned). Deliberately carries NO `avgOutputTokens`, so
+    // it inherits the global 2600. Measured on a real check 2026-08-13, 8
+    // answers (bcombinator.com, es-ES): mean 952, median 899, range 367-1867.
+    // The mean is well under the global, but this is a reasoning model and its
+    // output varied 5x across eight prompts, so an override set just above the
+    // observed max would be a number invented from a thin sample rather than a
+    // measurement. The global sits ~1.4x above that max, which is the right
+    // direction to err: under-reserving breaches the cap, over-reserving costs
+    // only a little parallelism. Override it only with a wider sample.
+    'gpt-5.6-sol': { inputPerMTokens: 5, outputPerMTokens: 30 },
+    'gpt-5.6-terra': { inputPerMTokens: 2.5, outputPerMTokens: 15 },
+    'gpt-5.6-luna': { inputPerMTokens: 1, outputPerMTokens: 6 },
+    'gpt-5.5': { inputPerMTokens: 5, outputPerMTokens: 30 },
+    'gpt-5.4': { inputPerMTokens: 2.5, outputPerMTokens: 15 },
+    'gpt-5.4-mini': { inputPerMTokens: 0.75, outputPerMTokens: 4.5 },
+    'gpt-5.4-nano': { inputPerMTokens: 0.2, outputPerMTokens: 1.25 },
+    // Legacy - kept so existing snapshots and pinned --judge/--engines still
+    // price, but no longer a default: ChatGPT does not serve these.
+    'gpt-4o-mini': { inputPerMTokens: 0.15, outputPerMTokens: 0.6 },
+    'gpt-4o': { inputPerMTokens: 2.5, outputPerMTokens: 10 },
+    'claude-haiku-4-5': { inputPerMTokens: 1, outputPerMTokens: 5 },
+    // Measured ~700 output tokens live; Anthropic answers shorter than the
+    // thinking models, so it gets its own (lower) figure rather than the
+    // conservative global default.
+    'claude-sonnet-5': {
+      inputPerMTokens: 3,
+      outputPerMTokens: 15,
+      avgOutputTokens: 900,
+    },
+    // avgOutputTokens: thinking tokens bill as output, so this runs high and
+    // VARIES - measured 2584 on one live ask and 3356 on another. The higher
+    // observation is used: over-reserving only costs a little parallelism
+    // (settle returns the excess immediately), while under-reserving breaches
+    // the cap.
+    'gemini-flash-latest': {
+      inputPerMTokens: 1.5,
+      outputPerMTokens: 9,
+      perSearchUsd: 0.014,
+      avgOutputTokens: 3400,
+    },
+    'gemini-3.5-flash': {
+      inputPerMTokens: 1.5,
+      outputPerMTokens: 9,
+      perSearchUsd: 0.014,
+      avgOutputTokens: 3400,
+    },
+    // Retired 2026-07-20: 404s ("no longer available to new users"). Kept only
+    // so snapshots written before the switch still price.
+    'gemini-2.5-flash': { inputPerMTokens: 0.3, outputPerMTokens: 2.5 },
+    // Measured ~400 output tokens live; Perplexity answers concisely and its
+    // cost is dominated by the flat per-search fee, not tokens.
+    sonar: {
+      inputPerMTokens: 1,
+      outputPerMTokens: 1,
+      perRequestUsd: 0.005,
+      avgOutputTokens: 600,
+    },
+  },
+};
+
+/**
+ * Output tokens reserved for a reasoning judge's private thinking, on top of
+ * whatever the answer itself needs.
+ *
+ * Reasoning models bill thinking as output and draw it from the SAME cap as the
+ * answer, so a cap sized for the answer alone starves it. The call still returns
+ * HTTP 200 - with an empty text block - and every parser downstream reads that
+ * as "the judge found nothing", which is how a failed call became an empty
+ * result with no error (rule #6).
+ *
+ * Measured live 2026-08-13 against claude-sonnet-5: the competitor prompt at
+ * max_tokens 300 spent all 300 on thinking and returned zero text; the query
+ * generation prompt did the same at 1440. Both answered cleanly with the reserve
+ * added (2172 thinking + 2397 text on the generation prompt).
+ *
+ * Thinking is ADAPTIVE - the same model answered a short scoring prompt at 60
+ * tokens with no thinking at all - so this is a ceiling a call is allowed to
+ * use, never a cost it always pays. Real spend is settled from reported usage.
+ */
+export const REASONING_RESERVE_TOKENS = 4000;
+
+/**
+ * The output cap for a judge call that needs `answerTokens` for its answer.
+ *
+ * Every judge call site sizes its cap through this and never with a bare number:
+ * a raw answer-sized cap is silently empty on a reasoning judge, and each site
+ * that hard-coded one had to be found by hand after it had already shipped.
+ *
+ * This return value is the cap SENT TO THE PROVIDER, and only that - it must
+ * NOT also be the `outputTokens` passed to {@link estimateCallUsd} for
+ * `CostGuard.authorize`. Price that call against `answerTokens` instead. The
+ * reserve exists so a reasoning judge is never starved of output by its own
+ * private thinking, but it is headroom the call is ALLOWED to use, not a cost
+ * it typically pays - pricing the reservation off this inflated cap
+ * over-reserved by ~20x and made a modest --max-cost skip an entire judge
+ * pass on its first call (see the call sites in `scoring/judge.ts`,
+ * `shopping/judge.ts`, `queries/generate.ts`, `shopping/queries.ts`, and
+ * `discovery/competitors.ts` for the full rationale).
+ */
+export function judgeMaxTokens(answerTokens: number): number {
+  return answerTokens + REASONING_RESERVE_TOKENS;
+}
+
+/** Thrown when a model id is not present in {@link MODEL_PRICING}. */
+export class UnknownModelError extends Error {
+  constructor(public readonly model: string) {
+    super(`No pricing for model "${model}" (add it to MODEL_PRICING)`);
+    this.name = 'UnknownModelError';
+  }
+}
+
+function pricingFor(model: string): ModelPricing {
+  const p = MODEL_PRICING.models[model];
+  if (!p) throw new UnknownModelError(model);
+  return p;
+}
+
+/**
+ * Output tokens to assume for one ask against `pricing`: the model's own
+ * figure when it has one, else the global default.
+ *
+ * Single source of truth so every estimator - the confirm-gate quote, the
+ * runner's per-call reservation, the whole-run estimate - agrees. They used to
+ * diverge, and only the runner learned the real number (from its probe), so
+ * the figure the USER saw stayed ~5x under for thinking models.
+ */
+export function assumedOutputTokens(
+  pricing: ModelPricing,
+  assumptions: EstimateAssumptions = ESTIMATE_ASSUMPTIONS,
+): number {
+  return pricing.avgOutputTokens ?? assumptions.avgOutputTokens;
+}
+
+/**
+ * USD cost of one call given token counts and, for grounded engines, the
+ * number of search queries the call actually issued.
+ *
+ * `searchQueries` defaults to 0 so every parametric caller is unchanged: a call
+ * that ran no search is never charged a search fee.
+ */
+export function costOfCall(
+  pricing: ModelPricing,
+  inputTokens: number,
+  outputTokens: number,
+  searchQueries = 0,
+): number {
+  return (
+    (inputTokens / 1_000_000) * pricing.inputPerMTokens +
+    (outputTokens / 1_000_000) * pricing.outputPerMTokens +
+    (pricing.perRequestUsd ?? 0) +
+    searchQueries * (pricing.perSearchUsd ?? 0)
+  );
+}
+
+/** Assumptions baked into an estimate, surfaced so output can be honest. */
+export interface EstimateAssumptions {
+  avgInputTokens: number;
+  avgOutputTokens: number;
+  judgeInputTokens: number;
+  judgeOutputTokens: number;
+  judgeSampleRate: number;
+  /**
+   * Search queries assumed per grounded call, for engines that bill per search
+   * ({@link ModelPricing.perSearchUsd}). Only an ESTIMATE input - recorded
+   * spend uses the count the provider actually reported.
+   */
+  searchesPerGroundedCall: number;
+  /** Whether the run being estimated will ask engines in grounded mode. */
+  grounded?: boolean;
+}
+
+/** The default token/sampling assumptions for a run estimate. */
+export const ESTIMATE_ASSUMPTIONS: EstimateAssumptions = {
+  avgInputTokens: 200,
+  // Raised from 500 on 2026-07-20 after a live low-cap run breached its cap by
+  // 47%. Back-solving the real per-call costs showed modern models answering
+  // at ~2583 (OpenAI) and ~3356 (Gemini) output tokens, not 500 - a figure
+  // that predates the GPT-5/thinking generation. It is the fallback for a
+  // model with no measured `avgOutputTokens` of its own, so it errs high on
+  // purpose: under-reserving breaches the cap, while over-reserving costs only
+  // a little parallelism because `settle` returns the excess immediately.
+  avgOutputTokens: 2600,
+  judgeInputTokens: 700,
+  judgeOutputTokens: 100,
+  judgeSampleRate: 0.3, // M7: judge calls <= 30% of answers
+  // MEASURED at the M17 smoke test (2026-07-20), live grounded Gemini over 7
+  // calls: counts 4,2,3,4,6,3,2 - median 3, mean 3.43, max 6. Sitting at 4
+  // keeps the estimate just above the mean without reaching for the tail, and
+  // deliberately NOT padded further: cap safety does not rest on this number
+  // (the guard reserves then settles to actual, and the runner authorizes
+  // later calls against each engine's OBSERVED cost after a probe), while this
+  // number DOES drive the figure shown at the confirm gate, where padding
+  // talks users out of runs cheaper than quoted.
+  //
+  // The fee is not a rounding error: those 24 searches cost $0.336, which was
+  // 57% of Gemini's total spend for the run. Token-only pricing would have
+  // under-reported that engine by more than 2x.
+  //
+  // Only Gemini bills this way today. Re-measure if OpenAI starts charging per
+  // search, or if fanout behavior visibly shifts.
+  searchesPerGroundedCall: 4,
+};
+
+/** Result of {@link estimateRun}: a pre-run cost estimate in USD. */
+export interface CostEstimate {
+  totalUsd: number;
+  askUsd: number;
+  judgeUsd: number;
+  assumptions: EstimateAssumptions;
+}
+
+/**
+ * Estimate the USD cost of asking `nPrompts` to each engine (by model id) plus
+ * the sampled judge pass. Throws {@link UnknownModelError} for any model not in
+ * the pricing table.
+ */
+export function estimateRun(
+  nPrompts: number,
+  engineModels: string[],
+  judgeModel: string,
+  assumptions: EstimateAssumptions = ESTIMATE_ASSUMPTIONS,
+): CostEstimate {
+  const askPerPrompt = engineModels.reduce(
+    (sum, model) =>
+      sum +
+      costOfCall(
+        pricingFor(model),
+        assumptions.avgInputTokens,
+        assumedOutputTokens(pricingFor(model), assumptions),
+        // Only a grounded run searches. An engine with no `perSearchUsd`
+        // absorbs this as zero, so an engine that cannot search is never
+        // charged for one even under --grounded.
+        assumptions.grounded ? assumptions.searchesPerGroundedCall : 0,
+      ),
+    0,
+  );
+  const askUsd = nPrompts * askPerPrompt;
+
+  const nAnswers = nPrompts * engineModels.length;
+  const judgeCallCost = costOfCall(
+    pricingFor(judgeModel),
+    assumptions.judgeInputTokens,
+    assumptions.judgeOutputTokens,
+  );
+  const judgeUsd = nAnswers * assumptions.judgeSampleRate * judgeCallCost;
+
+  return { totalUsd: askUsd + judgeUsd, askUsd, judgeUsd, assumptions };
+}
+
+/**
+ * Estimate the USD cost of a single judge-model call (discovery/query-gen).
+ * Priced by the configured judge model. Unknown models fall back to the
+ * priciest entry so the setup-budget authorization never under-estimates.
+ */
+export function estimateJudgeCallUsd(
+  model: string,
+  assumptions: EstimateAssumptions = ESTIMATE_ASSUMPTIONS,
+): number {
+  const pricing = MODEL_PRICING.models[model] ?? priciestPricing();
+  return costOfCall(
+    pricing,
+    assumptions.judgeInputTokens,
+    assumptions.judgeOutputTokens,
+  );
+}
+
+/**
+ * Estimate the USD cost of a single call with explicit token counts, priced by
+ * the configured model (unknown -> priciest entry). Use this when the real
+ * input/output budget is known, so the cost guard authorizes against reality.
+ */
+export function estimateCallUsd(
+  model: string,
+  inputTokens: number,
+  outputTokens: number,
+): number {
+  const pricing = MODEL_PRICING.models[model] ?? priciestPricing();
+  return costOfCall(pricing, inputTokens, outputTokens);
+}
+
+/** Rough token count from character length (~4 chars/token) for pre-call estimates. */
+export function approxTokens(text: string): number {
+  return Math.ceil(text.length / 4);
+}
+
+/**
+ * The most expensive pricing in the table - a conservative unknown-model
+ * default, so an unpriced model never under-estimates the budget.
+ *
+ * Ranked by the cost of a REPRESENTATIVE CALL, not by summed per-token rates:
+ * a flat `perRequestUsd` (Perplexity's per-search fee) is invisible to a rate
+ * sum but dominates short calls. The judge asks for ~60 output tokens, well
+ * inside the window where the fee outweighs the rates, so rate-only ranking
+ * returned a row that was not actually the priciest and broke the
+ * never-under-estimate guarantee this function exists to provide (rule #5).
+ */
+export function priciestPricing(): ModelPricing {
+  const referenceCost = (p: ModelPricing): number =>
+    costOfCall(
+      p,
+      ESTIMATE_ASSUMPTIONS.judgeInputTokens,
+      ESTIMATE_ASSUMPTIONS.judgeOutputTokens,
+    );
+  return Object.values(MODEL_PRICING.models).reduce((max, p) =>
+    referenceCost(p) > referenceCost(max) ? p : max,
+  );
+}
+
+/** Spend phase: pre-ASK setup (discovery + query-gen) vs the main run. */
+export type CostPhase = 'setup' | 'main';
+
+/**
+ * Accumulates actual spend and enforces caps. Per the abort contract, hitting a
+ * cap NEVER throws: {@link CostGuard.authorize} returns `false` and sets
+ * {@link CostGuard.costCapped}, and the caller stops.
+ *
+ * Authorizing RESERVES the projected cost, and {@link CostGuard.settle}
+ * replaces that hold with the real figure once the call returns. Without the
+ * reservation, `authorize` compared only against RECORDED spend - and recording
+ * happens after a call completes - so every concurrently in-flight call was
+ * authorized against a total that excluded all the others. Measured live
+ * 2026-07-20: `--max-cost 0.20` spent $0.3481, a 74% breach (hard rule #5).
+ */
+export class CostGuard {
+  private readonly spent: Record<CostPhase, number> = { setup: 0, main: 0 };
+  /** Authorized-but-not-yet-settled holds, so in-flight calls count against the cap. */
+  private readonly reserved: Record<CostPhase, number> = { setup: 0, main: 0 };
+  private capped = false;
+
+  constructor(
+    private readonly caps: {
+      maxCostUsd?: number;
+      maxSetupCostUsd?: number;
+    } = {},
+  ) {}
+
+  get spentUsd(): number {
+    return this.spent.setup + this.spent.main;
+  }
+
+  /**
+   * Actual spend split by phase, for reporting what a run cost.
+   *
+   * The guard is the only place that sees EVERY spender - discovery, query
+   * generation, the engine asks, and the scoring judge - so a report that sums
+   * answers instead would silently omit the setup phase.
+   */
+  get spendBreakdown(): RunSpend {
+    return {
+      setupUsd: this.spent.setup,
+      mainUsd: this.spent.main,
+      totalUsd: this.spentUsd,
+    };
+  }
+
+  get costCapped(): boolean {
+    return this.capped;
+  }
+
+  /**
+   * Return whether a projected spend of `usd` in `phase` is allowed. If it
+   * would exceed the setup cap (for setup spends) or the total cap, mark
+   * `costCapped` and return `false`. Never throws.
+   */
+  authorize(usd: number, phase: CostPhase = 'main'): boolean {
+    const { maxSetupCostUsd, maxCostUsd } = this.caps;
+    // Committed = already spent PLUS everything currently in flight. Checking
+    // spend alone let concurrent calls each claim the same headroom.
+    const committedSetup = this.spent.setup + this.reserved.setup;
+    const committedTotal =
+      this.spentUsd + this.reserved.setup + this.reserved.main;
+    if (
+      phase === 'setup' &&
+      maxSetupCostUsd !== undefined &&
+      committedSetup + usd > maxSetupCostUsd
+    ) {
+      this.capped = true;
+      return false;
+    }
+    if (maxCostUsd !== undefined && committedTotal + usd > maxCostUsd) {
+      this.capped = true;
+      return false;
+    }
+    this.reserved[phase] += usd;
+    return true;
+  }
+
+  /**
+   * Close out an authorized call: release its reservation and book what it
+   * actually cost. Pass `actualUsd: 0` when the call failed or was abandoned,
+   * so the hold does not leak and strangle the remaining budget.
+   *
+   * Settling can itself BREACH a cap: a reservation is a projection, and a
+   * call that returns far more tokens (or searches) than assumed costs more
+   * than was held for it. That money is already spent and cannot be refused,
+   * but it must be reported - `authorize` used to be the only thing that could
+   * set `costCapped`, so an overshoot sailed past `--max-cost` while the
+   * envelope still claimed a clean, full-confidence run (rule #6).
+   */
+  settle(
+    reservedUsd: number,
+    actualUsd: number,
+    phase: CostPhase = 'main',
+  ): void {
+    this.reserved[phase] = Math.max(0, this.reserved[phase] - reservedUsd);
+    this.spent[phase] += actualUsd;
+    this.flagIfOverCap();
+  }
+
+  /**
+   * Flag the run when ACTUAL spend has reached or passed a cap. Compares spend
+   * only (not reservations): an outstanding hold is a projection that may yet
+   * settle lower, and treating it as a breach would flag runs that never
+   * exceeded anything.
+   */
+  private flagIfOverCap(): void {
+    const { maxSetupCostUsd, maxCostUsd } = this.caps;
+    if (maxSetupCostUsd !== undefined && this.spent.setup > maxSetupCostUsd) {
+      this.capped = true;
+    }
+    if (maxCostUsd !== undefined && this.spentUsd > maxCostUsd) {
+      this.capped = true;
+    }
+  }
+
+  /**
+   * Record actual spend for a call that carried NO reservation.
+   *
+   * Do not pair this with {@link CostGuard.authorize} - that reserves, and only
+   * {@link CostGuard.settle} releases the hold. Using `record` after
+   * `authorize` leaks the reservation and permanently shrinks the budget.
+   */
+  record(usd: number, phase: CostPhase = 'main'): void {
+    this.spent[phase] += usd;
+    this.flagIfOverCap();
+  }
+}

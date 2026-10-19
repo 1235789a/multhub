@@ -1,0 +1,106 @@
+{
+  "checkedAt": "2026-10-19T05:43:19.331Z",
+  "origin": "https://multihub-visibility.chengzhao640.chatgpt.site",
+  "results": [
+    {
+      "test": "question-pack selection and CSV download",
+      "passed": true
+    },
+    {
+      "test": "partner-link generation and clipboard",
+      "passed": true
+    },
+    {
+      "test": "partners-desktop layout",
+      "passed": true,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "test": "homepage-desktop layout",
+      "passed": true,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "test": "desktop real scan and report",
+      "passed": true,
+      "reportId": "5a074874-14c1-42a5-95eb-52b82983c456",
+      "score": 95,
+      "questionPack": "web3"
+    },
+    {
+      "test": "report-desktop layout",
+      "passed": true,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "test": "report share and reload",
+      "passed": true
+    },
+    {
+      "test": "print button click and Chromium PDF generation",
+      "passed": true
+    },
+    {
+      "test": "baseline scope submission with marketing unchecked",
+      "passed": true
+    },
+    {
+      "test": "private browser deletion",
+      "passed": true
+    },
+    {
+      "test": "homepage-mobile layout",
+      "passed": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "test": "mobile malicious input error",
+      "passed": true
+    },
+    {
+      "test": "report-mobile layout",
+      "passed": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "test": "mobile report plan and offer selection",
+      "passed": true
+    },
+    {
+      "test": "questions-mobile layout",
+      "passed": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "test": "partners-mobile layout",
+      "passed": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "test": "no browser page errors",
+      "passed": true
+    }
+  ],
+  "pageErrors": []
+}

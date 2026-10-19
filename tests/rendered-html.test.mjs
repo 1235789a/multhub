@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render(pathname = "/") {
+async function render(pathname = "/", init = {}) {
+  if (process.env.TEST_BASE_URL) return fetch(new URL(pathname, process.env.TEST_BASE_URL), init);
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
@@ -185,25 +186,30 @@ test("keeps transactional and account routes out of search results", async () =>
 });
 
 test("rejects private hosts in the public quick-scan endpoint", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `scan-${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request("http://localhost/api/free-scan", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ website: "http://127.0.0.1" }),
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+  const response = await render("/api/free-scan", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ website: "http://127.0.0.1" }),
+  });
   assert.equal(response.status, 400);
   assert.match(await response.text(), /public project website/i);
+});
+
+test("renders the free visibility tool and its privacy and admin routes", async () => {
+  for (const [path, expected] of [["/tools/ai-visibility", /Check My Website/], ["/tools/ai-visibility/privacy", /Weights:/], ["/tools/ai-visibility/admin", /Administrator token/]]) {
+    const response = await render(path);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, expected);
+    assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
+  }
+});
+
+
+test("serves buyer-question and partner resources without executing model tests", async()=>{
+ for(const [path,pattern] of [["/tools/ai-visibility/questions",/Ask what your buyers ask/],["/tools/ai-visibility/partners",/Create your partner link/]]){
+  const response=await render(path);assert.equal(response.status,200);const html=await response.text();assert.match(html,pattern);
+  assert.doesNotMatch(html,/codex-preview/);
+ }
+ const library=await(await render('/tools/ai-visibility/questions')).text();assert.match(library,/Templates · not executed/);assert.match(library,/Branded fact check/);
 });

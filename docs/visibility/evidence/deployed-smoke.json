@@ -1,0 +1,187 @@
+{
+  "origin": "https://multihub-visibility.chengzhao640.chatgpt.site",
+  "results": [
+    {
+      "case": "normal",
+      "input": "https://molthub.click",
+      "status": 201,
+      "seconds": 7.24,
+      "score": 95,
+      "coverage": 100,
+      "reportId": "718d2fc3-944c-4e3b-a119-22087463b09d",
+      "code": null,
+      "error": null,
+      "checks": [
+        {
+          "id": "crawler",
+          "status": "pass",
+          "earned": 25,
+          "weight": 25
+        },
+        {
+          "id": "content",
+          "status": "pass",
+          "earned": 10,
+          "weight": 10
+        },
+        {
+          "id": "indexing",
+          "status": "pass",
+          "earned": 5,
+          "weight": 5
+        },
+        {
+          "id": "sitemap",
+          "status": "pass",
+          "earned": 10,
+          "weight": 10
+        },
+        {
+          "id": "schema",
+          "status": "pass",
+          "earned": 20,
+          "weight": 20
+        },
+        {
+          "id": "meta",
+          "status": "pass",
+          "earned": 15,
+          "weight": 15
+        },
+        {
+          "id": "headings",
+          "status": "pass",
+          "earned": 5,
+          "weight": 5
+        },
+        {
+          "id": "brand",
+          "status": "pass",
+          "earned": 5,
+          "weight": 5
+        },
+        {
+          "id": "llms",
+          "status": "warn",
+          "earned": 0,
+          "weight": 5
+        }
+      ]
+    },
+    {
+      "case": "sparse",
+      "input": "https://example.com",
+      "status": 201,
+      "seconds": 2.81,
+      "score": 41,
+      "coverage": 100,
+      "reportId": "992d2663-c115-4af3-ba5d-f21438d0fce4",
+      "code": null,
+      "error": null,
+      "checks": [
+        {
+          "id": "crawler",
+          "status": "pass",
+          "earned": 25,
+          "weight": 25
+        },
+        {
+          "id": "content",
+          "status": "fail",
+          "earned": 0,
+          "weight": 10
+        },
+        {
+          "id": "indexing",
+          "status": "pass",
+          "earned": 5,
+          "weight": 5
+        },
+        {
+          "id": "sitemap",
+          "status": "warn",
+          "earned": 0,
+          "weight": 10
+        },
+        {
+          "id": "schema",
+          "status": "warn",
+          "earned": 0,
+          "weight": 20
+        },
+        {
+          "id": "meta",
+          "status": "warn",
+          "earned": 6,
+          "weight": 15
+        },
+        {
+          "id": "headings",
+          "status": "warn",
+          "earned": 0,
+          "weight": 5
+        },
+        {
+          "id": "brand",
+          "status": "pass",
+          "earned": 5,
+          "weight": 5
+        },
+        {
+          "id": "llms",
+          "status": "warn",
+          "earned": 0,
+          "weight": 5
+        }
+      ]
+    },
+    {
+      "case": "unreachable",
+      "input": "https://multihub-nonexistent-20261018.com",
+      "status": 422,
+      "seconds": 1.83,
+      "score": null,
+      "coverage": null,
+      "reportId": null,
+      "code": "DNS_FAILED",
+      "error": "This hostname could not be resolved through public DNS.",
+      "checks": []
+    },
+    {
+      "case": "internal",
+      "input": "http://127.0.0.1",
+      "status": 400,
+      "seconds": 1.24,
+      "score": null,
+      "coverage": null,
+      "reportId": null,
+      "code": "UNSAFE_URL",
+      "error": "Only public websites on standard HTTP/HTTPS ports are allowed. Local, private and IP addresses are blocked.",
+      "checks": []
+    },
+    {
+      "case": "metadata",
+      "input": "http://169.254.169.254/latest/meta-data",
+      "status": 400,
+      "seconds": 1.09,
+      "score": null,
+      "coverage": null,
+      "reportId": null,
+      "code": "UNSAFE_URL",
+      "error": "Only public websites on standard HTTP/HTTPS ports are allowed. Local, private and IP addresses are blocked.",
+      "checks": []
+    },
+    {
+      "case": "private_dns",
+      "input": "https://127.0.0.1.nip.io",
+      "status": 422,
+      "seconds": 1.98,
+      "score": null,
+      "coverage": null,
+      "reportId": null,
+      "code": "UNSAFE_DNS",
+      "error": "This hostname resolves to a private, reserved or unavailable network address.",
+      "checks": []
+    }
+  ]
+}
