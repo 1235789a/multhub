@@ -31,7 +31,7 @@ export function Header() {
           <Link className="header-account-link" href="/account">
             Account
           </Link>
-          <Link className="button button--small desktop-cta" href="/#free-scan">
+          <Link className="button button--small desktop-cta" href="/tools/ai-visibility">
             Run Free Scan
           </Link>
         </div>
@@ -47,7 +47,7 @@ export function Header() {
               </Link>
             ))}
             <Link href="/account">Account</Link>
-            <Link className="button" href="/#free-scan">
+            <Link className="button" href="/tools/ai-visibility">
               Run Free Scan
             </Link>
           </nav>
@@ -79,7 +79,7 @@ export function Footer() {
           </div>
           <div>
             <p className="footer-heading">Start</p>
-            <Link href="/#free-scan">Free Quick Scan</Link>
+            <Link href="/tools/ai-visibility">Free Quick Scan</Link>
             <Link href="/account">Account & Scan History</Link>
             <Link href="/#services">Plans & Pricing</Link>
             <Link href="/app">Web App</Link>

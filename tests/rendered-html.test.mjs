@@ -204,3 +204,12 @@ test("renders the free visibility tool and its privacy and admin routes", async 
     assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
   }
 });
+
+
+test("serves buyer-question and partner resources without executing model tests", async()=>{
+ for(const [path,pattern] of [["/tools/ai-visibility/questions",/Ask what your buyers ask/],["/tools/ai-visibility/partners",/Create your partner link/]]){
+  const response=await render(path);assert.equal(response.status,200);const html=await response.text();assert.match(html,pattern);
+  assert.doesNotMatch(html,/codex-preview/);
+ }
+ const library=await(await render('/tools/ai-visibility/questions')).text();assert.match(library,/Templates · not executed/);assert.match(library,/Branded fact check/);
+});

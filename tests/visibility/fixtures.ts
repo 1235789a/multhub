@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import type { FetchRecord } from "../../lib/visibility/types";
 export const richHtml = `<!doctype html><html lang="en"><head><title>Acme | Customer Support Tools</title><meta name="description" content="Acme helps small businesses offer reliable customer support with clear pricing and flexible integrations."><link rel="canonical" href="https://acme.com/"><meta property="og:site_name" content="Acme"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Acme","url":"https://acme.com"},{"@type":"WebSite","name":"Acme"}]}</script></head><body><header>Nav</header><main><h1>Acme support for small teams</h1><h2>Features and pricing</h2><p>${"Useful product information and buyer questions with transparent pricing. ".repeat(40)}</p></main><footer>Footer</footer></body></html>`;
@@ -36,12 +36,11 @@ export function fixtureFetch(
 export function sqliteD1() {
   const sql = new DatabaseSync(":memory:");
   sql.exec("PRAGMA foreign_keys=ON;");
-  sql.exec(
-    readFileSync(
-      new URL("../../drizzle/0000_lovely_prima.sql", import.meta.url),
-      "utf8",
-    ),
-  );
+  const migrations = new URL("../../drizzle/", import.meta.url);
+  for (const file of readdirSync(migrations)
+    .filter((f) => f.endsWith(".sql"))
+    .sort())
+    sql.exec(readFileSync(new URL(file, migrations), "utf8"));
   const wrap = (query: string, params: unknown[] = []) => ({
     bind: (...values: unknown[]) => wrap(query, values),
     first: async () => sql.prepare(query).get(...(params as any[])) ?? null,

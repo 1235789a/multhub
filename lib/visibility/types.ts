@@ -1,3 +1,4 @@
+import type { QuestionPack } from "./questions";
 export type FetchRecord = {
   url: string;
   finalUrl: string;
@@ -29,6 +30,9 @@ export type ModelRun = {
   requestedModel: string;
   mode: string;
   question: string;
+  questionId?: string;
+  questionKind?: "discovery" | "verification" | "custom";
+  questionPackVersion?: string;
   answer: string;
   citations: string[];
   rawResponse: unknown;
@@ -75,6 +79,7 @@ export type Report = {
     brandSignals: { source: string; name: string }[];
   };
   questions: string[];
+  questionPack?: QuestionPack;
   visibility: { status: string; note: string; runs: ModelRun[] };
 };
 export class AppError extends Error {

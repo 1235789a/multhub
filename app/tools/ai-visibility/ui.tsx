@@ -2,6 +2,22 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import type { Report, Check } from "../../../lib/visibility/types";
 import "./visibility.css";
+import {
+  QuestionLibrary,
+  PartnerResources,
+  QuestionPlan,
+  downloadText,
+} from "./resources";
+import {
+  questionPackOptions,
+  validPackId,
+  type QuestionPack,
+} from "../../../lib/visibility/questions";
+import {
+  auditOffers,
+  DEFAULT_AUDIT_OFFER,
+  findOffer,
+} from "../../../lib/visibility/offers";
 const BASE = "/tools/ai-visibility",
   API = "/api/visibility";
 const date = (value: string) =>
@@ -26,7 +42,7 @@ function Header() {
         </b>
       </a>
       <nav aria-label="Tool navigation">
-        <a href={BASE + "/privacy"}>How it works</a>
+        <a href={BASE + "/questions"}>Question library</a>
         <a href="https://molthub.click" target="_blank" rel="noreferrer">
           GEO services <Icon />
         </a>
@@ -45,6 +61,7 @@ function Footer() {
       <p>Evidence first. Better decisions next.</p>
       <div>
         <a href={BASE + "/privacy"}>Privacy & method</a>
+        <a href={BASE + "/partners"}>For partners</a>
         <a href={BASE + "/admin"}>Admin</a>
         <a href="https://github.com/1235789a/multhub">Source ↗</a>
       </div>
@@ -78,6 +95,13 @@ async function api(path: string, options: RequestInit = {}) {
     throw new Error(d.error || "The service is unavailable. Please retry.");
   return d;
 }
+function trackEvent(reportId: string, scanId: string, event: string) {
+  if (scanId)
+    void api("/events", {
+      method: "POST",
+      body: JSON.stringify({ reportId, scanId, event }),
+    }).catch(() => {});
+}
 export function VisibilityApp({
   reportId,
   initialReport,
@@ -109,9 +133,22 @@ export function VisibilityApp({
       active = false;
     };
   }, [reportId, initialReport]);
+  useEffect(() => {
+    if (!report) return;
+    try {
+      setScanId(sessionStorage.getItem("vh-scan:" + report.id) || "");
+    } catch {
+      /* Storage is optional. */
+    }
+  }, [report?.id]);
   function completed(d: { report: Report; scanId: string; cacheHit: boolean }) {
     setReport(d.report);
     setScanId(d.scanId);
+    try {
+      sessionStorage.setItem("vh-scan:" + d.report.id, d.scanId);
+    } catch {
+      /* Storage is optional. */
+    }
     setCacheHit(d.cacheHit);
     setError("");
     window.history.pushState(null, "", BASE + "/report/" + d.report.id);
@@ -120,7 +157,11 @@ export function VisibilityApp({
   return (
     <div id="visibility-app">
       <Header />
-      {mode === "admin" ? (
+      {mode === "questions" ? (
+        <QuestionLibrary />
+      ) : mode === "partners" ? (
+        <PartnerResources />
+      ) : mode === "admin" ? (
         <Admin />
       ) : mode === "privacy" ? (
         <Privacy />
@@ -131,7 +172,7 @@ export function VisibilityApp({
           report={report}
           scanId={scanId}
           cacheHit={cacheHit}
-          onUpdate={(r) => setReport(r)}
+          onUpdate={completed}
         />
       ) : reportId ? (
         <main className="vh-container vh-empty">
@@ -318,10 +359,15 @@ function ScanForm({ onComplete }: { onComplete: (d: any) => void }) {
   const [website, setWebsite] = useState(""),
     [brand, setBrand] = useState(""),
     [industry, setIndustry] = useState(""),
+    [packId, setPackId] = useState(""),
     [competitor, setCompetitor] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search).get("pack");
+    if (validPackId(p)) setPackId(p);
+  }, []);
   useEffect(() => {
     if (!busy) return;
     setElapsed(0);
@@ -340,6 +386,7 @@ function ScanForm({ onComplete }: { onComplete: (d: any) => void }) {
           website,
           brand,
           industry,
+          questionPackId: packId,
           competitor,
           ref: params.get("ref") || "",
           source: params.get("utm_source") || "direct",
@@ -397,6 +444,24 @@ function ScanForm({ onComplete }: { onComplete: (d: any) => void }) {
               maxLength={100}
               disabled={busy}
             />
+            <label htmlFor="vh-pack">Buyer-question pack</label>
+            <select
+              id="vh-pack"
+              value={packId}
+              onChange={(e) => setPackId(e.target.value)}
+              disabled={busy}
+            >
+              <option value="">Auto-select from category</option>
+              {questionPackOptions.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+            <small>
+              Templates for optional real model tests.{" "}
+              <a href={BASE + "/questions"}>Explore question packs ↗</a>
+            </small>
             <label htmlFor="vh-industry">Industry / product category</label>
             <input
               id="vh-industry"
@@ -466,7 +531,7 @@ function ReportView({
   report: Report;
   scanId: string;
   cacheHit: boolean;
-  onUpdate: (r: Report) => void;
+  onUpdate: (d: { report: Report; scanId: string; cacheHit: boolean }) => void;
 }) {
   const [filter, setFilter] = useState("all"),
     [copied, setCopied] = useState(""),
@@ -474,6 +539,9 @@ function ReportView({
     [brand, setBrand] = useState(r.brand),
     [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  useEffect(() => {
+    trackEvent(r.id, scanId, "report_view");
+  }, [r.id, scanId]);
   const issues = r.checks.filter(
       (c) => c.status === "fail" || c.status === "warn",
     ),
@@ -491,6 +559,7 @@ function ReportView({
         window.location.origin + BASE + "/report/" + r.id,
       );
       setCopied("Link copied");
+      trackEvent(r.id, scanId, "share_copy");
     } catch {
       setCopied("Copy this URL from your address bar.");
     }
@@ -506,10 +575,11 @@ function ReportView({
           website: r.website,
           brand,
           industry: r.industry,
+          questionPackId: r.questionPack?.id,
           competitor: r.competitor,
         }),
       });
-      onUpdate(d.report);
+      onUpdate(d);
       window.history.replaceState(null, "", BASE + "/report/" + d.report.id);
       setEditBrand(false);
     } catch (e) {
@@ -896,16 +966,23 @@ function ModelSection({ report: r }: { report: Report }) {
       )}
       <details>
         <summary>View your reusable buyer-question test plan ↓</summary>
-        <ol>
-          {r.questions.map((q) => (
-            <li key={q}>{q}</li>
-          ))}
-        </ol>
-        <p>
-          These are templates, not executed tests. Refine the category and
-          audience first. Discovery questions exclude your brand to avoid
-          prompting the answer.
-        </p>
+        {r.questionPack ? (
+          <QuestionPlan pack={r.questionPack} />
+        ) : (
+          <>
+            <ol>
+              {r.questions.map((q) => (
+                <li key={q}>{q}</li>
+              ))}
+            </ol>
+            <p>
+              Legacy templates, not executed tests.{" "}
+              <a href={BASE + "/questions"}>
+                Build a current industry question pack ↗
+              </a>
+            </p>
+          </>
+        )}
       </details>
       {r.visibility.runs.map((run) => (
         <details className="vh-model-run" key={run.id}>
@@ -923,8 +1000,9 @@ function ModelSection({ report: r }: { report: Report }) {
             <strong>Question:</strong> {run.question}
           </p>
           <p>
-            {date(run.checkedAt)} · {run.mode} · {run.conditions.surface} ·
-            Region: {run.conditions.region}
+            {run.questionKind ?? "Unclassified"} · {date(run.checkedAt)} ·{" "}
+            {run.mode} · {run.conditions.surface} · Region:{" "}
+            {run.conditions.region}
           </p>
           <pre>{run.answer}</pre>
           <p>
@@ -951,7 +1029,8 @@ function ModelSection({ report: r }: { report: Report }) {
   );
 }
 function LeadForm({ report: r, scanId }: { report: Report; scanId: string }) {
-  const [email, setEmail] = useState(""),
+  const [offerId, setOfferId] = useState<string>(DEFAULT_AUDIT_OFFER),
+    [email, setEmail] = useState(""),
     [needs, setNeeds] = useState(""),
     [consent, setConsent] = useState(false),
     [marketing, setMarketing] = useState(false),
@@ -981,6 +1060,7 @@ function LeadForm({ report: r, scanId }: { report: Report; scanId: string }) {
             needs,
             contactConsent: consent,
             marketingConsent: marketing,
+            offerId,
             website_extra: trap,
             ref: p.get("ref") || "",
           }),
@@ -1006,6 +1086,13 @@ function LeadForm({ report: r, scanId }: { report: Report; scanId: string }) {
           review buyer questions, verify real model answers and scope the fixes
           that matter to your business.
         </p>
+        <a
+          className="vh-button secondary"
+          href="#audit-form"
+          onClick={() => trackEvent(r.id, scanId, "audit_cta")}
+        >
+          Review audit scope ↗
+        </a>
         <ul>
           <li>
             <Icon kind="check" /> A focused review of your goals
@@ -1046,7 +1133,46 @@ function LeadForm({ report: r, scanId }: { report: Report; scanId: string }) {
           <a href={deletionUrl}>Manage / delete this request ↗</a>
         </div>
       ) : (
-        <form onSubmit={submit}>
+        <form onSubmit={submit} id="audit-form">
+          <fieldset className="vh-offers">
+            <legend>Choose an initial scope</legend>
+            {auditOffers.map((o) => (
+              <label
+                key={o.id}
+                className={"vh-offer " + (offerId === o.id ? "selected" : "")}
+              >
+                <input
+                  type="radio"
+                  name="audit-offer"
+                  value={o.id}
+                  checked={offerId === o.id}
+                  onChange={() => {
+                    setOfferId(o.id);
+                    trackEvent(r.id, scanId, "audit_cta");
+                  }}
+                />
+                <span>
+                  <strong>{o.name}</strong>
+                  <b>
+                    {o.price} {o.currency}
+                  </b>
+                  <small>{o.summary}</small>
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          <div className="vh-offer-scope">
+            <ul>
+              {findOffer(offerId)?.deliverables.map((d) => (
+                <li key={d}>{d}</li>
+              ))}
+            </ul>
+            <p>{findOffer(offerId)?.exclusions}</p>
+            <strong>
+              This form requests a scope review. No payment is collected.
+            </strong>
+          </div>
+
           <label htmlFor="lead-email">Work email</label>
           <input
             id="lead-email"
@@ -1123,7 +1249,9 @@ function Admin() {
     [reportId, setReportId] = useState(""),
     [question, setQuestion] = useState(""),
     [provider, setProvider] = useState("openai"),
-    [message, setMessage] = useState("");
+    [message, setMessage] = useState(""),
+    [includeContacts, setIncludeContacts] = useState(false),
+    [testPack, setTestPack] = useState<QuestionPack | null>(null);
   async function load(e?: FormEvent) {
     e?.preventDefault();
     setError("");
@@ -1146,6 +1274,34 @@ function Admin() {
         body: JSON.stringify({ status: value }),
       });
       await load();
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
+  async function exportLead(id: string) {
+    setError("");
+    try {
+      const d = await api(
+        `/admin/leads/${id}/handoff${includeContacts ? "?contacts=1" : ""}`,
+        { headers: { authorization: "Bearer " + token } },
+      );
+      downloadText(
+        JSON.stringify(d, null, 2),
+        `multihub-private-${id}.json`,
+        "application/json",
+      );
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
+  async function loadPlan() {
+    try {
+      const d = await api("/reports/" + reportId);
+      setTestPack(d.report.questionPack ?? null);
+      if (!d.report.questionPack)
+        setMessage(
+          "This legacy report has no versioned pack. Use the question library or enter a custom question.",
+        );
     } catch (e) {
       setError((e as Error).message);
     }
@@ -1195,6 +1351,68 @@ function Admin() {
       <ErrorBox error={error} />
       {data && (
         <>
+          <section className="vh-model">
+            <h2>Source activity · last 30 days</h2>
+            <p>{data.funnel.note}</p>
+            <div className="vh-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Source / referral</th>
+                    <th>Scans</th>
+                    <th>Report opens</th>
+                    <th>Audit interest</th>
+                    <th>Link copies</th>
+                    <th>Requests</th>
+                    <th>Qualified</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.funnel.rows.map((f: any) => (
+                    <tr key={f.source + ":" + f.ref}>
+                      <td>
+                        {f.source}
+                        <br />
+                        {f.ref || "No referral"}
+                      </td>
+                      <td>{f.scans}</td>
+                      <td>{f.report_views}</td>
+                      <td>{f.audit_ctas}</td>
+                      <td>{f.shares}</td>
+                      <td>{f.requests}</td>
+                      <td>{f.qualified}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {!data.funnel.rows.length && <p>No retained activity yet.</p>}
+            </div>
+            <p>
+              Paid conversions: <strong>Not connected</strong>. A request or
+              qualified status is not a verified payment.
+            </p>
+          </section>
+          <section className="vh-model">
+            <h2>Private review handoff</h2>
+            <p>
+              Download one request for Prospect OS / Case Engine review. No
+              external import or outreach runs automatically. Files are private
+              observations, not publishable results cases. Delete downloaded
+              copies by their stated expiry, or earlier after a deletion
+              request.
+            </p>
+            <label className="vh-checkbox">
+              <input
+                type="checkbox"
+                checked={includeContacts}
+                onChange={(e) => setIncludeContacts(e.target.checked)}
+              />
+              <span>
+                Include the submitted email and consent fields in private
+                exports
+              </span>
+            </label>
+          </section>
           <div className="vh-admin-heading">
             <h2>
               Audit requests <Badge>{data.leads.length}</Badge>
@@ -1236,6 +1454,17 @@ function Admin() {
                     <td>
                       {l.email}
                       <p>{l.needs}</p>
+                      <small>
+                        Scope:{" "}
+                        {findOffer(l.offer_id)?.name ?? "Custom / legacy"}
+                      </small>
+                      <br />
+                      <button
+                        className="vh-text-button"
+                        onClick={() => exportLead(l.id)}
+                      >
+                        Download private handoff ↓
+                      </button>
                       <small>
                         Marketing consent: {l.marketing_consent ? "Yes" : "No"}
                         <br />
@@ -1343,9 +1572,50 @@ function Admin() {
               <input
                 id="model-report"
                 value={reportId}
-                onChange={(e) => setReportId(e.target.value)}
+                onChange={(e) => {
+                  setReportId(e.target.value);
+                  setTestPack(null);
+                }}
                 required
               />
+              <button
+                type="button"
+                className="vh-button secondary"
+                onClick={loadPlan}
+                disabled={!reportId}
+              >
+                Load report question pack
+              </button>
+              {testPack && (
+                <>
+                  <label htmlFor="model-template">Planned question</label>
+                  <select
+                    id="model-template"
+                    value={
+                      testPack.questions.find((q) => q.question === question)
+                        ?.id ?? ""
+                    }
+                    onChange={(e) =>
+                      setQuestion(
+                        testPack.questions.find((q) => q.id === e.target.value)
+                          ?.question ?? "",
+                      )
+                    }
+                  >
+                    <option value="">
+                      Custom question / choose a template
+                    </option>
+                    {testPack.questions.map((q) => (
+                      <option key={q.id} value={q.id}>
+                        {q.kind}: {q.intent}
+                      </option>
+                    ))}
+                  </select>
+                  <small>
+                    {testPack.version}. Loading this plan makes no model call.
+                  </small>
+                </>
+              )}
               <label htmlFor="model-provider">Provider</label>
               <select
                 id="model-provider"
@@ -1358,7 +1628,7 @@ function Admin() {
                   Perplexity Sonar API (grounded)
                 </option>
               </select>
-              <label htmlFor="model-question">Unbranded buyer question</label>
+              <label htmlFor="model-question">Buyer question</label>
               <textarea
                 id="model-question"
                 value={question}
@@ -1488,17 +1758,23 @@ function Privacy() {
         Scan records include website, brand, industry, report ID, time, optional
         referral, source and follow-up status. They expire after 90 days.
         Referral values accept letters, numbers, underscores and hyphens; no
-        cross-site tracking cookie is used. Abuse limits use salted IP hashes in
-        short-lived buckets, not raw IP addresses in report records.
+        cross-site tracking cookie is used. This tab may keep a report-to-scan
+        ID in session storage for attribution; it contains no contact data.
+        Report opens, audit-interest clicks and successful share-link copies are
+        counted once per originating scan and expire with its report (at most 30
+        days). Shared report views without an originating scan ID are excluded.
+        These activity counts do not prove identity or payment. Abuse limits use
+        salted IP hashes in short-lived buckets, not raw IP addresses in report
+        records.
       </p>
       <p>
         If you request an audit, we store the email, requirements, consent,
-        source and follow-up status for up to 90 days so MultiHub can review and
-        respond. Contact consent and optional marketing consent are separate;
-        neither is selected by default. Contact data is kept in a separate
-        table, protected by server-side admin authorization and excluded from
-        public reports. This MVP does not send automated email or marketing
-        campaigns.
+        selected audit scope, source and follow-up status for up to 90 days so
+        MultiHub can review and respond. Contact consent and optional marketing
+        consent are separate; neither is selected by default. Contact data is
+        kept in a separate table, protected by server-side admin authorization
+        and excluded from public reports. This MVP does not send automated email
+        or marketing campaigns.
       </p>
       <p>
         After submitting a request, save the private deletion link to delete

@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-19T05:42:39.558060+00:00",
+  "origin": "https://multihub-visibility.chengzhao640.chatgpt.site",
+  "results": [
+    {
+      "test": "real website scan and versioned question pack",
+      "status": 201,
+      "reportId": "50b23831-9b34-402b-b4f9-d89250c3c831",
+      "score": 90
+    },
+    {
+      "test": "event duplicates accepted idempotently; anonymous event rejected",
+      "passed": true
+    },
+    {
+      "test": "private selected scope, attribution and deduplicated funnel",
+      "passed": true,
+      "counts": {
+        "scans": 1,
+        "report_views": 1,
+        "audit_ctas": 1,
+        "shares": 1,
+        "requests": 1
+      }
+    },
+    {
+      "test": "handoff authorization, contact opt-in and evidence boundaries",
+      "passed": true
+    },
+    {
+      "test": "follow-up status update",
+      "passed": true
+    },
+    {
+      "test": "reject http://127.0.0.1",
+      "status": 400,
+      "code": "UNSAFE_URL"
+    },
+    {
+      "test": "reject http://169.254.169.254/latest/meta-data",
+      "status": 400,
+      "code": "UNSAFE_URL"
+    },
+    {
+      "test": "reject https://not-a-real-multihub-phase2-domain-987654.com",
+      "status": 422,
+      "code": "DNS_FAILED"
+    },
+    {
+      "test": "paid model remains disabled",
+      "passed": true
+    },
+    {
+      "test": "delete QA contact and verify export no longer accessible",
+      "passed": true
+    }
+  ]
+}

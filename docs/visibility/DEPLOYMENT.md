@@ -86,3 +86,9 @@ Readiness makes **zero paid model calls**. Current preview model API spend is $0
 This MVP does not perform full-site crawling, JS-rendered crawlability tests, HTTP X-Robots-Tag scoring, semantic Schema.org validation, consumer AI UI ranking tests, multi-provider paid test campaigns, scheduled report monitoring, automatic outbound email, Prospect OS CRM synchronization or automatic marketing distribution. Competitor URL is saved for model mention tests, not scored as a separate free website audit. Reports can be printed with the browser's Save as PDF dialog; a server-generated downloadable PDF is not included.
 
 One-time browser acceptance testing used the already connected TinyFish prepaid wallet: 73 agent steps at the observed $0.016/step rate, approximately **$1.17**. No top-up, subscription or auto-reload was created. Free Microlink captures were used for the four delivered screenshots. This QA expense is separate from end-user scan/model running cost.
+
+## 19 October conversion/distribution addition
+
+See [PHASE2.md](PHASE2.md) for the new question library, partner kit, audit scopes and private handoff. **No new environment variable is required.** Apply ordered migration `0001_mixed_alex_power.sql` after `0000_lovely_prima.sql`; on Sites this is included in the Worker build artifact and applied during version deployment. The existing admin token protects the source table and private exports. Do not place it in a URL, frontend environment variable or GitHub issue.
+
+The main-site header and hero routes are wired in the feature branch; merging/deploying production is still an owner-controlled follow-up. The isolated public preview remains a separate project/database and can roll back to saved version 4. The additive table/column do not require destructive rollback; leave them in place when rolling the Worker back. New activity data is not a payment ledger.

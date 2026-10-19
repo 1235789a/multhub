@@ -38,6 +38,7 @@ export const visibilityLeads = sqliteTable("visibility_leads", {
   industry: text("industry").notNull(),
   email: text("email").notNull(),
   needs: text("needs").notNull(),
+  offerId: text("offer_id").notNull().default("custom"),
   marketingConsent: integer("marketing_consent").notNull().default(0),
   ref: text("ref").notNull(),
   source: text("source").notNull(),
@@ -51,3 +52,24 @@ export const visibilityLimits = sqliteTable("visibility_limits", {
   n: integer("n").notNull(),
   expiresAt: integer("expires_at").notNull(),
 });
+
+export const visibilityEvents = sqliteTable(
+  "visibility_events",
+  {
+    key: text("key").primaryKey(),
+    reportId: text("report_id").references(() => visibilityReports.id, {
+      onDelete: "cascade",
+    }),
+    scanId: text("scan_id").references(() => visibilityScans.id, {
+      onDelete: "cascade",
+    }),
+    event: text("event").notNull(),
+    ref: text("ref").notNull(),
+    source: text("source").notNull(),
+    createdAt: integer("created_at").notNull(),
+    expiresAt: integer("expires_at").notNull(),
+  },
+  (t) => [
+    index("visibility_events_attribution").on(t.ref, t.source, t.createdAt),
+  ],
+);

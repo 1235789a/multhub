@@ -1,0 +1,78 @@
+{
+  "checkedAt": "2026-10-19T05:48:39.839Z",
+  "version": 7,
+  "checks": [
+    {
+      "page": "homepage",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "report",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "questions",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "partners",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "homepage",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "report",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "questions",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    },
+    {
+      "page": "partners",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "http": 200,
+      "noHorizontalOverflow": true
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { createQuestionPack } from "./questions";
 import * as cheerio from "cheerio";
 import robotsParser from "robots-parser";
 import { buildAuditReport } from "./vendor/optifeed/audit/audit";
@@ -7,12 +8,7 @@ import { createSafeFetcher, normalizeUrl } from "./network";
 import { AppError, type Check, type FetchRecord, type Report } from "./types";
 export const METHOD_VERSION = "multihub-readiness-1.0.0";
 export function buyerQuestions(industry: string) {
-  const c = industry.trim() || "software tools for small businesses";
-  return [
-    `Which ${c} should a small team shortlist, and why?`,
-    `What are the best ${c} for a startup with a limited budget?`,
-    `Compare reliable ${c} by pricing, onboarding and key limitations.`,
-  ];
+  return createQuestionPack(industry, "").questions.map((q) => q.question);
 }
 const has = (text: string, brand: string) =>
   indexOfTerm(fold(text), brand) !== -1;
@@ -24,6 +20,7 @@ export async function scanWebsite(
     brand?: string;
     industry?: string;
     competitor?: string;
+    questionPackId?: string;
   },
   deps: { fetchPage?: ReturnType<typeof createSafeFetcher>; now?: Date } = {},
 ): Promise<Report> {
@@ -412,7 +409,12 @@ export async function scanWebsite(
       schemaTypes,
       brandSignals,
     },
-    questions: buyerQuestions(industry),
+    questions: createQuestionPack(
+      industry,
+      brand,
+      input.questionPackId,
+    ).questions.map((q) => q.question),
+    questionPack: createQuestionPack(industry, brand, input.questionPackId),
     visibility: {
       status: "not_tested",
       note: "No model API has been queried. Readiness is a rules-based website check, not evidence that ChatGPT, Gemini or Perplexity recommends this brand.",

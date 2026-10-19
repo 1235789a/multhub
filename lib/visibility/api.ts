@@ -7,6 +7,9 @@ import {
   type providers,
 } from "./models";
 import { AppError, type Report } from "./types";
+import { validPackId, QUESTION_PACK_VERSION } from "./questions";
+import { validOffer } from "./offers";
+import { funnelSummary, leadHandoff } from "./funnel";
 const hour = 3600000,
   day = 24 * hour;
 const headers = {
@@ -104,6 +107,11 @@ async function cleanup(db: D1Database) {
   await db.batch([
     db
       .prepare(
+        "DELETE FROM visibility_events WHERE key IN (SELECT key FROM visibility_events WHERE expires_at < ? LIMIT 100)",
+      )
+      .bind(now),
+    db
+      .prepare(
         "DELETE FROM visibility_leads WHERE id IN (SELECT id FROM visibility_leads WHERE expires_at < ? LIMIT 100)",
       )
       .bind(now),
@@ -184,6 +192,14 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
           : "";
         const brand = clean(data.brand, 100),
           industry = clean(data.industry, 100);
+        if (data.questionPackId && !validPackId(data.questionPackId))
+          throw new AppError(
+            "INVALID_PACK",
+            "Choose an available buyer-question pack.",
+          );
+        const questionPackId = validPackId(data.questionPackId)
+          ? data.questionPackId
+          : undefined;
         const cacheKey = await digest(
           JSON.stringify({
             website,
@@ -191,6 +207,8 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
             industry,
             competitor,
             method: METHOD_VERSION,
+            questionPackId,
+            questionPackVersion: QUESTION_PACK_VERSION,
           }),
         );
         const cached = await db
@@ -212,6 +230,7 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
             brand,
             industry,
             competitor,
+            questionPackId,
           });
           await db
             .prepare(
@@ -257,6 +276,44 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
         const report = await getReport(db, reportRoute[1]);
         return json({ report });
       }
+      if (route === "/events" && request.method === "POST") {
+        await rate(db, `event:${fingerprint}`, 60);
+        const data = await readBody(request);
+        if (!["report_view", "audit_cta", "share_copy"].includes(data.event))
+          throw new AppError("INVALID_EVENT", "Unknown event.");
+        const scanId = clean(data.scanId, 36);
+        const scan = await db
+          .prepare(
+            "SELECT ref,source,expires_at FROM visibility_scans WHERE id=? AND report_id=? AND expires_at>?",
+          )
+          .bind(scanId, clean(data.reportId, 36), Date.now())
+          .first<{ ref: string; source: string; expires_at: number }>();
+        if (!scan)
+          throw new AppError(
+            "INVALID_SCAN",
+            "A matching active scan is required.",
+            403,
+          );
+        const report = await getReport(db, clean(data.reportId, 36));
+        await rate(db, "global-events", 2000, day);
+        const key = await digest(`${scanId}:${data.event}`);
+        await db
+          .prepare(
+            "INSERT OR IGNORE INTO visibility_events (key,report_id,scan_id,event,ref,source,created_at,expires_at) VALUES (?,?,?,?,?,?,?,?)",
+          )
+          .bind(
+            key,
+            report.id,
+            scanId,
+            data.event,
+            scan.ref,
+            scan.source,
+            Date.now(),
+            Math.min(scan.expires_at, Date.parse(report.expiresAt)),
+          )
+          .run();
+        return json({ recorded: true });
+      }
       if (route === "/leads" && request.method === "POST") {
         await rate(db, `lead:${fingerprint}`, 5);
         const data = await readBody(request);
@@ -276,18 +333,23 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
             "INVALID_LEAD",
             "Enter a valid email and your requirements, and consent to a reply about your audit.",
           );
+        if (data.offerId && !validOffer(data.offerId))
+          throw new AppError(
+            "INVALID_OFFER",
+            "Choose an available audit scope.",
+          );
         const report = await getReport(db, clean(data.reportId, 36));
         const scan = await db
           .prepare(
-            "SELECT ref,source FROM visibility_scans WHERE id=? AND report_id=?",
+            "SELECT ref,source FROM visibility_scans WHERE id=? AND report_id=? AND expires_at>?",
           )
-          .bind(clean(data.scanId, 36), report.id)
+          .bind(clean(data.scanId, 36), report.id, Date.now())
           .first<{ ref: string; source: string }>();
         const id = crypto.randomUUID(),
           deleteToken = crypto.randomUUID() + crypto.randomUUID();
         await db
           .prepare(
-            "INSERT INTO visibility_leads (id,report_id,website,brand,industry,email,needs,marketing_consent,ref,source,status,delete_hash,created_at,expires_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO visibility_leads (id,report_id,website,brand,industry,email,needs,marketing_consent,ref,source,status,delete_hash,created_at,expires_at,offer_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
           )
           .bind(
             id,
@@ -304,6 +366,7 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
             await digest(deleteToken),
             Date.now(),
             Date.now() + 90 * day,
+            validOffer(data.offerId) ? data.offerId : "custom",
           )
           .run();
         return json(
@@ -346,7 +409,7 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
           await cleanup(db);
           const leads = await db
             .prepare(
-              "SELECT id,report_id,website,brand,industry,email,needs,marketing_consent,ref,source,status,created_at,expires_at FROM visibility_leads WHERE expires_at>? ORDER BY created_at DESC LIMIT 100",
+              "SELECT id,report_id,website,brand,industry,email,needs,marketing_consent,ref,source,status,created_at,expires_at,offer_id FROM visibility_leads WHERE expires_at>? ORDER BY created_at DESC LIMIT 100",
             )
             .bind(Date.now())
             .all();
@@ -360,7 +423,40 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
             leads: leads.results,
             scans: scans.results,
             ai: modelConfig(env),
+            funnel: await funnelSummary(db),
           });
+        }
+        const handoffRoute = route.match(
+          /^\/admin\/leads\/([0-9a-f-]{36})\/handoff$/,
+        );
+        if (handoffRoute && request.method === "GET") {
+          const lead = await db
+            .prepare(
+              "SELECT id,report_id,website,brand,industry,email,needs,marketing_consent,ref,source,status,created_at,expires_at,offer_id FROM visibility_leads WHERE id=? AND expires_at>?",
+            )
+            .bind(handoffRoute[1], Date.now())
+            .first<Record<string, unknown>>();
+          if (!lead)
+            throw new AppError(
+              "LEAD_NOT_FOUND",
+              "This request was not found or has expired.",
+              404,
+            );
+          let report: Report | null = null;
+          if (lead.report_id) {
+            try {
+              report = await getReport(db, String(lead.report_id));
+            } catch (e) {
+              if (!(e instanceof AppError && e.status === 404)) throw e;
+            }
+          }
+          return json(
+            leadHandoff(lead, report, url.searchParams.get("contacts") === "1"),
+            200,
+            {
+              "content-disposition": `attachment; filename="multihub-private-${handoffRoute[1]}.json"`,
+            },
+          );
         }
         const statusRoute = route.match(
           /^\/admin\/(leads|scans)\/([0-9a-f-]{36})$/,
@@ -424,6 +520,14 @@ export function createVisibilityApi(deps: { scan?: typeof scanWebsite } = {}) {
             question,
             env,
           );
+          const template = report.questionPack?.questions.find(
+            (q) => q.question === question,
+          );
+          run.questionId = template?.id;
+          run.questionKind = template?.kind ?? "custom";
+          run.questionPackVersion = template
+            ? report.questionPack?.version
+            : undefined;
           report.visibility = {
             status: "tested",
             note: "A small API sample, not consumer app rankings or market share. Brand mention is a text match and needs human review.",

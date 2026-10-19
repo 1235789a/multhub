@@ -6,6 +6,9 @@ const baseUrl = "https://molthub.click";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const fixedRoutes: MetadataRoute.Sitemap = [
+    { url: `${baseUrl}/tools/ai-visibility`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/tools/ai-visibility/questions`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/tools/ai-visibility/partners`, changeFrequency: "monthly", priority: 0.5 },
     { url: baseUrl, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/methodology`, changeFrequency: "monthly", priority: 0.9 },
