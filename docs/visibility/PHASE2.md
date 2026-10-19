@@ -22,6 +22,8 @@ No new third-party runtime library or copied upstream module was introduced. Det
 
 Apply **both** ordered migrations; do not rerun or edit the original migration on an existing database. `0001_mixed_alex_power.sql` adds `offer_id` with a `custom` default for old leads and the bounded event table. An upgrade test verifies an old lead/report survive.
 
+The current MVP report retains only the latest five API observations, rather than a complete multi-question/platform history. Before running a larger paid study, preserve batches externally or add a normalized run archive; the offered audit is a manually scoped service, not an automated full-study delivery backend. Live model calls remain disabled in this preview.
+
 No new environment variable or paid service is required. Existing server `VISIBILITY_ADMIN_TOKEN` remains required for admin/API exports; it is never stored in browser storage. Public model calls remain disabled and the call budget remains zero. The browser may retain only a per-report scan ID in tab session storage to preserve attribution after refresh. Events expire with the report, at most 30 days; scans/leads retain their existing 90-day policy. The existing activity-driven bounded purge is still used; there is no scheduled physical purge.
 
 New API operations: `POST /api/visibility/events` (three allowlisted events; matching active scan/report required; 60 requests/IP/hour and 2,000/day global), and admin-authenticated `GET /api/visibility/admin/leads/:id/handoff` with optional `?contacts=1`. Public report data still excludes lead records. Files exported to a human's computer must be deleted separately after a deletion request or their stated expiry.
