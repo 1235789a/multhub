@@ -1,4 +1,4 @@
-import { hedgehogVariant, type HedgehogKind, type HedgehogSnapshot, type PublicHedgehog } from "./hedgehog";
+import { hedgehogVariant, type HedgehogKind, type HedgehogSnapshot, type PublicHedgehog } from "./hedgehog.ts";
 
 function esc(input: string) {
   return input.replace(/[&<>"']/g, (char) => (({
