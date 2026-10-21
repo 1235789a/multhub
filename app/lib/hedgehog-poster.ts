@@ -132,8 +132,6 @@ export async function downloadHedgehogPng(data: PosterOptions, size: Size) {
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = "hedgehog-" + data.identity.kind + "-" + size + ".png";
-  document.body.append(anchor);
   anchor.click();
-  anchor.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
