@@ -1,0 +1,46 @@
+{
+  "audit_date_shanghai": "2026-10-22",
+  "github_accessible_repositories": 24,
+  "repositories_inspected": [
+    {
+      "repository": "1235789a/multhub",
+      "head": "c40c6ede96b10af23cabbd6d9c1376584d6bb9ef",
+      "inspected": [
+        "README.md",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "1235789a/PriceAI",
+      "head": "b2e2edcbbdb6a54b11da7256651382616d4f8f43",
+      "inspected": [
+        "README.md",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "1235789a/rogerai-api-preview",
+      "head": "a84cb167bc9148f0467703bd4219367d2042ae8d",
+      "inspected": [
+        "README.md",
+        "package.json"
+      ]
+    },
+    {
+      "repository": "1235789a/deepseek",
+      "head": "81df9c47d548827fcbe05b3cbae7f9e7950f55d7",
+      "inspected": [
+        "README.md"
+      ]
+    }
+  ],
+  "drive_searches": [
+    "Gateway",
+    "MultiHub"
+  ],
+  "drive_read": {
+    "title": "MultiHub GE v2.1 SOP_MASTER",
+    "visibility": "private asset reference omitted from public source"
+  },
+  "reused": "name and independent evidence workflow; no third-party implementation or production data copied"
+}

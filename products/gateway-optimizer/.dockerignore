@@ -1,0 +1,7 @@
+node_modules
+data
+data-e2e
+.env
+evidence
+test-results
+.git

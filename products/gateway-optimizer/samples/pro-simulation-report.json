@@ -1,0 +1,818 @@
+{
+  "generated_at": "2026-10-21T22:46:23.996Z",
+  "timezone": "UTC",
+  "provenance": [
+    "simulation"
+  ],
+  "totals": {
+    "requests": 240,
+    "input_tokens": 642339,
+    "output_tokens": 153609,
+    "cache_tokens": 46600,
+    "unknown_usage": 7,
+    "estimated_usage": 0,
+    "actual_cost_nano": 245640000,
+    "actual_coverage": 48,
+    "estimated_cost_nano": 1836750000,
+    "estimated_coverage": 233,
+    "revenue_nano": 2217360000,
+    "revenue_coverage": 240,
+    "realized_margin_nano": 197640000,
+    "margin_coverage": 48,
+    "currency": "USD",
+    "estimated_cost_is_not_invoice": true,
+    "sample_size": 240,
+    "success_rate": 0.9083333333333333,
+    "score": 91,
+    "p95_latency_ms": 1890,
+    "p95_ttft_ms": 148,
+    "errors": {
+      "rate_limit": 6,
+      "network": 6,
+      "timeout": 5,
+      "upstream_5xx": 5
+    },
+    "anomalies": [
+      {
+        "type": "rate_limit",
+        "count": 6,
+        "rate": 0.025,
+        "severity": "review"
+      },
+      {
+        "type": "network",
+        "count": 6,
+        "rate": 0.025,
+        "severity": "review"
+      },
+      {
+        "type": "timeout",
+        "count": 5,
+        "rate": 0.020833333333333332,
+        "severity": "review"
+      },
+      {
+        "type": "upstream_5xx",
+        "count": 5,
+        "rate": 0.020833333333333332,
+        "severity": "review"
+      }
+    ]
+  },
+  "budget": {
+    "limit_nano": 2000000000,
+    "period": "month",
+    "spend_nano": 1723390000,
+    "unknown_cost_requests": 5,
+    "alert": "incomplete",
+    "enforcement": "advisory_only"
+  },
+  "channels": [
+    {
+      "name": "mock-east",
+      "requests": 80,
+      "input_tokens": 211311,
+      "output_tokens": 50541,
+      "cache_tokens": 15400,
+      "unknown_usage": 3,
+      "estimated_usage": 0,
+      "actual_cost_nano": 81800000,
+      "actual_coverage": 16,
+      "estimated_cost_nano": 606900000,
+      "estimated_coverage": 77,
+      "revenue_nano": 738960000,
+      "revenue_coverage": 80,
+      "realized_margin_nano": 65800000,
+      "margin_coverage": 16,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 80,
+      "success_rate": 0.9,
+      "score": 90,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "rate_limit": 2,
+        "upstream_5xx": 2,
+        "timeout": 2,
+        "network": 2
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 2,
+          "rate": 0.025,
+          "severity": "review"
+        },
+        {
+          "type": "upstream_5xx",
+          "count": 2,
+          "rate": 0.025,
+          "severity": "review"
+        },
+        {
+          "type": "timeout",
+          "count": 2,
+          "rate": 0.025,
+          "severity": "review"
+        },
+        {
+          "type": "network",
+          "count": 2,
+          "rate": 0.025,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "mock-west",
+      "requests": 160,
+      "input_tokens": 431028,
+      "output_tokens": 103068,
+      "cache_tokens": 31200,
+      "unknown_usage": 4,
+      "estimated_usage": 0,
+      "actual_cost_nano": 163840000,
+      "actual_coverage": 32,
+      "estimated_cost_nano": 1229850000,
+      "estimated_coverage": 156,
+      "revenue_nano": 1478400000,
+      "revenue_coverage": 160,
+      "realized_margin_nano": 131840000,
+      "margin_coverage": 32,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 160,
+      "success_rate": 0.9125,
+      "score": 91,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 4,
+        "timeout": 3,
+        "upstream_5xx": 3,
+        "rate_limit": 4
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 4,
+          "rate": 0.025,
+          "severity": "review"
+        },
+        {
+          "type": "timeout",
+          "count": 3,
+          "rate": 0.01875,
+          "severity": "review"
+        },
+        {
+          "type": "upstream_5xx",
+          "count": 3,
+          "rate": 0.01875,
+          "severity": "review"
+        },
+        {
+          "type": "rate_limit",
+          "count": 4,
+          "rate": 0.025,
+          "severity": "review"
+        }
+      ]
+    }
+  ],
+  "models": [
+    {
+      "name": "mock-economy",
+      "requests": 120,
+      "input_tokens": 319068,
+      "output_tokens": 76308,
+      "cache_tokens": 23200,
+      "unknown_usage": 4,
+      "estimated_usage": 0,
+      "actual_cost_nano": 122760000,
+      "actual_coverage": 24,
+      "estimated_cost_nano": 606900000,
+      "estimated_coverage": 116,
+      "revenue_nano": 1108560000,
+      "revenue_coverage": 120,
+      "realized_margin_nano": 98760000,
+      "margin_coverage": 24,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 120,
+      "success_rate": 0.9083333333333333,
+      "score": 91,
+      "p95_latency_ms": 1800,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "rate_limit": 6,
+        "timeout": 5
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 6,
+          "rate": 0.05,
+          "severity": "review"
+        },
+        {
+          "type": "timeout",
+          "count": 5,
+          "rate": 0.041666666666666664,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "mock-balanced",
+      "requests": 120,
+      "input_tokens": 323271,
+      "output_tokens": 77301,
+      "cache_tokens": 23400,
+      "unknown_usage": 3,
+      "estimated_usage": 0,
+      "actual_cost_nano": 122880000,
+      "actual_coverage": 24,
+      "estimated_cost_nano": 1229850000,
+      "estimated_coverage": 117,
+      "revenue_nano": 1108800000,
+      "revenue_coverage": 120,
+      "realized_margin_nano": 98880000,
+      "margin_coverage": 24,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 120,
+      "success_rate": 0.9083333333333333,
+      "score": 91,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 6,
+        "upstream_5xx": 5
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 6,
+          "rate": 0.05,
+          "severity": "review"
+        },
+        {
+          "type": "upstream_5xx",
+          "count": 5,
+          "rate": 0.041666666666666664,
+          "severity": "review"
+        }
+      ]
+    }
+  ],
+  "periods": [
+    {
+      "name": "2026-10-21",
+      "requests": 18,
+      "input_tokens": 48246,
+      "output_tokens": 11526,
+      "cache_tokens": 3400,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 20420000,
+      "actual_coverage": 4,
+      "estimated_cost_nano": 91800000,
+      "estimated_coverage": 17,
+      "revenue_nano": 166284000,
+      "revenue_coverage": 18,
+      "realized_margin_nano": 16420000,
+      "margin_coverage": 4,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 18,
+      "success_rate": 0.8888888888888888,
+      "score": 89,
+      "p95_latency_ms": 5000,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "rate_limit": 1,
+        "timeout": 1
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 1,
+          "rate": 0.05555555555555555,
+          "severity": "review"
+        },
+        {
+          "type": "timeout",
+          "count": 1,
+          "rate": 0.05555555555555555,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-20",
+      "requests": 18,
+      "input_tokens": 49680,
+      "output_tokens": 11880,
+      "cache_tokens": 3600,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 20480000,
+      "actual_coverage": 4,
+      "estimated_cost_nano": 189000000,
+      "estimated_coverage": 18,
+      "revenue_nano": 166320000,
+      "revenue_coverage": 18,
+      "realized_margin_nano": 16480000,
+      "margin_coverage": 4,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 18,
+      "success_rate": 0.9444444444444444,
+      "score": 94,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 1
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 1,
+          "rate": 0.05555555555555555,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-11",
+      "requests": 17,
+      "input_tokens": 47362,
+      "output_tokens": 11322,
+      "cache_tokens": 3400,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 20460000,
+      "actual_coverage": 4,
+      "estimated_cost_nano": 90100000,
+      "estimated_coverage": 17,
+      "revenue_nano": 157148000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 16460000,
+      "margin_coverage": 4,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 5000,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "rate_limit": 1,
+        "timeout": 1
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "timeout",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-19",
+      "requests": 17,
+      "input_tokens": 45594,
+      "output_tokens": 10914,
+      "cache_tokens": 3400,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15300000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 86700000,
+      "estimated_coverage": 17,
+      "revenue_nano": 156876000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12300000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 5000,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "timeout": 1,
+        "rate_limit": 1
+      },
+      "anomalies": [
+        {
+          "type": "timeout",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "rate_limit",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-18",
+      "requests": 17,
+      "input_tokens": 42210,
+      "output_tokens": 10110,
+      "cache_tokens": 3200,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15345000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 160500000,
+      "estimated_coverage": 16,
+      "revenue_nano": 156910000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12345000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.9411764705882353,
+      "score": 94,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 1
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-17",
+      "requests": 17,
+      "input_tokens": 43874,
+      "output_tokens": 10494,
+      "cache_tokens": 3200,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15390000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 83450000,
+      "estimated_coverage": 16,
+      "revenue_nano": 156944000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12390000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.9411764705882353,
+      "score": 94,
+      "p95_latency_ms": 1800,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "rate_limit": 1
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-16",
+      "requests": 17,
+      "input_tokens": 46257,
+      "output_tokens": 11067,
+      "cache_tokens": 3400,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 20440000,
+      "actual_coverage": 4,
+      "estimated_cost_nano": 175950000,
+      "estimated_coverage": 17,
+      "revenue_nano": 156978000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 16440000,
+      "margin_coverage": 4,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 1,
+        "upstream_5xx": 1
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "upstream_5xx",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-15",
+      "requests": 17,
+      "input_tokens": 46478,
+      "output_tokens": 11118,
+      "cache_tokens": 3400,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 20500000,
+      "actual_coverage": 4,
+      "estimated_cost_nano": 88400000,
+      "estimated_coverage": 17,
+      "revenue_nano": 157012000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 16500000,
+      "margin_coverage": 4,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.9411764705882353,
+      "score": 94,
+      "p95_latency_ms": 1800,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "rate_limit": 1
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-14",
+      "requests": 17,
+      "input_tokens": 46699,
+      "output_tokens": 11169,
+      "cache_tokens": 3400,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15315000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 177650000,
+      "estimated_coverage": 17,
+      "revenue_nano": 157046000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12315000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 1,
+        "upstream_5xx": 1
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "upstream_5xx",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-13",
+      "requests": 17,
+      "input_tokens": 43796,
+      "output_tokens": 10476,
+      "cache_tokens": 3200,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15360000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 83300000,
+      "estimated_coverage": 16,
+      "revenue_nano": 157080000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12360000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 5000,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "rate_limit": 1,
+        "timeout": 1
+      },
+      "anomalies": [
+        {
+          "type": "rate_limit",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "timeout",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-12",
+      "requests": 17,
+      "input_tokens": 45460,
+      "output_tokens": 10860,
+      "cache_tokens": 3200,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15405000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 173000000,
+      "estimated_coverage": 16,
+      "revenue_nano": 157114000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12405000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.9411764705882353,
+      "score": 94,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "upstream_5xx": 1
+      },
+      "anomalies": [
+        {
+          "type": "upstream_5xx",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-10",
+      "requests": 17,
+      "input_tokens": 47583,
+      "output_tokens": 11373,
+      "cache_tokens": 3400,
+      "unknown_usage": 0,
+      "estimated_usage": 0,
+      "actual_cost_nano": 20520000,
+      "actual_coverage": 4,
+      "estimated_cost_nano": 181050000,
+      "estimated_coverage": 17,
+      "revenue_nano": 157182000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 16520000,
+      "margin_coverage": 4,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "network": 1,
+        "upstream_5xx": 1
+      },
+      "anomalies": [
+        {
+          "type": "network",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "upstream_5xx",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-09",
+      "requests": 17,
+      "input_tokens": 43718,
+      "output_tokens": 10458,
+      "cache_tokens": 3200,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15330000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 83150000,
+      "estimated_coverage": 16,
+      "revenue_nano": 157216000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12330000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.9411764705882353,
+      "score": 94,
+      "p95_latency_ms": 5000,
+      "p95_ttft_ms": 136,
+      "errors": {
+        "timeout": 1
+      },
+      "anomalies": [
+        {
+          "type": "timeout",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    },
+    {
+      "name": "2026-10-08",
+      "requests": 17,
+      "input_tokens": 45382,
+      "output_tokens": 10842,
+      "cache_tokens": 3200,
+      "unknown_usage": 1,
+      "estimated_usage": 0,
+      "actual_cost_nano": 15375000,
+      "actual_coverage": 3,
+      "estimated_cost_nano": 172700000,
+      "estimated_coverage": 16,
+      "revenue_nano": 157250000,
+      "revenue_coverage": 17,
+      "realized_margin_nano": 12375000,
+      "margin_coverage": 3,
+      "currency": "USD",
+      "estimated_cost_is_not_invoice": true,
+      "sample_size": 17,
+      "success_rate": 0.8823529411764706,
+      "score": 88,
+      "p95_latency_ms": 1890,
+      "p95_ttft_ms": 148,
+      "errors": {
+        "upstream_5xx": 1,
+        "network": 1
+      },
+      "anomalies": [
+        {
+          "type": "upstream_5xx",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        },
+        {
+          "type": "network",
+          "count": 1,
+          "rate": 0.058823529411764705,
+          "severity": "review"
+        }
+      ]
+    }
+  ]
+}

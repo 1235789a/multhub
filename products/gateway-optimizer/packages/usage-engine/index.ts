@@ -1,0 +1,2 @@
+import type { Entry } from '../storage/index.js';
+export function usageTotals(entries:Entry[]){return {requests:entries.length,input_tokens:entries.reduce((s,e)=>s+(e.usage.input_tokens??0),0),output_tokens:entries.reduce((s,e)=>s+(e.usage.output_tokens??0),0),cache_tokens:entries.reduce((s,e)=>s+(e.usage.cache_tokens??0),0),unknown_usage:entries.filter(e=>e.usage.usage_quality==='unknown').length,estimated_usage:entries.filter(e=>e.usage.usage_quality==='estimated').length};}

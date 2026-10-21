@@ -1,0 +1,71 @@
+{
+  "release": "1.0.0-beta.1",
+  "date_shanghai": "2026-10-22",
+  "overall": "PARTIAL",
+  "unit_integration": {
+    "status": "DONE",
+    "tests": 186,
+    "passed": 186,
+    "failed": 0
+  },
+  "browser_e2e": {
+    "status": "DONE",
+    "passed": 5,
+    "failed": 0
+  },
+  "concurrent_streaming": {
+    "status": "DONE",
+    "concurrency": 100,
+    "passed": 100
+  },
+  "sqlite_multiprocess": {
+    "workers": 4,
+    "total_attempts": 200,
+    "expected_rows": 241,
+    "actual_rows": 241,
+    "pass": true
+  },
+  "fresh_install_restore": {
+    "status": "DONE",
+    "pass": true,
+    "rows_restored": 240,
+    "same_version_only": true,
+    "npm_cache_reused": true
+  },
+  "production_dependency_audit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "not_tested": [
+    "Windows",
+    "Docker Compose",
+    "real LiteLLM/New API deployment",
+    "paid API benchmarks",
+    "Codex/Claude Code/OpenCode runtime",
+    "cross-version schema rollback",
+    "MultiHub parent-site full build"
+  ],
+  "blocked": [
+    "real API keys and paid-call approval not provided",
+    "Docker executable absent",
+    "Windows environment absent"
+  ],
+  "unimplemented": [
+    "production routing execution",
+    "automatic live LiteLLM usage collector",
+    "core PostgreSQL/Prisma repository",
+    "SaaS identity and database RLS",
+    "push notifications",
+    "independent revenue currency FX"
+  ],
+  "commercial_hypotheses": [
+    "willingness to pay",
+    "measured cost savings",
+    "long-term maintenance economics",
+    "Xianyu category/listing eligibility"
+  ]
+}
