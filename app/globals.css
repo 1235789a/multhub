@@ -6400,3 +6400,79 @@ textarea:focus-visible {
     width: 100%;
   }
 }
+
+
+/* Hedgehog Lab: mascot remains the canonical image, all variation is staged around it. */
+.hedgehog-teaser { padding:28px 30px; border-radius:25px; background:linear-gradient(115deg,#172650,#1e5c70); color:white; margin-top:24px }
+.hedgehog-teaser strong { font-size:clamp(1.25rem,3vw,2rem) }
+.hedgehog-teaser p,.hedgehog-teaser a { color:#d9f6e9 }
+.hedgehog-result { margin-top:35px; border:1px solid #d6dde5; border-radius:28px; overflow:hidden; background:#fff }
+.hedgehog-tabs { display:flex; gap:8px; flex-wrap:wrap; padding:16px; background:#ecf1fb }
+.hedgehog-tabs button { border:0; border-radius:15px; padding:14px 22px; background:transparent; font-weight:750; cursor:pointer; color:#253453 }
+.hedgehog-tabs button[aria-selected="true"] { background:#fff; box-shadow:0 4px 18px #0d1b401c }
+.hedgehog-stage { padding:clamp(18px,4vw,48px); background:linear-gradient(140deg,#10194c,#302976 65%,#552879); color:#fff }
+.hedgehog-stage__intro h2 { font-size:clamp(2rem,5vw,4rem); line-height:1; color:#fff; max-width:780px; margin-bottom:14px }
+.hedgehog-stage__intro p { color:#f4e9ff; font-size:1.16rem }
+.hedgehog-stage .eyebrow { color:#affce1 }
+.hedgehog-skip,.hedgehog-self-report { font:inherit; border:1px solid #ffffff77; background:transparent; color:white; padding:8px 15px; border-radius:999px; cursor:pointer }
+.hedgehog-stage__visual { display:grid; grid-template-columns:minmax(0,1fr) minmax(150px,280px); align-items:center; gap:30px; padding-bottom:14px }
+.hedgehog-stage__count { display:grid; gap:12px }
+.hedgehog-stage__count strong { font-size:clamp(2.5rem,7vw,5.5rem); line-height:1 }
+.hedgehog-stage__count span { color:#d9ffe9 }
+.hedgehog-explanation { border-left:3px solid #9ef4ce; padding-left:20px; color:#fff }
+.hedgehog-disclaimer { color:#dddff3 !important; font-size:.78rem }
+.hedgehog-sharing,.hedgehog-evolution { margin-top:25px; padding:22px; border:1px solid #ffffff3d; border-radius:22px; background:#ffffff0f }
+.hedgehog-sharing h3,.hedgehog-evolution h3 { color:white }
+.hedgehog-sharing p,.hedgehog-evolution p,.hedgehog-sharing label,.hedgehog-evolution small { color:#e8eaff }
+.hedgehog-sharing label { display:flex; gap:12px; align-items:center; margin:12px 0; cursor:pointer; font-size:.92rem }
+.hedgehog-sharing input[type=checkbox] { accent-color:#aefadf; width:18px; height:18px }
+.hedgehog-actions { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:20px 0 }
+.hedgehog-actions select { border-radius:24px; background:#fff; color:#0b2142; padding:13px; border:1px solid #bbc4d9; min-height:50px; max-width:100% }
+.hedgehog-public-link a { color:#bdfce8; text-decoration:underline }
+.hedgehog-sharing .button--secondary { color:white; background:transparent; border-color:#fff9 }
+.hedgehog-sharing .button--secondary:hover { background:#ffffff20 }
+.hedgehog-sharing .button:disabled { opacity:.45; cursor:not-allowed }
+.hedgehog-professional { padding:clamp(18px,4vw,40px) }
+.hedgehog-art { width:min(100%,520px); aspect-ratio:1.06; margin:auto; display:grid; place-items:center; position:relative; border-radius:32px; isolation:isolate; overflow:hidden; background:radial-gradient(circle at 50% 38%,#d3ffe0,#8dcbbe 65%,#386d8c) }
+.hedgehog-art__canonical { position:relative; z-index:2; max-height:90%; width:auto; max-width:80%; object-fit:contain; border-radius:24px; box-shadow:0 13px 33px #0c234444; animation:hedgehog-pop 2.5s cubic-bezier(.18,.85,.24,1) both }
+.hedgehog-art__mark { position:absolute; z-index:4; right:6%; top:4%; font-size:clamp(2rem,6vw,4rem); color:white; text-shadow:0 4px 15px #14275caa }
+.hedgehog-art__tag { position:absolute; z-index:5; left:8%; bottom:6%; background:#152354; color:#c5ffe4; padding:10px 17px; border-radius:999px; font-weight:850; font-size:.85rem; letter-spacing:.08em }
+.hedgehog-art__halo { position:absolute; z-index:0; width:75%; aspect-ratio:1; border:9px dashed #fff7; border-radius:50%; animation:hedgehog-rotate 22s linear infinite }
+.hedgehog-art__trail { position:absolute; z-index:1; width:120%; height:30%; background:#a5fbd0aa; transform:rotate(-16deg) translateX(-10%) }
+.hedgehog-art--spiky { background:radial-gradient(circle,#ffdea9,#e35f68 70%,#7a194f) }
+.hedgehog-art--spiky .hedgehog-art__halo { border:22px dotted #ffe184 }
+.hedgehog-art--invisible { background:repeating-linear-gradient(45deg,#243969,#243969 28px,#426ca1 30px) }
+.hedgehog-art--invisible .hedgehog-art__canonical { filter:opacity(.66); outline:6px dashed #aafaff }
+.hedgehog-art--sleepy { background:linear-gradient(165deg,#8184cd,#342678) }
+.hedgehog-art--sleepy .hedgehog-art__halo { border-style:dotted; animation-duration:36s }
+.hedgehog-art--detective { background:radial-gradient(circle,#d6cf9d,#735992) }
+.hedgehog-art--detective .hedgehog-art__halo { border:18px double #f5e9bc }
+.hedgehog-art--explorer { background:linear-gradient(125deg,#c7f7ce,#2a8d89) }
+.hedgehog-art--explorer .hedgehog-art__trail { background:repeating-linear-gradient(90deg,#a7fbdc,#a7fbdc 28px,#fff2b1 30px,#fff2b1 50px) }
+.hedgehog-art--king { background:radial-gradient(circle,#fff3bd,#d5a94c 60%,#7349a6) }
+.hedgehog-art--king .hedgehog-art__halo { border:16px solid #ffdc68 }
+.hedgehog-art--longboi { background:repeating-linear-gradient(90deg,#fbd6d2,#fbd6d2 32px,#e76cac 34px,#e76cac 53px) }
+.hedgehog-art--longboi .hedgehog-art__trail { width:240%; left:-85%; height:26%; border:12px dashed white; background:#3b9d67; border-radius:999px; transform:rotate(-10deg) }
+.hedgehog-art--scout { background:radial-gradient(circle,#bedcfe,#3778ca) }
+.hedgehog-stage--skip .hedgehog-art__canonical,.hedgehog-stage--skip .hedgehog-art__halo { animation:none }
+.hedgehog-public-page { padding:64px 0; background:#f6f8fb }
+.hedgehog-public>h1 { font-size:clamp(2.3rem,6vw,4.8rem); margin:0 }
+.hedgehog-public__quip { font-size:1.3rem }
+.hedgehog-public__card { display:grid; grid-template-columns:1.1fr .9fr; gap:38px; align-items:center; border-radius:28px; padding:28px; background:white; box-shadow:var(--shadow) }
+.hedgehog-public__card strong { font-size:clamp(1.7rem,3vw,2.7rem) }
+.hedgehog-public__card .hedgehog-art { width:100% }
+.hedgehog-public__cta { margin-top:28px; padding:30px; background:#e5f2f0; border-radius:25px }
+.hedgehog-public__cta .hedgehog-disclaimer { color:#40516a!important }
+@keyframes hedgehog-pop { 0% { opacity:.2;transform:scale(.73) rotate(-8deg) } 64% { transform:scale(1.05) rotate(2deg) } 100% { opacity:1;transform:scale(1) rotate(0) } }
+@keyframes hedgehog-rotate { to { transform:rotate(360deg) } }
+@media(max-width:700px){
+  .hedgehog-stage__visual { grid-template-columns:1fr }
+  .hedgehog-stage__count { display:flex; align-items:baseline }
+  .hedgehog-public__card { grid-template-columns:1fr }
+  .hedgehog-art { max-width:100%; aspect-ratio:1 }
+  .hedgehog-actions .button { width:100% }
+  .hedgehog-tabs button { flex:1; padding:11px 8px }
+}
+@media(prefers-reduced-motion:reduce){
+  .hedgehog-art__canonical,.hedgehog-art__halo { animation:none !important }
+}
