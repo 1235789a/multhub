@@ -157,3 +157,9 @@ export function compareSnapshots(before: HedgehogSnapshot, after: HedgehogSnapsh
     note: "Technical homepage checks only. These changes do not measure AI recommendations.",
   };
 }
+
+/** Fixed A/B assignment for a report snapshot; it never changes on refresh. */
+export function hedgehogVariant(snapshotId: string): "A" | "B" {
+  const last = Number.parseInt(snapshotId.replace(/-/g, "").slice(-2), 16);
+  return Number.isFinite(last) && last % 2 ? "B" : "A";
+}
