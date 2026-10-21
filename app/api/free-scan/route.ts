@@ -40,6 +40,11 @@ function normalizeWebsite(value: string) {
     hostname.endsWith(".invalid") ||
     hostname.endsWith(".arpa") ||
     hostname.endsWith(".lan") ||
+    hostname.endsWith(".nip.io") ||
+    hostname.endsWith(".sslip.io") ||
+    hostname.endsWith(".xip.io") ||
+    hostname.endsWith(".localtest.me") ||
+    hostname.endsWith(".lvh.me") ||
     hostname === "metadata.google.internal" ||
     /^\d{1,3}(?:\.\d{1,3}){3}$/.test(hostname) ||
     hostname.includes(":");
@@ -102,6 +107,27 @@ function isCrawlerBlocked(robotsText: string, targetAgent: string) {
   return false;
 }
 
+
+async function readLimitedText(response: Response, limit: number): Promise<string> {
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error("The website response was empty.");
+  const decoder = new TextDecoder();
+  let total = 0;
+  let output = "";
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      total += value.byteLength;
+      if (total > limit) throw new Error("The requested page exceeds the scan size limit.");
+      output += decoder.decode(value, { stream: true });
+    }
+    return output + decoder.decode();
+  } finally {
+    await reader.cancel().catch(() => undefined);
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as ScanPayload;
@@ -144,11 +170,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const html = (await response.text()).slice(0, MAX_HTML_BYTES);
+    const html = await readLimitedText(response, MAX_HTML_BYTES);
     const lower = html.toLowerCase();
-    const title =
-      extractMatch(html, /<title[^>]*>([\s\S]*?)<\/title>/i) ||
-      url.hostname.replace(/^www\./, "");
+    const realTitle = extractMatch(html, /<title[^>]*>([\s\S]*?)<\/title>/i);
+    const title = realTitle || url.hostname.replace(/^www\./, "");
     const description =
       extractMatch(
         html,
@@ -162,7 +187,7 @@ export async function POST(request: Request) {
     const signals: ScanSignal[] = [
       {
         label: "Clear page title",
-        passed: title.length >= 18 && title.length <= 70,
+        passed: realTitle.length >= 18 && realTitle.length <= 70,
         detail:
           title.length >= 18 && title.length <= 70
             ? "A usable title was found."
@@ -216,7 +241,7 @@ export async function POST(request: Request) {
       });
       if (robotsResponse.ok) {
         robotsChecked = true;
-        robotsText = (await robotsResponse.text()).slice(0, 100_000);
+        robotsText = await readLimitedText(robotsResponse, 100_000);
       } else if ([404, 410].includes(robotsResponse.status)) {
         robotsChecked = true;
       }
