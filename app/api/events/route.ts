@@ -14,6 +14,7 @@ const ALLOWED_EVENTS = new Set([
   "hedgehog_share_intent_clicked",
   "hedgehog_share_visit",
   "hedgehog_challenge_clicked",
+  "hedgehog_reveal_viewed",
 ]);
 
 export async function POST(request: Request) {
