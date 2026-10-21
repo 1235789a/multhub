@@ -1,0 +1,15 @@
+# Deployment DRAFT: select your actually authorized model before use.
+# No Enterprise generic_api callback; no paid inference initiated by Optimizer.
+model_list:
+  - model_name: authorized-model
+    litellm_params:
+      model: openai/REPLACE_WITH_YOUR_AUTHORIZED_MODEL
+      api_key: os.environ/OPENAI_API_KEY
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+litellm_settings:
+  set_verbose: false
+  turn_off_message_logging: true
+  max_budget: 0
+  budget_duration: 30d

@@ -1,0 +1,58 @@
+[
+  {
+    "repository": "QuantumNous/new-api",
+    "default_branch": "main",
+    "audited_head": "7d8b91268dab69d7150f345c448b5e250163146a",
+    "latest_release_returned": "v1.0.0-rc.46",
+    "license_metadata": {
+      "key": "agpl-3.0",
+      "name": "GNU Affero General Public License v3.0",
+      "spdx_id": "AGPL-3.0",
+      "url": "https://api.github.com/licenses/agpl-3.0",
+      "node_id": "MDc6TGljZW5zZTE="
+    },
+    "release_published_at": "2026-10-21T16:25:54Z"
+  },
+  {
+    "repository": "farion1231/cc-switch",
+    "default_branch": "main",
+    "audited_head": "cb90a2440d1a771d67f46b65b2e0f2ea5106ce85",
+    "latest_release_returned": "v4.0.18",
+    "license_metadata": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "release_published_at": "2026-10-21T16:16:23Z"
+  },
+  {
+    "repository": "Helicone/helicone",
+    "default_branch": "main",
+    "audited_head": "6b057cdaf302c7b79b1f1e99cbf1c26132bd59de",
+    "latest_release_returned": "v2025.08.21-1",
+    "license_metadata": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    },
+    "release_published_at": "2025-08-21T18:47:38Z"
+  },
+  {
+    "repository": "BerriAI/litellm",
+    "default_branch": "main",
+    "audited_head": "b6f91a221b6b9df6f8a89ec6f8264ac87d63ff5d",
+    "latest_release_returned": "v1.106.2",
+    "license_metadata": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    },
+    "release_published_at": "2026-10-21T10:50:35Z"
+  }
+]

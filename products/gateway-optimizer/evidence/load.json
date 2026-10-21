@@ -1,0 +1,708 @@
+{
+  "kind": "100 concurrent HTTP SSE requests: at least 50 normal streams plus mixed fault scenarios",
+  "concurrency": 100,
+  "elapsed_ms": 157,
+  "passed": 100,
+  "results": [
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 80,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 76,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 78,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 79,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 79,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 80,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 82,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 84,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 84,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 85,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 86,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 87,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 88,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 88,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 88,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 88,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 89,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 90,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 91,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 91,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 92,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 92,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 93,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 94,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 95,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 95,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 96,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 96,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 97,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 97,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 97,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 98,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 99,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 99,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 100,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 100,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 102,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 103,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 103,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 102,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 103,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 103,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 104,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 106,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 107,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 108,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 108,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 107,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 107,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 109,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 109,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 105,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 105,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 108,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 107,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 111,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 116,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 109,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 110,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 113,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 113,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 116,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 120,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 114,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 115,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 117,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 116,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 119,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 123,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 118,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 118,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 121,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 119,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 122,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 128,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 121,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 121,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 124,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 123,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 125,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 130,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 124,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 124,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 127,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 127,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 130,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 133,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 128,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 128,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 130,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 129,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 132,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 136,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 130,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "5xx",
+      "status": 503,
+      "pass": true,
+      "latency_ms": 131,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "timeout",
+      "status": 504,
+      "pass": true,
+      "latency_ms": 133,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "network",
+      "status": 502,
+      "pass": true,
+      "latency_ms": 132,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "interrupt",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 135,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "normal",
+      "status": 200,
+      "pass": true,
+      "latency_ms": 139,
+      "contains_fallback": false
+    },
+    {
+      "scenario": "429",
+      "status": 429,
+      "pass": true,
+      "latency_ms": 133,
+      "contains_fallback": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> multihub-gateway-optimizer@1.0.0-beta.1 test
+> vitest run
+
+
+ RUN  v3.2.7 /workspace/scratch/0e1fcf82614f/gateway-optimizer
+
+ ✓ tests/core.test.ts (178 tests) 181ms
+ ✓ tests/api.test.ts (8 tests) 359ms
+
+ Test Files  2 passed (2)
+      Tests  186 passed (186)
+   Start at  18:48:35
+   Duration  871ms (transform 206ms, setup 0ms, collect 531ms, tests 540ms, environment 0ms, prepare 159ms)
+
+JSON report written to /workspace/scratch/0e1fcf82614f/gateway-optimizer/evidence/vitest.json

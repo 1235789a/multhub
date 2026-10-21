@@ -1,0 +1,36 @@
+{
+  "name": "multihub-gateway-optimizer",
+  "version": "1.0.0-beta.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node --import tsx apps/core-api/main.ts",
+    "start": "node dist/apps/core-api/main.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:load": "node --import tsx scripts/load.ts",
+    "backup": "node --import tsx scripts/maintenance.ts backup",
+    "restore": "node --import tsx scripts/maintenance.ts restore",
+    "seed": "node --import tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/static": "^10.1.7",
+    "csv-parse": "^7.0.3",
+    "fastify": "^5.6.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@sparticuz/chromium": "^153.0.0",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

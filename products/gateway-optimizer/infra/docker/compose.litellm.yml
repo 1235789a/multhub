@@ -1,0 +1,29 @@
+# Optional deployment DRAFT, NOT TESTED. Separate from core SQLite.
+# No public ports; no inference requests occur just by starting this file.
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:v1.106.2
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    ports: ["127.0.0.1:4000:4000"]
+    volumes: ["./litellm-config.yaml:/app/config.yaml:ro"]
+    environment:
+      DATABASE_URL: postgresql://litellm:${LITELLM_DB_PASSWORD:?Set a private DB password}@postgres:5432/litellm
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:?Set your own master key}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?Use your own authorized API key}
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: postgres:16.6-bookworm
+    environment:
+      POSTGRES_USER: litellm
+      POSTGRES_DB: litellm
+      POSTGRES_PASSWORD: ${LITELLM_DB_PASSWORD:?Set a private DB password}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U litellm -d litellm"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes: ["litellm-db:/var/lib/postgresql/data"]
+volumes:
+  litellm-db:

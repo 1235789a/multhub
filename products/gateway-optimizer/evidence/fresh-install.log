@@ -1,0 +1,74 @@
+{
+  "started_at_utc": "2026-10-21T22:48:17Z",
+  "environment": "Linux Node24; npm cache reused; empty install directory",
+  "steps": [
+    {
+      "command": [
+        "npm",
+        "ci",
+        "--offline",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "exit_code": 0,
+      "output": "\nadded 150 packages in 2s\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "output": "\n> multihub-gateway-optimizer@1.0.0-beta.1 build\n> tsc\n\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "seed"
+      ],
+      "exit_code": 0,
+      "output": "\n> multihub-gateway-optimizer@1.0.0-beta.1 seed\n> node --import tsx scripts/seed.ts\n\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "backup",
+        "--",
+        "demo-pro",
+        "/tmp/multihub-fresh-2hqa2x4l/before.backup.json"
+      ],
+      "exit_code": 0,
+      "output": "\n> multihub-gateway-optimizer@1.0.0-beta.1 backup\n> node --import tsx scripts/maintenance.ts backup demo-pro /tmp/multihub-fresh-2hqa2x4l/before.backup.json\n\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "restore",
+        "--",
+        "demo-pro",
+        "/tmp/multihub-fresh-2hqa2x4l/before.backup.json"
+      ],
+      "exit_code": 0,
+      "output": "\n> multihub-gateway-optimizer@1.0.0-beta.1 restore\n> node --import tsx scripts/maintenance.ts restore demo-pro /tmp/multihub-fresh-2hqa2x4l/before.backup.json\n\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "backup",
+        "--",
+        "demo-pro",
+        "/tmp/multihub-fresh-2hqa2x4l/after.backup.json"
+      ],
+      "exit_code": 0,
+      "output": "\n> multihub-gateway-optimizer@1.0.0-beta.1 backup\n> node --import tsx scripts/maintenance.ts backup demo-pro /tmp/multihub-fresh-2hqa2x4l/after.backup.json\n\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+    }
+  ],
+  "roundtrip_identical": true,
+  "usage_rows": 240,
+  "pass": true
+}
