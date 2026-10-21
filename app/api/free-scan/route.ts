@@ -1,4 +1,4 @@
-import { classifyHedgehog } from "../../lib/hedgehog";
+import { classifyHedgehog, type ScanSignal } from "../../lib/hedgehog";
 import {
   getRequestUser,
   getSupabaseAdmin,
@@ -157,7 +157,7 @@ export async function POST(request: Request) {
         /<meta[^>]+content=["']([^"']*)["'][^>]+name=["']description["'][^>]*>/i,
       );
 
-    const signals = [
+    const signals: ScanSignal[] = [
       {
         label: "Clear page title",
         passed: title.length >= 18 && title.length <= 70,
