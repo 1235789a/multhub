@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium } from "playwright";
 
-const base = process.env.PREVIEW_URL || "http://127.0.0.1:3000";
+const base = process.env.PREVIEW_URL || "http://localhost:3000";
 const signals = [
   "Clear page title", "Useful meta description", "Structured data",
   "FAQ signal", "Documentation signal", "Canonical URL", "AI search crawler access",
@@ -46,6 +46,7 @@ try {
   await page.getByRole("button", { name: /Reveal My Hedgehog/ }).click();
   await page.getByRole("heading", { name: "Explorer Hedgehog" }).waitFor({ timeout: 15000 });
 
+  await page.screenshot({ path: "hedgehog-mobile-preview.png", fullPage: false });
   assert.equal(await page.locator(".hedgehog-privacy input").isChecked(), false);
   assert.equal(await page.getByRole("button", { name: "Fun Result" }).count(), 1);
   const preview = await page.locator(".hedgehog-poster__preview").getAttribute("src");
