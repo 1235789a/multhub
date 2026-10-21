@@ -20,7 +20,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Deterministic character, privacy and poster unit tests
-        run: node --experimental-strip-types --test tests/hedgehog.test.mjs
+        run: node --experimental-strip-types --test tests/hedgehog.test.mjs tests/hedgehog.scan.test.mjs
       - name: TypeScript check
         run: npx tsc --noEmit
       - name: Production build
