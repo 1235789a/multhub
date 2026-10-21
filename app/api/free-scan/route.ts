@@ -1,3 +1,4 @@
+import { classifyHedgehog } from "../../lib/hedgehog";
 import {
   getRequestUser,
   getSupabaseAdmin,
@@ -11,6 +12,7 @@ type ScanPayload = {
   website?: string;
   category?: string;
   anonymousId?: string;
+  sourceReportId?: string;
 };
 
 function normalizeWebsite(value: string) {
@@ -28,11 +30,17 @@ function normalizeWebsite(value: string) {
 
   const hostname = url.hostname.toLowerCase();
   const blockedHost =
+    !hostname.includes(".") ||
+    Boolean(url.username || url.password) ||
     hostname === "localhost" ||
     hostname.endsWith(".localhost") ||
     hostname.endsWith(".local") ||
     hostname.endsWith(".internal") ||
     hostname.endsWith(".test") ||
+    hostname.endsWith(".invalid") ||
+    hostname.endsWith(".arpa") ||
+    hostname.endsWith(".lan") ||
+    hostname === "metadata.google.internal" ||
     /^\d{1,3}(?:\.\d{1,3}){3}$/.test(hostname) ||
     hostname.includes(":");
 
@@ -197,6 +205,7 @@ export async function POST(request: Request) {
     ];
 
     let robotsText = "";
+    let robotsChecked = false;
     try {
       const robotsResponse = await fetch(new URL("/robots.txt", url), {
         headers: { "user-agent": "molthub-free-geo-scan/1.0" },
@@ -204,7 +213,10 @@ export async function POST(request: Request) {
         signal: AbortSignal.timeout(5_000),
       });
       if (robotsResponse.ok) {
+        robotsChecked = true;
         robotsText = (await robotsResponse.text()).slice(0, 100_000);
+      } else if ([404, 410].includes(robotsResponse.status)) {
+        robotsChecked = true;
       }
     } catch {
       robotsText = "";
@@ -214,16 +226,20 @@ export async function POST(request: Request) {
 
     signals.push({
       label: "AI search crawler access",
-      passed: !blocksSearchBot,
-      detail: !robotsText
-        ? "No blocking rule was detected in the quick check."
+      passed: robotsChecked && !blocksSearchBot,
+      checked: robotsChecked,
+      detail: !robotsChecked
+        ? "Crawler access could not be verified in this quick check."
+        : !robotsText
+          ? "No robots.txt blocking file was found."
         : blocksSearchBot
           ? "robots.txt may block AI search discovery."
           : "No obvious OAI-SearchBot block was detected.",
     });
 
-    const passedCount = signals.filter((signal) => signal.passed).length;
-    const score = Math.round((passedCount / signals.length) * 100);
+    const checkedCount = signals.filter((signal) => signal.checked !== false).length;
+    const passedCount = signals.filter((signal) => signal.checked !== false && signal.passed).length;
+    const score = Math.round((passedCount / Math.max(checkedCount, 1)) * 100);
     const projectName =
       title.split(/[|\-—]/)[0]?.trim() || url.hostname.replace(/^www\./, "");
     const actions = signals
@@ -258,47 +274,38 @@ export async function POST(request: Request) {
         "This free scan checks website readiness signals. It does not query paid AI platforms or guarantee mentions.",
     };
 
-    if (!user) {
-      const firstGap =
-        signals.find((signal) => !signal.passed) ??
-        signals.find((signal) => signal.passed) ??
-        null;
-
-      await recordProductEvent({
-        name: "preview_completed",
-        anonymousId: payload.anonymousId?.slice(0, 100),
-        metadata: {
-          website: url.hostname,
-          category,
-          score,
-        },
-      });
-
-      return Response.json({
-        preview: true,
-        requiresAccount: true,
+    const scanSnapshot = {
+      ...fullResult,
+      snapshotId: crypto.randomUUID(),
+      scannedAt: new Date().toISOString(),
+      hedgehog: classifyHedgehog(signals),
+    };
+    const admin = await getSupabaseAdmin();
+    let shareGrant: { id: string; key: string } | null = null;
+    if (admin) {
+      const key = crypto.randomUUID() + crypto.randomUUID();
+      const keyHash = Array.from(
+        new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(key))),
+      ).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+      const { data, error } = await admin.from("hedgehog_reports").insert({
+        share_key_hash: keyHash,
         website: url.origin,
-        projectName,
-        category,
-        score,
-        verdict: fullResult.verdict,
-        firstGap,
-        lockedFindings: Math.max(signals.length - 1, 0),
-        note:
-          "Create a free account to reveal every finding, save this scan, and track future changes.",
-      });
+        snapshot: scanSnapshot,
+        is_public: false,
+      }).select("id").single();
+      if (!error && data?.id) shareGrant = { id: data.id, key };
     }
 
-    const admin = await getSupabaseAdmin();
-    if (!admin) {
-      return Response.json(
-        {
-          error:
-            "Account storage is being connected. Your preview is still available.",
-          code: "ACCOUNT_STORAGE_UNAVAILABLE",
+    if (!user || !admin) {
+      await recordProductEvent({
+        name: "scan_completed",
+        anonymousId: payload.anonymousId?.slice(0, 100),
+        metadata: {
+          category, score,
+          sourceReportId: typeof payload.sourceReportId === "string" ? payload.sourceReportId.slice(0, 70) : undefined,
         },
-        { status: 503 },
-      );
+      });
+      return Response.json({ ...scanSnapshot, preview: false, usage: null, shareGrant });
     }
 
     const monthStart = new Date();
@@ -357,7 +364,8 @@ export async function POST(request: Request) {
     });
 
     return Response.json({
-      ...fullResult,
+      ...scanSnapshot,
+      shareGrant,
       preview: false,
       usage: {
         used: (count ?? 0) + 1,
