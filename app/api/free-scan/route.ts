@@ -149,7 +149,7 @@ export async function POST(request: Request) {
         /<meta[^>]+content=["']([^"']*)["'][^>]+name=["']description["'][^>]*>/i,
       );
 
-    const signals = [
+    const signals: ScanSignal[] = [
       {
         label: "Clear page title",
         passed: title.length >= 18 && title.length <= 70,
@@ -227,7 +227,7 @@ export async function POST(request: Request) {
     const projectName =
       title.split(/[|\-—]/)[0]?.trim() || url.hostname.replace(/^www\./, "");
     const actions = signals
-      .filter((signal) => !signal.passed)
+      .filter((signal) => signal.passed === false)
       .slice(0, 3)
       .map((signal) => signal.detail);
 
