@@ -49,6 +49,8 @@ function normalizeWebsite(value: string) {
   }
 
   url.hash = "";
+  url.search = "";
+  url.pathname = "/";
   return url;
 }
 
