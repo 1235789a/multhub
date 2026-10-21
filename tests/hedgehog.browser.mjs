@@ -44,6 +44,7 @@ try {
   await page.goto(base + "/#free-scan", { waitUntil: "domcontentloaded", timeout: 60000 });
   await page.getByLabel("Project website").fill("acme.example");
   await page.getByRole("button", { name: /Reveal My Hedgehog/ }).click();
+  await page.screenshot({ path: "hedgehog-mobile-preview.png", fullPage: true });
   await page.getByRole("heading", { name: "Explorer Hedgehog" }).waitFor({ timeout: 15000 });
 
   await page.screenshot({ path: "hedgehog-mobile-preview.png", fullPage: false });
