@@ -1,9 +1,9 @@
 import type { HedgehogKind, HedgehogSnapshot, PublicHedgehog } from "./hedgehog";
 
 function esc(input: string) {
-  return input.replace(/[&<>"']/g, (char) => ({
+  return input.replace(/[&<>"']/g, (char) => (({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;",
-  })[char] ?? char);
+  }) as Record<string, string>)[char] ?? char);
 }
 function label(input: string, max = 56) {
   return esc(input.replace(/[\u0000-\u001f\u007f]/g, " ").slice(0, max));
