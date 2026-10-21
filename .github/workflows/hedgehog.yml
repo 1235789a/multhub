@@ -1,0 +1,27 @@
+name: Hedgehog MVP checks
+on:
+  push:
+    branches: [feat/hedgehog-viral-engine-v1]
+  pull_request:
+    paths:
+      - "app/**"
+      - "tests/hedgehog.test.mjs"
+      - "supabase/schema.sql"
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Deterministic character, privacy and poster unit tests
+        run: node --experimental-strip-types --test tests/hedgehog.test.mjs
+      - name: TypeScript check
+        run: npx tsc --noEmit
+      - name: Production build
+        run: npm run build
