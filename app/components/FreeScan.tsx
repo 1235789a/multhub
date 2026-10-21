@@ -31,9 +31,11 @@ export function FreeScan() {
   const [result, setResult] = useState<ScanResponse | null>(null);
   const [previous, setPrevious] = useState<HedgehogSnapshot | null>(null);
   const [loading, setLoading] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    setHydrated(true);
     try {
       const raw = window.sessionStorage.getItem(CURRENT_KEY);
       if (raw) {
@@ -104,8 +106,8 @@ export function FreeScan() {
             <option>Web3 infrastructure</option>
           </select>
         </div>
-        <button className="button button--gold" type="submit" disabled={loading}>
-          {loading ? "Reading your homepage…" : "Reveal My Hedgehog 🦔"}
+        <button className="button button--gold" type="submit" disabled={loading || !hydrated}>
+          {!hydrated ? "Preparing scanner…" : loading ? "Reading your homepage…" : "Reveal My Hedgehog 🦔"}
         </button>
       </form>
       <div className="scan-account-note">
