@@ -52,7 +52,7 @@ try {
 
   await page.screenshot({ path: "hedgehog-mobile-preview.png", fullPage: false });
   assert.equal(await page.locator(".hedgehog-privacy input").isChecked(), false);
-  assert.equal(await page.getByRole("button", { name: "Fun Result" }).count(), 1);
+  assert.equal(await page.getByRole("tab", { name: /Fun Result/ }).count(), 1);
   const preview = await page.locator(".hedgehog-poster__preview").getAttribute("src");
   assert.ok(preview && !decodeURIComponent(preview).includes("Acme Private Brand"));
 
@@ -70,10 +70,10 @@ try {
   await downloadPng("X · 1200×675", 1200, 675);
   await downloadPng("Vertical · 1080×1350", 1080, 1350);
 
-  await page.getByRole("button", { name: "Professional Report" }).click();
+  await page.getByRole("tab", { name: /Professional Report/ }).click();
   await page.getByText("What to improve first").waitFor();
   await page.getByText("Clear page title").waitFor();
-  await page.getByRole("button", { name: "Fun Result" }).click();
+  await page.getByRole("tab", { name: /Fun Result/ }).click();
   await page.getByRole("button", { name: /Create public link/ }).click();
   await page.getByRole("link", { name: /Open public hedgehog page/ }).waitFor();
   const shared = await page.getByRole("link", { name: /Open public hedgehog page/ }).getAttribute("href");
