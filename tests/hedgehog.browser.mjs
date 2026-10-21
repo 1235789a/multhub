@@ -71,7 +71,7 @@ try {
   await downloadPng("Vertical · 1080×1350", 1080, 1350);
 
   await page.getByRole("tab", { name: /Professional Report/ }).click();
-  await page.getByText("What to improve first").waitFor();
+  await page.getByText("What to improve first", { exact: true }).waitFor();
   await page.getByText("Clear page title").waitFor();
   await page.getByRole("tab", { name: /Fun Result/ }).click();
   await page.getByRole("button", { name: /Create public link/ }).click();
