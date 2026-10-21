@@ -83,3 +83,24 @@ alter table public.orders enable row level security;
 
 -- The website reads and writes these tables only from authenticated server
 -- routes using the Supabase service-role key. No public table policy is needed.
+
+
+-- Hedgehog snapshots remain private until the owner explicitly publishes one.
+-- Only service-role server routes read these tables; RLS denies anonymous access.
+create table if not exists public.hedgehog_reports (
+  id uuid primary key default gen_random_uuid(),
+  website text not null,
+  share_key_hash text not null,
+  snapshot jsonb not null,
+  is_public boolean not null default false,
+  public_snapshot jsonb,
+  created_at timestamptz not null default now(),
+  published_at timestamptz,
+  constraint public_snapshot_only_if_public check (not is_public or public_snapshot is not null)
+);
+
+create index if not exists hedgehog_reports_created_idx
+  on public.hedgehog_reports (created_at desc);
+create index if not exists hedgehog_reports_website_idx
+  on public.hedgehog_reports (website, created_at desc);
+alter table public.hedgehog_reports enable row level security;

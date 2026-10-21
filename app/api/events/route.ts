@@ -9,6 +9,12 @@ const ALLOWED_EVENTS = new Set([
   "free_limit_reached",
   "trial_checkout_started",
   "account_viewed",
+  "hedgehog_poster_download",
+  "hedgehog_post_copied",
+  "hedgehog_share_intent_clicked",
+  "hedgehog_share_visit",
+  "hedgehog_challenge_clicked",
+  "hedgehog_reveal_viewed",
 ]);
 
 export async function POST(request: Request) {
