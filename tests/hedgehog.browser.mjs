@@ -43,6 +43,8 @@ try {
     route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ url: "/hedgehog/" + scan.shareGrant.id }) }));
 
   await page.goto(base + "/#free-scan", { waitUntil: "domcontentloaded", timeout: 60000 });
+  // The vinext SSR form is visible before React event handlers hydrate.
+  await page.waitForTimeout(1800);
   await page.getByLabel("Project website").fill("acme.example");
   await page.getByRole("button", { name: /Reveal My Hedgehog/ }).click();
   await page.screenshot({ path: "hedgehog-mobile-preview.png", fullPage: true });
