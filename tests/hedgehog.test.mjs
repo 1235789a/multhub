@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  SIGNALS, classifyHedgehog, publicSnapshot, compareSnapshots,
+  SIGNALS, classifyHedgehog, publicSnapshot, compareSnapshots, hedgehogVariant,
 } from "../app/lib/hedgehog.ts";
 import { hedgehogGraphic, posterSvg } from "../app/lib/hedgehog-svg.ts";
 
@@ -21,6 +21,11 @@ test("each of nine hedgehogs is reachable via real signal patterns", () => {
   assert.equal(kind([1, 1, 1, 1, 0, 1, 1]), "cosmic");
   assert.equal(kind([1, 1, 1, 1, 0, 0, 1]), "librarian");
   assert.equal(kind([1, 1, 0, 0, 0, 1, 1]), "builder");
+});
+
+test("report A/B assignment is stable across refresh", () => {
+  assert.equal(hedgehogVariant("00000000-0000-4000-8000-000000000002"), "A");
+  assert.equal(hedgehogVariant("00000000-0000-4000-8000-000000000003"), "B");
 });
 
 test("same evidence maps to the same hedgehog without randomization", () => {
