@@ -1,4 +1,4 @@
-import type { HedgehogKind, HedgehogSnapshot, PublicHedgehog } from "./hedgehog";
+import { hedgehogVariant, type HedgehogKind, type HedgehogSnapshot, type PublicHedgehog } from "./hedgehog";
 
 function esc(input: string) {
   return input.replace(/[&<>"']/g, (char) => (({
@@ -91,7 +91,7 @@ export function posterSvg(
     '<rect x="72" y="' + (dataY - 45) + '" width="' + (portrait ? 936 : 465) + '" height="116" rx="20" fill="#243550"/>' +
     '<text x="95" y="' + dataY + '" fill="#FFFFFF" font-family="Arial" font-size="29" font-weight="700">' + passing + '/' + measured + ' homepage checks</text>' +
     '<text x="95" y="' + (dataY + 42) + '" fill="#C5D6E3" font-family="Arial" font-size="22">' + identity + ' • ' + label(snapshot.scannedAt.slice(0, 10), 10) + '</text>' +
-    '<text x="72" y="' + (height - 86) + '" fill="#E4BD79" font-family="Arial" font-weight="700" font-size="25">WHAT IS YOUR HEDGEHOG?  ↗</text>' +
+    '<text x="72" y="' + (height - 86) + '" fill="#E4BD79" font-family="Arial" font-weight="700" font-size="25">' + (hedgehogVariant(snapshot.snapshotId) === "A" ? "WHAT IS YOUR HEDGEHOG?" : "I DARE YOU TO REVEAL YOURS") + '</text>' +
     '<text x="72" y="' + (height - 53) + '" fill="#CCD8E4" font-family="Arial" font-size="19">' + uri + '</text>' +
     '<text x="' + (width - 78) + '" y="' + (height - 54) + '" text-anchor="end" fill="#90A1B7" font-family="Arial" font-size="16">MultiHub • Technical checks, not AI mentions</text>' +
     '</svg>';
