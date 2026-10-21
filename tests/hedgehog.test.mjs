@@ -7,7 +7,7 @@ import { hedgehogGraphic, posterSvg } from "../app/lib/hedgehog-svg.ts";
 
 const makeSignals = (passes, checked = true) =>
   SIGNALS.map((label, index) => ({
-    label, passed: passes[index], checked, detail: "Observed technical signal",
+    label, passed: Boolean(passes[index]), checked, detail: "Observed technical signal",
   }));
 const kind = (passes) => classifyHedgehog(makeSignals(passes)).kind;
 
