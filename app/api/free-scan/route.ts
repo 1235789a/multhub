@@ -1,9 +1,9 @@
-import { classifyHedgehog, type ScanSignal } from "../../lib/hedgehog";
+import { classifyHedgehog, type ScanSignal } from "../../lib/hedgehog.ts";
 import {
   getRequestUser,
   getSupabaseAdmin,
   recordProductEvent,
-} from "../../lib/supabase-server";
+} from "../../lib/supabase-server.ts";
 
 const MAX_HTML_BYTES = 1_000_000;
 const FREE_MONTHLY_LIMIT = 2;
