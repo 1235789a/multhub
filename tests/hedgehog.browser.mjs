@@ -36,6 +36,7 @@ try {
     reducedMotion: "reduce",
   });
   const page = await context.newPage();
+  page.on("pageerror", (error) => console.error("Browser runtime error:", error.message));
   await page.route("**/api/free-scan", async (route) =>
     route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(scan) }));
   await page.route("**/api/hedgehog/share", async (route) =>
