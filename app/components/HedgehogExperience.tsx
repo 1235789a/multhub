@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { compareSnapshots, type HedgehogSnapshot } from "../lib/hedgehog";
+import { compareSnapshots, hedgehogVariant, type HedgehogSnapshot } from "../lib/hedgehog";
 import { hedgehogGraphic, posterSvg } from "../lib/hedgehog-svg";
 import { trackProductEvent } from "../lib/product-events";
 
@@ -52,6 +52,7 @@ export function HedgehogExperience({ result, previous }: Props) {
     return () => window.clearTimeout(timer);
   }, [result.snapshotId]);
 
+  const variant = hedgehogVariant(result.snapshotId);
   const passing = result.signals.filter((s) => s.checked !== false && s.passed).length;
   const measured = result.signals.filter((s) => s.checked !== false).length;
   const comparison = previous ? compareSnapshots(previous, result) : null;
@@ -61,9 +62,14 @@ export function HedgehogExperience({ result, previous }: Props) {
   const previewSrc = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(image);
   const shareMessage = shareText(result, publicUrl);
 
+  useEffect(() => {
+    if (reveal) void trackProductEvent("hedgehog_reveal_viewed", { snapshotId: result.snapshotId, variant, kind: result.hedgehog.kind });
+  }, [reveal, result.snapshotId, result.hedgehog.kind, variant]);
+
   function track(name: string, extra: Record<string, unknown> = {}) {
     void trackProductEvent(name, {
       kind: result.hedgehog.kind,
+      variant,
       snapshotId: result.snapshotId,
       reportId: result.shareGrant?.id,
       ...extra,
@@ -151,6 +157,14 @@ export function HedgehogExperience({ result, previous }: Props) {
     }
   }
 
+  function challengeFriend() {
+    track("hedgehog_challenge_clicked");
+    if (!publicUrl) { setError("Create your public link first to challenge a friend."); return; }
+    const text = "Mine is a " + result.hedgehog.title + ". What\u0027s yours? 🦔\nScan your website and show me your hedgehog."; 
+    window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(publicUrl), "_blank", "noopener,noreferrer");
+    setInfo("Challenge opened in X. Publish yourself and attach the PNG manually if you want an image.");
+  }
+
   function shareOnX() {
     track("hedgehog_share_intent_clicked", { linkPublished: Boolean(publicUrl) });
     if (!publicUrl) {
@@ -206,7 +220,8 @@ export function HedgehogExperience({ result, previous }: Props) {
                 <div className="hedgehog-actions">
                   <button type="button" className="button button--gold" onClick={downloadPng} disabled={downloading}>{downloading ? "Exporting…" : "Download PNG"}</button>
                   <button type="button" className="button button--secondary" onClick={copyPost}>Copy Post</button>
-                  <button type="button" className="button button--secondary" onClick={shareOnX}>Share on X ↗</button>
+                  <button type="button" className="button button--secondary" onClick={shareOnX}>{variant === "A" ? "Share on X ↗" : "Dare friends on X ↗"}</button>
+                  <button type="button" className="button button--secondary" onClick={challengeFriend}>Challenge a friend 🦔</button>
                 </div>
                 <div className="hedgehog-public-toggle">
                   <p>Public sharing is optional. Only publish if you agree to make this result accessible to anyone with the link.</p>
