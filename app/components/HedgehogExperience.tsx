@@ -73,7 +73,6 @@ export function HedgehogExperience({ result, previous }: Props) {
   async function downloadPng() {
     setDownloading(true);
     setError("");
-    track("hedgehog_poster_download", { format });
     try {
       const svgBlob = new Blob([image], { type: "image/svg+xml;charset=utf-8" });
       const url = URL.createObjectURL(svgBlob);
@@ -99,6 +98,7 @@ export function HedgehogExperience({ result, previous }: Props) {
         document.body.appendChild(anchor);
         anchor.click();
         anchor.remove();
+        track("hedgehog_poster_download", { format });
         window.setTimeout(() => URL.revokeObjectURL(fileUrl), 2000);
         setInfo("PNG downloaded. Attach the image to your X post manually.");
       } finally {
