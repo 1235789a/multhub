@@ -40,3 +40,8 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+/.dev.vars*
+/tsconfig.tsbuildinfo
+/playwright-report/
+/test-results/

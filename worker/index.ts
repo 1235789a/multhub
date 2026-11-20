@@ -1,6 +1,8 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { getReport, lab, privateHeaders } from "../app/lib/growth-lab/storage";
+import { identifyPreview } from "../app/lib/growth-lab/visits";
 
 interface Env {
   ASSETS: Fetcher;
@@ -40,7 +42,25 @@ const worker = {
       }, allowedWidths);
     }
 
-    return handler.fetch(request, env, ctx);
+    const privatePath = /^\/(r|workspace)(?:\/|$)/.test(url.pathname);
+    if (!privatePath) return handler.fetch(request, env, ctx);
+
+    const response = await handler.fetch(request, env, ctx);
+    const headers = new Headers(response.headers);
+    for (const [name, value] of Object.entries(privateHeaders)) headers.set(name, value);
+    const match = url.pathname.match(/^\/r\/([A-Za-z0-9_-]{43})\/?$/);
+    if (match && request.method === "GET" && response.ok &&
+      !request.headers.has("rsc") && !request.headers.has("next-router-prefetch")) {
+      const kind = identifyPreview(request) ? "preview_bot" : "unverified_load";
+      ctx.waitUntil((async () => {
+        const report = await getReport(match[1]);
+        if (!report) return;
+        const { db } = await lab();
+        await db.prepare("INSERT INTO report_events VALUES (?, ?, ?, ?)")
+          .bind(crypto.randomUUID(), report.id, kind, new Date().toISOString()).run();
+      })().catch(() => {}));
+    }
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
   },
 };
 

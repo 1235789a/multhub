@@ -1,0 +1,13 @@
+{
+  "name": "growth-lab-local",
+  "compatibility_date": "2026-07-02",
+  "d1_databases": [
+    {
+      "binding": "LAB_DB",
+      "database_name": "growth-lab-local",
+      "database_id": "00000000-0000-4000-8000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [{ "binding": "LAB_EVIDENCE", "bucket_name": "growth-lab-evidence-local" }]
+}

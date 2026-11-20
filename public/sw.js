@@ -37,6 +37,8 @@ self.addEventListener("fetch", (event) => {
   if (
     url.pathname.startsWith("/api/") ||
     url.pathname.startsWith("/account") ||
+    url.pathname.startsWith("/r/") ||
+    url.pathname.startsWith("/workspace") ||
     url.pathname.startsWith("/checkout") ||
     url.pathname.startsWith("/login") ||
     url.pathname.startsWith("/signin")

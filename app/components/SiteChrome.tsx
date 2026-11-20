@@ -71,6 +71,7 @@ export function Footer() {
           </div>
           <div>
             <p className="footer-heading">Explore</p>
+            <Link href="/lab">AI Growth Lab</Link>
             <Link href="/methodology">Methodology</Link>
             <Link href="/sample-report">Sample Report</Link>
             <Link href="/research/self-geo-experiment">Self-GEO Experiment</Link>
