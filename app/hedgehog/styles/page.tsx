@@ -13,7 +13,7 @@ export default function HedgehogStylesPage() {
     <header className={styles.header}>
       <div className={styles.wrap}>
         <a href="/" className={styles.brand} aria-label="molthub 首页"><span aria-hidden="true">M</span>molthub</a>
-        <a href="/#free-scan" className={styles.nav}>试试免费检测</a>
+        <a href="/hedgehog/animation" className={styles.nav}>直接看动画</a>
       </div>
     </header>
     <main className={styles.wrap}>
@@ -27,7 +27,6 @@ export default function HedgehogStylesPage() {
       <Gallery />
       <footer className={styles.foot}>
         <p>样式预览。实际造型由网站技术检查决定。</p>
-        <a href="/#free-scan" className={styles.footLink}>测测我的刺猬</a>
       </footer>
     </main>
   </div>;
