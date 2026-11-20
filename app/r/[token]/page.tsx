@@ -33,7 +33,7 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
   const consumer = protocol.executionMethod === "chatgpt_consumer";
   const checkoutEnabled = (await bindings()).LAB_CHECKOUT_MODE === "live";
   const checkout = (plan: string) => "/checkout?" + new URLSearchParams({
-    plan, projectName: company.name, website: company.website, category: company.industry,
+    plan, projectName: company.name, website: company.website, category: company.industry === "Web3" ? "Infrastructure" : "Other",
   });
 
   return <LabChrome>

@@ -23,6 +23,7 @@ LAB_LOCAL_BINDINGS=1 npm run dev -- --port 4173
 npm test
 npx tsc --noEmit
 npx playwright test
+npx --yes tsx --test tests/payment-verification.test.ts tests/growth-lab-order.test.ts
 ```
 
 Set a random secret of at least 32 characters as `LAB_ADMIN_TOKEN` in ignored `.dev.vars`. The Worker recognizes existing authenticated Supabase users on the configured `ADMIN_EMAILS` allowlist. For CLI operations pass a protected environment variable or use `node --env-file=.dev.vars scripts/lab-ops.mjs …`. The browser test runner can use `PLAYWRIGHT_CHROMIUM_EXECUTABLE` for a system Chromium. Use `LAB_SCREENSHOTS` to save captures and `LAB_REAL_REPORTS` for the private acceptance manifest.
@@ -34,12 +35,12 @@ Set a random secret of at least 32 characters as `LAB_ADMIN_TOKEN` in ignored `.
 3. Review answers and actual citation links. Record mentions separately from recommendations, answer links and formal citations. Submit the run and evidence with `lab-ops.mjs ingest`. Archive incomplete attempts with a reason. The API prevents duplicate provider observations and duplicate completed repetitions and requires all six completed records before verification.
 4. Read the company and cited competitor pages. Record a concrete gap, the evidence, a possible citation reason and any fact the company must supply. Prepare a module with at least two sourced content sections. Use the protected `/api/lab/companies/{id}/work` endpoint. The share preview shows a subset of the full module. Verify the draft before publication.
 5. Issue a time-limited token via workspace or API. Keep the token in a private operator record for Prospect OS sync. The database stores only its hash. The report and evidence are excluded from indexing and caches, and both invalidate on expiry/revocation. Workspace shows observed preview agents, unverified page loads and visits that interacted with the page. Counts do not identify unique people.
-6. After authorized customer publication, record the live URL and date and run a matched retest. With customer authorization, use their analytics to verify AI referral sessions, registrations and inquiries. Do not infer traffic or sales from test answers or visits to the share page.
+6. After authorized customer publication, record the live URL and date and run a matched retest. With customer authorization, use their analytics to verify AI referral sessions, registrations and inquiries. Record authorized, aggregate measurements with the `traffic` admin endpoint and include the inquiry qualification rule. Do not infer traffic or sales from test answers or visits to the share page.
 
 ## Preview deployment and rollback
 
 Push the feature branch to the existing GitHub remote after tests. Use its Cloudflare Workers Builds check to retrieve the exact version preview URL. Verify `GET /lab` and the preview version before using it.
 
-A data-enabled deployment requires an isolated D1 database bound as `LAB_DB`, a private R2 bucket bound as `LAB_EVIDENCE`, the migration under `growth-lab/migrations` applied to that database, and a preview-scoped admin secret. The committed Sites production manifest is unchanged. For an authorized isolated Cloudflare deployment, set the real preview D1 and R2 bindings in the deployment configuration and use a Worker version preview or an existing non-production Worker. Keep paid checkout off for previews. Do not apply the SQL to production during preview QA.
+A data-enabled deployment requires an isolated D1 database bound as `LAB_DB`, a private R2 bucket bound as `LAB_EVIDENCE`, the migration under `growth-lab/migrations` applied to that database, and a preview-scoped admin secret. The committed Sites production manifest is unchanged. For an authorized isolated Cloudflare deployment, set `LAB_PREVIEW_D1_DATABASE_ID`, `LAB_PREVIEW_D1_DATABASE_NAME` and `LAB_PREVIEW_R2_BUCKET_NAME` together in that preview build. Use a Worker version preview or an existing non-production Worker. Restart the preview release with preview-scoped bindings and an isolated secret before importing evidence. Keep paid checkout off for previews. Do not apply the SQL to production during preview QA.
 
 For rollback, remove the feature preview alias or move the preview deployment to its prior verified Worker version. Do not delete databases or originals during rollback. Revoke report URLs through the workspace or admin API. The feature is additive and can be reverted from the branch without changing the existing payment tables.

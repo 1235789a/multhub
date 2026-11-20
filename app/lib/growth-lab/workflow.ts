@@ -3,6 +3,8 @@ import { stages } from "./schema";
 import type { Company, PublicRun, Question, ReportSnapshot } from "./model";
 import { metrics } from "./model";
 import { getSupabaseAdmin } from "../supabase-server";
+import { getPaidPlan } from "../../data/paymentPlans";
+import { isTronTxid } from "../tron-payment-server";
 import { lab, LabError, randomToken, sha256 } from "./storage";
 
 const now = () => new Date().toISOString();
@@ -116,6 +118,7 @@ function extractResponse(bytes: Uint8Array<ArrayBuffer>, protocol: Protocol, com
   try {
     response = JSON.parse(new TextDecoder().decode(bytes));
   } catch {
+    if (!completed) return { observedId: undefined, answer: undefined, citations: [] };
     throw new LabError(400, "Responses API evidence must be raw JSON.");
   }
   if (!completed) return { observedId: response.id, answer: undefined, citations: [] };
@@ -358,9 +361,13 @@ export async function linkPaidOrder(companyId: string, orderId: string) {
   const supabase = await getSupabaseAdmin();
   requireCondition(supabase, "Order storage is unavailable.", 503);
   const { data: order, error } = await supabase.from("orders")
-    .select("id, website, plan_id, status, paid_at, payment_txid").eq("id", orderId).maybeSingle();
+    .select("id, website, plan_id, amount_usdt, status, created_at, expires_at, paid_at, payment_txid")
+    .eq("id", orderId).maybeSingle();
   requireCondition(!error, "The order could not be read.", 502);
-  requireCondition(order?.status === "paid" && order.paid_at && order.payment_txid &&
+  const plan = getPaidPlan(order?.plan_id);
+  requireCondition(order?.status === "paid" && order.paid_at && isTronTxid(order.payment_txid ?? "") &&
+    plan && String(order.amount_usdt) === plan.amount &&
+    Date.parse(order.paid_at) >= Date.parse(order.created_at) && Date.parse(order.paid_at) <= Date.parse(order.expires_at) &&
     normalizedUrl(order.website) === normalizedUrl(company.website), "A verified paid order for this company is required.");
   const result = await db.prepare("INSERT OR IGNORE INTO orders (order_id, company_id, plan_id, paid_at) VALUES (?, ?, ?, ?)")
     .bind(order.id, companyId, order.plan_id, order.paid_at).run();

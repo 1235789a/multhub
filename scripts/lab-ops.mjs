@@ -75,7 +75,10 @@ switch (command) {
     }
     const evidencePath = raw ? join(directory, `${runId}.response.json`) : undefined;
     if (raw) await writeFile(evidencePath, raw, { mode: 0o600 });
-    const providerBody = raw ? JSON.parse(raw.toString("utf8")) : null;
+    let providerBody = null;
+    if (raw) {
+      try { providerBody = JSON.parse(raw.toString("utf8")); } catch {}
+    }
     const completed = response?.ok && providerBody?.status === "completed" &&
       providerBody.output?.some((item) => item.type === "web_search_call" && item.status === "completed");
     const manifest = {
